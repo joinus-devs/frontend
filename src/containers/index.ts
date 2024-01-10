@@ -1,1 +1,1 @@
-console.log("containers");
+export * from "./CreateGroup";
