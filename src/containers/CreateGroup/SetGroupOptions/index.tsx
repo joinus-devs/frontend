@@ -14,7 +14,7 @@ import {
 const SetGroupOptions = ({ setGroup, group }: SetGroupProps) => {
   console.log("in setGroupOptions");
   return (
-    <FormControl mb="4%" mt="4%">
+    <FormControl mb={12} mt={12}>
       <Flex direction={"column"} gap={12}>
         <Box>
           <FormLabel htmlFor="group_option_age" fontWeight={"normal"}>

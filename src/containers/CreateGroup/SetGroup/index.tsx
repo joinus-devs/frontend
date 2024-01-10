@@ -13,7 +13,7 @@ const SetGroup = ({ setGroup, group }: SetGroupProps) => {
   console.log("in setGroup");
   return (
     <>
-      <FormControl mt="2%">
+      <FormControl mt={8}>
         <FormLabel htmlFor="group_name" fontWeight={"normal"}>
           Group Name
         </FormLabel>
@@ -26,12 +26,12 @@ const SetGroup = ({ setGroup, group }: SetGroupProps) => {
         <FormHelperText>그룹명을 입력해주세요.</FormHelperText>
       </FormControl>
 
-      <FormControl mt="2%">
+      <FormControl mt={8}>
         <FormLabel htmlFor="group_category" fontWeight={"normal"}>
           Group Category
         </FormLabel>
         <Select
-          h={"4rem"}
+          h={12}
           defaultValue={""}
           onChange={(e) => {
             setGroup({ ...group, category: e.target.value });
@@ -52,12 +52,12 @@ const SetGroup = ({ setGroup, group }: SetGroupProps) => {
       </FormControl>
 
       <FormControl>
-        <FormLabel htmlFor="group_description" fontWeight={"normal"} mt="2%">
+        <FormLabel htmlFor="group_description" fontWeight={"normal"} mt={8}>
           Group Introduce
         </FormLabel>
         <Textarea
           placeholder="그룹소개를 해주세요."
-          minH={"12rem"}
+          minH={150}
           onChange={(e) => {
             setGroup({ ...group, description: e.target.value });
           }}

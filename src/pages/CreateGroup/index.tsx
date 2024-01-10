@@ -1,27 +1,7 @@
 import { DefaultLayout } from "@/components";
-import { groupCategory, groupMaxParticipants } from "@/constants";
 import { SetGroup, SetGroupOptions } from "@/containers";
 import { Group } from "@/types/group";
-import {
-  Box,
-  Flex,
-  FormControl,
-  FormHelperText,
-  FormLabel,
-  HStack,
-  Heading,
-  Input,
-  Radio,
-  RadioGroup,
-  RangeSlider,
-  RangeSliderFilledTrack,
-  RangeSliderThumb,
-  RangeSliderTrack,
-  Select,
-  Stack,
-  Textarea,
-  useRadioGroup,
-} from "@chakra-ui/react";
+import { Heading } from "@chakra-ui/react";
 import Head from "next/head";
 import { useEffect, useState } from "react";
 
@@ -50,9 +30,9 @@ const CreateGroup = () => {
         <Heading w="100%" textAlign={"center"} fontWeight="normal" mb="2%">
           그룹을 만들어보세요.
         </Heading>
-        <SetGroup setGroup={setGroup} group={group} />{" "}
+        <SetGroup setGroup={setGroup} group={group} />
         {/** 그룹명,카테고리,그룹소개 */}
-        <SetGroupOptions setGroup={setGroup} group={group} />{" "}
+        <SetGroupOptions setGroup={setGroup} group={group} />
         {/** 연령제한,최대인원,성별제한 */}
       </DefaultLayout>
     </>
