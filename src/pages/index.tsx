@@ -1,5 +1,5 @@
 import { DefaultLayout } from "@/components";
-import { Button } from "@chakra-ui/react";
+import { Button, Flex } from "@chakra-ui/react";
 import Head from "next/head";
 
 export default function Home() {
@@ -12,9 +12,20 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <DefaultLayout>
-        <Button>Hello, World</Button>
-        <Button variant={"ghost"}>Hello, World</Button>
-        <Button variant={"outline"}>Hello, World</Button>
+        <Flex>B 브랜치</Flex>
+        <Flex>B 브랜치</Flex>
+        <Flex>B 브랜치</Flex>
+        <Flex>B 브랜치</Flex>
+        <Flex>B 브랜치</Flex>
+        <Flex>B 브랜치</Flex>
+        <Flex>B 브랜치</Flex>
+        <Flex>B 브랜치</Flex>
+        <Flex>B 브랜치</Flex>
+        <Flex>B 브랜치</Flex>
+        <Flex>B 브랜치</Flex>
+        <Flex>B 브랜치</Flex>
+        <Flex>B 브랜치</Flex>
+        <Flex>B 브랜치</Flex>
       </DefaultLayout>
     </>
   );
