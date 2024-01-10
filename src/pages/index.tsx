@@ -12,20 +12,17 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <DefaultLayout>
-        <Flex>B 브랜치</Flex>
-        <Flex>B 브랜치</Flex>
-        <Flex>B 브랜치</Flex>
-        <Flex>B 브랜치</Flex>
-        <Flex>B 브랜치</Flex>
-        <Flex>B 브랜치</Flex>
-        <Flex>B 브랜치</Flex>
-        <Flex>B 브랜치</Flex>
-        <Flex>B 브랜치</Flex>
-        <Flex>B 브랜치</Flex>
-        <Flex>B 브랜치</Flex>
-        <Flex>B 브랜치</Flex>
-        <Flex>B 브랜치</Flex>
-        <Flex>B 브랜치</Flex>
+        <Flex>A 브랜치</Flex>
+        <Flex>A 브랜치</Flex>
+        <Flex>A 브랜치</Flex>
+        <Flex>A 브랜치</Flex>
+        <Flex>A 브랜치</Flex>
+        <Flex>A 브랜치</Flex>
+        <Flex>A 브랜치</Flex>
+        <Flex>A 브랜치</Flex>
+        <Flex>A 브랜치</Flex>
+        <Flex>A 브랜치</Flex>
+        <Flex>A 브랜치</Flex>
       </DefaultLayout>
     </>
   );
