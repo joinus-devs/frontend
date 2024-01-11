@@ -1,6 +1,6 @@
 import { DefaultLayout } from "@/components";
 import { SetGroup, SetGroupOptions } from "@/containers";
-import { Group } from "@/types/group";
+import { Group, GroupOptions } from "@/types/group";
 import { Box, Button, Container, Flex, Heading } from "@chakra-ui/react";
 import { color } from "framer-motion";
 import Head from "next/head";
@@ -11,11 +11,18 @@ const CreateGroup = () => {
     name: "",
     category: "",
     description: "",
-    Age: [0, 100],
+  };
+
+  const initialGroupOptionState: GroupOptions = {
+    minAge: 0,
+    maxAge: 100,
     maxParticipants: 10,
   };
-  const [group, setGroup] = useState<Group>(initialGroupState);
 
+  const [group, setGroup] = useState<Group>(initialGroupState);
+  const [groupOptions, setGroupOptions] = useState<GroupOptions>(
+    initialGroupOptionState
+  );
   return (
     <>
       <Head>
@@ -92,7 +99,10 @@ const CreateGroup = () => {
             flexGrow={1}
           >
             <SetGroup setGroup={setGroup} group={group} />
-            <SetGroupOptions setGroup={setGroup} group={group} />
+            <SetGroupOptions
+              setGroupOptions={setGroupOptions}
+              groupOptions={groupOptions}
+            />
           </Container>
         </Flex>
       </DefaultLayout>

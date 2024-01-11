@@ -10,7 +10,7 @@ import {
 } from "@chakra-ui/react";
 import { useCallback } from "react";
 
-export interface SetGroupProps {
+interface SetGroupProps {
   setGroup: React.Dispatch<React.SetStateAction<Group>>;
   group: Group;
 }

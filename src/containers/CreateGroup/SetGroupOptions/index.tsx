@@ -1,5 +1,6 @@
 import { groupMaxParticipants } from "@/constants";
-import { SetGroupProps } from "../SetGroup";
+import { GroupOptions } from "@/types/group";
+
 import {
   Button,
   Flex,
@@ -13,13 +14,30 @@ import {
 } from "@chakra-ui/react";
 import { useCallback } from "react";
 
-const SetGroupOptions = ({ setGroup, group }: SetGroupProps) => {
+interface SetGroupOtipnsProps {
+  setGroupOptions: React.Dispatch<React.SetStateAction<GroupOptions>>;
+  groupOptions: GroupOptions;
+}
+
+const SetGroupOptions = ({
+  setGroupOptions,
+  groupOptions,
+}: SetGroupOtipnsProps) => {
   const handleBtnClick = useCallback(
     (value: number) => {
-      setGroup({ ...group, maxParticipants: value });
+      setGroupOptions({ ...groupOptions, maxParticipants: value });
     },
-    [group, setGroup]
+    [groupOptions, setGroupOptions]
   );
+
+  const handleAgeLimitChange = useCallback(
+    (e: number[]) => {
+      const [minAge, maxAge] = e;
+      setGroupOptions({ ...groupOptions, minAge, maxAge });
+    },
+    [groupOptions, setGroupOptions]
+  );
+
   return (
     <>
       <Flex direction={"column"} gap={12} mt={12}>
@@ -29,7 +47,7 @@ const SetGroupOptions = ({ setGroup, group }: SetGroupProps) => {
           </FormLabel>
           <RangeSlider
             defaultValue={[0, 100]}
-            onChange={(e: [number, number]) => setGroup({ ...group, Age: e })}
+            onChange={(e) => handleAgeLimitChange(e)}
           >
             <RangeSliderTrack>
               <RangeSliderFilledTrack />
@@ -38,7 +56,7 @@ const SetGroupOptions = ({ setGroup, group }: SetGroupProps) => {
             <RangeSliderThumb index={1} />
           </RangeSlider>
           <FormHelperText>
-            연령 : {group.Age[0]}~{group.Age[1]}세
+            연령 : {groupOptions.minAge}~{groupOptions.maxAge}세
           </FormHelperText>
         </FormControl>
 
@@ -53,7 +71,7 @@ const SetGroupOptions = ({ setGroup, group }: SetGroupProps) => {
                   key={`btn_${index}`}
                   onClick={() => handleBtnClick(value)}
                   variant={
-                    group.maxParticipants === value ? "solid" : "outline"
+                    groupOptions.maxParticipants === value ? "solid" : "outline"
                   }
                   w={20}
                   h={16}
@@ -63,7 +81,9 @@ const SetGroupOptions = ({ setGroup, group }: SetGroupProps) => {
               );
             })}
           </Flex>
-          <FormHelperText>최대인원 : {group.maxParticipants}명</FormHelperText>
+          <FormHelperText>
+            최대인원 : {groupOptions.maxParticipants}명
+          </FormHelperText>
         </FormControl>
       </Flex>
     </>
