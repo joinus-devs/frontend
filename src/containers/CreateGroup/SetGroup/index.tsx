@@ -1,5 +1,5 @@
 import { groupCategory } from "@/constants";
-import { SetGroupProps } from "@/types/group";
+import { Group } from "@/types/group";
 import {
   FormControl,
   FormHelperText,
@@ -8,9 +8,22 @@ import {
   Select,
   Textarea,
 } from "@chakra-ui/react";
+import { useCallback } from "react";
+
+export interface SetGroupProps {
+  setGroup: React.Dispatch<React.SetStateAction<Group>>;
+  group: Group;
+}
 
 const SetGroup = ({ setGroup, group }: SetGroupProps) => {
-  console.log("in setGroup");
+  const handleInputChange = useCallback(
+    (e: React.ChangeEvent<any>) => {
+      const { name, value } = e.target;
+      setGroup({ ...group, [name]: value });
+    },
+    [group, setGroup]
+  );
+
   return (
     <>
       <FormControl mt={8}>
@@ -19,11 +32,12 @@ const SetGroup = ({ setGroup, group }: SetGroupProps) => {
         </FormLabel>
         <Input
           id="group_name"
-          onChange={(e) => {
-            setGroup({ ...group, name: e.target.value });
-          }}
+          name="name"
+          onChange={(e) => handleInputChange(e)}
+          placeholder="그룹명을 입력해주세요."
+          maxLength={10}
         />
-        <FormHelperText>그룹명을 입력해주세요.</FormHelperText>
+        <FormHelperText>그룹명의 최대길이는 10자리입니다.</FormHelperText>
       </FormControl>
 
       <FormControl mt={8}>
@@ -33,9 +47,8 @@ const SetGroup = ({ setGroup, group }: SetGroupProps) => {
         <Select
           h={12}
           defaultValue={""}
-          onChange={(e) => {
-            setGroup({ ...group, category: e.target.value });
-          }}
+          name="category"
+          onChange={(e) => handleInputChange(e)}
         >
           <option value="" hidden>
             카테고리를 선택해주세요.
@@ -48,7 +61,6 @@ const SetGroup = ({ setGroup, group }: SetGroupProps) => {
             );
           })}
         </Select>
-        <FormHelperText>카테고리를 선택해주세요.</FormHelperText>
       </FormControl>
 
       <FormControl>
@@ -58,11 +70,9 @@ const SetGroup = ({ setGroup, group }: SetGroupProps) => {
         <Textarea
           placeholder="그룹소개를 해주세요."
           minH={150}
-          onChange={(e) => {
-            setGroup({ ...group, description: e.target.value });
-          }}
+          name="description"
+          onChange={(e) => handleInputChange(e)}
         />
-        <FormHelperText>그룹을 소개해주세요.</FormHelperText>
       </FormControl>
     </>
   );

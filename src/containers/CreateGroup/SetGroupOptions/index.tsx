@@ -1,6 +1,5 @@
-import { SetGroupProps } from "@/types/group";
+import { SetGroupProps } from "../SetGroup";
 import {
-  Box,
   Flex,
   FormControl,
   FormHelperText,
@@ -12,11 +11,10 @@ import {
 } from "@chakra-ui/react";
 
 const SetGroupOptions = ({ setGroup, group }: SetGroupProps) => {
-  console.log("in setGroupOptions");
   return (
-    <FormControl mb={12} mt={12}>
-      <Flex direction={"column"} gap={12}>
-        <Box>
+    <>
+      <Flex direction={"column"} gap={12} mt={12}>
+        <FormControl>
           <FormLabel htmlFor="group_option_age" fontWeight={"normal"}>
             Age
           </FormLabel>
@@ -33,15 +31,16 @@ const SetGroupOptions = ({ setGroup, group }: SetGroupProps) => {
           <FormHelperText>
             연령 : {group.Age[0]}~{group.Age[1]}세
           </FormHelperText>
-        </Box>
-        <Box>
+        </FormControl>
+
+        <FormControl>
           <FormLabel htmlFor="group_option_age" fontWeight={"normal"}>
             Max Member
           </FormLabel>
           <FormHelperText>최대인원 : {group.maxParticipants}명</FormHelperText>
-        </Box>
+        </FormControl>
       </Flex>
-    </FormControl>
+    </>
   );
 };
 
