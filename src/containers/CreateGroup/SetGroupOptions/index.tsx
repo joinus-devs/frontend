@@ -1,5 +1,7 @@
+import { groupMaxParticipants } from "@/constants";
 import { SetGroupProps } from "../SetGroup";
 import {
+  Button,
   Flex,
   FormControl,
   FormHelperText,
@@ -9,8 +11,15 @@ import {
   RangeSliderThumb,
   RangeSliderTrack,
 } from "@chakra-ui/react";
+import { useCallback } from "react";
 
 const SetGroupOptions = ({ setGroup, group }: SetGroupProps) => {
+  const handleBtnClick = useCallback(
+    (value: number) => {
+      setGroup({ ...group, maxParticipants: value });
+    },
+    [group, setGroup]
+  );
   return (
     <>
       <Flex direction={"column"} gap={12} mt={12}>
@@ -37,6 +46,23 @@ const SetGroupOptions = ({ setGroup, group }: SetGroupProps) => {
           <FormLabel htmlFor="group_option_age" fontWeight={"normal"}>
             Max Member
           </FormLabel>
+          <Flex justifyContent={"space-between"}>
+            {groupMaxParticipants.map((value, index) => {
+              return (
+                <Button
+                  key={`btn_${index}`}
+                  onClick={() => handleBtnClick(value)}
+                  variant={
+                    group.maxParticipants === value ? "solid" : "outline"
+                  }
+                  w={20}
+                  h={16}
+                >
+                  {value}
+                </Button>
+              );
+            })}
+          </Flex>
           <FormHelperText>최대인원 : {group.maxParticipants}명</FormHelperText>
         </FormControl>
       </Flex>

@@ -26,7 +26,7 @@ const SetGroup = ({ setGroup, group }: SetGroupProps) => {
 
   return (
     <>
-      <FormControl mt={8}>
+      <FormControl>
         <FormLabel htmlFor="group_name" fontWeight={"normal"}>
           Group Name
         </FormLabel>

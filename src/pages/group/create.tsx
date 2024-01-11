@@ -1,7 +1,7 @@
 import { DefaultLayout } from "@/components";
 import { SetGroup, SetGroupOptions } from "@/containers";
 import { Group } from "@/types/group";
-import { Container, Heading } from "@chakra-ui/react";
+import { Container, Flex, Heading } from "@chakra-ui/react";
 import Head from "next/head";
 import { useState } from "react";
 
@@ -24,13 +24,13 @@ const CreateGroup = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <DefaultLayout>
-        <Container mt={12} mb={20}>
-          <Heading textAlign={"center"} fontWeight="normal" mb={12}>
-            Create Group
-          </Heading>
-          <SetGroup setGroup={setGroup} group={group} />
-          <SetGroupOptions setGroup={setGroup} group={group} />
-        </Container>
+        <Flex gap={12} mt={12} mb={20}>
+          <Container>123</Container>
+          <Container>
+            <SetGroup setGroup={setGroup} group={group} />
+            <SetGroupOptions setGroup={setGroup} group={group} />
+          </Container>
+        </Flex>
       </DefaultLayout>
     </>
   );
