@@ -1,5 +1,5 @@
 import { groupCategory } from "@/constants";
-import { Group } from "@/types/group";
+import { FormValues } from "@/pages/group/create";
 import {
   FormControl,
   FormHelperText,
@@ -8,22 +8,13 @@ import {
   Select,
   Textarea,
 } from "@chakra-ui/react";
-import { useCallback } from "react";
+import { UseFormRegister } from "react-hook-form";
 
-interface SetGroupProps {
-  setGroup: React.Dispatch<React.SetStateAction<Group>>;
-  group: Group;
+interface SetGroupDetailProps {
+  register: UseFormRegister<FormValues>;
 }
 
-const SetGroup = ({ setGroup, group }: SetGroupProps) => {
-  const handleInputChange = useCallback(
-    (e: React.ChangeEvent<any>) => {
-      const { name, value } = e.target;
-      setGroup({ ...group, [name]: value });
-    },
-    [group, setGroup]
-  );
-
+const SetGroup = ({ register }: SetGroupDetailProps) => {
   return (
     <>
       <FormControl>
@@ -32,10 +23,9 @@ const SetGroup = ({ setGroup, group }: SetGroupProps) => {
         </FormLabel>
         <Input
           id="group_name"
-          name="name"
-          onChange={(e) => handleInputChange(e)}
           placeholder="그룹명을 입력해주세요."
           maxLength={10}
+          {...register("name")}
         />
         <FormHelperText>그룹명의 최대길이는 10자리입니다.</FormHelperText>
       </FormControl>
@@ -44,12 +34,7 @@ const SetGroup = ({ setGroup, group }: SetGroupProps) => {
         <FormLabel htmlFor="group_category" fontWeight={"normal"}>
           Group Category
         </FormLabel>
-        <Select
-          h={12}
-          defaultValue={""}
-          name="category"
-          onChange={(e) => handleInputChange(e)}
-        >
+        <Select h={12} {...register("category")}>
           <option value="" hidden>
             카테고리를 선택해주세요.
           </option>
@@ -70,8 +55,7 @@ const SetGroup = ({ setGroup, group }: SetGroupProps) => {
         <Textarea
           placeholder="그룹소개를 해주세요."
           minH={150}
-          name="description"
-          onChange={(e) => handleInputChange(e)}
+          {...register("description")}
         />
       </FormControl>
     </>

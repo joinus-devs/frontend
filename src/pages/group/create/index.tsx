@@ -1,28 +1,31 @@
 import { DefaultLayout } from "@/components";
 import { SetGroup, SetGroupOptions } from "@/containers";
-import { Group, GroupOptions } from "@/types/group";
 import { Box, Button, Container, Flex, Heading } from "@chakra-ui/react";
-import { color } from "framer-motion";
 import Head from "next/head";
-import { useState } from "react";
+import { useForm } from "react-hook-form";
+
+export interface FormValues {
+  name: string;
+  category: string;
+  description: string;
+  minAge: number;
+  maxAge: number;
+  maxParticipants: number;
+}
+export const initialFormValues: FormValues = {
+  name: "",
+  category: "",
+  description: "",
+  minAge: 0,
+  maxAge: 100,
+  maxParticipants: 10,
+};
 
 const CreateGroup = () => {
-  const initialGroupState: Group = {
-    name: "",
-    category: "",
-    description: "",
-  };
+  const { register, handleSubmit, setValue, getValues } = useForm<FormValues>({
+    defaultValues: initialFormValues,
+  });
 
-  const initialGroupOptionState: GroupOptions = {
-    minAge: 0,
-    maxAge: 100,
-    maxParticipants: 10,
-  };
-
-  const [group, setGroup] = useState<Group>(initialGroupState);
-  const [groupOptions, setGroupOptions] = useState<GroupOptions>(
-    initialGroupOptionState
-  );
   return (
     <>
       <Head>
@@ -84,6 +87,7 @@ const CreateGroup = () => {
                 bgColor={"white"}
                 color={"green.500"}
                 _hover={{ color: "white", bgColor: "green.600" }}
+                onClick={handleSubmit((data) => console.log(data))}
               >
                 생성하기
               </Button>
@@ -98,11 +102,8 @@ const CreateGroup = () => {
             borderRadius={"2xl"}
             flexGrow={1}
           >
-            <SetGroup setGroup={setGroup} group={group} />
-            <SetGroupOptions
-              setGroupOptions={setGroupOptions}
-              groupOptions={groupOptions}
-            />
+            <SetGroup register={register} />
+            <SetGroupOptions setValue={setValue} getValues={getValues} />
           </Container>
         </Flex>
       </DefaultLayout>

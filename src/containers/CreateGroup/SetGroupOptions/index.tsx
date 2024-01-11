@@ -1,6 +1,5 @@
 import { groupMaxParticipants } from "@/constants";
-import { GroupOptions } from "@/types/group";
-
+import { FormValues, initialFormValues } from "@/pages/group/create";
 import {
   Button,
   Flex,
@@ -12,30 +11,27 @@ import {
   RangeSliderThumb,
   RangeSliderTrack,
 } from "@chakra-ui/react";
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
+import { UseFormGetValues, UseFormSetValue } from "react-hook-form";
 
-interface SetGroupOtipnsProps {
-  setGroupOptions: React.Dispatch<React.SetStateAction<GroupOptions>>;
-  groupOptions: GroupOptions;
+interface SetGroupOptionsProps {
+  getValues: UseFormGetValues<FormValues>;
+  setValue: UseFormSetValue<FormValues>;
 }
 
-const SetGroupOptions = ({
-  setGroupOptions,
-  groupOptions,
-}: SetGroupOtipnsProps) => {
-  const handleBtnClick = useCallback(
-    (value: number) => {
-      setGroupOptions({ ...groupOptions, maxParticipants: value });
-    },
-    [groupOptions, setGroupOptions]
-  );
+const SetGroupOptions = ({ getValues, setValue }: SetGroupOptionsProps) => {
+  const [fromValues, setFromValues] = useState<FormValues>(initialFormValues);
 
-  const handleAgeLimitChange = useCallback(
-    (e: number[]) => {
-      const [minAge, maxAge] = e;
-      setGroupOptions({ ...groupOptions, minAge, maxAge });
+  const renderFormValues = useCallback(() => {
+    setFromValues(getValues());
+  }, [getValues]);
+
+  const setMaxMember = useCallback(
+    (value: number) => {
+      setValue("maxParticipants", value);
+      renderFormValues();
     },
-    [groupOptions, setGroupOptions]
+    [renderFormValues, setValue]
   );
 
   return (
@@ -47,7 +43,11 @@ const SetGroupOptions = ({
           </FormLabel>
           <RangeSlider
             defaultValue={[0, 100]}
-            onChange={(e) => handleAgeLimitChange(e)}
+            onChange={(value) => {
+              setValue("minAge", value[0]);
+              setValue("maxAge", value[1]);
+              renderFormValues();
+            }}
           >
             <RangeSliderTrack>
               <RangeSliderFilledTrack />
@@ -56,7 +56,7 @@ const SetGroupOptions = ({
             <RangeSliderThumb index={1} />
           </RangeSlider>
           <FormHelperText>
-            연령 : {groupOptions.minAge}~{groupOptions.maxAge}세
+            연령 : {fromValues?.minAge}~{fromValues?.maxAge}세
           </FormHelperText>
         </FormControl>
 
@@ -69,9 +69,9 @@ const SetGroupOptions = ({
               return (
                 <Button
                   key={`btn_${index}`}
-                  onClick={() => handleBtnClick(value)}
+                  onClick={() => setMaxMember(value)}
                   variant={
-                    groupOptions.maxParticipants === value ? "solid" : "outline"
+                    fromValues?.maxParticipants === value ? "solid" : "outline"
                   }
                   w={20}
                   h={16}
@@ -82,7 +82,7 @@ const SetGroupOptions = ({
             })}
           </Flex>
           <FormHelperText>
-            최대인원 : {groupOptions.maxParticipants}명
+            최대인원 : {fromValues?.maxParticipants}명
           </FormHelperText>
         </FormControl>
       </Flex>
