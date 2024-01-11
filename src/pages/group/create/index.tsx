@@ -3,6 +3,7 @@ import { SetGroup, SetGroupOptions } from "@/containers";
 import { Box, Button, Container, Flex, Heading } from "@chakra-ui/react";
 import Head from "next/head";
 import { useForm } from "react-hook-form";
+import { keyframes } from "@emotion/react";
 
 export interface FormValues {
   name: string;
@@ -26,6 +27,25 @@ const CreateGroup = () => {
     defaultValues: initialFormValues,
   });
 
+  const bgColorAnimation = keyframes`
+  from{
+    width: 0;
+    height: 0;
+  }
+  to{
+    width:85%;
+    height:100%;
+  }
+  `;
+
+  const btnAnimation = keyframes`
+  from{
+    opacity:0;
+  }
+  to{
+    opacity:1;
+  }
+  `;
   return (
     <>
       <Head>
@@ -42,9 +62,9 @@ const CreateGroup = () => {
             w={"85%"}
             h={"100%"}
             bgColor={"green.500"}
-            transition={"1s ease-in-out"}
             borderBottomRightRadius={"max(50rem,50rem)"}
             borderTopLeftRadius={"max(0,50rem)"}
+            animation={`${bgColorAnimation} 1s ease-in-out`}
           />
           <Flex
             zIndex={1}
@@ -78,6 +98,7 @@ const CreateGroup = () => {
                 bgColor={"white"}
                 color={"green.500"}
                 _hover={{ color: "white", bgColor: "green.600" }}
+                animation={`${btnAnimation} 1s ease-in-out`}
               >
                 돌아가기
               </Button>
@@ -87,7 +108,13 @@ const CreateGroup = () => {
                 bgColor={"white"}
                 color={"green.500"}
                 _hover={{ color: "white", bgColor: "green.600" }}
-                onClick={handleSubmit((data) => console.log(data))}
+                animation={`${btnAnimation} 1s ease-in-out`}
+                onClick={handleSubmit((data) => {
+                  console.log(data);
+                  {
+                    /** 로그는 아직 post api가 없기때문에 임시로 해두었습니다. */
+                  }
+                })}
               >
                 생성하기
               </Button>
