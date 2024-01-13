@@ -2,6 +2,7 @@ import { GroupDetailProps } from "@/pages/group/[id]";
 import { Box, Flex, Heading } from "@chakra-ui/react";
 import Image from "next/image";
 import GroupPid from "../GroupPid";
+import WithLabel from "@/components/common/WithTitle";
 
 export interface GroupPidProps {
   id: number;
@@ -34,6 +35,20 @@ const dummyData: GroupPidProps[] = [
     content: "안녕하세요",
     createdAt: "2024-01-13",
   },
+  {
+    id: 3,
+    groupId: 1,
+    userId: 3,
+    content: "안녕하세요",
+    createdAt: "2024-01-13",
+  },
+  {
+    id: 4,
+    groupId: 1,
+    userId: 3,
+    content: "안녕하세요",
+    createdAt: "2024-01-13",
+  },
 ];
 
 const GroupInfo = ({ group }: GroupDetailProps) => {
@@ -43,7 +58,6 @@ const GroupInfo = ({ group }: GroupDetailProps) => {
   return (
     <Flex direction={"column"} gap={8} w={"100%"} minH={1400} mt={8} mb={8}>
       <Box
-        backgroundColor={"primary.400"}
         w={"100%"}
         h={300}
         overflow={"hidden"}
@@ -63,7 +77,7 @@ const GroupInfo = ({ group }: GroupDetailProps) => {
             flex={1}
             borderRadius={12}
             overflow={"hidden"}
-            backgroundColor={"primary.50"}
+            backgroundColor={"primary.100"}
           >
             <Heading
               size={"lg"}
@@ -73,18 +87,17 @@ const GroupInfo = ({ group }: GroupDetailProps) => {
             >
               Group Info
             </Heading>
-            <Flex direction={"column"} fontSize={20} p={4}>
-              <Box>장르 : {group.category}</Box>
-              <Box>그룹명 : {group.name}</Box>
-              <Box mt={4}>그룹소개</Box>
-              <Box>{group.description}</Box>
+            <Flex direction={"column"} fontSize={20} p={4} gap={4}>
+              <WithLabel label="장르" value={group.category} />
+              <WithLabel label="그룹명" value={group.name} />
+              <WithLabel label="소개" value={group.description} />
             </Flex>
           </Box>
           <Box
             flex={2}
             borderRadius={12}
             overflow={"hidden"}
-            backgroundColor={"primary.50"}
+            backgroundColor={"primary.100"}
           >
             <Heading
               size={"lg"}
@@ -99,7 +112,7 @@ const GroupInfo = ({ group }: GroupDetailProps) => {
         <Box
           flex={2}
           borderRadius={12}
-          backgroundColor={"primary.50"}
+          backgroundColor={"primary.100"}
           overflow={"hidden"}
         >
           <Heading
@@ -111,7 +124,23 @@ const GroupInfo = ({ group }: GroupDetailProps) => {
           >
             Group Pid
           </Heading>
-          <Flex direction={"column"} gap={4} pl={4} pr={4} maxH={1000}>
+          <Flex
+            direction={"column"}
+            gap={4}
+            pl={4}
+            pr={4}
+            maxH={1000}
+            overflowY={"scroll"}
+            sx={{
+              "::-webkit-scrollbar": {
+                width: "8px",
+              },
+              "::-webkit-scrollbar-thumb": {
+                borderRadius: "8px",
+                backgroundColor: "primary.500",
+              },
+            }}
+          >
             {dummyData.map((data, index) => (
               <GroupPid props={data} key={`pid_${index}`} />
             ))}

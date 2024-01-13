@@ -1,25 +1,65 @@
-import { Box, Container, Flex } from "@chakra-ui/react";
+import { Box, Flex } from "@chakra-ui/react";
 import { GroupPidProps } from "../GroupInfo";
 import Image from "next/image";
+import { useBgColor } from "@/hooks";
+import { Icon } from "@chakra-ui/react";
+import { FaRegCommentDots } from "react-icons/fa";
+import { FcLike } from "react-icons/fc";
+import { useCallback, useState } from "react";
+import GroupPidComments from "../GroupPidComments";
 
 interface GroupPidArrayProps {
   props: GroupPidProps;
 }
 
-const dummyUserData = {
+export interface pidCommentProps {
+  id: number;
+  postId: number;
+  userId: number;
+  comment: string;
+  createdAt: string;
+}
+
+export const dummyUserData = {
   id: 1,
   name: "윤승휘",
   imgSrc: "/noneUserImg.webp",
 };
 
+const dummyCommentData: pidCommentProps[] = [
+  {
+    id: 0,
+    postId: 1,
+    userId: 1,
+    comment: "ㅋㅋ하이용",
+    createdAt: "2024-01-14",
+  },
+  { id: 4, postId: 1, userId: 4, comment: "test댓글", createdAt: "2024-01-14" },
+  {
+    id: 6,
+    postId: 2,
+    userId: 7,
+    comment: "댓글입니다.",
+    createdAt: "2024-01-14",
+  },
+];
+
 const GroupPid = ({ props }: GroupPidArrayProps) => {
-  //props의 userId를 통해 user의 정보를 가져옵니다.
+  const [isComment, setIsComment] = useState(false);
+  //props의 GroupPid 의 userId를 통해 user의 정보를 가져옵니다.
+
+  const bgColor = useBgColor();
+  const comments = dummyCommentData.filter((v) => v.postId === props.id);
+
+  const handleCommentClick = useCallback(() => {
+    setIsComment((prev) => !prev);
+  }, []);
+
   return (
     <Flex
       direction={"column"}
-      backgroundColor={"white"}
+      backgroundColor={bgColor}
       borderRadius={12}
-      overflow={"hidden"}
       shadow={"lg"}
     >
       <Flex gap={4} borderBottomWidth={"1px"}>
@@ -42,19 +82,36 @@ const GroupPid = ({ props }: GroupPidArrayProps) => {
         {props.content}
       </Box>
       <Flex fontSize={20} borderTopWidth={"1px"}>
-        <Box
+        <Flex
           flex={1}
-          textAlign={"center"}
-          fontWeight={"bold"}
           borderRightWidth={"1px"}
           p={4}
+          gap={4}
+          justifyContent={"center"}
+          as={"button"}
+          fontWeight={"bold"}
+          onClick={handleCommentClick}
         >
-          Comment
-        </Box>
-        <Box flex={1} textAlign={"center"} fontWeight={"bold"} p={4}>
-          Like
-        </Box>
+          <Box>Comment</Box>
+          <Icon as={FaRegCommentDots} mt={1} />
+        </Flex>
+        <Flex
+          flex={1}
+          fontWeight={"bold"}
+          p={4}
+          gap={4}
+          justifyContent={"center"}
+          as={"button"}
+        >
+          <Box>Like</Box>
+          <Icon as={FcLike} mt={1} />
+        </Flex>
       </Flex>
+      {isComment && comments.length ? (
+        <GroupPidComments comments={comments} />
+      ) : (
+        ""
+      )}
     </Flex>
   );
 };
