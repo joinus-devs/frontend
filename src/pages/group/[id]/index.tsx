@@ -1,5 +1,5 @@
 import { DefaultLayout } from "@/components";
-import GroupInfo from "@/containers/GroupInfo";
+import GroupInfo from "@/containers/group/GroupInfo";
 import Head from "next/head";
 import { useRouter } from "next/router";
 
