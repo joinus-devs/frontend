@@ -4,6 +4,8 @@ import { Box, Button, Container, Flex, Heading } from "@chakra-ui/react";
 import Head from "next/head";
 import { useForm } from "react-hook-form";
 import { keyframes } from "@emotion/react";
+import { useCallback } from "react";
+import { useBgColor } from "@/hooks";
 
 export interface FormValues {
   name: string;
@@ -13,6 +15,7 @@ export interface FormValues {
   maxAge: number;
   maxParticipants: number;
 }
+
 export const initialFormValues: FormValues = {
   name: "",
   category: "",
@@ -22,30 +25,37 @@ export const initialFormValues: FormValues = {
   maxParticipants: 10,
 };
 
-const CreateGroup = () => {
-  const { register, handleSubmit, setValue, getValues } = useForm<FormValues>({
-    defaultValues: initialFormValues,
-  });
-
-  const bgColorAnimation = keyframes`
-  from{
+const bgColorAnimation = keyframes`
+  from {
     width: 0;
     height: 0;
   }
-  to{
+  to {
     width:85%;
     height:100%;
   }
-  `;
+`;
 
-  const btnAnimation = keyframes`
-  from{
+const btnAnimation = keyframes`
+  from {
     opacity:0;
   }
-  to{
+  to {
     opacity:1;
   }
-  `;
+`;
+
+const CreateGroup = () => {
+  const { register, handleSubmit, setValue, watch } = useForm<FormValues>({
+    defaultValues: initialFormValues,
+  });
+
+  const onSubmit = useCallback((data: FormValues) => {
+    //서버로 data를 보내는 로직을 작성합니다.
+  }, []);
+
+  const bgColor = useBgColor();
+
   return (
     <>
       <Head>
@@ -55,13 +65,21 @@ const CreateGroup = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <DefaultLayout>
-        <Flex mt={12} mb={20} position={"relative"} boxShadow={"lg"} w={"100%"}>
+        <Flex
+          mt={12}
+          mb={20}
+          position={"relative"}
+          boxShadow={"lg"}
+          w={"100%"}
+          as={"form"}
+          onSubmit={handleSubmit(onSubmit)}
+        >
           <Box
             zIndex={0}
             position={"absolute"}
             w={"85%"}
             h={"100%"}
-            bgColor={"green.500"}
+            bgColor={"primary.500"}
             borderBottomRightRadius={"max(50rem,50rem)"}
             borderTopLeftRadius={"max(0,50rem)"}
             animation={`${bgColorAnimation} 1s ease-in-out`}
@@ -95,26 +113,15 @@ const CreateGroup = () => {
               <Button
                 fontSize={24}
                 p={8}
-                bgColor={"white"}
-                color={"green.500"}
-                _hover={{ color: "white", bgColor: "green.600" }}
                 animation={`${btnAnimation} 1s ease-in-out`}
               >
                 돌아가기
               </Button>
               <Button
+                type="submit"
                 fontSize={24}
                 p={8}
-                bgColor={"white"}
-                color={"green.500"}
-                _hover={{ color: "white", bgColor: "green.600" }}
                 animation={`${btnAnimation} 1s ease-in-out`}
-                onClick={handleSubmit((data) => {
-                  console.log(data);
-                  {
-                    /** 로그는 아직 post api가 없기때문에 임시로 해두었습니다. */
-                  }
-                })}
               >
                 생성하기
               </Button>
@@ -125,12 +132,12 @@ const CreateGroup = () => {
             p={8}
             zIndex={1}
             m={12}
-            background={"white"}
+            background={bgColor}
             borderRadius={"2xl"}
             flexGrow={1}
           >
             <SetGroup register={register} />
-            <SetGroupOptions setValue={setValue} getValues={getValues} />
+            <SetGroupOptions setValue={setValue} watch={watch} />
           </Container>
         </Flex>
       </DefaultLayout>

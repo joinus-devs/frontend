@@ -1,2 +1,1 @@
-export * from "./CreateGroup";
-export * from "./GroupInfo";
+export * from "./group";

@@ -12,27 +12,35 @@ import {
   RangeSliderTrack,
 } from "@chakra-ui/react";
 import { useCallback, useState } from "react";
-import { UseFormGetValues, UseFormSetValue } from "react-hook-form";
+import {
+  UseFormGetValues,
+  UseFormRegister,
+  UseFormSetValue,
+  UseFormWatch,
+} from "react-hook-form";
 
 interface SetGroupOptionsProps {
-  getValues: UseFormGetValues<FormValues>;
   setValue: UseFormSetValue<FormValues>;
+  watch: UseFormWatch<FormValues>;
 }
 
-const SetGroupOptions = ({ getValues, setValue }: SetGroupOptionsProps) => {
-  const [fromValues, setFromValues] = useState<FormValues>(initialFormValues);
-
-  const renderFormValues = useCallback(() => {
-    setFromValues(getValues());
-  }, [getValues]);
-
+const SetGroupOptions = ({ setValue, watch }: SetGroupOptionsProps) => {
   const setMaxMember = useCallback(
     (value: number) => {
       setValue("maxParticipants", value);
-      renderFormValues();
     },
-    [renderFormValues, setValue]
+    [setValue]
   );
+
+  const handleChangeSlider = useCallback(
+    (value: number[]) => {
+      setValue("minAge", value[0]);
+      setValue("maxAge", value[1]);
+    },
+    [setValue]
+  );
+
+  const options = watch(["minAge", "maxAge", "maxParticipants"]);
 
   return (
     <>
@@ -43,11 +51,7 @@ const SetGroupOptions = ({ getValues, setValue }: SetGroupOptionsProps) => {
           </FormLabel>
           <RangeSlider
             defaultValue={[0, 100]}
-            onChange={(value) => {
-              setValue("minAge", value[0]);
-              setValue("maxAge", value[1]);
-              renderFormValues();
-            }}
+            onChange={(value) => handleChangeSlider(value)}
           >
             <RangeSliderTrack>
               <RangeSliderFilledTrack />
@@ -56,7 +60,7 @@ const SetGroupOptions = ({ getValues, setValue }: SetGroupOptionsProps) => {
             <RangeSliderThumb index={1} />
           </RangeSlider>
           <FormHelperText>
-            연령 : {fromValues?.minAge}~{fromValues?.maxAge}세
+            연령 : {options[0]}~{options[1]}세
           </FormHelperText>
         </FormControl>
 
@@ -70,9 +74,7 @@ const SetGroupOptions = ({ getValues, setValue }: SetGroupOptionsProps) => {
                 <Button
                   key={`btn_${index}`}
                   onClick={() => setMaxMember(value)}
-                  variant={
-                    fromValues?.maxParticipants === value ? "solid" : "outline"
-                  }
+                  variant={options[2] === value ? "solid" : "outline"}
                   w={20}
                   h={16}
                 >
@@ -81,9 +83,7 @@ const SetGroupOptions = ({ getValues, setValue }: SetGroupOptionsProps) => {
               );
             })}
           </Flex>
-          <FormHelperText>
-            최대인원 : {fromValues?.maxParticipants}명
-          </FormHelperText>
+          <FormHelperText>최대인원 : {options[2]}명</FormHelperText>
         </FormControl>
       </Flex>
     </>
