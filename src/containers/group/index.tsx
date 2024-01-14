@@ -1,5 +1,9 @@
 export { default as GroupInfo } from "./GroupInfo";
-export { default as GroupPid } from "./GroupPid";
 export { default as SetGroup } from "./SetGroup";
 export { default as SetGroupOptions } from "./SetGroupOptions";
-export { default as GroupPidComments } from "./GroupPidComments";
+export { default as GroupNav } from "./GroupNav";
+export { default as GroupMember } from "./GroupMember";
+export { default as GroupFeed } from "./GroupFeed";
+export { default as GroupDescription } from "./GroupDescription";
+export { default as GroupChat } from "./GroupChat";
+export { default as GroupNotice } from "./GroupNotice";
