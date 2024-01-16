@@ -81,11 +81,10 @@ export const GroupFeedItem = ({ props }: GroupFeedItemProps) => {
       backgroundColor={bgColor}
       borderRadius={12}
       shadow={"lg"}
-      pt={4}
       pb={2}
     >
       <Flex gap={4} p={4}>
-        <CircleImg imgSrc={dummyUserData.imgSrc} alt="userImg" size={60} />
+        <CircleImg imgSrc={dummyUserData.imgSrc} alt="userImg" size={16} />
         <Flex direction={"column"} gap={1} justifyContent={"end"}>
           <Heading size={"md"}>{dummyUserData.name}</Heading>
           <Box opacity={0.7}>1 month ago</Box>
@@ -99,13 +98,8 @@ export const GroupFeedItem = ({ props }: GroupFeedItemProps) => {
         likeCount={0}
         handleCommentClick={handleCommentClick}
       />
-      <Flex p={4} gap={2}>
-        <CircleImg
-          imgSrc={dummyUserData.imgSrc}
-          alt="userImg"
-          size={60}
-          style={{ width: 60, height: 60, minWidth: 60 }}
-        />
+      <Flex p={4} gap={2} alignItems={"center"}>
+        <CircleImg imgSrc={dummyUserData.imgSrc} alt="userImg" size={14} />
         <InputWithButton
           placeholder="댓글을 입력하세요."
           hanldeSubmit={handleSubmitComment}

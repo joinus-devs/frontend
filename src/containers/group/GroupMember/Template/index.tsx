@@ -15,7 +15,7 @@ export const Template = ({ dummyGroupMember, header }: TemplateProps) => {
     <Flex direction={"column"} gap={8}>
       <Grid templateColumns={"repeat(4,1fr)"}>
         <GridItem>
-          <Heading fontSize={"4xl"} fontWeight={"bold"} textAlign={"center"}>
+          <Heading fontSize={"3xl"} fontWeight={"bold"} textAlign={"center"}>
             {header}
           </Heading>
         </GridItem>
@@ -30,7 +30,7 @@ export const Template = ({ dummyGroupMember, header }: TemplateProps) => {
               alignItems={"center"}
               gap={4}
             >
-              <CircleImg imgSrc={v.imgSrc} alt="userImg" size={120} />
+              <CircleImg imgSrc={v.imgSrc} alt="userImg" size={24} />
               <Text>{v.name}</Text>
             </Flex>
           </GridItem>

@@ -9,12 +9,7 @@ interface CommentProps {
 export const Comment = ({ comment }: CommentProps) => {
   return (
     <Flex gap={4}>
-      <CircleImg
-        imgSrc={comment.userImgSrc}
-        alt={`comment_user`}
-        size={50}
-        style={{ width: 50, height: 50, minWidth: 50 }}
-      />
+      <CircleImg imgSrc={comment.userImgSrc} alt={`comment_user`} size={12} />
       <Flex direction={"column"} gap={1}>
         <Flex gap={2}>
           <Text fontWeight={"bold"}>{comment.userName}</Text>

@@ -10,8 +10,16 @@ interface CircleImgProps {
 
 const CircleImg = ({ imgSrc, alt, size, style }: CircleImgProps) => {
   return (
-    <Box borderRadius={"50%"} overflow={"hidden"} style={style}>
-      <Image src={imgSrc} alt={alt} width={size} height={size} />
+    <Box
+      borderRadius={"50%"}
+      overflow={"hidden"}
+      width={size}
+      height={size}
+      minW={size}
+      position={"relative"}
+      style={style}
+    >
+      <Image src={imgSrc} alt={alt} fill />
     </Box>
   );
 };

@@ -16,13 +16,8 @@ export const OthersChat = ({ chat, index, bg }: OthersChatProps) => {
         <CircleImg
           imgSrc={chat.userImgSrc}
           alt="user_img"
-          size={60}
-          style={{
-            marginTop: 8,
-            width: 60,
-            height: 60,
-            minWidth: 60,
-          }}
+          size={16}
+          style={{ top: 8 }}
         />
         <Flex direction={"column"} p={3} borderRadius={"lg"} maxW={400} gap={2}>
           <Text opacity={0.8} fontSize={"md"} pl={1}>

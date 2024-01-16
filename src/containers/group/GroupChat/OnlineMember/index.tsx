@@ -50,7 +50,7 @@ export const OnlineMember = () => {
                     fontSize={28}
                     fill={"primary.500"}
                   />
-                  <CircleImg imgSrc={member.imgSrc} alt="group_img" size={80} />
+                  <CircleImg imgSrc={member.imgSrc} alt="group_img" size={16} />
                   <Text>{member.name}</Text>
                 </Flex>
               );

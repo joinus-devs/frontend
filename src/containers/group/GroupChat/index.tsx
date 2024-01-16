@@ -125,9 +125,9 @@ const GroupChat = ({ group }: GroupChatProps) => {
     <Flex gap={6} p={4}>
       <Flex direction={"column"} flex={2} h={"100%"} gap={8}>
         <Flex alignItems={"center"} gap={4} position={"relative"}>
-          <CircleImg imgSrc={group.imgSrc} alt="group_img" size={150} />
+          <CircleImg imgSrc={group.imgSrc} alt="group_img" size={24} />
           <Flex direction={"column"} gap={2}>
-            <Heading size={"lg"} opacity={0.8}>
+            <Heading size={"lg"} opacity={0.9}>
               {group.name}
             </Heading>
             <Text opacity={0.6}>20 members</Text>
@@ -147,7 +147,9 @@ const GroupChat = ({ group }: GroupChatProps) => {
         </Box>
       </Flex>
       <Flex direction={"column"} flex={1} gap={5}>
-        <Heading>Messages</Heading>
+        <Heading size={"lg"} opacity={0.9}>
+          Messages
+        </Heading>
         <InputWithButton
           placeholder="member name"
           hanldeSubmit={handleSubmit}
