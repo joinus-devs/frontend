@@ -1,39 +1,63 @@
-import { Box, Flex, Text } from "@chakra-ui/react";
+import {
+  Accordion,
+  AccordionButton,
+  AccordionIcon,
+  AccordionItem,
+  AccordionPanel,
+  Flex,
+  Icon,
+  Text,
+} from "@chakra-ui/react";
 import { dummyGroupMember } from "../../GroupMember";
-import Image from "next/image";
+import { CircleImg } from "@/components";
+import { MdOnlinePrediction } from "react-icons/md";
+import { BsFillPersonLinesFill } from "react-icons/bs";
 
 export const OnlineMember = () => {
   return (
-    <Flex
-      h={1200}
-      shadow={"lg"}
-      maxH={1200}
-      overflowY={"auto"}
-      direction={"column"}
-      gap={4}
-      p={4}
-    >
-      {dummyGroupMember.map((member, i) => {
-        return (
-          <Flex
-            alignItems={"center"}
-            h={40}
-            key={`groupmember${i}`}
-            pl={4}
-            gap={4}
-          >
-            <Box borderRadius={"50%"} overflow={"hidden"}>
-              <Image
-                src={member.imgSrc}
-                alt="group_img"
-                width={80}
-                height={80}
-              />
-            </Box>
-            <Text>{member.name}</Text>
+    <Accordion allowToggle>
+      <AccordionItem border={"none"}>
+        <AccordionButton>
+          <Flex alignItems={"center"} gap={4}>
+            <Flex gap={2} justifyContent={"center"} alignItems={"center"}>
+              <Icon as={BsFillPersonLinesFill} fontSize={24} />
+              <Text fontSize={16}>Online</Text>
+            </Flex>
+            <AccordionIcon mt={0.5} />
           </Flex>
-        );
-      })}
-    </Flex>
+        </AccordionButton>
+        <AccordionPanel>
+          <Flex
+            h={1137}
+            shadow={"lg"}
+            maxH={1137}
+            overflowY={"auto"}
+            direction={"column"}
+            gap={4}
+            pl={4}
+            pb={4}
+          >
+            {dummyGroupMember.map((member, i) => {
+              return (
+                <Flex
+                  alignItems={"center"}
+                  h={40}
+                  key={`groupmember${i}`}
+                  gap={4}
+                >
+                  <Icon
+                    as={MdOnlinePrediction}
+                    fontSize={28}
+                    fill={"primary.500"}
+                  />
+                  <CircleImg imgSrc={member.imgSrc} alt="group_img" size={80} />
+                  <Text>{member.name}</Text>
+                </Flex>
+              );
+            })}
+          </Flex>
+        </AccordionPanel>
+      </AccordionItem>
+    </Accordion>
   );
 };

@@ -1,18 +1,23 @@
-import { Box, Button, Flex, Input, Text } from "@chakra-ui/react";
-import Image from "next/image";
+import { Box, Button, Flex, Input } from "@chakra-ui/react";
 import { ChatLogProps } from "..";
 import { FaCheck } from "react-icons/fa6";
 import { Icon } from "@chakra-ui/react";
 import { MyChat } from "./MyChat";
 import { OthersChat } from "./OthersChat";
 import { useBgColor } from "@/hooks";
+import InputWithButton from "@/components/common/InputWithButton";
+import { useCallback } from "react";
 
 interface ChatPanelProps {
   chatLog: ChatLogProps[];
   currentUserId: number;
 }
+
 export const ChatPanel = ({ chatLog, currentUserId }: ChatPanelProps) => {
   const color = useBgColor();
+
+  const handleSubmit = useCallback(() => {}, []);
+
   return (
     <>
       <Box h={1100} overflowY={"auto"} position={"absolute"} top={0} w={"100%"}>
@@ -34,12 +39,19 @@ export const ChatPanel = ({ chatLog, currentUserId }: ChatPanelProps) => {
           })}
         </Flex>
       </Box>
-      <Flex position={"absolute"} bottom={0} w={"100%"} gap={4} p={4}>
-        <Input placeholder="message" size="lg" h={16} bg={color} />
-        <Button h={12} w={12} position={"absolute"} right={4} m={2} zIndex={1}>
-          <Icon as={FaCheck} />
-        </Button>
-      </Flex>
+      <InputWithButton
+        placeholder="message"
+        hanldeSubmit={handleSubmit}
+        icon={FaCheck}
+        boxStyle={{
+          position: "absolute",
+          bottom: 0,
+          width: "100%",
+          padding: 16,
+        }}
+        inputStyle={{ backgroundColor: color }}
+        buttonStyle={{ right: 16 }}
+      />
     </>
   );
 };

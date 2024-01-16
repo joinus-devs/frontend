@@ -1,12 +1,13 @@
-import { Box, Flex, Heading, Input, Text } from "@chakra-ui/react";
+import { Box, Button, Flex, Heading, Input, Text } from "@chakra-ui/react";
 import { GroupFeedProps } from "@/containers/group/GroupFeed";
 import GroupFeedComments from "@/containers/group/GroupFeed/GroupFeedComments";
-import Image from "next/image";
 import { useBgColor } from "@/hooks";
 import { Icon } from "@chakra-ui/react";
-import { FaRegCommentDots } from "react-icons/fa";
+import { FaCheck } from "react-icons/fa";
 import { useCallback, useState } from "react";
-import { IoHeartSharp } from "react-icons/io5";
+import { CircleImg } from "@/components";
+import { LikeCommentCounter } from "./LikeCommentCounter";
+import InputWithButton from "@/components/common/InputWithButton";
 
 interface GroupFeedItemProps {
   props: GroupFeedProps;
@@ -73,6 +74,7 @@ export const GroupFeedItem = ({ props }: GroupFeedItemProps) => {
     setIsComment((prev) => !prev);
   }, []);
 
+  const handleSubmitComment = useCallback(() => {}, []);
   return (
     <Flex
       direction={"column"}
@@ -83,14 +85,7 @@ export const GroupFeedItem = ({ props }: GroupFeedItemProps) => {
       pb={2}
     >
       <Flex gap={4} p={4}>
-        <Box borderRadius={"50%"} overflow={"hidden"}>
-          <Image
-            src={dummyUserData.imgSrc}
-            alt="userImg"
-            width={60}
-            height={60}
-          />
-        </Box>
+        <CircleImg imgSrc={dummyUserData.imgSrc} alt="userImg" size={60} />
         <Flex direction={"column"} gap={1} justifyContent={"end"}>
           <Heading size={"md"}>{dummyUserData.name}</Heading>
           <Box opacity={0.7}>1 month ago</Box>
@@ -99,39 +94,25 @@ export const GroupFeedItem = ({ props }: GroupFeedItemProps) => {
       <Box minH={100} p={4} pl={6}>
         <Text fontSize={"lg"}>{props.content}</Text>
       </Box>
-      <Flex gap={6} fontSize={18} pl={6}>
-        <Flex
-          gap={2}
-          as={"button"}
-          onClick={handleCommentClick}
-          fontWeight={"medium"}
-        >
-          <Icon as={FaRegCommentDots} mt={1} />
-          <Text position={"relative"} bottom={0.5}>
-            {comments.length}
-          </Text>
-        </Flex>
-        <Flex gap={2} as={"button"} fontWeight={"medium"}>
-          <Icon as={IoHeartSharp} mt={1} color={"red"} />
-          <Text position={"relative"} bottom={0.5}>
-            0
-          </Text>
-        </Flex>
-      </Flex>
-      <Flex p={4}>
-        <Box borderRadius={"50%"} overflow={"hidden"}>
-          <Image
-            src={dummyUserData.imgSrc}
-            alt="userImg"
-            width={50}
-            height={50}
-          />
-        </Box>
-        <Input
+      <LikeCommentCounter
+        commentCount={comments.length}
+        likeCount={0}
+        handleCommentClick={handleCommentClick}
+      />
+      <Flex p={4} gap={2}>
+        <CircleImg
+          imgSrc={dummyUserData.imgSrc}
+          alt="userImg"
+          size={60}
+          style={{ width: 60, height: 60, minWidth: 60 }}
+        />
+        <InputWithButton
           placeholder="댓글을 입력하세요."
-          borderRadius={12}
-          ml={4}
-          size={"lg"}
+          hanldeSubmit={handleSubmitComment}
+          icon={FaCheck}
+          boxStyle={{ position: "relative", width: "100%" }}
+          buttonStyle={{ right: 0 }}
+          inputStyle={{ marginLeft: 4 }}
         />
       </Flex>
 

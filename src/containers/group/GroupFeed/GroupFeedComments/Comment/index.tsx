@@ -1,6 +1,6 @@
-import { Box, Flex, Text } from "@chakra-ui/react";
+import { Flex, Text } from "@chakra-ui/react";
 import { FeedCommentProps } from "../../GroupFeedItem";
-import Image from "next/image";
+import { CircleImg } from "@/components";
 
 interface CommentProps {
   comment: FeedCommentProps;
@@ -9,14 +9,12 @@ interface CommentProps {
 export const Comment = ({ comment }: CommentProps) => {
   return (
     <Flex gap={4}>
-      <Box w={50} h={50} minW={50} borderRadius={"50%"} overflow={"hidden"}>
-        <Image
-          src={comment.userImgSrc}
-          width={50}
-          height={50}
-          alt={`comment_user_${comment.id}`}
-        />
-      </Box>
+      <CircleImg
+        imgSrc={comment.userImgSrc}
+        alt={`comment_user`}
+        size={50}
+        style={{ width: 50, height: 50, minWidth: 50 }}
+      />
       <Flex direction={"column"} gap={1}>
         <Flex gap={2}>
           <Text fontWeight={"bold"}>{comment.userName}</Text>

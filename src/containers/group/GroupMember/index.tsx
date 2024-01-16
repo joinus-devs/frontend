@@ -1,5 +1,5 @@
-import { Box, Flex, Grid, GridItem, Text } from "@chakra-ui/react";
-import Image from "next/image";
+import { Box, Flex } from "@chakra-ui/react";
+import { Template } from "./Template";
 
 export const dummyGroupMember = [
   {
@@ -79,27 +79,31 @@ export const dummyGroupMember = [
   },
 ];
 
+const dummyStaffMembers = [
+  {
+    id: 20,
+    name: "김재훈",
+    imgSrc: "/noneUserImg.webp",
+  },
+  {
+    id: 21,
+    name: "이민훈",
+    imgSrc: "/noneUserImg.webp",
+  },
+  {
+    id: 22,
+    name: "윤승휘",
+    imgSrc: "/noneUserImg.webp",
+  },
+];
+
 const GroupMember = () => {
   return (
     <Box minH={800}>
-      <Grid pt={8} pb={8} templateColumns={"repeat(4,1fr)"} rowGap={12}>
-        {dummyGroupMember.map((v) => (
-          <GridItem key={v.id}>
-            <Flex
-              direction={"column"}
-              w={"100%"}
-              justifyContent={"center"}
-              alignItems={"center"}
-              gap={4}
-            >
-              <Box borderRadius={"50%"} overflow={"hidden"}>
-                <Image src={v.imgSrc} alt="userImg" width={120} height={120} />
-              </Box>
-              <Text>{v.name}</Text>
-            </Flex>
-          </GridItem>
-        ))}
-      </Grid>
+      <Flex gap={8} direction={"column"} pt={8}>
+        <Template dummyGroupMember={dummyStaffMembers} header="Staff" />
+        <Template dummyGroupMember={dummyGroupMember} header="User" />
+      </Flex>
     </Box>
   );
 };
