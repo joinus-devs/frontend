@@ -1,3 +1,6 @@
+import { useForm } from "react-hook-form";
+import { useRouter } from "next/router";
+
 import {
   Box,
   Button,
@@ -5,22 +8,21 @@ import {
   FormErrorMessage,
   Input,
   Stack,
+  Center,
 } from "@chakra-ui/react";
-import { useForm } from "react-hook-form";
 
-import { Center } from "@chakra-ui/react";
-
-interface SigninFormValues {
+interface UserData {
   username: string;
   password: string;
 }
 
 const Signin = () => {
+  const router = useRouter();
   const {
     handleSubmit,
     register,
     formState: { errors },
-  } = useForm<SigninFormValues>({
+  } = useForm<UserData>({
     mode: "onSubmit",
     defaultValues: {
       username: "",
@@ -28,7 +30,7 @@ const Signin = () => {
     },
   });
 
-  const onSubmit = (values: SigninFormValues) => {
+  const onSubmit = (values: UserData) => {
     alert("환영합니다!");
   };
 
@@ -37,7 +39,7 @@ const Signin = () => {
       <Center bg="white" mt={70} h="100px" color="#25D366" fontSize={"3rem"}>
         <p>JoinUs</p>
       </Center>
-      <Box maxW="md" mx="auto" mt={2} p={6} borderWidth={1} borderRadius="md">
+      <Box maxW="sm" mx="auto" mt={2} p={6} borderWidth={1} borderRadius="md">
         <form onSubmit={handleSubmit(onSubmit)}>
           <FormControl isInvalid={!!errors.username}>
             <Input
@@ -94,7 +96,7 @@ const Signin = () => {
             variant="ghost"
             color="gray"
             _hover={{ bg: "white" }}
-            onClick={() => console.log("회원가입")}
+            onClick={() => router.push("/register")}
           >
             회원가입
           </Button>
