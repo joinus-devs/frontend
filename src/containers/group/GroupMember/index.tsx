@@ -1,6 +1,7 @@
 import { Box, Flex, Grid, GridItem, Text } from "@chakra-ui/react";
 import Image from "next/image";
-const dummyGroupMember = [
+
+export const dummyGroupMember = [
   {
     id: 1,
     name: "윤승휘",
@@ -57,11 +58,6 @@ const dummyGroupMember = [
     imgSrc: "/noneUserImg.webp",
   },
   {
-    id: 5,
-    name: "김민수",
-    imgSrc: "/noneUserImg.webp",
-  },
-  {
     id: 1,
     name: "윤승휘",
     imgSrc: "/noneUserImg.webp",
@@ -78,36 +74,6 @@ const dummyGroupMember = [
   },
   {
     id: 4,
-    name: "김민수",
-    imgSrc: "/noneUserImg.webp",
-  },
-  {
-    id: 5,
-    name: "김민수",
-    imgSrc: "/noneUserImg.webp",
-  },
-  {
-    id: 5,
-    name: "김민수",
-    imgSrc: "/noneUserImg.webp",
-  },
-  {
-    id: 3,
-    name: "김민수",
-    imgSrc: "/noneUserImg.webp",
-  },
-  {
-    id: 4,
-    name: "김민수",
-    imgSrc: "/noneUserImg.webp",
-  },
-  {
-    id: 5,
-    name: "김민수",
-    imgSrc: "/noneUserImg.webp",
-  },
-  {
-    id: 5,
     name: "김민수",
     imgSrc: "/noneUserImg.webp",
   },
@@ -115,7 +81,7 @@ const dummyGroupMember = [
 
 const GroupMember = () => {
   return (
-    <Box borderRadius={12} overflow={"hidden"} shadow={"lg"}>
+    <Box minH={800}>
       <Grid pt={8} pb={8} templateColumns={"repeat(4,1fr)"} rowGap={12}>
         {dummyGroupMember.map((v) => (
           <GridItem key={v.id}>

@@ -1,4 +1,4 @@
-import { GroupDetailProps } from "@/pages/group/[id]";
+import { GroupProps } from "@/pages/group/[id]";
 import { Box, Flex } from "@chakra-ui/react";
 import Image from "next/image";
 import GroupNav from "../GroupNav";
@@ -6,7 +6,10 @@ import { DynamicRender } from "./DynamicRender";
 import { useState } from "react";
 import GroupDescription from "../GroupDescription";
 
-const GroupInfo = ({ group }: GroupDetailProps) => {
+interface GroupInfoProps {
+  group: GroupProps;
+}
+const GroupInfo = ({ group }: GroupInfoProps) => {
   const [navItem, setNavItem] = useState<string>("Home");
 
   return (
@@ -32,14 +35,14 @@ const GroupInfo = ({ group }: GroupDetailProps) => {
         <Image
           src={group.imgSrc}
           alt="groupImg"
-          layout="fill"
-          objectFit="cover"
+          fill
+          style={{ objectFit: "cover" }}
         />
       </Box>
       <GroupDescription />
-      <GroupNav selected={navItem} setSelected={setNavItem} />
+      <GroupNav setSelected={setNavItem} />
       <Box flex={2} mt={8}>
-        <DynamicRender selected={navItem} />
+        <DynamicRender selected={navItem} group={group} />
       </Box>
     </Flex>
   );

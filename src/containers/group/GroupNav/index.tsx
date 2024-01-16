@@ -3,30 +3,29 @@ import { Box, Flex, Tab, TabList, Tabs } from "@chakra-ui/react";
 import { useCallback } from "react";
 
 interface GroupNavProps {
-  selected: string;
   setSelected: React.Dispatch<React.SetStateAction<string>>;
 }
-const GroupNav = ({ selected, setSelected }: GroupNavProps) => {
+const GroupNav = ({ setSelected }: GroupNavProps) => {
   const handleClickNavItem = useCallback(
     (v: string) => {
       setSelected(v);
     },
     [setSelected]
   );
+
   return (
     <Flex>
-      <Box borderBottomWidth={1} w={4} />
-      <Tabs variant={"enclosed"} flex={1}>
+      <Box borderBottomWidth={1} w={4} position={"relative"} top={"1px"} />
+      <Tabs variant={"enclosed"} flex={1} size={"md"}>
         <TabList>
           {groupNavItems.map((v, i) => {
             return (
               <Tab
-                key={`group_nav_${i}`}
+                key={`groupnav_${i}`}
                 fontWeight={"bold"}
                 fontSize={"lg"}
                 onClick={() => handleClickNavItem(v)}
                 as={"button"}
-                mb={"-1px"}
               >
                 {v}
               </Tab>

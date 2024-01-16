@@ -1,9 +1,9 @@
 import { Box, Flex, Text } from "@chakra-ui/react";
-import { pidCommentProps } from "../../GroupFeedItem";
+import { FeedCommentProps } from "../../GroupFeedItem";
 import Image from "next/image";
 
 interface CommentProps {
-  comment: pidCommentProps;
+  comment: FeedCommentProps;
 }
 
 export const Comment = ({ comment }: CommentProps) => {

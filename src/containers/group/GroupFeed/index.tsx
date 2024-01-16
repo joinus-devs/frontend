@@ -1,7 +1,7 @@
 import { Box, Flex } from "@chakra-ui/react";
-import { GroupPidItem } from "./GroupFeedItem";
+import { GroupFeedItem } from "./GroupFeedItem";
 
-export interface GroupPidProps {
+export interface GroupFeedProps {
   id: number;
   groupId: number;
   userId: number;
@@ -9,7 +9,7 @@ export interface GroupPidProps {
   createdAt: string;
 }
 
-const dummyData: GroupPidProps[] = [
+const dummyData: GroupFeedProps[] = [
   {
     id: 0,
     groupId: 1,
@@ -52,7 +52,7 @@ const GroupFeed = () => {
     <Box>
       <Flex direction={"column"} gap={4} p={4}>
         {dummyData.map((data, index) => (
-          <GroupPidItem props={data} key={`pid_${index}`} />
+          <GroupFeedItem props={data} key={`feed_${index}`} />
         ))}
       </Flex>
     </Box>

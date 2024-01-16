@@ -1,19 +1,18 @@
 import { Box, Flex, Heading, Input, Text } from "@chakra-ui/react";
-import { GroupPidProps } from "@/containers/group/GroupFeed";
-import GroupPidComments from "@/containers/group/GroupFeed/GroupFeedComments";
+import { GroupFeedProps } from "@/containers/group/GroupFeed";
+import GroupFeedComments from "@/containers/group/GroupFeed/GroupFeedComments";
 import Image from "next/image";
 import { useBgColor } from "@/hooks";
 import { Icon } from "@chakra-ui/react";
 import { FaRegCommentDots } from "react-icons/fa";
 import { useCallback, useState } from "react";
-import { IoMdHeartEmpty } from "react-icons/io";
 import { IoHeartSharp } from "react-icons/io5";
 
-interface GroupPidItemProps {
-  props: GroupPidProps;
+interface GroupFeedItemProps {
+  props: GroupFeedProps;
 }
 
-export interface pidCommentProps extends userDataProps {
+export interface FeedCommentProps extends UserDataProps {
   id: number;
   postId: number;
   userId: number;
@@ -21,7 +20,7 @@ export interface pidCommentProps extends userDataProps {
   createdAt: string;
 }
 
-interface userDataProps {
+interface UserDataProps {
   userName: string;
   userImgSrc: string;
 }
@@ -32,7 +31,7 @@ export const dummyUserData = {
   imgSrc: "/noneUserImg.webp",
 };
 
-const dummyCommentData: pidCommentProps[] = [
+const dummyCommentData: FeedCommentProps[] = [
   {
     id: 0,
     postId: 1,
@@ -63,9 +62,9 @@ const dummyCommentData: pidCommentProps[] = [
   },
 ];
 
-export const GroupPidItem = ({ props }: GroupPidItemProps) => {
+export const GroupFeedItem = ({ props }: GroupFeedItemProps) => {
   const [isComment, setIsComment] = useState(false);
-  //props의 GroupPid 의 userId를 통해 user의 정보를 가져옵니다.
+  //props의 GroupFeed 의 userId를 통해 user의 정보를 가져옵니다.
 
   const bgColor = useBgColor();
   const comments = dummyCommentData.filter((v) => v.postId === props.id);
@@ -137,7 +136,7 @@ export const GroupPidItem = ({ props }: GroupPidItemProps) => {
       </Flex>
 
       {isComment && comments.length ? (
-        <GroupPidComments comments={comments} />
+        <GroupFeedComments comments={comments} />
       ) : (
         ""
       )}
