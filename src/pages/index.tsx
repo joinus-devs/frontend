@@ -2,7 +2,8 @@ import { DefaultLayout } from "@/components";
 import { Button } from "@chakra-ui/react";
 import Head from "next/head";
 
-import { useSession, signOut } from "next-auth/react";
+import { useMutation } from "@tanstack/react-query";
+import { signOut, useSession } from "next-auth/react";
 
 export default function Home() {
   const { data: session } = useSession();
@@ -10,6 +11,19 @@ export default function Home() {
   if (session) {
     console.log(session.user?.name);
   }
+
+  const { mutate } = useMutation({
+    mutationFn: () => {
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          reject("hello");
+        }, 1000);
+      });
+    },
+    onSuccess: (data) => {
+      console.log("success2");
+    },
+  });
 
   return (
     <>
@@ -26,7 +40,7 @@ export default function Home() {
             Signed in as <button onClick={() => signOut()}>로그아웃</button>
           </>
         )}
-        <Button>Hello, World</Button>
+        <Button onClick={() => mutate()}>Hello, World</Button>
         <Button variant={"ghost"}>Hello, World</Button>
         <Button variant={"outline"}>Hello, World</Button>
       </DefaultLayout>
