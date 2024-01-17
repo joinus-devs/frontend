@@ -1,18 +1,16 @@
-import { useForm } from "react-hook-form";
-import { useRouter } from "next/navigation";
-
-import GenderSelection from "@/components/GenderSelection";
-
+import { GenderSelection } from "@/components";
 import {
   Box,
   Button,
+  Center,
   FormControl,
   FormErrorMessage,
-  Input,
-  Center,
-  useRadioGroup,
   HStack,
+  Input,
+  useRadioGroup,
 } from "@chakra-ui/react";
+import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
 
 interface UserData {
   username: string;

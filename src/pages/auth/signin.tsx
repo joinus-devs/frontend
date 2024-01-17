@@ -1,18 +1,15 @@
-import { useForm } from "react-hook-form";
-import { useRouter } from "next/router";
-
-import SocialLoginButton from "@/components/SocialLoginButton";
-
+import { SocialLoginButtons } from "@/containers";
 import {
   Box,
   Button,
+  Center,
   FormControl,
   FormErrorMessage,
   Input,
   Stack,
-  Center,
-  HStack,
 } from "@chakra-ui/react";
+import { useRouter } from "next/router";
+import { useForm } from "react-hook-form";
 
 interface UserData {
   username: string;
@@ -113,7 +110,7 @@ const Signin = () => {
 
       {/* <Center mt={4}>
         <HStack> */}
-      <SocialLoginButton />
+      <SocialLoginButtons />
       {/* </HStack>
       </Center> */}
     </>
