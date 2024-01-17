@@ -10,3 +10,5 @@ export const groupCategory = [
 ];
 
 export const groupMaxParticipants = [10, 20, 30, 40, 50];
+
+export const groupNavItems = ["Home", "Member", "Messenger", "Notice"];
