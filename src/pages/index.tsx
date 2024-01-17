@@ -2,7 +2,15 @@ import { DefaultLayout } from "@/components";
 import { Button } from "@chakra-ui/react";
 import Head from "next/head";
 
+import { useSession, signOut } from "next-auth/react";
+
 export default function Home() {
+  const { data: session } = useSession();
+
+  if (session) {
+    console.log(session.user?.name);
+  }
+
   return (
     <>
       <Head>
@@ -12,6 +20,12 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <DefaultLayout>
+        {!session && <>Not signed in</>}
+        {session && (
+          <>
+            Signed in as <button onClick={() => signOut()}>로그아웃</button>
+          </>
+        )}
         <Button>Hello, World</Button>
         <Button variant={"ghost"}>Hello, World</Button>
         <Button variant={"outline"}>Hello, World</Button>

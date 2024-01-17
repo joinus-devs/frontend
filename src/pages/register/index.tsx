@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 
-import GenderSelection from "./GenderSelection";
+import GenderSelection from "@/components/GenderSelection";
 
 import {
   Box,

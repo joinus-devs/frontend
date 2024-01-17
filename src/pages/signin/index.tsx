@@ -1,6 +1,8 @@
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/router";
 
+import SocialLoginButton from "@/components/SocialLoginButton";
+
 import {
   Box,
   Button,
@@ -9,6 +11,7 @@ import {
   Input,
   Stack,
   Center,
+  HStack,
 } from "@chakra-ui/react";
 
 interface UserData {
@@ -74,6 +77,7 @@ const Signin = () => {
           </Button>
         </form>
       </Box>
+
       <Center mt={4}>
         <Stack direction="row" spacing={2}>
           <Button
@@ -102,6 +106,16 @@ const Signin = () => {
           </Button>
         </Stack>
       </Center>
+
+      <Center color="gray" mt={4}>
+        소셜 계정으로 간편 로그인
+      </Center>
+
+      {/* <Center mt={4}>
+        <HStack> */}
+      <SocialLoginButton />
+      {/* </HStack>
+      </Center> */}
     </>
   );
 };
