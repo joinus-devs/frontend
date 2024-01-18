@@ -66,8 +66,6 @@ const CreateGroup = () => {
       </Head>
       <DefaultLayout>
         <Flex
-          mt={12}
-          mb={20}
           position={"relative"}
           boxShadow={"lg"}
           w={"100%"}

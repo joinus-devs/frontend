@@ -17,8 +17,6 @@ const GroupInfo = ({ group }: GroupInfoProps) => {
       direction={"column"}
       w={"100%"}
       minH={1400}
-      mt={8}
-      pb={8}
       borderTopRightRadius={"lg"}
       borderTopLeftRadius={"lg"}
       overflow={"hidden"}

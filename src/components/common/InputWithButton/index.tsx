@@ -8,6 +8,7 @@ interface InputWithButtonProps {
   boxStyle?: React.CSSProperties;
   inputStyle?: React.CSSProperties;
   buttonStyle?: React.CSSProperties;
+  iconStyle?: React.CSSProperties;
 }
 
 const InputWithButton = ({
@@ -17,6 +18,7 @@ const InputWithButton = ({
   boxStyle,
   inputStyle,
   buttonStyle,
+  iconStyle,
 }: InputWithButtonProps) => {
   return (
     <Flex as={"form"} style={boxStyle} onSubmit={hanldeSubmit}>
@@ -31,7 +33,7 @@ const InputWithButton = ({
         zIndex={1}
         style={buttonStyle}
       >
-        <Icon as={icon} />
+        <Icon as={icon} style={iconStyle} />
       </Button>
     </Flex>
   );
