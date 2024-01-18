@@ -8,13 +8,19 @@ interface DefaultLayoutProps {
 
 const DefaultLayout = ({ children }: DefaultLayoutProps) => {
   return (
-    <Flex justify={"center"}>
-      <Flex w={{ base: "100%", xl: "1280px" }} direction={"column"}>
-        <DefaultLayoutHeader />
-        <Box as={"main"}>{children}</Box>
-        <DefaultLayoutFooter />
+    <>
+      <DefaultLayoutHeader />
+      <Flex justify={"center"}>
+        <Flex
+          w={{ base: "100%", xl: "1280px" }}
+          direction={"column"}
+          mt={"100px"}
+        >
+          <Box as={"main"}>{children}</Box>
+        </Flex>
       </Flex>
-    </Flex>
+      <DefaultLayoutFooter />
+    </>
   );
 };
 
