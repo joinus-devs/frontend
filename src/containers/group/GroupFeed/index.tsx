@@ -50,7 +50,7 @@ const dummyData: GroupFeedProps[] = [
 const GroupFeed = () => {
   return (
     <Box>
-      <Flex direction={"column"} gap={4} p={4}>
+      <Flex direction={"column"} gap={4} p={4} pb={8}>
         {dummyData.map((data, index) => (
           <GroupFeedItem props={data} key={`feed_${index}`} />
         ))}

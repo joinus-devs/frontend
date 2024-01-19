@@ -4,7 +4,7 @@ import { FaRegUser } from "react-icons/fa";
 export const LoginStatusIcon = () => {
   return (
     <>
-      <Tooltip label="mypage">
+      <Tooltip label="my page">
         <Flex
           fontSize={20}
           w={10}

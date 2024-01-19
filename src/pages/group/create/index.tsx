@@ -71,6 +71,7 @@ const CreateGroup = () => {
           w={"100%"}
           as={"form"}
           onSubmit={handleSubmit(onSubmit)}
+          mb={8}
         >
           <Box
             zIndex={0}

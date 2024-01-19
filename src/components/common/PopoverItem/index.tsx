@@ -34,7 +34,7 @@ const PopoverItem = ({ head, children, contentBoxStyle }: PopoverItemProps) => {
           />
         </Flex>
       </PopoverTrigger>
-      <PopoverContent mt={"1.25rem"} style={contentBoxStyle}>
+      <PopoverContent mt={"1rem"} style={contentBoxStyle}>
         {children}
       </PopoverContent>
     </Popover>
