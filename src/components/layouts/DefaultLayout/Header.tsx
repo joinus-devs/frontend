@@ -1,5 +1,4 @@
 import { Box } from "@chakra-ui/react";
-
 import { useBgColor } from "@/hooks";
 import { Navbar } from "@/containers";
 

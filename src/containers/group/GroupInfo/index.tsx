@@ -13,16 +13,7 @@ const GroupInfo = ({ group }: GroupInfoProps) => {
   const [navItem, setNavItem] = useState<string>("Home");
 
   return (
-    <Flex
-      direction={"column"}
-      w={"100%"}
-      minH={1400}
-      borderTopRightRadius={"lg"}
-      borderTopLeftRadius={"lg"}
-      overflow={"hidden"}
-      borderRightWidth={"1px"}
-      borderLeftWidth={"1px"}
-    >
+    <Flex direction={"column"} w={"100%"} minH={1400}>
       <Box
         w={"100%"}
         h={300}
@@ -39,8 +30,15 @@ const GroupInfo = ({ group }: GroupInfoProps) => {
       </Box>
       <GroupDescription />
       <GroupNav setSelected={setNavItem} />
-      <Box flex={2} mt={8}>
-        <DynamicRender selected={navItem} group={group} />
+      <Box
+        flex={2}
+        overflow={"hidden"}
+        borderRightWidth={"1px"}
+        borderLeftWidth={"1px"}
+      >
+        <Box mt={8} mb={8} ml={2} mr={2}>
+          <DynamicRender selected={navItem} group={group} />
+        </Box>
       </Box>
     </Flex>
   );

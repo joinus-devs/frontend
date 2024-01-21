@@ -2,7 +2,7 @@ import { PopoverItem } from "@/components";
 import { ApiRoutes, navs, supportNavs } from "@/constants";
 import { Flex, Heading, Box } from "@chakra-ui/react";
 import router from "next/router";
-import { IconBox } from "..";
+import { LoginIconBox } from "@/containers";
 
 const Navbar = () => {
   return (
@@ -61,7 +61,7 @@ const Navbar = () => {
             </PopoverItem>
           </Box>
         </Flex>
-        <IconBox />
+        <LoginIconBox />
       </Flex>
     </Box>
   );

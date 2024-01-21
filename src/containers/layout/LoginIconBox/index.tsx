@@ -4,7 +4,7 @@ import { FiMoon } from "react-icons/fi";
 import { FaSun } from "react-icons/fa";
 import { LoginStatusIcon } from "./LoginStatusIcon";
 
-const IconBox = () => {
+const LoginIconBox = () => {
   const { colorMode, toggleColorMode } = useColorMode();
   return (
     <Flex gap={2} alignItems={"center"}>
@@ -27,4 +27,4 @@ const IconBox = () => {
   );
 };
 
-export default IconBox;
+export default LoginIconBox;
