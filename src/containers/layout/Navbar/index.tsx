@@ -1,8 +1,9 @@
 import { PopoverItem } from "@/components";
 import { ApiRoutes, navs, supportNavs } from "@/constants";
-import { Flex, Heading, Box } from "@chakra-ui/react";
+import { Flex, Heading, Box, useColorMode } from "@chakra-ui/react";
 import router from "next/router";
 import { LoginIconBox } from "@/containers";
+import Image from "next/image";
 
 const Navbar = () => {
   return (
@@ -21,8 +22,11 @@ const Navbar = () => {
             as="button"
             fontSize={"lg"}
             fontWeight={"medium"}
+            position={"relative"}
+            width={"100px"}
+            h={"40px"}
           >
-            Logo
+            <Image src="/logo.png" alt="logo" fill />
           </Box>
           {navs.map((nav, i) => {
             return (
