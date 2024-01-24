@@ -9,7 +9,7 @@ const SocialLoginButtons = () => {
     <Center mt={6}>
       <HStack spacing={7}>
         <NaverLoginButton
-          onClick={() => signIn("naver", { callbackUrl: "/" })}
+          onClick={() => signIn("naver", { redirect: true, callbackUrl: "/" })}
         />
 
         <KakaoLoginButton

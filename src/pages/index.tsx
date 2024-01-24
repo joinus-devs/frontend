@@ -9,7 +9,7 @@ export default function Home() {
   const { data: session } = useSession();
 
   if (session) {
-    console.log(session.user?.name);
+    console.log(session.user);
   }
 
   const { mutate } = useMutation({
@@ -40,6 +40,7 @@ export default function Home() {
             Signed in as <button onClick={() => signOut()}>로그아웃</button>
           </>
         )}
+        {session && <p>{session.user?.name}님 반갑습니다</p>}
         <Button onClick={() => mutate()}>Hello, World</Button>
         <Button variant={"ghost"}>Hello, World</Button>
         <Button variant={"outline"}>Hello, World</Button>

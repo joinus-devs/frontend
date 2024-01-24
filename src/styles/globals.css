@@ -22,3 +22,27 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: #2d3748;
 }
+
+.ql-container {
+  box-sizing: border-box;
+  border: none !important;
+}
+
+.ql-toolbar.ql-snow {
+  border: none !important;
+}
+
+.quill > .ql-container > .ql-editor.ql-blank::before {
+  font-size: 15px;
+  font-style: normal;
+  color: gray;
+}
+
+.ql-editor {
+  overflow-y: scroll;
+  resize: vertical;
+}
+
+.ql-editor {
+  min-height: 40em;
+}
