@@ -3,7 +3,7 @@ import QuillEditor from "@/containers/post/Quill";
 import { Button, Flex, Input, Text } from "@chakra-ui/react";
 import Head from "next/head";
 import { useRef } from "react";
-import { Controller, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import ReactQuill from "react-quill";
 
 export interface PostData {
@@ -17,7 +17,6 @@ const CreatePost = () => {
     register,
     handleSubmit,
     formState: { errors },
-    control,
   } = useForm<PostData>({
     mode: "onChange",
     defaultValues: {
@@ -66,15 +65,7 @@ const CreatePost = () => {
             mt={4}
             mb={4}
           />
-          {/* <QuillEditor /> */}
-          <Controller
-            name="content"
-            control={control}
-            defaultValue="zxc"
-            render={({ field: { value } }) => (
-              <QuillEditor forwardedRef={ref} value={value} />
-            )}
-          />
+          <QuillEditor forwardedRef={ref} defaultValue={""} />
         </form>
       </DefaultLayout>
     </>

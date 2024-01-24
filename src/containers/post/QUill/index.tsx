@@ -55,7 +55,7 @@ const formats = [
 ];
 
 interface QuillEditorProps {
-  value: string;
+  defaultValue: string;
 }
 
 const QuillEditor = dynamic(
@@ -67,12 +67,12 @@ const QuillEditor = dynamic(
         forwardedRef: React.ForwardedRef<ReactQuill>;
       }
     ) => {
-      const { forwardedRef, value } = props;
+      const { forwardedRef, defaultValue } = props;
 
       return (
         <RQ
           ref={forwardedRef}
-          defaultValue={value || ""}
+          defaultValue={defaultValue || ""}
           modules={modules}
           formats={formats}
           theme="snow"
