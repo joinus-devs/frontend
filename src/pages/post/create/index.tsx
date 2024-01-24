@@ -1,16 +1,32 @@
 import { DefaultLayout } from "@/components";
+import { Button, Flex, Input, Text } from "@chakra-ui/react";
 import Head from "next/head";
-import { Text, Flex, Button, Input } from "@chakra-ui/react";
-import { useForm, Controller } from "react-hook-form";
-import QuillEditor from "@/containers/post/QUill";
-import { useEffect } from "react";
+import { Controller, useForm } from "react-hook-form";
+// import QuillEditor from "@/containers/post/QUill";
+import dynamic from "next/dynamic";
+import { ForwardedRef, forwardRef, useEffect, useRef } from "react";
+import ReactQuill from "react-quill";
+import { QuillEditorProps } from "@/containers/post/QUill";
 
 export interface PostData {
   title: string;
   content: string;
 }
 
+const ReactQuillEditor = dynamic(() => import("@/containers/post/QUill"), {
+  ssr: false,
+  loading: () => <p>Loading ...</p>,
+});
+
+const ForwardedEditor = forwardRef(
+  (props: QuillEditorProps, forwardedRef: ForwardedRef<ReactQuill>) => {
+    return <ReactQuillEditor {...props} />;
+  }
+);
+ForwardedEditor.displayName = "ForwardedEditor";
+
 const CreatePost = () => {
+  const ref = useRef<ReactQuill>(null);
   const {
     register,
     handleSubmit,
@@ -27,12 +43,8 @@ const CreatePost = () => {
   });
 
   // useEffect(() => {
-  //   register("content", { required: true });
-  // }, [register]);
-
-  // const onEditorStateChange = (editorState: string) => {
-  //   setValue("content", editorState);
-  // };
+  //   console.log(ref.current.value);
+  // }, []);
 
   // const editorContent = watch("content");
 
@@ -62,6 +74,9 @@ const CreatePost = () => {
               게시글 작성
             </Text>
             <Button
+              onClick={() => {
+                console.log(ref.current?.value);
+              }}
               mt={4}
               color="green.400"
               type="submit"
@@ -88,7 +103,7 @@ const CreatePost = () => {
             control={control}
             defaultValue="zxc"
             render={({ field: { value, onChange } }) => (
-              <QuillEditor value={value} onChange={onChange} />
+              <ForwardedEditor ref={ref} value={value} onSubmit={onChange} />
             )}
           />
         </form>

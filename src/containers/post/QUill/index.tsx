@@ -1,21 +1,23 @@
 import dynamic from "next/dynamic";
-import { useEffect, useMemo, useState } from "react";
+import {
+  ComponentType,
+  forwardRef,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { UseFormRegister, FieldValues } from "react-hook-form";
+import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 
-interface QuillEditorProps {
-  // register: UseFormRegister<FieldValues>;
-  // name: string;
+export interface QuillEditorProps {
   value: string;
-  onChange: (value: string) => void;
+  onSubmit: (value: string) => void;
 }
 
-// const QuillEditor = (props: QuillEditorProps) => {
-const QuillEditor = ({ value, onChange }: QuillEditorProps) => {
-  const ReactQuill = dynamic(() => import("react-quill"), {
-    ssr: false,
-    loading: () => <p>Loading ...</p>,
-  });
+const QuillEditor = ({ value, onSubmit }: QuillEditorProps) => {
+  // const ref = useRef<ReactQuill>(null);
 
   const modules = useMemo(
     () => ({
@@ -74,8 +76,8 @@ const QuillEditor = ({ value, onChange }: QuillEditorProps) => {
   return (
     <>
       <ReactQuill
-        value={value}
-        onChange={(content) => onChange(content)}
+        // ref={forwardedRef}
+        defaultValue={value || ""}
         modules={modules}
         formats={formats}
         theme="snow"
