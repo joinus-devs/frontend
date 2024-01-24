@@ -10,16 +10,22 @@ import { useState } from "react";
 import { IoIosArrowDown } from "react-icons/io";
 
 interface PopoverItemProps {
+  trigger: "hover" | "click";
   head: string;
   children?: React.ReactNode;
   contentBoxStyle?: React.CSSProperties;
 }
 
-const PopoverItem = ({ head, children, contentBoxStyle }: PopoverItemProps) => {
+const PopoverItem = ({
+  trigger,
+  head,
+  children,
+  contentBoxStyle,
+}: PopoverItemProps) => {
   const [isFocus, setIsFocus] = useState(false);
   return (
     <Popover
-      trigger={"hover"}
+      trigger={trigger}
       onOpen={() => setIsFocus(true)}
       onClose={() => setIsFocus(false)}
     >

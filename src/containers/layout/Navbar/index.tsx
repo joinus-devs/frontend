@@ -1,6 +1,6 @@
 import { PopoverItem } from "@/components";
 import { ApiRoutes, navs, supportNavs } from "@/constants";
-import { Flex, Heading, Box, useColorMode } from "@chakra-ui/react";
+import { Flex, Heading, Box } from "@chakra-ui/react";
 import router from "next/router";
 import { LoginIconBox } from "@/containers";
 import Image from "next/image";
@@ -25,6 +25,7 @@ const Navbar = () => {
             position={"relative"}
             width={"100px"}
             h={"40px"}
+            mt={2}
           >
             <Image src="/logo.png" alt="logo" fill />
           </Box>
@@ -50,6 +51,7 @@ const Navbar = () => {
             onClick={() => router.push(ApiRoutes.Support)}
           >
             <PopoverItem
+              trigger="hover"
               head={"Support"}
               contentBoxStyle={{ width: 150, textAlign: "center" }}
             >

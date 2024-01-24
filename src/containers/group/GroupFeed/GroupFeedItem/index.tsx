@@ -1,13 +1,13 @@
-import { Box, Button, Flex, Heading, Input, Text } from "@chakra-ui/react";
+import { CircleImg } from "@/components";
+import InputWithButton from "@/components/common/InputWithButton";
 import { GroupFeedProps } from "@/containers/group/GroupFeed";
 import GroupFeedComments from "@/containers/group/GroupFeed/GroupFeedComments";
 import { useBgColor } from "@/hooks";
-import { Icon } from "@chakra-ui/react";
-import { FaCheck } from "react-icons/fa";
+import { Box, Flex, Heading, Text } from "@chakra-ui/react";
 import { useCallback, useState } from "react";
-import { CircleImg } from "@/components";
+import { FaCheck } from "react-icons/fa";
 import { LikeCommentCounter } from "./LikeCommentCounter";
-import InputWithButton from "@/components/common/InputWithButton";
+import { ModifyIcon } from "./ModifyIcon";
 
 interface GroupFeedItemProps {
   props: GroupFeedProps;
@@ -75,6 +75,12 @@ export const GroupFeedItem = ({ props }: GroupFeedItemProps) => {
   }, []);
 
   const handleSubmitComment = useCallback(() => {}, []);
+
+  //currentUser의 id와 feed의 글쓴이id의 비교를 통해 같다면 수정,삭제를위한 아이콘을 제공합니다.
+  const currentUser = {
+    id: 1,
+  };
+
   return (
     <Flex
       direction={"column"}
@@ -83,7 +89,8 @@ export const GroupFeedItem = ({ props }: GroupFeedItemProps) => {
       shadow={"lg"}
       pb={2}
     >
-      <Flex gap={4} p={4}>
+      <Flex gap={4} p={4} position={"relative"}>
+        {currentUser.id === props.userId && <ModifyIcon />}
         <CircleImg imgSrc={dummyUserData.imgSrc} alt="userImg" size={16} />
         <Flex direction={"column"} gap={1} justifyContent={"end"}>
           <Heading size={"md"}>{dummyUserData.name}</Heading>

@@ -9,11 +9,11 @@ interface DynamicRenderProps {
 export const DynamicRender = ({ selected, group }: DynamicRenderProps) => {
   switch (selected) {
     case "Home":
-      return <GroupFeed />;
+      return <GroupChat group={group} />;
     case "Member":
       return <GroupMember />;
-    case "Messenger":
-      return <GroupChat group={group} />;
+    case "Feed":
+      return <GroupFeed />;
     case "Notice":
       return <GroupNotice />;
   }

@@ -7,3 +7,4 @@ export { default as GroupFeed } from "./GroupFeed";
 export { default as GroupDescription } from "./GroupDescription";
 export { default as GroupChat } from "./GroupChat";
 export { default as GroupNotice } from "./GroupNotice";
+export { default as CustomBtn } from "./CustomBtn";

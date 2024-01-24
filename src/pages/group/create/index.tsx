@@ -1,5 +1,5 @@
 import { DefaultLayout } from "@/components";
-import { SetGroup, SetGroupOptions } from "@/containers";
+import { CustomBtn, SetGroup, SetGroupOptions } from "@/containers";
 import { Box, Button, Container, Flex, Heading } from "@chakra-ui/react";
 import Head from "next/head";
 import { useForm } from "react-hook-form";
@@ -33,15 +33,6 @@ const bgColorAnimation = keyframes`
   to {
     width:85%;
     height:100%;
-  }
-`;
-
-const btnAnimation = keyframes`
-  from {
-    opacity:0;
-  }
-  to {
-    opacity:1;
   }
 `;
 
@@ -109,21 +100,8 @@ const CreateGroup = () => {
               <Box>새로운 경험을 만들어 보세요.</Box>
             </Flex>
             <Flex gap={8}>
-              <Button
-                fontSize={24}
-                p={8}
-                animation={`${btnAnimation} 1s ease-in-out`}
-              >
-                돌아가기
-              </Button>
-              <Button
-                type="submit"
-                fontSize={24}
-                p={8}
-                animation={`${btnAnimation} 1s ease-in-out`}
-              >
-                생성하기
-              </Button>
+              <CustomBtn text="돌아가기" onClick={() => {}} />
+              <CustomBtn text="생성하기" type="submit" onClick={() => {}} />
             </Flex>
           </Flex>
           <Container

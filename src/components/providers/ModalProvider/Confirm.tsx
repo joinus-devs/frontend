@@ -30,9 +30,7 @@ const Confirm = () => {
           <Button mr={3} onClick={closeConfirm}>
             Close
           </Button>
-          <Button variant="ghost" onClick={handleConfirm}>
-            Confirm
-          </Button>
+          <Button onClick={handleConfirm}>Confirm</Button>
         </ModalFooter>
       </ModalContent>
     </Modal>
