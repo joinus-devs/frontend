@@ -1,5 +1,5 @@
 import { GroupProps } from "@/pages/group/[id]";
-import { Box, Flex, Heading, Icon, Text } from "@chakra-ui/react";
+import { Box, Collapse, Flex, Heading, Icon, Text } from "@chakra-ui/react";
 import Image from "next/image";
 import { OnlineMember } from "./OnlineMember";
 import { ChatPanel } from "./ChatPanel";
@@ -118,6 +118,7 @@ const dummyChatLog: ChatLogProps[] = [
 const GroupChat = ({ group }: GroupChatProps) => {
   const [bgImg, setBgImg] = useState<number>(0);
   const [viewOnlineMember, setViewOnlineMember] = useState<boolean>(false);
+
   const handleSubmit = useCallback(() => {}, []);
 
   const currentUserId = 1;
@@ -162,15 +163,8 @@ const GroupChat = ({ group }: GroupChatProps) => {
           <ChatPanel chatLog={dummyChatLog} currentUserId={currentUserId} />
         </Box>
       </Flex>
-      {viewOnlineMember && (
-        <Flex
-          direction={"column"}
-          flex={1}
-          gap={5}
-          style={{
-            transition: "transform 0.8s ease-in-out",
-          }}
-        >
+      <Box as={Collapse} in={viewOnlineMember} flex={1} animateOpacity>
+        <Flex direction={"column"} gap={5}>
           <Heading size={"lg"} opacity={0.9}>
             Messages
           </Heading>
@@ -183,7 +177,7 @@ const GroupChat = ({ group }: GroupChatProps) => {
           />
           <OnlineMember />
         </Flex>
-      )}
+      </Box>
     </Flex>
   );
 };

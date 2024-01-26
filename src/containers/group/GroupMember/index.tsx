@@ -101,7 +101,7 @@ const GroupMember = () => {
   return (
     <Box minH={800}>
       <Flex gap={8} direction={"column"} pt={8}>
-        <Template dummyGroupMember={dummyStaffMembers} header="Staff" />
+        <Template dummyGroupMember={dummyStaffMembers} header="Manager" />
         <Template dummyGroupMember={dummyGroupMember} header="User" />
       </Flex>
     </Box>
