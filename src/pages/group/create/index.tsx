@@ -41,9 +41,7 @@ const CreateGroup = () => {
     defaultValues: initialFormValues,
   });
 
-  const onSubmit = useCallback((data: FormValues) => {
-    //서버로 data를 보내는 로직을 작성합니다.
-  }, []);
+  const onSubmit = useCallback((data: FormValues) => {}, []);
 
   const bgColor = useBgColor();
 
@@ -100,8 +98,8 @@ const CreateGroup = () => {
               <Box>새로운 경험을 만들어 보세요.</Box>
             </Flex>
             <Flex gap={8}>
-              <CustomBtn text="돌아가기" onClick={() => {}} />
-              <CustomBtn text="생성하기" type="submit" onClick={() => {}} />
+              <CustomBtn text="돌아가기" />
+              <CustomBtn text="생성하기" type="submit" />
             </Flex>
           </Flex>
           <Container

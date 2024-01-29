@@ -2,7 +2,7 @@ import { Button, keyframes } from "@chakra-ui/react";
 
 interface CustomBtnProps {
   style?: React.CSSProperties;
-  onClick: React.MouseEventHandler<HTMLButtonElement>;
+  onClick?: React.MouseEventHandler<HTMLButtonElement>;
   text: string;
   type?: "button" | "submit" | "reset" | undefined;
 }

@@ -7,7 +7,7 @@ import {
   PopoverTrigger,
   Text,
 } from "@chakra-ui/react";
-import { RiListSettingsLine } from "react-icons/ri";
+import { BsThreeDotsVertical } from "react-icons/bs";
 
 export const ModifyIcon = () => {
   const { openConfirm } = useModalStore(["openConfirm"]);
@@ -16,7 +16,7 @@ export const ModifyIcon = () => {
       <Popover trigger={"click"} placement="left">
         <PopoverTrigger>
           <Box as="button" top={4} right={4} position={"absolute"}>
-            <Icon as={RiListSettingsLine} fontSize={20} />
+            <Icon as={BsThreeDotsVertical} fontSize={20} />
           </Box>
         </PopoverTrigger>
         <PopoverContent width={20} alignItems={"center"} mt={12}>

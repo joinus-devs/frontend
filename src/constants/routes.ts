@@ -1,28 +1,42 @@
-export const ApiRoutes = {
-  Home: "",
-  Group: "group",
-  CreateGroup: "group/create",
-  NewFeed: "new-feed",
-  Support: "support",
-  SignIn: "auth/signin",
-};
+export enum ApiRoutes {
+  Home = "",
+  Group = "clubs/:id?",
+  NewFeed = "new-feed",
+  Support = "support",
+  SignIn = "auth/signin",
+  SignUp = "auth/signup",
+  SignOut = "auth/signout",
+  Me = "auth/me",
+}
+
+export enum PageRoutes {
+  Home = "/",
+  Group = "/group/:id?",
+  CreateGroup = "/group/create",
+  NewFeed = "/new-feed",
+  Support = "/support",
+  SignIn = "/auth/signin",
+  SignUp = "/auth/signup",
+  SignOut = "/auth/signout",
+  Me = "/auth/me",
+}
 
 export const navs = [
   {
     label: "Home",
-    pathname: `/${ApiRoutes.Home}`,
+    pathname: PageRoutes.Home,
   },
   {
     label: "Group",
-    pathname: `/${ApiRoutes.Group}`,
+    pathname: PageRoutes.Group,
   },
   {
     label: "New Feed",
-    pathname: `/${ApiRoutes.NewFeed}`,
+    pathname: PageRoutes.NewFeed,
   },
   {
     label: "Support",
-    pathname: `/${ApiRoutes.Support}`,
+    pathname: PageRoutes.Support,
   },
 ];
 
