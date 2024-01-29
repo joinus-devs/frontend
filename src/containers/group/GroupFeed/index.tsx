@@ -9,7 +9,7 @@ export interface GroupFeedProps {
   createdAt: string;
 }
 
-const dummyData: GroupFeedProps[] = [
+export const dummyData: GroupFeedProps[] = [
   {
     id: 0,
     groupId: 1,

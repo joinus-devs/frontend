@@ -1,28 +1,28 @@
 export const ApiRoutes = {
-  Home: "/",
-  Group: "/group",
-  CreateGroup: "/group/create",
-  NewFeed: "/newfeed",
-  Support: "/support",
-  SignIn: "/auth/signin",
+  Home: "",
+  Group: "group",
+  CreateGroup: "group/create",
+  NewFeed: "new-feed",
+  Support: "support",
+  SignIn: "auth/signin",
 };
 
 export const navs = [
   {
     label: "Home",
-    pathname: ApiRoutes.Home,
+    pathname: `/${ApiRoutes.Home}`,
   },
   {
     label: "Group",
-    pathname: ApiRoutes.Group,
+    pathname: `/${ApiRoutes.Group}`,
   },
   {
     label: "New Feed",
-    pathname: ApiRoutes.NewFeed,
+    pathname: `/${ApiRoutes.NewFeed}`,
   },
   {
     label: "Support",
-    pathname: ApiRoutes.Support,
+    pathname: `/${ApiRoutes.Support}`,
   },
 ];
 

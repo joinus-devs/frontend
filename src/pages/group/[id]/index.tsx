@@ -13,7 +13,7 @@ export interface GroupProps {
   maxParticipants: number;
 }
 
-const dummyData: GroupProps = {
+export const dummyGroupData: GroupProps = {
   imgSrc: "/groupTestImg.webp",
   name: "음악속으로",
   category: "음악",
@@ -33,7 +33,7 @@ const GroupDetail = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <DefaultLayout>
-        <GroupInfo group={dummyData} />
+        <GroupInfo group={dummyGroupData} />
       </DefaultLayout>
     </>
   );

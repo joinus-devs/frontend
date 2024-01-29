@@ -1,6 +1,6 @@
 import { DefaultLayout } from "@/components";
 import { CustomBtn, SetGroup, SetGroupOptions } from "@/containers";
-import { Box, Button, Container, Flex, Heading } from "@chakra-ui/react";
+import { Box, Container, Flex, Heading } from "@chakra-ui/react";
 import Head from "next/head";
 import { useForm } from "react-hook-form";
 import { keyframes } from "@emotion/react";

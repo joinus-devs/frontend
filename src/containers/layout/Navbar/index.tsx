@@ -18,7 +18,7 @@ const Navbar = () => {
       >
         <Flex gap={10}>
           <Box
-            onClick={() => router.push(ApiRoutes.Home)}
+            onClick={() => router.push(`/${ApiRoutes.Home}`)}
             as="button"
             fontSize={"lg"}
             fontWeight={"medium"}
@@ -48,7 +48,7 @@ const Navbar = () => {
             fontSize={"lg"}
             fontWeight={"medium"}
             as="button"
-            onClick={() => router.push(ApiRoutes.Support)}
+            onClick={() => router.push(`/${ApiRoutes.Support}`)}
           >
             <PopoverItem
               trigger="hover"

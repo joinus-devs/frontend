@@ -86,7 +86,7 @@ export const GroupFeedItem = ({ props }: GroupFeedItemProps) => {
       direction={"column"}
       backgroundColor={bgColor}
       borderRadius={12}
-      shadow={"lg"}
+      shadow={"md"}
       pb={2}
     >
       <Flex gap={4} p={4} position={"relative"}>
