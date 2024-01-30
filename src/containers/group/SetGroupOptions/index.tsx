@@ -1,5 +1,5 @@
 import { groupMaxParticipants } from "@/constants";
-import { FormValues, initialFormValues } from "@/pages/group/create";
+import { FormValues } from "@/pages/group/create";
 import {
   Button,
   Flex,
@@ -11,13 +11,8 @@ import {
   RangeSliderThumb,
   RangeSliderTrack,
 } from "@chakra-ui/react";
-import { useCallback, useState } from "react";
-import {
-  UseFormGetValues,
-  UseFormRegister,
-  UseFormSetValue,
-  UseFormWatch,
-} from "react-hook-form";
+import { useCallback } from "react";
+import { UseFormSetValue, UseFormWatch } from "react-hook-form";
 
 interface SetGroupOptionsProps {
   setValue: UseFormSetValue<FormValues>;
@@ -27,20 +22,20 @@ interface SetGroupOptionsProps {
 const SetGroupOptions = ({ setValue, watch }: SetGroupOptionsProps) => {
   const setMaxMember = useCallback(
     (value: number) => {
-      setValue("maxParticipants", value);
+      setValue("capacity", value);
     },
     [setValue]
   );
 
   const handleChangeSlider = useCallback(
     (value: number[]) => {
-      setValue("minAge", value[0]);
-      setValue("maxAge", value[1]);
+      setValue("minimum_age", value[0]);
+      setValue("maximum_age", value[1]);
     },
     [setValue]
   );
 
-  const options = watch(["minAge", "maxAge", "maxParticipants"]);
+  const options = watch(["minimum_age", "maximum_age", "capacity"]);
 
   return (
     <>

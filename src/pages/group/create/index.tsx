@@ -4,25 +4,30 @@ import { Box, Container, Flex, Heading } from "@chakra-ui/react";
 import Head from "next/head";
 import { useForm } from "react-hook-form";
 import { keyframes } from "@emotion/react";
-import { useCallback } from "react";
+import { useCallback, useEffect } from "react";
 import { useBgColor } from "@/hooks";
+import { usePost } from "@/apis/hooks";
+import { toUrl } from "@/utils";
+import { ApiRoutes } from "@/constants";
+import { useSignin } from "@/apis";
+import { api } from "@/apis/utils";
 
 export interface FormValues {
   name: string;
   category: string;
   description: string;
-  minAge: number;
-  maxAge: number;
-  maxParticipants: number;
+  minimum_age: number;
+  maximum_age: number;
+  capacity: number;
 }
 
 export const initialFormValues: FormValues = {
   name: "",
   category: "",
   description: "",
-  minAge: 0,
-  maxAge: 100,
-  maxParticipants: 10,
+  minimum_age: 0,
+  maximum_age: 100,
+  capacity: 10,
 };
 
 const bgColorAnimation = keyframes`
@@ -41,7 +46,35 @@ const CreateGroup = () => {
     defaultValues: initialFormValues,
   });
 
-  const onSubmit = useCallback((data: FormValues) => {}, []);
+  const { mutate: postClub } = usePost(toUrl(ApiRoutes.Group));
+  const { mutate: signin } = useSignin();
+
+  const test = () => {
+    console.log(api.token);
+  };
+
+  const onSubmit = useCallback(
+    (data: FormValues) => {
+      const { category, ...rest } = data;
+      const modifiedData = { ...rest, category: [category], sex: true };
+      postClub(modifiedData, {
+        onSuccess: (res) => {
+          console.log("succeess", res);
+        },
+        onError: (error) => {
+          console.log("err", error);
+        },
+        onSettled: (res) => {
+          console.log("settled", res);
+        },
+      });
+    },
+    [postClub]
+  );
+
+  useEffect(() => {
+    signin({ email: "123@gmail.com", password: "1234" });
+  }, [register, signin]);
 
   const bgColor = useBgColor();
 
@@ -93,7 +126,7 @@ const CreateGroup = () => {
               direction={"column"}
               gap={4}
             >
-              <Box>환영합니다!</Box>
+              <Box onClick={() => test()}>환영합니다!</Box>
               <Box>그룹을 만들어 취향과 관심을 공유하고</Box>
               <Box>새로운 경험을 만들어 보세요.</Box>
             </Flex>

@@ -1,8 +1,6 @@
 import { Box, Flex } from "@chakra-ui/react";
 import DefaultLayoutFooter from "./Footer";
 import DefaultLayoutHeader from "./Header";
-import { useFetch } from "@/apis/hooks";
-import { useEffect } from "react";
 
 interface DefaultLayoutProps {
   children?: React.ReactNode;

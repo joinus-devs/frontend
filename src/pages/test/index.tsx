@@ -24,10 +24,7 @@ const Test = () => {
   };
 
   const handlerSignIn = () => {
-    signin(
-      { email: "123@gmail.com", password: "1234" },
-      { onSuccess: (res) => api.setToken(res.data.token) }
-    );
+    signin({ email: "123@gmail.com", password: "1234" });
   };
 
   const handlerPostClub = () => {
