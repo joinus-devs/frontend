@@ -7,6 +7,7 @@ export enum ApiRoutes {
   SignUp = "auth/signup",
   SignOut = "auth/signout",
   Me = "auth/me",
+  Category = "categories",
 }
 
 export enum PageRoutes {

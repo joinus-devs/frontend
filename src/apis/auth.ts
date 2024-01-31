@@ -17,7 +17,7 @@ export const useSignin = (id?: number) => {
     toUrl(ApiRoutes.SignIn, { id }),
     {
       onSuccess: (res) => {
-        api.setToken(res.data.token);
+        localStorage.setItem("login-token", res.data.token);
       },
     }
   );

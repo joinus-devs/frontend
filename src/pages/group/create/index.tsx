@@ -47,16 +47,15 @@ const CreateGroup = () => {
   });
 
   const { mutate: postClub } = usePost(toUrl(ApiRoutes.Group));
-  const { mutate: signin } = useSignin();
-
-  const test = () => {
-    console.log(api.token);
-  };
 
   const onSubmit = useCallback(
     (data: FormValues) => {
       const { category, ...rest } = data;
-      const modifiedData = { ...rest, category: [category], sex: true };
+      const modifiedData = {
+        ...rest,
+        categories: [Number(category)],
+        sex: true,
+      };
       postClub(modifiedData, {
         onSuccess: (res) => {
           console.log("succeess", res);
@@ -71,10 +70,6 @@ const CreateGroup = () => {
     },
     [postClub]
   );
-
-  useEffect(() => {
-    signin({ email: "123@gmail.com", password: "1234" });
-  }, [register, signin]);
 
   const bgColor = useBgColor();
 
@@ -126,7 +121,7 @@ const CreateGroup = () => {
               direction={"column"}
               gap={4}
             >
-              <Box onClick={() => test()}>환영합니다!</Box>
+              <Box>환영합니다!</Box>
               <Box>그룹을 만들어 취향과 관심을 공유하고</Box>
               <Box>새로운 경험을 만들어 보세요.</Box>
             </Flex>

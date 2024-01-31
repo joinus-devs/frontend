@@ -1,18 +1,18 @@
-import { GroupProps } from "@/pages/group/[id]";
+import { CircleImg } from "@/components";
+import InputWithButton from "@/components/common/InputWithButton";
+import { Group } from "@/types";
 import { Box, Collapse, Flex, Heading, Icon, Text } from "@chakra-ui/react";
 import Image from "next/image";
-import { OnlineMember } from "./OnlineMember";
-import { ChatPanel } from "./ChatPanel";
 import { useCallback, useState } from "react";
-import { CircleImg } from "@/components";
-import { SetBgImage } from "./SetBgImage";
-import { IoIosSearch } from "react-icons/io";
-import InputWithButton from "@/components/common/InputWithButton";
 import { BsFillPersonLinesFill } from "react-icons/bs";
+import { IoIosSearch } from "react-icons/io";
 import { MdArrowForwardIos } from "react-icons/md";
+import { ChatPanel } from "./ChatPanel";
+import { OnlineMember } from "./OnlineMember";
+import { SetBgImage } from "./SetBgImage";
 
 interface GroupChatProps {
-  group: GroupProps;
+  group: Group;
 }
 
 export interface ChatLogProps {
@@ -142,10 +142,10 @@ const GroupChat = ({ group }: GroupChatProps) => {
               />
             )}
           </Box>
-          <CircleImg imgSrc={group.imgSrc} alt="group_img" size={24} />
+          <CircleImg imgSrc={"/none-groupimg.webp"} alt="group_img" size={24} />
           <Flex direction={"column"} gap={2}>
             <Heading size={"lg"} opacity={0.9}>
-              {group.name}
+              {group?.name}
             </Heading>
             <Text opacity={0.6}>20 members</Text>
             <SetBgImage setBgImg={setBgImg} />

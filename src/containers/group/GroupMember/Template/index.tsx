@@ -21,8 +21,8 @@ export const Template = ({ dummyGroupMember, header }: TemplateProps) => {
         </GridItem>
       </Grid>
       <Grid pb={8} templateColumns={"repeat(4,1fr)"} rowGap={12}>
-        {dummyGroupMember.map((v) => (
-          <GridItem key={v.id}>
+        {dummyGroupMember.map((v, index) => (
+          <GridItem key={`${header}_${index}`}>
             <Flex
               direction={"column"}
               w={"100%"}

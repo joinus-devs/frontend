@@ -1,9 +1,9 @@
-import { GroupProps } from "@/pages/group/[id]";
-import { GroupFeed, GroupMember, GroupChat, GroupNotice } from "../..";
+import { Group } from "@/types";
+import { GroupChat, GroupFeed, GroupMember, GroupNotice } from "../..";
 
 interface DynamicRenderProps {
   selected: string;
-  group: GroupProps;
+  group: Group;
 }
 
 export const DynamicRender = ({ selected, group }: DynamicRenderProps) => {

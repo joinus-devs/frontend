@@ -18,22 +18,16 @@ type Api = {
   patch: <T>(url: string, body?: object) => Promise<T>;
   delete: <T>(url: string) => Promise<T>;
   postForm: <T>(url: string, body?: FormData) => Promise<T>;
-  setToken: (token: string) => void;
-  token: string;
 };
 
 export const api: Api = {
-  token: "",
-  setToken: (token) => {
-    api.token = token;
-  },
   get: (url, params) => {
     const queryString = new URLSearchParams(params as Record<string, string>);
     return extendedFetch(`${protoc}://${domain}/${url}?${queryString}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: api.token,
+        Authorization: localStorage.getItem("login-token") || "",
       },
     });
   },
@@ -42,7 +36,7 @@ export const api: Api = {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: api.token,
+        Authorization: localStorage.getItem("login-token") || "",
       },
       body: JSON.stringify(body),
     });
@@ -52,7 +46,7 @@ export const api: Api = {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
-        Authorization: api.token,
+        Authorization: localStorage.getItem("login-token") || "",
       },
       body: JSON.stringify(body),
     });
@@ -62,7 +56,7 @@ export const api: Api = {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
-        Authorization: api.token,
+        Authorization: localStorage.getItem("login-token") || "",
       },
       body: JSON.stringify(body),
     });
@@ -72,7 +66,7 @@ export const api: Api = {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
-        Authorization: api.token,
+        Authorization: localStorage.getItem("login-token") || "",
       },
     });
   },

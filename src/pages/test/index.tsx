@@ -1,5 +1,5 @@
 import { useSignin } from "@/apis";
-import { useFetch, usePost } from "@/apis/hooks";
+import { useDelete, useFetch, usePost } from "@/apis/hooks";
 import { api } from "@/apis/utils";
 import { ApiRoutes } from "@/constants";
 import { toUrl } from "@/utils";
@@ -11,6 +11,11 @@ const Test = () => {
   const { refetch: club } = useFetch(toUrl(ApiRoutes.Group));
   const { refetch: me } = useFetch(ApiRoutes.Me);
   const { mutate: postClub } = usePost(toUrl(ApiRoutes.Group));
+  const { mutate: postCategory } = usePost(toUrl(ApiRoutes.Category));
+  const { data: categories, refetch: getCategories } = useFetch(
+    toUrl(ApiRoutes.Category)
+  );
+  const { mutate: deleteCategory } = useDelete(toUrl(ApiRoutes.Category));
 
   const handlerSignUp = () => {
     signup({
@@ -29,9 +34,13 @@ const Test = () => {
 
   const handlerPostClub = () => {
     postClub({
+      capacity: 20,
+      categories: [3],
+      description: "gd",
+      maximum_age: 100,
+      minimum_age: 0,
       name: "test",
-      description: "test",
-      capacity: 10,
+      sex: true,
     });
   };
   return (
@@ -41,6 +50,17 @@ const Test = () => {
       <Button onClick={() => me()}>Me</Button>
       <Button onClick={() => club()}>Club</Button>
       <Button onClick={() => handlerPostClub()}>Post Club</Button>
+      <Button onClick={() => postCategory({ name: "기타" })}>
+        post Category
+      </Button>
+      <Button
+        onClick={() => {
+          console.log(categories);
+        }}
+      >
+        get Category
+      </Button>
+      <Button onClick={() => deleteCategory(1)}>delete Category</Button>
     </>
   );
 };
