@@ -2,37 +2,24 @@ import { DefaultLayout } from "@/components";
 import { Button, Flex, Input, Text } from "@chakra-ui/react";
 import Head from "next/head";
 import { Controller, useForm } from "react-hook-form";
-// import QuillEditor from "@/containers/post/QUill";
 import dynamic from "next/dynamic";
-import { ForwardedRef, forwardRef, useEffect, useRef } from "react";
-import ReactQuill from "react-quill";
-import { QuillEditorProps } from "@/containers/post/QUill";
-
 export interface PostData {
   title: string;
   content: string;
 }
 
-const ReactQuillEditor = dynamic(() => import("@/containers/post/QUill"), {
+const FroalaEditor = dynamic(() => import("@/containers/post/Editor"), {
   ssr: false,
   loading: () => <p>Loading ...</p>,
 });
 
-const ForwardedEditor = forwardRef(
-  (props: QuillEditorProps, forwardedRef: ForwardedRef<ReactQuill>) => {
-    return <ReactQuillEditor {...props} />;
-  }
-);
-ForwardedEditor.displayName = "ForwardedEditor";
-
 const CreatePost = () => {
-  const ref = useRef<ReactQuill>(null);
   const {
     register,
     handleSubmit,
     formState: { errors },
     setValue,
-    trigger,
+    getValues,
     control,
   } = useForm<PostData>({
     mode: "onChange",
@@ -42,21 +29,8 @@ const CreatePost = () => {
     },
   });
 
-  // useEffect(() => {
-  //   console.log(ref.current.value);
-  // }, []);
-
-  // const editorContent = watch("content");
-
   const onSubmit = (values: PostData) => {
     console.log(values);
-  };
-
-  const handleChange = (value: string) => {
-    console.log(value);
-
-    setValue("content", value === "<p><br></p>" ? "" : value);
-    trigger("content");
   };
 
   return (
@@ -74,9 +48,6 @@ const CreatePost = () => {
               게시글 작성
             </Text>
             <Button
-              onClick={() => {
-                console.log(ref.current?.value);
-              }}
               mt={4}
               color="green.400"
               type="submit"
@@ -97,13 +68,15 @@ const CreatePost = () => {
             mt={4}
             mb={4}
           />
-          {/* <QuillEditor /> */}
           <Controller
             name="content"
             control={control}
-            defaultValue="zxc"
-            render={({ field: { value, onChange } }) => (
-              <ForwardedEditor ref={ref} value={value} onSubmit={onChange} />
+            defaultValue=""
+            render={() => (
+              <FroalaEditor
+                value={getValues("content") || ""}
+                onChange={(value) => setValue("content", value)}
+              />
             )}
           />
         </form>
