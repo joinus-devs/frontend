@@ -9,7 +9,7 @@ export interface GroupFeedProps {
   createdAt: string;
 }
 
-const dummyData: GroupFeedProps[] = [
+export const dummyData: GroupFeedProps[] = [
   {
     id: 0,
     groupId: 1,
@@ -50,7 +50,7 @@ const dummyData: GroupFeedProps[] = [
 const GroupFeed = () => {
   return (
     <Box>
-      <Flex direction={"column"} gap={4} p={4}>
+      <Flex direction={"column"} gap={4} p={4} pb={8}>
         {dummyData.map((data, index) => (
           <GroupFeedItem props={data} key={`feed_${index}`} />
         ))}

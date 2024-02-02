@@ -27,6 +27,7 @@ export const api: Api = {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
+        Authorization: localStorage.getItem("login-token") || "",
       },
     });
   },
@@ -35,6 +36,7 @@ export const api: Api = {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: localStorage.getItem("login-token") || "",
       },
       body: JSON.stringify(body),
     });
@@ -44,6 +46,7 @@ export const api: Api = {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
+        Authorization: localStorage.getItem("login-token") || "",
       },
       body: JSON.stringify(body),
     });
@@ -53,6 +56,7 @@ export const api: Api = {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
+        Authorization: localStorage.getItem("login-token") || "",
       },
       body: JSON.stringify(body),
     });
@@ -62,6 +66,7 @@ export const api: Api = {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
+        Authorization: localStorage.getItem("login-token") || "",
       },
     });
   },

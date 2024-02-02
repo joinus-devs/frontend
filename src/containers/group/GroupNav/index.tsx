@@ -7,7 +7,7 @@ interface GroupNavProps {
 const GroupNav = ({ setSelected }: GroupNavProps) => {
   return (
     <Flex>
-      <Box borderBottomWidth={1} w={4} position={"relative"} top={"1px"} />
+      <Box borderBottomWidth={1} w={8} position={"relative"} top={"1px"} />
       <Tabs variant={"enclosed"} flex={1} size={"md"}>
         <TabList>
           {groupNavItems.map((v, i) => {

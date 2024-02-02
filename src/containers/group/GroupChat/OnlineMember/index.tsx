@@ -11,7 +11,6 @@ import {
 import { dummyGroupMember } from "../../GroupMember";
 import { CircleImg } from "@/components";
 import { MdOnlinePrediction } from "react-icons/md";
-import { BsFillPersonLinesFill } from "react-icons/bs";
 
 export const OnlineMember = () => {
   return (
@@ -19,10 +18,7 @@ export const OnlineMember = () => {
       <AccordionItem border={"none"}>
         <AccordionButton>
           <Flex alignItems={"center"} gap={4}>
-            <Flex gap={2} justifyContent={"center"} alignItems={"center"}>
-              <Icon as={BsFillPersonLinesFill} fontSize={24} />
-              <Text fontSize={16}>Online</Text>
-            </Flex>
+            <Text fontSize={16}>Online</Text>
             <AccordionIcon mt={0.5} />
           </Flex>
         </AccordionButton>

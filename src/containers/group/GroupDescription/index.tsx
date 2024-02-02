@@ -1,18 +1,23 @@
+import { Group } from "@/types";
 import { Box, Flex, Heading, Tag, Text } from "@chakra-ui/react";
 
-const GroupDescription = () => {
+interface GroupDescriptionProps {
+  group: Group;
+}
+
+const GroupDescription = ({ group }: GroupDescriptionProps) => {
   return (
     <Box overflow={"hidden"} p={8}>
       <Flex>
         <Heading size={"lg"} p={4} pb={8}>
-          음악속으로
+          {group.name}
         </Heading>
         <Tag p={2} h={8} fontSize={16}>
-          음악
+          IT
         </Tag>
       </Flex>
       <Text fontSize={"lg"} pl={4}>
-        안녕하세요! 음악을 사랑하는 모임입니다..
+        {group.description}
       </Text>
     </Box>
   );

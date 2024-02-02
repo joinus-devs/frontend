@@ -1,5 +1,7 @@
-import { groupCategory } from "@/constants";
+import { useFetch } from "@/apis/hooks";
+import { ApiRoutes } from "@/constants";
 import { FormValues } from "@/pages/group/create";
+import { Category } from "@/types/category";
 import {
   FormControl,
   FormHelperText,
@@ -15,6 +17,8 @@ interface SetGroupDetailProps {
 }
 
 const SetGroup = ({ register }: SetGroupDetailProps) => {
+  const { data } = useFetch<Category[]>(ApiRoutes.Category);
+
   return (
     <>
       <FormControl>
@@ -38,10 +42,10 @@ const SetGroup = ({ register }: SetGroupDetailProps) => {
           <option value="" hidden>
             카테고리를 선택해주세요.
           </option>
-          {groupCategory.map((v, i) => {
+          {data?.map((v, i) => {
             return (
-              <option key={`group_category${i}`} value={v}>
-                {v}
+              <option key={`group_category${i}`} value={v.id}>
+                {v.name}
               </option>
             );
           })}

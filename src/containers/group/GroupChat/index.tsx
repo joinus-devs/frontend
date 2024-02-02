@@ -1,16 +1,18 @@
-import { GroupProps } from "@/pages/group/[id]";
-import { Box, Flex, Heading, Text } from "@chakra-ui/react";
-import Image from "next/image";
-import { OnlineMember } from "./OnlineMember";
-import { ChatPanel } from "./ChatPanel";
-import { useCallback, useState } from "react";
 import { CircleImg } from "@/components";
-import { SetBgImage } from "./SetBgImage";
-import { IoIosSearch } from "react-icons/io";
 import InputWithButton from "@/components/common/InputWithButton";
+import { Group } from "@/types";
+import { Box, Collapse, Flex, Heading, Icon, Text } from "@chakra-ui/react";
+import Image from "next/image";
+import { useCallback, useState } from "react";
+import { BsFillPersonLinesFill } from "react-icons/bs";
+import { IoIosSearch } from "react-icons/io";
+import { MdArrowForwardIos } from "react-icons/md";
+import { ChatPanel } from "./ChatPanel";
+import { OnlineMember } from "./OnlineMember";
+import { SetBgImage } from "./SetBgImage";
 
 interface GroupChatProps {
-  group: GroupProps;
+  group: Group;
 }
 
 export interface ChatLogProps {
@@ -115,20 +117,35 @@ const dummyChatLog: ChatLogProps[] = [
 
 const GroupChat = ({ group }: GroupChatProps) => {
   const [bgImg, setBgImg] = useState<number>(0);
+  const [viewOnlineMember, setViewOnlineMember] = useState<boolean>(false);
 
   const handleSubmit = useCallback(() => {}, []);
 
   const currentUserId = 1;
-  //현재 로그인한 유저의 아이디를 가져와서 해당 아이디와 채팅방에 있는 유저의 아이디를 비교해서
-  //같으면 오른쪽에 채팅을 띄워주고 다르면 왼쪽에 채팅을 띄워줘야함
+
   return (
     <Flex gap={6} p={4}>
       <Flex direction={"column"} flex={2} h={"100%"} gap={8}>
         <Flex alignItems={"center"} gap={4} position={"relative"}>
-          <CircleImg imgSrc={group.imgSrc} alt="group_img" size={24} />
+          <Box as="button" position={"absolute"} top={-2} right={0}>
+            {viewOnlineMember ? (
+              <Icon
+                as={MdArrowForwardIos}
+                fontSize={24}
+                onClick={() => setViewOnlineMember(false)}
+              />
+            ) : (
+              <Icon
+                as={BsFillPersonLinesFill}
+                fontSize={24}
+                onClick={() => setViewOnlineMember(true)}
+              />
+            )}
+          </Box>
+          <CircleImg imgSrc={"/none-groupimg.webp"} alt="group_img" size={24} />
           <Flex direction={"column"} gap={2}>
             <Heading size={"lg"} opacity={0.9}>
-              {group.name}
+              {group?.name}
             </Heading>
             <Text opacity={0.6}>20 members</Text>
             <SetBgImage setBgImg={setBgImg} />
@@ -146,19 +163,21 @@ const GroupChat = ({ group }: GroupChatProps) => {
           <ChatPanel chatLog={dummyChatLog} currentUserId={currentUserId} />
         </Box>
       </Flex>
-      <Flex direction={"column"} flex={1} gap={5}>
-        <Heading size={"lg"} opacity={0.9}>
-          Messages
-        </Heading>
-        <InputWithButton
-          placeholder="member name"
-          hanldeSubmit={handleSubmit}
-          icon={IoIosSearch}
-          boxStyle={{ position: "relative", alignItems: "center" }}
-          buttonStyle={{ fontSize: 28, right: 0 }}
-        />
-        <OnlineMember />
-      </Flex>
+      <Box as={Collapse} in={viewOnlineMember} flex={1} animateOpacity>
+        <Flex direction={"column"} gap={5}>
+          <Heading size={"lg"} opacity={0.9}>
+            Messages
+          </Heading>
+          <InputWithButton
+            placeholder="member name"
+            hanldeSubmit={handleSubmit}
+            icon={IoIosSearch}
+            boxStyle={{ position: "relative", alignItems: "center" }}
+            buttonStyle={{ fontSize: 28, right: 0 }}
+          />
+          <OnlineMember />
+        </Flex>
+      </Box>
     </Flex>
   );
 };

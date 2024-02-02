@@ -1,28 +1,33 @@
 import { DefaultLayout } from "@/components";
-import { SetGroup, SetGroupOptions } from "@/containers";
-import { Box, Button, Container, Flex, Heading } from "@chakra-ui/react";
+import { CustomBtn, SetGroup, SetGroupOptions } from "@/containers";
+import { Box, Container, Flex, Heading } from "@chakra-ui/react";
 import Head from "next/head";
 import { useForm } from "react-hook-form";
 import { keyframes } from "@emotion/react";
-import { useCallback } from "react";
+import { useCallback, useEffect } from "react";
 import { useBgColor } from "@/hooks";
+import { usePost } from "@/apis/hooks";
+import { toUrl } from "@/utils";
+import { ApiRoutes } from "@/constants";
+import { useSignin } from "@/apis";
+import { api } from "@/apis/utils";
 
 export interface FormValues {
   name: string;
   category: string;
   description: string;
-  minAge: number;
-  maxAge: number;
-  maxParticipants: number;
+  minimum_age: number;
+  maximum_age: number;
+  capacity: number;
 }
 
 export const initialFormValues: FormValues = {
   name: "",
   category: "",
   description: "",
-  minAge: 0,
-  maxAge: 100,
-  maxParticipants: 10,
+  minimum_age: 0,
+  maximum_age: 100,
+  capacity: 10,
 };
 
 const bgColorAnimation = keyframes`
@@ -36,23 +41,35 @@ const bgColorAnimation = keyframes`
   }
 `;
 
-const btnAnimation = keyframes`
-  from {
-    opacity:0;
-  }
-  to {
-    opacity:1;
-  }
-`;
-
 const CreateGroup = () => {
   const { register, handleSubmit, setValue, watch } = useForm<FormValues>({
     defaultValues: initialFormValues,
   });
 
-  const onSubmit = useCallback((data: FormValues) => {
-    //서버로 data를 보내는 로직을 작성합니다.
-  }, []);
+  const { mutate: postClub } = usePost(toUrl(ApiRoutes.Group));
+
+  const onSubmit = useCallback(
+    (data: FormValues) => {
+      const { category, ...rest } = data;
+      const modifiedData = {
+        ...rest,
+        categories: [Number(category)],
+        sex: true,
+      };
+      postClub(modifiedData, {
+        onSuccess: (res) => {
+          console.log("succeess", res);
+        },
+        onError: (error) => {
+          console.log("err", error);
+        },
+        onSettled: (res) => {
+          console.log("settled", res);
+        },
+      });
+    },
+    [postClub]
+  );
 
   const bgColor = useBgColor();
 
@@ -66,13 +83,12 @@ const CreateGroup = () => {
       </Head>
       <DefaultLayout>
         <Flex
-          mt={12}
-          mb={20}
           position={"relative"}
           boxShadow={"lg"}
           w={"100%"}
           as={"form"}
           onSubmit={handleSubmit(onSubmit)}
+          mb={8}
         >
           <Box
             zIndex={0}
@@ -110,21 +126,8 @@ const CreateGroup = () => {
               <Box>새로운 경험을 만들어 보세요.</Box>
             </Flex>
             <Flex gap={8}>
-              <Button
-                fontSize={24}
-                p={8}
-                animation={`${btnAnimation} 1s ease-in-out`}
-              >
-                돌아가기
-              </Button>
-              <Button
-                type="submit"
-                fontSize={24}
-                p={8}
-                animation={`${btnAnimation} 1s ease-in-out`}
-              >
-                생성하기
-              </Button>
+              <CustomBtn text="돌아가기" />
+              <CustomBtn text="생성하기" type="submit" />
             </Flex>
           </Flex>
           <Container
