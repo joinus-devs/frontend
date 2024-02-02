@@ -45,7 +45,8 @@ const Register = () => {
   const group = getRootProps();
 
   const onSubmit = (values: UserData) => {
-    router.push("/");
+    // router.push("/");
+    console.log(values);
   };
 
   return (

@@ -2,8 +2,8 @@ import React from "react";
 
 type Props = {};
 
-const CreatePost = (props: Props) => {
+const index = (props: Props) => {
   return <div>index</div>;
 };
 
-export default CreatePost;
+export default index;

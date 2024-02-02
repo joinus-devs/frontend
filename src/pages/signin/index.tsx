@@ -1,16 +1,19 @@
+import { useForm } from "react-hook-form";
+import { useRouter } from "next/router";
+import { signIn } from "next-auth/react";
+
 import { SocialLoginButtons } from "@/containers";
+
 import {
   Box,
   Button,
-  Center,
   FormControl,
   FormErrorMessage,
   Input,
   Stack,
+  Center,
+  HStack,
 } from "@chakra-ui/react";
-import { signIn } from "next-auth/react";
-import { useRouter } from "next/router";
-import { useForm } from "react-hook-form";
 
 interface UserData {
   username: string;
@@ -32,17 +35,14 @@ const Signin = () => {
   });
 
   const onSubmit = (values: UserData) => {
-    // alert("환영합니다!");
-    // const username = values.username;
-    // const password = values.password;
+    const username = values.username;
+    const password = values.password;
 
-    // signIn("credentials", {
-    //   username,
-    //   password,
-    //   redirect: true,
-    //   callbackUrl: "/",
-    // });
-    console.log(values);
+    signIn("credentials", {
+      username,
+      password,
+      callbackUrl: "/",
+    });
   };
 
   return (
