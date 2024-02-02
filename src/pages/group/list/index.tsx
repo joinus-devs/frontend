@@ -1,17 +1,9 @@
 import { DefaultLayout } from "@/components";
-import {
-  Card,
-  CardBody,
-  CardFooter,
-  Heading,
-  Stack,
-  Text,
-  Image,
-} from "@chakra-ui/react";
 import Head from "next/head";
-// import Image from "next/image";
-
+import { Text } from "@chakra-ui/react";
+import GroupCard from "../item";
 export interface GroupCardProps {
+  id: number;
   name: string;
   category: string;
   imgSrc: string;
@@ -20,6 +12,7 @@ export interface GroupCardProps {
 }
 
 const dummyData: GroupCardProps = {
+  id: 1,
   name: "배철수의 음악캠프",
   category: "음악",
   imgSrc: "/groupTestImg.webp",
@@ -37,31 +30,10 @@ const index = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <DefaultLayout>
-        <Card
-          direction={{ base: "column", sm: "row" }}
-          overflow="hidden"
-          variant="outline"
-        >
-          <Image
-            objectFit="cover"
-            maxW={{ base: "100%", sm: "200px" }}
-            src={dummyData.imgSrc}
-            alt="Caffe Latte"
-          />
-
-          <Stack>
-            <CardBody>
-              <Heading size="md">The perfect latte</Heading>
-
-              <Text py="2">
-                Caffè latte is a coffee beverage of Italian origin made with
-                espresso and steamed milk.
-              </Text>
-            </CardBody>
-
-            <CardFooter></CardFooter>
-          </Stack>
-        </Card>
+        <Text as="b" fontSize="xl" mt={5}>
+          이런 모임 어때요?
+        </Text>
+        <GroupCard groupData={dummyData} />
       </DefaultLayout>
     </div>
   );

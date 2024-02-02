@@ -1,8 +1,8 @@
 import { DefaultLayout } from "@/components";
 import { Button, Flex, Input, Text } from "@chakra-ui/react";
+import dynamic from "next/dynamic";
 import Head from "next/head";
 import { Controller, useForm } from "react-hook-form";
-import dynamic from "next/dynamic";
 export interface PostData {
   title: string;
   content: string;
