@@ -1,10 +1,13 @@
 import { useGetGroup } from "@/apis/group";
 import { DefaultLayout } from "@/components";
-import GroupInfo from "@/containers/group/GroupInfo";
+import { GroupDescription, GroupNav } from "@/containers";
+import { GroupBanner } from "@/containers/group";
+import { DynamicRender } from "@/containers/group/DynamicRender";
 import { Group } from "@/types";
+import { Flex } from "@chakra-ui/react";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
+import { useState } from "react";
 
 export const dummyGroupData: Group = {
   imgSrc: "/none-groupimg.webp",
@@ -20,6 +23,8 @@ export const dummyGroupData: Group = {
 const GroupDetail = () => {
   const router = useRouter();
   const { data: group, isSuccess } = useGetGroup(Number(router.query.id));
+  const [navItem, setNavItem] = useState("Home");
+  const [onCreateFeed, setOnCreateFeed] = useState(false);
 
   return (
     <>
@@ -29,7 +34,25 @@ const GroupDetail = () => {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <DefaultLayout>{isSuccess && <GroupInfo group={group} />}</DefaultLayout>
+      <DefaultLayout>
+        {isSuccess && (
+          <Flex direction={"column"} w={"100%"} minH={1400}>
+            <GroupBanner />
+            <GroupDescription group={group} />
+            <GroupNav
+              setSelected={setNavItem}
+              selected={navItem}
+              setOnCreateFeed={setOnCreateFeed}
+              onCreateFeed={onCreateFeed}
+            />
+            <DynamicRender
+              selected={navItem}
+              group={group}
+              onCreateFeed={onCreateFeed}
+            />
+          </Flex>
+        )}
+      </DefaultLayout>
     </>
   );
 };

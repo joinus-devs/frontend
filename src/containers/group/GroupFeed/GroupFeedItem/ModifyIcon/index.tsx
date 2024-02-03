@@ -1,4 +1,7 @@
+import { useDelete, usePost } from "@/apis";
+import { ApiRoutes } from "@/constants";
 import { useModalStore } from "@/stores";
+import { Feed } from "@/types";
 import {
   Box,
   Icon,
@@ -9,8 +12,13 @@ import {
 } from "@chakra-ui/react";
 import { BsThreeDotsVertical } from "react-icons/bs";
 
-export const ModifyIcon = () => {
+interface ModifyIconProps {
+  feed: Feed;
+}
+export const ModifyIcon = ({ feed }: ModifyIconProps) => {
+  console.log(feed);
   const { openConfirm } = useModalStore(["openConfirm"]);
+  const { mutate: deleteFeed } = useDelete(ApiRoutes.Feeds);
   return (
     <>
       <Popover trigger={"click"} placement="left">
@@ -30,9 +38,7 @@ export const ModifyIcon = () => {
               openConfirm({
                 title: "Delete Post",
                 content: "해당피드를 삭제하시겠습니까?",
-                onConfirm: () => {
-                  //해당피드 삭제 api
-                },
+                onConfirm: () => deleteFeed(feed.id),
               })
             }
           >

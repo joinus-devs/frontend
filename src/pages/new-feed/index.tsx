@@ -1,12 +1,16 @@
 import { CircleImg, DefaultLayout } from "@/components";
-import { dummyData } from "@/containers/group/GroupFeed";
 import { GroupFeedItem } from "@/containers/group/GroupFeed/GroupFeedItem";
 import { Box, Flex, Heading, Tag } from "@chakra-ui/react";
 import Head from "next/head";
 import { dummyGroupData } from "../group/[id]";
 import { useRouter } from "next/router";
+import { useFetch } from "@/apis";
+import { Feed } from "@/types";
+import { toUrl } from "@/utils";
+import { ApiRoutes } from "@/constants";
 
 const NewFeed = () => {
+  const { data: Feeds } = useFetch<Feed[]>(toUrl(ApiRoutes.Feeds));
   const router = useRouter();
   return (
     <>
@@ -18,7 +22,7 @@ const NewFeed = () => {
       </Head>
       <DefaultLayout>
         <Flex w={"100%"} direction={"column"} pt={8} pb={8} gap={8}>
-          {dummyData.map((data, index) => {
+          {Feeds?.map((feed, index) => {
             return (
               <Flex
                 gap={4}
@@ -34,7 +38,7 @@ const NewFeed = () => {
                   direction={"column"}
                   gap={4}
                   as={"button"}
-                  onClick={() => router.push(`/group/${data.groupId}`)}
+                  onClick={() => router.push(`/group/${feed.club_id}`)}
                   position={"relative"}
                   boxShadow={"md"}
                   borderRadius={12}
@@ -47,17 +51,18 @@ const NewFeed = () => {
                     h={8}
                     fontSize={16}
                   >
-                    {dummyGroupData.category}
+                    category
+                    {/* {dummyGroupData.category[0]} */}
                   </Tag>
                   <CircleImg
-                    imgSrc={dummyGroupData.imgSrc}
+                    imgSrc={"/none-groupimg.webp"}
                     alt="group_img"
                     size={48}
                   />
                   <Heading size={"md"}>{dummyGroupData.name}</Heading>
                 </Flex>
                 <Box flex={2}>
-                  <GroupFeedItem props={data} />
+                  <GroupFeedItem feed={feed} />
                 </Box>
               </Flex>
             );

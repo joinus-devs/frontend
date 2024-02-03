@@ -1,6 +1,5 @@
 import { CircleImg } from "@/components";
 import InputWithButton from "@/components/common/InputWithButton";
-import { GroupFeedProps } from "@/containers/group/GroupFeed";
 import GroupFeedComments from "@/containers/group/GroupFeed/GroupFeedComments";
 import { useBgColor } from "@/hooks";
 import { Box, Flex, Heading, Text } from "@chakra-ui/react";
@@ -8,9 +7,12 @@ import { useCallback, useState } from "react";
 import { FaCheck } from "react-icons/fa";
 import { LikeCommentCounter } from "./LikeCommentCounter";
 import { ModifyIcon } from "./ModifyIcon";
+import { useFetch } from "@/apis";
+import { ApiRoutes } from "@/constants";
+import { Feed, User } from "@/types";
 
 interface GroupFeedItemProps {
-  props: GroupFeedProps;
+  feed: Feed;
 }
 
 export interface FeedCommentProps extends UserDataProps {
@@ -63,23 +65,18 @@ const dummyCommentData: FeedCommentProps[] = [
   },
 ];
 
-export const GroupFeedItem = ({ props }: GroupFeedItemProps) => {
+export const GroupFeedItem = ({ feed }: GroupFeedItemProps) => {
   const [isComment, setIsComment] = useState(false);
-  //props의 GroupFeed 의 userId를 통해 user의 정보를 가져옵니다.
+  const { data: me } = useFetch<User>(ApiRoutes.Me);
 
   const bgColor = useBgColor();
-  const comments = dummyCommentData.filter((v) => v.postId === props.id);
+  const comments = dummyCommentData.filter((v) => v.postId === feed.id);
 
   const handleCommentClick = useCallback(() => {
     setIsComment((prev) => !prev);
   }, []);
 
   const handleSubmitComment = useCallback(() => {}, []);
-
-  //currentUser의 id와 feed의 글쓴이id의 비교를 통해 같다면 수정,삭제를위한 아이콘을 제공합니다.
-  const currentUser = {
-    id: 1,
-  };
 
   return (
     <Flex
@@ -90,15 +87,15 @@ export const GroupFeedItem = ({ props }: GroupFeedItemProps) => {
       pb={2}
     >
       <Flex gap={4} p={4} position={"relative"}>
-        {currentUser.id === props.userId && <ModifyIcon />}
-        <CircleImg imgSrc={dummyUserData.imgSrc} alt="userImg" size={16} />
+        {me?.id === feed.user_id && <ModifyIcon feed={feed} />}
+        <CircleImg imgSrc={"/noneUserImg.webp"} alt="userImg" size={16} />
         <Flex direction={"column"} gap={1} justifyContent={"end"}>
-          <Heading size={"md"}>{dummyUserData.name}</Heading>
+          <Heading size={"md"}>{feed?.user?.name}</Heading>
           <Box opacity={0.7}>1 month ago</Box>
         </Flex>
       </Flex>
       <Box minH={100} p={4} pl={6}>
-        <Text fontSize={"lg"}>{props.content}</Text>
+        <Text fontSize={"lg"}>{feed.content}</Text>
       </Box>
       <LikeCommentCounter
         commentCount={comments.length}
@@ -106,7 +103,7 @@ export const GroupFeedItem = ({ props }: GroupFeedItemProps) => {
         handleCommentClick={handleCommentClick}
       />
       <Flex p={4} gap={2} alignItems={"center"}>
-        <CircleImg imgSrc={dummyUserData.imgSrc} alt="userImg" size={14} />
+        <CircleImg imgSrc={"/noneUserImg.webp"} alt="userImg" size={14} />
         <InputWithButton
           placeholder="댓글을 입력하세요."
           hanldeSubmit={handleSubmitComment}

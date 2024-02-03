@@ -8,6 +8,9 @@ export enum ApiRoutes {
   SignOut = "auth/signout",
   Me = "auth/me",
   Category = "categories",
+  GroupMembers = "clubs/:id/users",
+  GroupFeed = "clubs/:id/feeds",
+  Feeds = "feeds",
 }
 
 export enum PageRoutes {

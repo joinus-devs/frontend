@@ -1,7 +1,8 @@
 import { ApiRoutes } from "@/constants";
-import { useFetch } from "./hooks";
+import { useFetch, usePost } from "./hooks";
 import { toUrl } from "@/utils";
 import { ApiResponse } from "./types";
+import { User } from "@/types";
 interface Group {
   id: number;
   created_at: string;
@@ -16,6 +17,14 @@ interface Group {
   categories: string[];
 }
 
+interface FeedCreate {
+  title: string;
+  content: string;
+}
 export const useGetGroup = (id?: number) => {
   return useFetch<Group>(toUrl(ApiRoutes.Group, { id }));
+};
+
+export const useGetGroupMembers = (id: number) => {
+  return useFetch<User[]>(toUrl(ApiRoutes.GroupMembers, { id }));
 };

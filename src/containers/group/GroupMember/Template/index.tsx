@@ -1,16 +1,13 @@
 import { CircleImg } from "@/components";
+import { User } from "@/types";
 import { Grid, GridItem, Flex, Text, Heading } from "@chakra-ui/react";
 
 interface TemplateProps {
-  dummyGroupMember: {
-    id: number;
-    name: string;
-    imgSrc: string;
-  }[];
+  groupMember?: User[];
   header: string;
 }
 
-export const Template = ({ dummyGroupMember, header }: TemplateProps) => {
+export const Template = ({ groupMember, header }: TemplateProps) => {
   return (
     <Flex direction={"column"} gap={8}>
       <Grid templateColumns={"repeat(4,1fr)"}>
@@ -21,7 +18,7 @@ export const Template = ({ dummyGroupMember, header }: TemplateProps) => {
         </GridItem>
       </Grid>
       <Grid pb={8} templateColumns={"repeat(4,1fr)"} rowGap={12}>
-        {dummyGroupMember.map((v, index) => (
+        {groupMember?.map((v, index) => (
           <GridItem key={`${header}_${index}`}>
             <Flex
               direction={"column"}
@@ -30,7 +27,7 @@ export const Template = ({ dummyGroupMember, header }: TemplateProps) => {
               alignItems={"center"}
               gap={4}
             >
-              <CircleImg imgSrc={v.imgSrc} alt="userImg" size={24} />
+              <CircleImg imgSrc={"/noneUserImg.webp"} alt="userImg" size={24} />
               <Text>{v.name}</Text>
             </Flex>
           </GridItem>

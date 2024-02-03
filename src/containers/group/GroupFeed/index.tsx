@@ -1,60 +1,34 @@
+import { useFetch } from "@/apis";
+import { ApiRoutes } from "@/constants";
+import { CreateFeed } from "@/containers";
+import { Feed, Group } from "@/types";
+import { toUrl } from "@/utils";
 import { Box, Flex } from "@chakra-ui/react";
 import { GroupFeedItem } from "./GroupFeedItem";
 
-export interface GroupFeedProps {
-  id: number;
-  groupId: number;
-  userId: number;
-  content: string;
-  createdAt: string;
+interface CreateProp {
+  onCreateFeed: boolean;
+  group: Group;
 }
 
-export const dummyData: GroupFeedProps[] = [
-  {
-    id: 0,
-    groupId: 1,
-    userId: 1,
-    content: "안녕하세요",
-    createdAt: "2024-01-13",
-  },
-  {
-    id: 1,
-    groupId: 1,
-    userId: 2,
-    content: "안녕하세요",
-    createdAt: "2024-01-13",
-  },
-  {
-    id: 2,
-    groupId: 1,
-    userId: 3,
-    content: "안녕하세요",
-    createdAt: "2024-01-13",
-  },
-  {
-    id: 3,
-    groupId: 1,
-    userId: 3,
-    content: "안녕하세요",
-    createdAt: "2024-01-13",
-  },
-  {
-    id: 4,
-    groupId: 1,
-    userId: 3,
-    content: "안녕하세요",
-    createdAt: "2024-01-13",
-  },
-];
+const GroupFeed = ({ onCreateFeed, group }: CreateProp) => {
+  const { data: feeds } = useFetch<Feed[]>(
+    toUrl(ApiRoutes.GroupFeed, { id: group.id })
+  );
 
-const GroupFeed = () => {
   return (
     <Box>
-      <Flex direction={"column"} gap={4} p={4} pb={8}>
-        {dummyData.map((data, index) => (
-          <GroupFeedItem props={data} key={`feed_${index}`} />
-        ))}
-      </Flex>
+      {onCreateFeed ? (
+        <Box p={8}>
+          <CreateFeed />
+        </Box>
+      ) : (
+        <Flex direction={"column"} gap={4} p={4} pb={8}>
+          {feeds?.map((feed, index) => (
+            <GroupFeedItem feed={feed} key={`feed_${index}`} />
+          ))}
+        </Flex>
+      )}
     </Box>
   );
 };

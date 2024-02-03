@@ -30,7 +30,7 @@ export const initialFormValues: FormValues = {
   capacity: 10,
 };
 
-const bgColorAnimation = keyframes`
+export const bgColorAnimation = keyframes`
   from {
     width: 0;
     height: 0;

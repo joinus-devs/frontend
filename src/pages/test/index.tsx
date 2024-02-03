@@ -1,6 +1,6 @@
 import { useSignin } from "@/apis";
+import { useGetGroupMembers } from "@/apis/group";
 import { useDelete, useFetch, usePost } from "@/apis/hooks";
-import { api } from "@/apis/utils";
 import { ApiRoutes } from "@/constants";
 import { toUrl } from "@/utils";
 import { Button } from "@chakra-ui/react";
@@ -16,30 +16,33 @@ const Test = () => {
     toUrl(ApiRoutes.Category)
   );
   const { mutate: deleteCategory } = useDelete(toUrl(ApiRoutes.Category));
+  const { refetch: getGroupMembers } = useGetGroupMembers(3);
+  const { mutate: postFeed } = usePost(toUrl(ApiRoutes.GroupFeed, { id: 1 }));
+  const { refetch: getFeed } = useFetch(toUrl(ApiRoutes.GroupFeed, { id: 1 }));
 
   const handlerSignUp = () => {
     signup({
       password: "1234",
-      social_id: "1234",
-      name: "SeongHwi",
+      social_id: "12345",
+      name: "SeongHwi2",
       sex: true,
       phone: "01012341234",
-      email: "123@gmail.com",
+      email: "1234@gmail.com",
     });
   };
 
   const handlerSignIn = () => {
-    signin({ email: "123@gmail.com", password: "1234" });
+    signin({ email: "1234@gmail.com", password: "1234" });
   };
 
   const handlerPostClub = () => {
     postClub({
       capacity: 20,
-      categories: [3],
-      description: "gd",
+      categories: [2],
+      description: "gd2",
       maximum_age: 100,
       minimum_age: 0,
-      name: "test",
+      name: "test2",
       sex: true,
     });
   };
@@ -53,14 +56,15 @@ const Test = () => {
       <Button onClick={() => postCategory({ name: "기타" })}>
         post Category
       </Button>
-      <Button
-        onClick={() => {
-          console.log(categories);
-        }}
-      >
-        get Category
-      </Button>
+      <Button onClick={() => getCategories()}>get Category</Button>
       <Button onClick={() => deleteCategory(1)}>delete Category</Button>
+      <Button onClick={() => getGroupMembers()}>get Group Members</Button>
+      <Button
+        onClick={() => postFeed({ content: "안녕하세요", title: "제목test" })}
+      >
+        post Feed
+      </Button>
+      <Button onClick={() => getFeed()}>get Feed</Button>
     </>
   );
 };
