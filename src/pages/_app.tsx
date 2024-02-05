@@ -16,6 +16,7 @@ import {
 } from "@tanstack/react-query";
 import { SessionProvider } from "next-auth/react";
 import type { AppProps } from "next/app";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 const { ToastContainer, toast } = createStandaloneToast();
 
@@ -75,6 +76,7 @@ const theme = extendTheme(
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <QueryClientProvider client={queryClient}>
+      <ReactQueryDevtools initialIsOpen />
       <ChakraProvider theme={theme}>
         <ModalProvider />
         <SessionProvider session={pageProps.session}>

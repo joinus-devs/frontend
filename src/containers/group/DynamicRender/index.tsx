@@ -6,12 +6,14 @@ interface DynamicRenderProps {
   selected: string;
   group: Group;
   onCreateFeed: boolean;
+  setOnCreateFeed: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const DynamicRender = ({
   selected,
   group,
   onCreateFeed,
+  setOnCreateFeed,
 }: DynamicRenderProps) => {
   const render = () => {
     switch (selected) {
@@ -20,7 +22,13 @@ export const DynamicRender = ({
       case "Member":
         return <GroupMember group={group} />;
       case "Feed":
-        return <GroupFeed onCreateFeed={onCreateFeed} group={group} />;
+        return (
+          <GroupFeed
+            onCreateFeed={onCreateFeed}
+            group={group}
+            setOnCreateFeed={setOnCreateFeed}
+          />
+        );
       case "Notice":
         return <GroupNotice />;
     }

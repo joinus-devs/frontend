@@ -1,5 +1,5 @@
 import { ApiRoutes } from "@/constants";
-import { useFetch, usePost } from "./hooks";
+import { useDelete, useFetch, usePost } from "./hooks";
 import { toUrl } from "@/utils";
 import { ApiResponse } from "./types";
 import { User } from "@/types";

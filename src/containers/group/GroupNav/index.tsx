@@ -1,20 +1,16 @@
 import { groupNavItems } from "@/constants";
 import { Box, Button, Flex, Tab, TabList, Tabs } from "@chakra-ui/react";
-import { useState } from "react";
+import { pageRouter } from "./pageRouter";
+import { useRouter } from "next/router";
 
 interface GroupNavProps {
   setSelected: React.Dispatch<React.SetStateAction<string>>;
-  setOnCreateFeed: React.Dispatch<React.SetStateAction<boolean>>;
   selected: string;
-  onCreateFeed: boolean;
+  groupId: number;
 }
 
-const GroupNav = ({
-  setSelected,
-  selected,
-  setOnCreateFeed,
-  onCreateFeed,
-}: GroupNavProps) => {
+const GroupNav = ({ setSelected, selected, groupId }: GroupNavProps) => {
+  const router = useRouter();
   return (
     <Flex>
       <Box borderBottomWidth={1} w={8} position={"relative"} top={"1px"} />
@@ -23,9 +19,8 @@ const GroupNav = ({
           position={"absolute"}
           right={0}
           display={selected === "Feed" ? "block" : "none"}
-          onClick={() => setOnCreateFeed(!onCreateFeed)}
         >
-          {onCreateFeed ? "돌아가기" : "작성하기"}
+          작성하기
         </Button>
         <TabList>
           {groupNavItems.map((v, i) => {
@@ -34,7 +29,7 @@ const GroupNav = ({
                 key={`groupnav_${i}`}
                 fontWeight={"bold"}
                 fontSize={"lg"}
-                onClick={() => setSelected(v)}
+                onClick={() => pageRouter(v, groupId, router)}
                 as={"button"}
               >
                 {v}

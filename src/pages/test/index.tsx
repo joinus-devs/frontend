@@ -19,6 +19,7 @@ const Test = () => {
   const { refetch: getGroupMembers } = useGetGroupMembers(3);
   const { mutate: postFeed } = usePost(toUrl(ApiRoutes.GroupFeed, { id: 1 }));
   const { refetch: getFeed } = useFetch(toUrl(ApiRoutes.GroupFeed, { id: 1 }));
+  const { mutate: postComment } = usePost(toUrl(ApiRoutes.Comments, { id: 5 }));
 
   const handlerSignUp = () => {
     signup({
@@ -53,7 +54,7 @@ const Test = () => {
       <Button onClick={() => me()}>Me</Button>
       <Button onClick={() => club()}>Club</Button>
       <Button onClick={() => handlerPostClub()}>Post Club</Button>
-      <Button onClick={() => postCategory({ name: "기타" })}>
+      <Button onClick={() => postCategory({ name: "영화" })}>
         post Category
       </Button>
       <Button onClick={() => getCategories()}>get Category</Button>
@@ -65,6 +66,9 @@ const Test = () => {
         post Feed
       </Button>
       <Button onClick={() => getFeed()}>get Feed</Button>
+      <Button onClick={() => postComment({ content: "댓글test" })}>
+        post comment
+      </Button>
     </>
   );
 };

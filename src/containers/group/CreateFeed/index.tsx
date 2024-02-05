@@ -12,7 +12,14 @@ const FroalaEditor = dynamic(() => import("@/containers/post/Editor"), {
   loading: () => <p>Loading ...</p>,
 });
 
-const CreateFeed = () => {
+interface CreateFeedProps {
+  post?: {
+    title: string;
+    content: string;
+  };
+}
+
+const CreateFeed = ({ post }: CreateFeedProps) => {
   const {
     register,
     handleSubmit,
@@ -23,8 +30,8 @@ const CreateFeed = () => {
   } = useForm<PostData>({
     mode: "onChange",
     defaultValues: {
-      title: "",
-      content: "",
+      title: post?.title || "",
+      content: post?.content || "",
     },
   });
 

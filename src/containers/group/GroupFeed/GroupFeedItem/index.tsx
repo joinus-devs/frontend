@@ -13,6 +13,8 @@ import { Feed, User } from "@/types";
 
 interface GroupFeedItemProps {
   feed: Feed;
+  groupId?: number;
+  setOnCreateFeed: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export interface FeedCommentProps extends UserDataProps {
@@ -65,7 +67,11 @@ const dummyCommentData: FeedCommentProps[] = [
   },
 ];
 
-export const GroupFeedItem = ({ feed }: GroupFeedItemProps) => {
+export const GroupFeedItem = ({
+  feed,
+  groupId,
+  setOnCreateFeed,
+}: GroupFeedItemProps) => {
   const [isComment, setIsComment] = useState(false);
   const { data: me } = useFetch<User>(ApiRoutes.Me);
 
@@ -87,7 +93,13 @@ export const GroupFeedItem = ({ feed }: GroupFeedItemProps) => {
       pb={2}
     >
       <Flex gap={4} p={4} position={"relative"}>
-        {me?.id === feed.user_id && <ModifyIcon feed={feed} />}
+        {me?.id === feed.user_id && (
+          <ModifyIcon
+            feed={feed}
+            groupId={groupId}
+            setOnCreateFeed={setOnCreateFeed}
+          />
+        )}
         <CircleImg imgSrc={"/noneUserImg.webp"} alt="userImg" size={16} />
         <Flex direction={"column"} gap={1} justifyContent={"end"}>
           <Heading size={"md"}>{feed?.user?.name}</Heading>

@@ -9,9 +9,10 @@ import { GroupFeedItem } from "./GroupFeedItem";
 interface CreateProp {
   onCreateFeed: boolean;
   group: Group;
+  setOnCreateFeed: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const GroupFeed = ({ onCreateFeed, group }: CreateProp) => {
+const GroupFeed = ({ onCreateFeed, group, setOnCreateFeed }: CreateProp) => {
   const { data: feeds } = useFetch<Feed[]>(
     toUrl(ApiRoutes.GroupFeed, { id: group.id })
   );
@@ -25,7 +26,12 @@ const GroupFeed = ({ onCreateFeed, group }: CreateProp) => {
       ) : (
         <Flex direction={"column"} gap={4} p={4} pb={8}>
           {feeds?.map((feed, index) => (
-            <GroupFeedItem feed={feed} key={`feed_${index}`} />
+            <GroupFeedItem
+              feed={feed}
+              key={`feed_${index}`}
+              groupId={group.id}
+              setOnCreateFeed={setOnCreateFeed}
+            />
           ))}
         </Flex>
       )}

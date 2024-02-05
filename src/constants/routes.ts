@@ -11,6 +11,7 @@ export enum ApiRoutes {
   GroupMembers = "clubs/:id/users",
   GroupFeed = "clubs/:id/feeds",
   Feeds = "feeds",
+  Comments = "feeds/:id/comments",
 }
 
 export enum PageRoutes {
@@ -23,6 +24,10 @@ export enum PageRoutes {
   SignUp = "/auth/signup",
   SignOut = "/auth/signout",
   Me = "/auth/me",
+  GroupHome = "/group/:id/home",
+  GroupMember = "/group/:id/member",
+  GroupFeed = "/group/:id/feed",
+  GroupNotice = "/group/:id/notice",
 }
 
 export const navs = [
