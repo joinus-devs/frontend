@@ -1,16 +1,15 @@
 import { useFetch } from "@/apis";
-import { ApiRoutes } from "@/constants";
-import { Feed } from "@/types";
-import { toUrl } from "@/utils";
 import { useRouter } from "next/router";
-import GroupDetail from ".";
+import { Feed as _Feed } from "@/types";
+import { toUrl } from "@/utils";
+import { ApiRoutes } from "@/constants";
 import { GroupFeed } from "@/containers";
+import GroupDetail from "..";
 
-const Notice = () => {
-  //현재 미구현이라서 임시로 Feed로 대체했습니다.
+const Feed = () => {
   const router = useRouter();
   const numberingQueryId = Number(router.query.id);
-  const { data: feeds, isSuccess } = useFetch<Feed[]>(
+  const { data: feeds, isSuccess } = useFetch<_Feed[]>(
     toUrl(ApiRoutes.GroupFeed, { id: numberingQueryId })
   );
   return (
@@ -22,4 +21,4 @@ const Notice = () => {
   );
 };
 
-export default Notice;
+export default Feed;

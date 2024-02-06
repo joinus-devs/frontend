@@ -19,14 +19,9 @@ import { BsThreeDotsVertical } from "react-icons/bs";
 interface ModifyIconProps {
   feed: Feed;
   groupId?: number;
-  setOnCreateFeed: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export const ModifyIcon = ({
-  feed,
-  groupId,
-  setOnCreateFeed,
-}: ModifyIconProps) => {
+export const ModifyIcon = ({ feed, groupId }: ModifyIconProps) => {
   const queryClient = useQueryClient();
   const { openConfirm } = useModalStore(["openConfirm"]);
   const { mutate: deleteFeed } = useDelete(ApiRoutes.Feeds);
@@ -40,7 +35,7 @@ export const ModifyIcon = ({
           </Box>
         </PopoverTrigger>
         <PopoverContent width={20} alignItems={"center"} mt={12}>
-          <Text padding={2} as={"button"} onClick={() => setOnCreateFeed(true)}>
+          <Text padding={2} as={"button"}>
             수정
           </Text>
           <Text

@@ -7,35 +7,17 @@ import { Box, Flex } from "@chakra-ui/react";
 import { GroupFeedItem } from "./GroupFeedItem";
 
 interface CreateProp {
-  onCreateFeed: boolean;
-  group: Group;
-  setOnCreateFeed: React.Dispatch<React.SetStateAction<boolean>>;
+  feeds: Feed[];
+  groupId: number;
 }
 
-const GroupFeed = ({ onCreateFeed, group, setOnCreateFeed }: CreateProp) => {
-  const { data: feeds } = useFetch<Feed[]>(
-    toUrl(ApiRoutes.GroupFeed, { id: group.id })
-  );
-
+const GroupFeed = ({ feeds, groupId }: CreateProp) => {
   return (
-    <Box>
-      {onCreateFeed ? (
-        <Box p={8}>
-          <CreateFeed />
-        </Box>
-      ) : (
-        <Flex direction={"column"} gap={4} p={4} pb={8}>
-          {feeds?.map((feed, index) => (
-            <GroupFeedItem
-              feed={feed}
-              key={`feed_${index}`}
-              groupId={group.id}
-              setOnCreateFeed={setOnCreateFeed}
-            />
-          ))}
-        </Flex>
-      )}
-    </Box>
+    <Flex direction={"column"} gap={4} p={4} pb={8}>
+      {feeds?.map((feed, index) => (
+        <GroupFeedItem feed={feed} key={`feed_${index}`} groupId={groupId} />
+      ))}
+    </Flex>
   );
 };
 export default GroupFeed;

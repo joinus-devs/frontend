@@ -28,6 +28,7 @@ export enum PageRoutes {
   GroupMember = "/group/:id/member",
   GroupFeed = "/group/:id/feed",
   GroupNotice = "/group/:id/notice",
+  GroupCreateFeed = "/group/:id/feed/create",
 }
 
 export const navs = [

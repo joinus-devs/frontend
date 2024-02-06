@@ -1,16 +1,19 @@
-import { groupNavItems } from "@/constants";
+import { PageRoutes, groupNavItems } from "@/constants";
 import { Box, Button, Flex, Tab, TabList, Tabs } from "@chakra-ui/react";
 import { pageRouter } from "./pageRouter";
 import { useRouter } from "next/router";
+import useGetPathname from "./useGetPathname";
+import { toUrl } from "@/utils";
 
 interface GroupNavProps {
-  setSelected: React.Dispatch<React.SetStateAction<string>>;
-  selected: string;
   groupId: number;
 }
 
-const GroupNav = ({ setSelected, selected, groupId }: GroupNavProps) => {
+const GroupNav = ({ groupId }: GroupNavProps) => {
   const router = useRouter();
+  const { name, name2 } = useGetPathname();
+  //pathname을 / 를 기준으로 나누어 group/:id를 제외한 뒤에부분을 name과 name2로 지정했습니다.
+
   return (
     <Flex>
       <Box borderBottomWidth={1} w={8} position={"relative"} top={"1px"} />
@@ -18,9 +21,15 @@ const GroupNav = ({ setSelected, selected, groupId }: GroupNavProps) => {
         <Button
           position={"absolute"}
           right={0}
-          display={selected === "Feed" ? "block" : "none"}
+          display={name === "feed" ? "block" : "none"}
+          onClick={() => {
+            if (name2 === "create")
+              router.push(toUrl(PageRoutes.GroupFeed, { id: groupId }));
+            else
+              router.push(toUrl(PageRoutes.GroupCreateFeed, { id: groupId }));
+          }}
         >
-          작성하기
+          {name2 === "create" ? "돌아가기" : "작성하기"}
         </Button>
         <TabList>
           {groupNavItems.map((v, i) => {

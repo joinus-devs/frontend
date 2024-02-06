@@ -1,15 +1,12 @@
 import { useGetGroup } from "@/apis/group";
 import { DefaultLayout } from "@/components";
-import { PageRoutes } from "@/constants";
 import { GroupDescription, GroupNav } from "@/containers";
 import { GroupBanner } from "@/containers/group";
-import { DynamicRender } from "@/containers/group/DynamicRender";
 import { Group } from "@/types";
-import { toUrl } from "@/utils";
 import { Box, Flex } from "@chakra-ui/react";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 export const dummyGroupData: Group = {
   imgSrc: "/none-groupimg.webp",
@@ -30,8 +27,6 @@ const GroupDetail = ({ children }: GroupDetailProps) => {
   const router = useRouter();
   const numberingQueryId = Number(router.query.id);
   const { data: group, isSuccess } = useGetGroup(numberingQueryId);
-  const [navItem, setNavItem] = useState("Home");
-  const [onCreateFeed, setOnCreateFeed] = useState(false);
 
   return (
     <>
@@ -46,17 +41,7 @@ const GroupDetail = ({ children }: GroupDetailProps) => {
           <Flex direction={"column"} w={"100%"} minH={1400}>
             <GroupBanner />
             <GroupDescription group={group} />
-            <GroupNav
-              setSelected={setNavItem}
-              selected={navItem}
-              groupId={numberingQueryId}
-            />
-            {/* <DynamicRender
-              selected={navItem}
-              group={group}
-              onCreateFeed={onCreateFeed}
-              setOnCreateFeed={setOnCreateFeed}
-            /> */}
+            <GroupNav groupId={numberingQueryId} />
             <Box
               flex={2}
               overflow={"hidden"}
