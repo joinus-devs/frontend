@@ -1,3 +1,4 @@
+import { User } from ".";
 import { Nullable } from "./common";
 
 export interface Group {
@@ -23,16 +24,6 @@ export interface Feed {
   id: number;
   title: string;
   updated_at: string;
-  user: {
-    created_at: string;
-    deleted_at: Nullable<string>;
-    email: string;
-    id: number;
-    name: string;
-    phone: string;
-    sex: boolean;
-    social_id: string;
-    updated_at: string;
-  };
+  user: User;
   user_id: number;
 }

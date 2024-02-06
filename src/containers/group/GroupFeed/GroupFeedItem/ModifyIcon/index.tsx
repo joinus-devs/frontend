@@ -1,6 +1,5 @@
-import { useDelete, usePost } from "@/apis";
-import { ApiRoutes } from "@/constants";
-import { CreateFeed } from "@/containers";
+import { useDelete } from "@/apis";
+import { ApiRoutes, PageRoutes } from "@/constants";
 import { useModalStore } from "@/stores";
 import { Feed } from "@/types";
 import { toUrl } from "@/utils";
@@ -13,7 +12,7 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { useQueryClient } from "@tanstack/react-query";
-import { useState } from "react";
+import { useRouter } from "next/router";
 import { BsThreeDotsVertical } from "react-icons/bs";
 
 interface ModifyIconProps {
@@ -23,9 +22,9 @@ interface ModifyIconProps {
 
 export const ModifyIcon = ({ feed, groupId }: ModifyIconProps) => {
   const queryClient = useQueryClient();
+  const router = useRouter();
   const { openConfirm } = useModalStore(["openConfirm"]);
   const { mutate: deleteFeed } = useDelete(ApiRoutes.Feeds);
-  const post = { title: feed.title, content: feed.content };
   return (
     <>
       <Popover trigger={"click"} placement="left">
@@ -35,7 +34,18 @@ export const ModifyIcon = ({ feed, groupId }: ModifyIconProps) => {
           </Box>
         </PopoverTrigger>
         <PopoverContent width={20} alignItems={"center"} mt={12}>
-          <Text padding={2} as={"button"}>
+          <Text
+            padding={2}
+            as={"button"}
+            onClick={() =>
+              router.push(
+                toUrl(PageRoutes.GroupModifyFeed, {
+                  id: groupId,
+                  feedId: feed.id,
+                })
+              )
+            }
+          >
             수정
           </Text>
           <Text

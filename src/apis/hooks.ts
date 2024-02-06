@@ -14,6 +14,8 @@ import {
   QueryOptions,
 } from "./types";
 import { api } from "./utils";
+import { toUrl } from "@/utils";
+import { ApiRoutes } from "@/constants";
 
 const fetcher = async <T>(context: QueryFunctionContext<QueryKey>) => {
   const { queryKey } = context;
@@ -131,11 +133,11 @@ export const useUpdate = <T = number, S = unknown>(
  * @returns
  */
 export const useDelete = <T = number, S = unknown>(
-  url: string,
+  url: ApiRoutes,
   options?: MutationOptions<ApiResponse<S>, unknown, T>
 ) => {
   return useMutation<ApiResponse<S>, unknown, T>({
-    mutationFn: (id) => api.delete<ApiResponse<S>>(`${url}/${id}`),
+    mutationFn: (id) => api.delete<ApiResponse<S>>(toUrl(url, { id })),
     ...options,
   });
 };

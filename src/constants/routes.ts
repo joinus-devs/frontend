@@ -10,7 +10,7 @@ export enum ApiRoutes {
   Category = "categories",
   GroupMembers = "clubs/:id/users",
   GroupFeed = "clubs/:id/feeds",
-  Feeds = "feeds",
+  Feeds = "feeds/:id",
   Comments = "feeds/:id/comments",
 }
 
@@ -29,6 +29,7 @@ export enum PageRoutes {
   GroupFeed = "/group/:id/feed",
   GroupNotice = "/group/:id/notice",
   GroupCreateFeed = "/group/:id/feed/create",
+  GroupModifyFeed = "/group/:id/feed/:feedId/modify",
 }
 
 export const navs = [
