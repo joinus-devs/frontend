@@ -10,4 +10,5 @@ export interface User {
   phone: string;
   email: string;
   social_id: string;
+  role?: string;
 }

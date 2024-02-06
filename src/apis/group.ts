@@ -1,30 +1,12 @@
 import { ApiRoutes } from "@/constants";
-import { useDelete, useFetch, usePost } from "./hooks";
+import { Group, User } from "@/types";
 import { toUrl } from "@/utils";
-import { ApiResponse } from "./types";
-import { User } from "@/types";
-interface Group {
-  id: number;
-  created_at: string;
-  updated_at: string;
-  deleted_at: string;
-  name: string;
-  description: string;
-  capacity: number;
-  sex: boolean;
-  minimum_age: number;
-  maximum_age: number;
-  categories: string[];
-}
+import { useFetch } from "./hooks";
 
-interface FeedCreate {
-  title: string;
-  content: string;
-}
 export const useGetGroup = (id?: number) => {
   return useFetch<Group>(toUrl(ApiRoutes.Group, { id }));
 };
 
-export const useGetGroupMembers = (id: number) => {
-  return useFetch<User[]>(toUrl(ApiRoutes.GroupMembers, { id }));
+export const useGetGroupMembers = (id: number, params?: object) => {
+  return useFetch<User[]>(toUrl(ApiRoutes.GroupMembers, { id }), params);
 };

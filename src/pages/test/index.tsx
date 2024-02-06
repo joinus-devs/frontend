@@ -15,7 +15,7 @@ const Test = () => {
   const { data: categories, refetch: getCategories } = useFetch(
     toUrl(ApiRoutes.Category)
   );
-  const { mutate: deleteCategory } = useDelete(toUrl(ApiRoutes.Category));
+  const { mutate: deleteCategory } = useDelete(ApiRoutes.Category);
   const { refetch: getGroupMembers } = useGetGroupMembers(3);
   const { mutate: postFeed } = usePost(toUrl(ApiRoutes.GroupFeed, { id: 1 }));
   const { refetch: getFeed } = useFetch(toUrl(ApiRoutes.GroupFeed, { id: 1 }));
@@ -43,7 +43,7 @@ const Test = () => {
       description: "gd2",
       maximum_age: 100,
       minimum_age: 0,
-      name: "test2",
+      name: "test3",
       sex: true,
     });
   };
@@ -61,7 +61,13 @@ const Test = () => {
       <Button onClick={() => deleteCategory(1)}>delete Category</Button>
       <Button onClick={() => getGroupMembers()}>get Group Members</Button>
       <Button
-        onClick={() => postFeed({ content: "안녕하세요", title: "제목test" })}
+        onClick={() =>
+          postFeed({
+            content: "안녕하세요",
+            title: "제목test",
+            is_private: false,
+          })
+        }
       >
         post Feed
       </Button>

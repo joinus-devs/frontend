@@ -5,12 +5,9 @@ import { useRouter } from "next/router";
 
 const Member = () => {
   const router = useRouter();
-  const numberingQueryId = Number(router.query.id);
-  const { data: member, isSuccess } = useGetGroupMembers(numberingQueryId);
-
   return (
     <GroupDetail>
-      {isSuccess && member && <GroupMember member={member} />}
+      <GroupMember />
     </GroupDetail>
   );
 };
