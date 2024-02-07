@@ -1,8 +1,8 @@
 import { Flex } from "@chakra-ui/react";
-import { FeedCommentProps } from "../GroupFeedItem";
 import { Comment } from "./Comment";
+import { Comment as _Comment } from "@/types";
 interface GroupFeedCommentsProps {
-  comments: FeedCommentProps[];
+  comments: _Comment[];
 }
 
 const GroupFeedComments = ({ comments }: GroupFeedCommentsProps) => {

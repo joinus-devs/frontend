@@ -1,5 +1,5 @@
 import { groupMaxParticipants } from "@/constants";
-import { FormValues } from "@/pages/group/create";
+import { CreateGroupFormValues } from "@/pages/group/create";
 import {
   Button,
   Flex,
@@ -15,8 +15,8 @@ import { useCallback } from "react";
 import { UseFormSetValue, UseFormWatch } from "react-hook-form";
 
 interface SetGroupOptionsProps {
-  setValue: UseFormSetValue<FormValues>;
-  watch: UseFormWatch<FormValues>;
+  setValue: UseFormSetValue<CreateGroupFormValues>;
+  watch: UseFormWatch<CreateGroupFormValues>;
 }
 
 const SetGroupOptions = ({ setValue, watch }: SetGroupOptionsProps) => {

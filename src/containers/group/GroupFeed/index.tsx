@@ -1,13 +1,9 @@
-import { useFetch } from "@/apis";
-import { ApiRoutes } from "@/constants";
-import { CreateFeed } from "@/containers";
-import { Feed, Group } from "@/types";
-import { toUrl } from "@/utils";
-import { Box, Flex } from "@chakra-ui/react";
+import { FeedInGroup } from "@/types";
+import { Flex } from "@chakra-ui/react";
 import { GroupFeedItem } from "./GroupFeedItem";
 
 interface CreateProp {
-  feeds: Feed[];
+  feeds: FeedInGroup[];
   groupId: number;
 }
 

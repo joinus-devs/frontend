@@ -17,18 +17,18 @@ const Test = () => {
   );
   const { mutate: deleteCategory } = useDelete(ApiRoutes.Category);
   const { refetch: getGroupMembers } = useGetGroupMembers(3);
-  const { mutate: postFeed } = usePost(toUrl(ApiRoutes.GroupFeed, { id: 1 }));
+  const { mutate: postFeed } = usePost(toUrl(ApiRoutes.GroupFeed, { id: 3 }));
   const { refetch: getFeed } = useFetch(toUrl(ApiRoutes.GroupFeed, { id: 1 }));
   const { mutate: postComment } = usePost(toUrl(ApiRoutes.Comments, { id: 5 }));
 
   const handlerSignUp = () => {
     signup({
       password: "1234",
-      social_id: "12345",
-      name: "SeongHwi2",
+      social_id: "123456",
+      name: "SeongHwi3",
       sex: true,
       phone: "01012341234",
-      email: "1234@gmail.com",
+      email: "12345@gmail.com",
     });
   };
 
@@ -39,7 +39,7 @@ const Test = () => {
   const handlerPostClub = () => {
     postClub({
       capacity: 20,
-      categories: [2],
+      categories: [1],
       description: "gd2",
       maximum_age: 100,
       minimum_age: 0,

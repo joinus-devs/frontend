@@ -14,3 +14,18 @@ export const pageRouter = (name: string, id: number, router: NextRouter) => {
       return router.push(toUrl(PageRoutes.GroupNotice, { id }));
   }
 };
+
+export const switchTab = (name: string) => {
+  switch (name) {
+    case "home":
+      return 0;
+    case "member":
+      return 1;
+    case "feed":
+      return 2;
+    case "notice":
+      return 3;
+    default:
+      return 4;
+  }
+};

@@ -20,7 +20,7 @@ interface ModifyIconProps {
   groupId?: number;
 }
 
-export const ModifyIcon = ({ feed, groupId }: ModifyIconProps) => {
+export const FeedModifyIcon = ({ feed, groupId }: ModifyIconProps) => {
   const queryClient = useQueryClient();
   const router = useRouter();
   const { openConfirm } = useModalStore(["openConfirm"]);

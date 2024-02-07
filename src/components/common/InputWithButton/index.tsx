@@ -1,4 +1,6 @@
+import { PostComment } from "@/containers/group/GroupFeed/GroupFeedItem";
 import { Button, Flex, Icon, Input } from "@chakra-ui/react";
+import { UseFormRegister } from "react-hook-form";
 import { IconType } from "react-icons";
 
 interface InputWithButtonProps {
@@ -9,6 +11,7 @@ interface InputWithButtonProps {
   inputStyle?: React.CSSProperties;
   buttonStyle?: React.CSSProperties;
   iconStyle?: React.CSSProperties;
+  register?: UseFormRegister<PostComment>;
 }
 
 const InputWithButton = ({
@@ -19,6 +22,7 @@ const InputWithButton = ({
   inputStyle,
   buttonStyle,
   iconStyle,
+  register,
 }: InputWithButtonProps) => {
   return (
     <Flex as={"form"} style={boxStyle} onSubmit={hanldeSubmit}>

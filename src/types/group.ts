@@ -1,11 +1,7 @@
 import { User } from ".";
-import { Nullable } from "./common";
+import { timer } from ".";
 
-export interface Group {
-  id?: number;
-  created_at?: string;
-  updated_at?: string;
-  deleted_at?: string;
+export interface Group extends timer {
   name: string;
   description: string;
   capacity: number;
@@ -16,14 +12,26 @@ export interface Group {
   imgSrc?: string;
 }
 
-export interface Feed {
+export interface Feed extends timer {
   club_id: number;
   content: string;
-  created_at: string;
-  deleted_at: Nullable<string>;
-  id: number;
   title: string;
-  updated_at: string;
   user: User;
   user_id: number;
+}
+
+export interface FeedInGroup extends timer {
+  title: string;
+  content: string;
+  user_id: number;
+  club_id: number;
+  user: User;
+  comments: Comment[];
+}
+
+export interface Comment extends timer {
+  content: string;
+  feed_id: number;
+  user_id: number;
+  user: User;
 }

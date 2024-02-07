@@ -2,22 +2,9 @@ import { useGetGroup } from "@/apis/group";
 import { DefaultLayout } from "@/components";
 import { GroupDescription, GroupNav } from "@/containers";
 import { GroupBanner } from "@/containers/group";
-import { Group } from "@/types";
 import { Box, Flex } from "@chakra-ui/react";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { useState } from "react";
-
-export const dummyGroupData: Group = {
-  imgSrc: "/none-groupimg.webp",
-  name: "음악속으로",
-  categories: ["음악"],
-  description: "안녕하세요! 음악을 좋아하는 사람들의 모임입니다.",
-  minimum_age: 0,
-  maximum_age: 100,
-  capacity: 10,
-  sex: true,
-};
 
 interface GroupDetailProps {
   children: React.ReactNode;

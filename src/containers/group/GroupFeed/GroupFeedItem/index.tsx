@@ -1,32 +1,35 @@
+import { useFetch, usePost } from "@/apis";
 import { CircleImg } from "@/components";
 import InputWithButton from "@/components/common/InputWithButton";
+import { ApiRoutes } from "@/constants";
 import GroupFeedComments from "@/containers/group/GroupFeed/GroupFeedComments";
 import { useBgColor } from "@/hooks";
-import { Box, Flex, Heading, Text } from "@chakra-ui/react";
+import { FeedInGroup, User } from "@/types";
+import { toUrl } from "@/utils";
+import {
+  Box,
+  Button,
+  Flex,
+  Heading,
+  Icon,
+  Input,
+  Text,
+} from "@chakra-ui/react";
 import { useCallback, useState } from "react";
+import { useForm } from "react-hook-form";
 import { FaCheck } from "react-icons/fa";
 import { LikeCommentCounter } from "./LikeCommentCounter";
-import { ModifyIcon } from "./ModifyIcon";
-import { useFetch } from "@/apis";
-import { ApiRoutes } from "@/constants";
-import { Feed, User } from "@/types";
+import { FeedModifyIcon } from "./FeedModifyIcon";
+import { useQueryClient } from "@tanstack/react-query";
+import { formatISO } from "@/utils/date";
 
 interface GroupFeedItemProps {
-  feed: Feed;
+  feed: FeedInGroup;
   groupId?: number;
 }
 
-export interface FeedCommentProps extends UserDataProps {
-  id: number;
-  postId: number;
-  userId: number;
-  comment: string;
-  createdAt: string;
-}
-
-interface UserDataProps {
-  userName: string;
-  userImgSrc: string;
+export interface PostComment {
+  content: string;
 }
 
 export const dummyUserData = {
@@ -35,49 +38,40 @@ export const dummyUserData = {
   imgSrc: "/noneUserImg.webp",
 };
 
-const dummyCommentData: FeedCommentProps[] = [
-  {
-    id: 0,
-    postId: 1,
-    userId: 1,
-    comment: "ㅋㅋ하이용",
-    createdAt: "2024-01-14",
-    userName: "윤승휘",
-    userImgSrc: "/noneUserImg.webp",
-  },
-  {
-    id: 4,
-    postId: 1,
-    userId: 4,
-    comment:
-      "test댓글 입니다.test댓글 입니다.test댓글 입니다.test댓글 입니다.test댓글 입니다.test댓글 입니다.test댓글 입니다.test댓글 입니다.test댓글 입니다.test댓글 입니다.test댓글 입니다.test댓글 입니다.test댓글 입니다.test댓글 입니다.test댓글 입니다.test댓글 입니다.test댓글 입니다.test댓글 입니다.test댓글 입니다.test댓글 입니다.test댓글 입니다.test댓글 입니다.test댓글 입니다.test댓글 입니다.test댓글 입니다.test댓글 입니다.test댓글 입니다.test댓글 입니다.",
-    createdAt: "2024-01-14",
-    userName: "이승준",
-    userImgSrc: "/noneUserImg.webp",
-  },
-  {
-    id: 6,
-    postId: 2,
-    userId: 7,
-    comment: "댓글입니다.",
-    createdAt: "2024-01-14",
-    userName: "김민수",
-    userImgSrc: "/noneUserImg.webp",
-  },
-];
+const initialFormValues: PostComment = {
+  content: "",
+};
 
 export const GroupFeedItem = ({ feed, groupId }: GroupFeedItemProps) => {
   const [isComment, setIsComment] = useState(false);
+  const queryClient = useQueryClient();
   const { data: me } = useFetch<User>(ApiRoutes.Me);
+  const { mutate: postComment } = usePost(
+    toUrl(ApiRoutes.Comments, { id: feed.id })
+  );
 
+  const { register, handleSubmit } = useForm<PostComment>({
+    defaultValues: initialFormValues,
+  });
+
+  const comments = feed.comments;
   const bgColor = useBgColor();
-  const comments = dummyCommentData.filter((v) => v.postId === feed.id);
 
   const handleCommentClick = useCallback(() => {
     setIsComment((prev) => !prev);
   }, []);
 
-  const handleSubmitComment = useCallback(() => {}, []);
+  const handleSubmitComment = useCallback(
+    (data: PostComment) => {
+      postComment(data, {
+        onSuccess: () =>
+          queryClient.invalidateQueries({
+            queryKey: [toUrl(ApiRoutes.GroupFeed, { id: groupId })],
+          }),
+      });
+    },
+    [groupId, postComment, queryClient]
+  );
 
   return (
     <Flex
@@ -89,17 +83,18 @@ export const GroupFeedItem = ({ feed, groupId }: GroupFeedItemProps) => {
     >
       <Flex gap={4} p={4} position={"relative"}>
         {me?.id === feed.user_id && (
-          <ModifyIcon feed={feed} groupId={groupId} />
+          <FeedModifyIcon feed={feed} groupId={groupId} />
         )}
         <CircleImg imgSrc={"/noneUserImg.webp"} alt="userImg" size={16} />
         <Flex direction={"column"} gap={1} justifyContent={"end"}>
-          <Heading size={"md"}>{feed?.user?.name}</Heading>
-          <Box opacity={0.7}>1 month ago</Box>
+          <Heading size={"md"}>{feed.user?.name}</Heading>
+          <Box opacity={0.7}>{formatISO(feed.created_at)}</Box>
         </Flex>
       </Flex>
-      <Box minH={100} p={4} pl={6}>
+      <Flex minH={100} p={4} pl={6} direction={"column"} gap={4}>
+        <Heading size={"md"}>{feed.title}</Heading>
         <Text fontSize={"lg"}>{feed.content}</Text>
-      </Box>
+      </Flex>
       <LikeCommentCounter
         commentCount={comments.length}
         likeCount={0}
@@ -107,14 +102,32 @@ export const GroupFeedItem = ({ feed, groupId }: GroupFeedItemProps) => {
       />
       <Flex p={4} gap={2} alignItems={"center"}>
         <CircleImg imgSrc={"/noneUserImg.webp"} alt="userImg" size={14} />
-        <InputWithButton
-          placeholder="댓글을 입력하세요."
-          hanldeSubmit={handleSubmitComment}
-          icon={FaCheck}
-          boxStyle={{ position: "relative", width: "100%" }}
-          buttonStyle={{ right: 0 }}
-          inputStyle={{ marginLeft: 4 }}
-        />
+        <Flex
+          as={"form"}
+          position={"relative"}
+          w={"100%"}
+          onSubmit={handleSubmit(handleSubmitComment)}
+        >
+          <Input
+            placeholder={"댓글을 입력하세요"}
+            size="lg"
+            h={16}
+            ml={4}
+            {...register("content")}
+          />
+          <Button
+            type="submit"
+            position={"absolute"}
+            fontWeight={"bold"}
+            m={2}
+            w={12}
+            h={12}
+            zIndex={1}
+            right={0}
+          >
+            <Icon as={FaCheck} />
+          </Button>
+        </Flex>
       </Flex>
 
       {isComment && comments.length ? (

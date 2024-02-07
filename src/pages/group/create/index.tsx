@@ -1,18 +1,16 @@
-import { DefaultLayout } from "@/components";
-import { CustomBtn, SetGroup, SetGroupOptions } from "@/containers";
-import { Box, Container, Flex, Heading } from "@chakra-ui/react";
-import Head from "next/head";
-import { useForm } from "react-hook-form";
-import { keyframes } from "@emotion/react";
-import { useCallback, useEffect } from "react";
-import { useBgColor } from "@/hooks";
 import { usePost } from "@/apis/hooks";
-import { toUrl } from "@/utils";
+import { DefaultLayout } from "@/components";
 import { ApiRoutes } from "@/constants";
-import { useSignin } from "@/apis";
-import { api } from "@/apis/utils";
+import { CustomBtn, SetGroup, SetGroupOptions } from "@/containers";
+import { useBgColor } from "@/hooks";
+import { toUrl } from "@/utils";
+import { Box, Container, Flex, Heading } from "@chakra-ui/react";
+import { keyframes } from "@emotion/react";
+import Head from "next/head";
+import { useCallback } from "react";
+import { useForm } from "react-hook-form";
 
-export interface FormValues {
+export interface CreateGroupFormValues {
   name: string;
   category: string;
   description: string;
@@ -21,7 +19,7 @@ export interface FormValues {
   capacity: number;
 }
 
-export const initialFormValues: FormValues = {
+export const initialFormValues: CreateGroupFormValues = {
   name: "",
   category: "",
   description: "",
@@ -42,31 +40,22 @@ export const bgColorAnimation = keyframes`
 `;
 
 const CreateGroup = () => {
-  const { register, handleSubmit, setValue, watch } = useForm<FormValues>({
-    defaultValues: initialFormValues,
-  });
+  const { register, handleSubmit, setValue, watch } =
+    useForm<CreateGroupFormValues>({
+      defaultValues: initialFormValues,
+    });
 
   const { mutate: postClub } = usePost(toUrl(ApiRoutes.Group));
 
   const onSubmit = useCallback(
-    (data: FormValues) => {
+    (data: CreateGroupFormValues) => {
       const { category, ...rest } = data;
       const modifiedData = {
         ...rest,
         categories: [Number(category)],
         sex: true,
       };
-      postClub(modifiedData, {
-        onSuccess: (res) => {
-          console.log("succeess", res);
-        },
-        onError: (error) => {
-          console.log("err", error);
-        },
-        onSettled: (res) => {
-          console.log("settled", res);
-        },
-      });
+      postClub(modifiedData);
     },
     [postClub]
   );

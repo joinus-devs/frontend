@@ -1,14 +1,11 @@
-import { Nullable } from ".";
+import { timer } from ".";
 
-export interface User {
-  id: number;
-  created_at: string;
-  updated_at: string;
-  deleted_at: Nullable<string>;
+export interface User extends timer {
   name: string;
   sex: boolean;
   phone: string;
   email: string;
   social_id: string;
   role?: string;
+  exp?: number;
 }
