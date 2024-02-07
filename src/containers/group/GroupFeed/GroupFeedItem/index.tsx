@@ -1,11 +1,11 @@
 import { useFetch, usePost } from "@/apis";
 import { CircleImg } from "@/components";
-import InputWithButton from "@/components/common/InputWithButton";
 import { ApiRoutes } from "@/constants";
 import GroupFeedComments from "@/containers/group/GroupFeed/GroupFeedComments";
 import { useBgColor } from "@/hooks";
-import { FeedInGroup, User } from "@/types";
+import { Feed, User, Comment } from "@/types";
 import { toUrl } from "@/utils";
+import { formatISO } from "@/utils/date";
 import {
   Box,
   Button,
@@ -15,16 +15,15 @@ import {
   Input,
   Text,
 } from "@chakra-ui/react";
-import { useCallback, useState } from "react";
+import { useQueryClient } from "@tanstack/react-query";
+import { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { FaCheck } from "react-icons/fa";
-import { LikeCommentCounter } from "./LikeCommentCounter";
 import { FeedModifyIcon } from "./FeedModifyIcon";
-import { useQueryClient } from "@tanstack/react-query";
-import { formatISO } from "@/utils/date";
+import { LikeCommentCounter } from "./LikeCommentCounter";
 
 interface GroupFeedItemProps {
-  feed: FeedInGroup;
+  feed: Feed;
   groupId?: number;
 }
 
@@ -45,16 +44,21 @@ const initialFormValues: PostComment = {
 export const GroupFeedItem = ({ feed, groupId }: GroupFeedItemProps) => {
   const [isComment, setIsComment] = useState(false);
   const queryClient = useQueryClient();
+
   const { data: me } = useFetch<User>(ApiRoutes.Me);
+
   const { mutate: postComment } = usePost(
     toUrl(ApiRoutes.Comments, { id: feed.id })
   );
+  const { data: comments, refetch: fetchComment } = useFetch<Comment[]>(
+    toUrl(ApiRoutes.Comments, { id: feed.id }),
+    undefined
+  );
 
-  const { register, handleSubmit } = useForm<PostComment>({
+  const { register, handleSubmit, reset } = useForm<PostComment>({
     defaultValues: initialFormValues,
   });
 
-  const comments = feed.comments;
   const bgColor = useBgColor();
 
   const handleCommentClick = useCallback(() => {
@@ -64,14 +68,21 @@ export const GroupFeedItem = ({ feed, groupId }: GroupFeedItemProps) => {
   const handleSubmitComment = useCallback(
     (data: PostComment) => {
       postComment(data, {
-        onSuccess: () =>
+        onSuccess: () => {
           queryClient.invalidateQueries({
             queryKey: [toUrl(ApiRoutes.GroupFeed, { id: groupId })],
-          }),
+          });
+          reset(initialFormValues);
+        },
       });
     },
-    [groupId, postComment, queryClient]
+    [groupId, postComment, queryClient, reset]
   );
+
+  useEffect(() => {
+    if (!isComment) return;
+    fetchComment();
+  }, [fetchComment, isComment]);
 
   return (
     <Flex
@@ -96,7 +107,7 @@ export const GroupFeedItem = ({ feed, groupId }: GroupFeedItemProps) => {
         <Text fontSize={"lg"}>{feed.content}</Text>
       </Flex>
       <LikeCommentCounter
-        commentCount={comments?.length}
+        commentCount={feed.comment_count}
         likeCount={0}
         handleCommentClick={handleCommentClick}
       />
@@ -114,6 +125,7 @@ export const GroupFeedItem = ({ feed, groupId }: GroupFeedItemProps) => {
             h={16}
             ml={4}
             {...register("content")}
+            name="comment_input"
           />
           <Button
             type="submit"

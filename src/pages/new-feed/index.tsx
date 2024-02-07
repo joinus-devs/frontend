@@ -2,7 +2,7 @@ import { useFetch } from "@/apis";
 import { CircleImg, DefaultLayout } from "@/components";
 import { ApiRoutes } from "@/constants";
 import { GroupFeedItem } from "@/containers/group/GroupFeed/GroupFeedItem";
-import { FeedInGroup } from "@/types";
+import { FeedWithPage } from "@/types";
 import { toUrl } from "@/utils";
 import { Box, Flex, Heading, Tag } from "@chakra-ui/react";
 import Head from "next/head";
@@ -12,8 +12,9 @@ const dummyGroupData = {
   name: "dummy",
 };
 const NewFeed = () => {
-  const { data: Feeds } = useFetch<FeedInGroup[]>(toUrl(ApiRoutes.Feeds));
+  const { data: feeds } = useFetch<FeedWithPage>(toUrl(ApiRoutes.Feeds));
   const router = useRouter();
+
   return (
     <>
       <Head>
@@ -24,7 +25,7 @@ const NewFeed = () => {
       </Head>
       <DefaultLayout>
         <Flex w={"100%"} direction={"column"} pt={8} pb={8} gap={8}>
-          {Feeds?.map((feed, index) => {
+          {feeds?.data.map((feed, index) => {
             return (
               <Flex
                 gap={4}

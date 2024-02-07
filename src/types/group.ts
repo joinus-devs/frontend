@@ -18,15 +18,9 @@ export interface Feed extends timer {
   title: string;
   user: User;
   user_id: number;
-}
-
-export interface FeedInGroup extends timer {
-  title: string;
-  content: string;
-  user_id: number;
-  club_id: number;
-  user: User;
-  comments: Comment[];
+  is_private: boolean;
+  comment_count: number;
+  club?: Group;
 }
 
 export interface Comment extends timer {
@@ -34,4 +28,9 @@ export interface Comment extends timer {
   feed_id: number;
   user_id: number;
   user: User;
+}
+
+export interface FeedWithPage {
+  next: number;
+  data: Feed[];
 }
