@@ -96,7 +96,7 @@ export const GroupFeedItem = ({ feed, groupId }: GroupFeedItemProps) => {
         <Text fontSize={"lg"}>{feed.content}</Text>
       </Flex>
       <LikeCommentCounter
-        commentCount={comments.length}
+        commentCount={comments?.length}
         likeCount={0}
         handleCommentClick={handleCommentClick}
       />
@@ -130,7 +130,7 @@ export const GroupFeedItem = ({ feed, groupId }: GroupFeedItemProps) => {
         </Flex>
       </Flex>
 
-      {isComment && comments.length ? (
+      {isComment && comments?.length ? (
         <GroupFeedComments comments={comments} />
       ) : (
         ""

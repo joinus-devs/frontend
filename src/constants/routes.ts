@@ -10,7 +10,7 @@ export enum ApiRoutes {
   Category = "categories",
   GroupMembers = "clubs/:id/users",
   GroupFeed = "clubs/:id/feeds",
-  Feeds = "feeds/:id",
+  Feeds = "feeds/:id?",
   Comments = "feeds/:id/comments",
 }
 

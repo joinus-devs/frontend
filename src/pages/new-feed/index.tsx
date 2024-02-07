@@ -1,16 +1,18 @@
+import { useFetch } from "@/apis";
 import { CircleImg, DefaultLayout } from "@/components";
+import { ApiRoutes } from "@/constants";
 import { GroupFeedItem } from "@/containers/group/GroupFeed/GroupFeedItem";
+import { FeedInGroup } from "@/types";
+import { toUrl } from "@/utils";
 import { Box, Flex, Heading, Tag } from "@chakra-ui/react";
 import Head from "next/head";
-import { dummyGroupData } from "../group/[id]";
 import { useRouter } from "next/router";
-import { useFetch } from "@/apis";
-import { Feed } from "@/types";
-import { toUrl } from "@/utils";
-import { ApiRoutes } from "@/constants";
 
+const dummyGroupData = {
+  name: "dummy",
+};
 const NewFeed = () => {
-  const { data: Feeds } = useFetch<Feed[]>(toUrl(ApiRoutes.Feeds));
+  const { data: Feeds } = useFetch<FeedInGroup[]>(toUrl(ApiRoutes.Feeds));
   const router = useRouter();
   return (
     <>

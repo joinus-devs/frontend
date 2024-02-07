@@ -1,7 +1,6 @@
+import { ApiRoutes } from "@/constants";
 import { toUrl } from "@/utils";
 import { usePost } from "./hooks";
-import { ApiRoutes } from "@/constants";
-import { api } from "./utils";
 
 interface SigninRequest {
   email: string;
