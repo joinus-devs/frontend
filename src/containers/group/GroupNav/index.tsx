@@ -56,6 +56,21 @@ const GroupNav = ({ groupId }: GroupNavProps) => {
         >
           {name2 === "create" ? "돌아가기" : "작성하기"}
         </Button>
+        <Button
+          position={"absolute"}
+          right={0}
+          display={name === "member" ? "block" : "none"}
+          onClick={() => {
+            if (name2 === "permission")
+              router.push(toUrl(PageRoutes.GroupMember, { id: groupId }));
+            else
+              router.push(
+                toUrl(PageRoutes.GroupPermissionMember, { id: groupId })
+              );
+          }}
+        >
+          {name2 === "permission" ? "돌아가기" : "승인목록"}
+        </Button>
         <TabList>
           {groupNavItems.map((v, i) => {
             return (

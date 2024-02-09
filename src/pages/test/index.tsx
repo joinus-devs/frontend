@@ -20,20 +20,23 @@ const Test = () => {
   const { mutate: postFeed } = usePost(toUrl(ApiRoutes.GroupFeed, { id: 3 }));
   const { refetch: getFeed } = useFetch(toUrl(ApiRoutes.GroupFeed, { id: 1 }));
   const { mutate: postComment } = usePost(toUrl(ApiRoutes.Comments, { id: 5 }));
+  const { mutate: joinClub } = usePost(
+    toUrl(ApiRoutes.GroupMembers, { id: 3 })
+  );
 
   const handlerSignUp = () => {
     signup({
-      password: "1234",
-      social_id: "123456",
-      name: "SeongHwi3",
+      password: "12345",
+      social_id: "1234566",
+      name: "SeongHwi4",
       sex: true,
       phone: "01012341234",
-      email: "12345@gmail.com",
+      email: "123456@gmail.com",
     });
   };
 
   const handlerSignIn = () => {
-    signin({ email: "1234@gmail.com", password: "1234" });
+    signin({ email: "123456@gmail.com", password: "12345" });
   };
 
   const handlerPostClub = () => {
@@ -75,6 +78,7 @@ const Test = () => {
       <Button onClick={() => postComment({ content: "댓글test" })}>
         post comment
       </Button>
+      <Button onClick={() => joinClub({})}>joinClub</Button>
     </>
   );
 };

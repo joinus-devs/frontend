@@ -115,7 +115,7 @@ export const usePost = <T = object, S = unknown>(
  * @param options mutation options (ex. onSuccess, onError, onSettled)
  * @returns
  */
-export const useUpdate = <T = number, S = unknown>(
+export const useUpdate = <T = object, S = unknown>(
   url: string,
   options?: MutationOptions<ApiResponse<S>, unknown, T>
 ) => {

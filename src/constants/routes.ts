@@ -8,7 +8,7 @@ export enum ApiRoutes {
   SignOut = "auth/signout",
   Me = "auth/me",
   Category = "categories",
-  GroupMembers = "clubs/:id/users",
+  GroupMembers = "clubs/:id/users/:userId?",
   GroupFeed = "clubs/:id/feeds",
   Feeds = "feeds/:id?",
   Comments = "feeds/:id/comments",
@@ -30,6 +30,7 @@ export enum PageRoutes {
   GroupNotice = "/group/:id/notice",
   GroupCreateFeed = "/group/:id/feed/create",
   GroupModifyFeed = "/group/:id/feed/:feedId/modify",
+  GroupPermissionMember = "/group/:id/member/permission",
 }
 
 export const navs = [
