@@ -2,6 +2,7 @@ import { useFetch } from "@/apis";
 import { CircleImg, DefaultLayout } from "@/components";
 import { ApiRoutes } from "@/constants";
 import { GroupFeedItem } from "@/containers/group/GroupFeed/GroupFeedItem";
+import { useBgColor } from "@/hooks";
 import { FeedWithPage } from "@/types";
 import { toUrl } from "@/utils";
 import { Box, Flex, Heading, Tag } from "@chakra-ui/react";
@@ -14,7 +15,7 @@ const dummyGroupData = {
 const NewFeed = () => {
   const { data: feeds } = useFetch<FeedWithPage>(toUrl(ApiRoutes.Feeds));
   const router = useRouter();
-
+  const bgColor = useBgColor();
   return (
     <>
       <Head>
@@ -45,6 +46,7 @@ const NewFeed = () => {
                   position={"relative"}
                   boxShadow={"md"}
                   borderRadius={12}
+                  backgroundColor={bgColor}
                 >
                   <Tag
                     position={"absolute"}
