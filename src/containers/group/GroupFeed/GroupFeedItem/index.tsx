@@ -1,4 +1,4 @@
-import { useFetch, usePost } from "@/apis";
+import { _useFetch, useFetch, usePost } from "@/apis";
 import { CircleImg } from "@/components";
 import { ApiRoutes } from "@/constants";
 import GroupFeedComments from "@/containers/group/GroupFeed/GroupFeedComments";
@@ -50,7 +50,8 @@ export const GroupFeedItem = ({ feed, groupId }: GroupFeedItemProps) => {
   const { mutate: postComment } = usePost(
     toUrl(ApiRoutes.Comments, { id: feed.id })
   );
-  const { data: comments, refetch: fetchComment } = useFetch<Comment[]>(
+
+  const { data: comments, refetch: fetchComment } = _useFetch<Comment[]>(
     toUrl(ApiRoutes.Comments, { id: feed.id }),
     undefined
   );

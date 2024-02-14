@@ -56,6 +56,18 @@ export const useFetch = <T>(
   });
 };
 
+export const _useFetch = <T>(
+  url: string,
+  params?: object,
+  options?: QueryOptions<T>
+) => {
+  return _useQuery<T, ApiError, T, QueryKey>({
+    queryKey: [url!, params],
+    queryFn: fetcher,
+    enabled: false,
+    ...options,
+  });
+};
 /**
  * T = 서버에서 받아올 데이터의 타입
  * @param url 요청할 url
