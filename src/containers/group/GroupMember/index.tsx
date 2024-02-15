@@ -21,9 +21,9 @@ const GroupMember = () => {
   return (
     <Box minH={800}>
       <Flex gap={8} direction={"column"} pt={8}>
-        <Template groupMember={admin} header="Admin" />
-        <Template groupMember={staff} header="Manager" />
-        <Template groupMember={member} header="User" />
+        <Template groupMember={admin?.data} header="Admin" />
+        <Template groupMember={staff?.data} header="Manager" />
+        <Template groupMember={member?.data} header="User" />
       </Flex>
     </Box>
   );

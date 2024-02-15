@@ -9,3 +9,8 @@ export interface User extends timer {
   role?: string;
   exp?: number;
 }
+
+export interface UserWithPage {
+  data: User[];
+  next?: number;
+}

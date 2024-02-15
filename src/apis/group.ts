@@ -1,5 +1,5 @@
 import { ApiRoutes } from "@/constants";
-import { Group, User } from "@/types";
+import { Group, UserWithPage } from "@/types";
 import { toUrl } from "@/utils";
 import { useFetch } from "./hooks";
 
@@ -8,5 +8,5 @@ export const useGetGroup = (id?: number) => {
 };
 
 export const useGetGroupMembers = (id: number, params?: object) => {
-  return useFetch<User[]>(toUrl(ApiRoutes.GroupMembers, { id }), params);
+  return useFetch<UserWithPage>(toUrl(ApiRoutes.GroupMembers, { id }), params);
 };
