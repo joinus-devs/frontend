@@ -1,25 +1,34 @@
-import { useRouter } from "next/router";
-import GroupDetail from "..";
-import { useFetch, useUpdate } from "@/apis";
-import { toUrl } from "@/utils";
-import { ApiRoutes } from "@/constants";
-import { Box, Button, Flex, Heading, Text } from "@chakra-ui/react";
-import { User } from "@/types";
+import { useDelete, useFetch, useUpdate } from "@/apis";
 import { CircleImg } from "@/components";
+import { ApiRoutes } from "@/constants";
+import { UserWithPage } from "@/types";
+import { toUrl } from "@/utils";
 import { formatISO } from "@/utils/date";
+import { Button, Flex, Heading, Text } from "@chakra-ui/react";
 import { useQueryClient } from "@tanstack/react-query";
-import { useCallback, useState } from "react";
+import { useRouter } from "next/router";
+import { useState } from "react";
+import GroupDetail from "..";
 
 const Permission = () => {
   const [permissionUser, setPermissionUser] = useState<number | null>(null);
   const router = useRouter();
   const numberingQueryId = Number(router.query.id);
   const queryClient = useQueryClient();
-  const { data: pendingMembers, isSuccess } = useFetch<User[]>(
+
+  const { data: pendingMembers, isSuccess } = useFetch<UserWithPage>(
     toUrl(ApiRoutes.GroupMembers, { id: numberingQueryId }),
     { roles: "pending" }
   );
+
   const { mutate: permission } = useUpdate(
+    toUrl(ApiRoutes.GroupMembers, {
+      id: numberingQueryId,
+      userId: permissionUser,
+    })
+  );
+
+  const { mutate: reject } = useDelete(
     toUrl(ApiRoutes.GroupMembers, {
       id: numberingQueryId,
       userId: permissionUser,
@@ -42,11 +51,22 @@ const Permission = () => {
     );
   };
 
+  const handlerReject = async (userId: number) => {
+    await setPermissionUser(userId);
+    reject(undefined, {
+      onSuccess: () => {
+        queryClient.invalidateQueries({
+          queryKey: [toUrl(ApiRoutes.GroupMembers, { id: numberingQueryId })],
+        });
+      },
+    });
+  };
+
   return (
     <GroupDetail>
       {isSuccess && pendingMembers && (
         <Flex direction={"column"} gap={4}>
-          {pendingMembers.map((member, index) => {
+          {pendingMembers.data.map((member, index) => {
             return (
               <Flex
                 key={`member_${index}`}
@@ -79,7 +99,7 @@ const Permission = () => {
                   <Button onClick={() => handlerPermission(member.id)}>
                     승인
                   </Button>
-                  <Button>거절</Button>
+                  <Button onClick={() => handlerReject(member.id)}>거절</Button>
                 </Flex>
               </Flex>
             );

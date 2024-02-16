@@ -144,12 +144,12 @@ export const useUpdate = <T = object, S = unknown>(
  * @param options mutation options (ex. onSuccess, onError, onSettled)
  * @returns
  */
-export const useDelete = <T = number, S = unknown>(
-  url: ApiRoutes,
+export const useDelete = <T = number | undefined, S = unknown>(
+  url: string,
   options?: MutationOptions<ApiResponse<S>, unknown, T>
 ) => {
   return useMutation<ApiResponse<S>, unknown, T>({
-    mutationFn: (id) => api.delete<ApiResponse<S>>(toUrl(url, { id })),
+    mutationFn: () => api.delete<ApiResponse<S>>(url),
     ...options,
   });
 };
