@@ -17,7 +17,7 @@ const Test = () => {
   );
   const { mutate: deleteCategory } = useDelete(ApiRoutes.Category);
   const { refetch: getGroupMembers } = useGetGroupMembers(3);
-  const { mutate: postFeed } = usePost(toUrl(ApiRoutes.GroupFeed, { id: 3 }));
+  const { mutate: postFeed } = usePost(toUrl(ApiRoutes.GroupFeed, { id: 1 }));
   const { refetch: getFeed } = useFetch(toUrl(ApiRoutes.GroupFeed, { id: 1 }));
   const { mutate: postComment } = usePost(toUrl(ApiRoutes.Comments, { id: 5 }));
   const { mutate: joinClub } = usePost(

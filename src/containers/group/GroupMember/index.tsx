@@ -21,9 +21,21 @@ const GroupMember = () => {
   return (
     <Box minH={800}>
       <Flex gap={8} direction={"column"} pt={8}>
-        <Template groupMember={admin?.data} header="Admin" />
-        <Template groupMember={staff?.data} header="Manager" />
-        <Template groupMember={member?.data} header="User" />
+        <Template
+          groupMember={admin?.data}
+          header="Admin"
+          groupId={numberingQuery}
+        />
+        <Template
+          groupMember={staff?.data}
+          header="Manager"
+          groupId={numberingQuery}
+        />
+        <Template
+          groupMember={member?.data}
+          header="User"
+          groupId={numberingQuery}
+        />
       </Flex>
     </Box>
   );
