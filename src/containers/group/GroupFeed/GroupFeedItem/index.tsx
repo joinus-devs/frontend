@@ -3,7 +3,7 @@ import { CircleImg } from "@/components";
 import { ApiRoutes } from "@/constants";
 import GroupFeedComments from "@/containers/group/GroupFeed/GroupFeedComments";
 import { useBgColor } from "@/hooks";
-import { Feed, User, Comment } from "@/types";
+import { Feed, User, Comment, CommentWithPage } from "@/types";
 import { toUrl } from "@/utils";
 import { formatISO } from "@/utils/date";
 import {
@@ -16,7 +16,7 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { useQueryClient } from "@tanstack/react-query";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { FaCheck } from "react-icons/fa";
 import { FeedModifyIcon } from "./FeedModifyIcon";
@@ -41,17 +41,20 @@ const initialFormValues: PostComment = {
   content: "",
 };
 
+const maxBodyHeight = 200;
 export const GroupFeedItem = ({ feed, groupId }: GroupFeedItemProps) => {
   const [isComment, setIsComment] = useState(false);
-  const queryClient = useQueryClient();
+  const [moreContent, setMoreContent] = useState(false);
 
+  const queryClient = useQueryClient();
+  const bodyRef = useRef<HTMLDivElement>(null);
   const { data: me } = useFetch<User>(ApiRoutes.Me);
 
   const { mutate: postComment } = usePost(
     toUrl(ApiRoutes.Comments, { id: feed.id })
   );
 
-  const { data: comments, refetch: fetchComment } = _useFetch<Comment[]>(
+  const { data: comments, refetch: fetchComment } = _useFetch<CommentWithPage>(
     toUrl(ApiRoutes.Comments, { id: feed.id }),
     undefined
   );
@@ -85,6 +88,16 @@ export const GroupFeedItem = ({ feed, groupId }: GroupFeedItemProps) => {
     fetchComment();
   }, [fetchComment, isComment]);
 
+  useEffect(() => {
+    if (bodyRef.current) {
+      const contentHeight = bodyRef.current.offsetHeight;
+      if (contentHeight > maxBodyHeight) {
+        setMoreContent(true);
+        bodyRef.current.style.overflow = "hidden";
+        bodyRef.current.style.maxHeight = `${maxBodyHeight}px`;
+      }
+    }
+  }, [bodyRef, feed.content]);
   return (
     <Flex
       direction={"column"}
@@ -92,6 +105,8 @@ export const GroupFeedItem = ({ feed, groupId }: GroupFeedItemProps) => {
       borderRadius={12}
       shadow={"md"}
       pb={2}
+      minH={500}
+      maxH={500}
     >
       <Flex gap={4} p={4} position={"relative"}>
         {me?.id === feed.user_id && (
@@ -103,10 +118,21 @@ export const GroupFeedItem = ({ feed, groupId }: GroupFeedItemProps) => {
           <Box opacity={0.7}>{formatISO(feed.created_at)}</Box>
         </Flex>
       </Flex>
-      <Flex minH={100} p={4} pl={6} direction={"column"} gap={4}>
-        <Heading size={"md"}>{feed.title}</Heading>
-        <Text fontSize={"lg"}>{feed.content}</Text>
+      <Flex p={4} pl={6} direction={"column"} gap={4} minH={273} maxH={273}>
+        <Box ref={bodyRef}>
+          <Heading size={"md"}>{feed.title}</Heading>
+          <Text fontSize={"lg"} id="text">
+            {feed.content}
+          </Text>
+        </Box>
       </Flex>
+      <Box position={"relative"}>
+        {moreContent && (
+          <Box position={"absolute"} top={-10} opacity={0.8} right={"50%"}>
+            <Button p={2}>더보기</Button>
+          </Box>
+        )}
+      </Box>
       <LikeCommentCounter
         commentCount={feed.comment_count}
         likeCount={0}
@@ -143,8 +169,8 @@ export const GroupFeedItem = ({ feed, groupId }: GroupFeedItemProps) => {
         </Flex>
       </Flex>
 
-      {isComment && comments?.length ? (
-        <GroupFeedComments comments={comments} />
+      {isComment && comments?.data?.length ? (
+        <GroupFeedComments comments={comments.data} />
       ) : (
         ""
       )}

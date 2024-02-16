@@ -4,24 +4,21 @@ import { ApiRoutes } from "@/constants";
 import { User } from "@/types";
 import { toUrl } from "@/utils";
 import {
+  Button,
+  Flex,
   Grid,
   GridItem,
-  Flex,
-  Text,
   Heading,
-  Box,
-  Icon,
   Popover,
-  PopoverContent,
-  PopoverTrigger,
-  PopoverCloseButton,
-  PopoverHeader,
   PopoverBody,
-  Button,
+  PopoverCloseButton,
+  PopoverContent,
+  PopoverHeader,
+  PopoverTrigger,
+  Text,
 } from "@chakra-ui/react";
 import { useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
-import { BsThreeDotsVertical } from "react-icons/bs";
 
 interface TemplateProps {
   groupMember?: User[];

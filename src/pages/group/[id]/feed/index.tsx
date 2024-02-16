@@ -1,13 +1,12 @@
 import { useFetch } from "@/apis";
 import { ApiRoutes } from "@/constants";
 import { GroupFeed } from "@/containers";
-import { FeedWithPage } from "@/types";
+import { FeedWithPage, Feed as _Feed } from "@/types";
 import { toUrl } from "@/utils";
 import { Flex } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
 import GroupDetail from "..";
-import { Feed as _Feed } from "@/types";
 
 const Feed = () => {
   const [cursor, setCursor] = useState<number | undefined>(undefined);
@@ -54,6 +53,7 @@ const Feed = () => {
     if (!container) return;
     container.scrollTop = btScroll;
   }, [btScroll, feedData]);
+
   return (
     <GroupDetail>
       {isSuccess && feeds && (
@@ -61,7 +61,7 @@ const Feed = () => {
           direction={"column"}
           gap={4}
           ref={containerRef}
-          maxH={1000}
+          maxH={1200}
           overflowY={"auto"}
           p={4}
         >

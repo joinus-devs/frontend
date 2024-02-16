@@ -34,3 +34,8 @@ export interface FeedWithPage {
   next: number;
   data: Feed[];
 }
+
+export interface CommentWithPage {
+  next: number;
+  data: Comment[];
+}
