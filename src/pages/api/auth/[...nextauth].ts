@@ -9,31 +9,35 @@ import CredentialsProvider from "next-auth/providers/credentials";
 export const authOptions = {
   // export default NextAuth({
   providers: [
-    // CredentialsProvider({
-    //   name: "Credentials",
-    //   credentials: {
-    //     username: { type: "text", placeholder: "아이디" },
-    //     password: { type: "password", placeholder: "비밀번호" },
-    //   },
+    CredentialsProvider({
+      name: "Credentials",
+      credentials: {
+        email: { type: "email" },
+        password: { type: "password" },
+      },
 
-    //   async authorize(credentials) {
-    //     const res = await fetch("http://localhost:3000/auth/signin", {
-    //       method: "POST",
-    //       headers: {
-    //         "Content-Type": "application/json",
-    //       },
-    //       body: JSON.stringify(credentials),
-    //     });
-    //     const user = await res.json();
-    //     console.log("signin");
-    //     console.log(user);
+      async authorize(credentials, req) {
+        // const usename = credentials?.username;
+        // const password = credentials?.password;
+        const res = await fetch("http://44.204.44.65/auth/signin", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email: credentials?.email,
+            password: credentials?.password,
+          }),
+        });
+        const user = await res.json();
 
-    //     if (res.ok && user) {
-    //       return user;
-    //     }
-    //     return null;
-    //   },
-    // }),
+        if (res.ok && user) {
+          return user;
+        } else {
+          return null;
+        }
+      },
+    }),
 
     NaverProvider({
       clientId: process.env.NAVER_CLIENT_ID!,
@@ -55,24 +59,27 @@ export const authOptions = {
   // },
 
   callbacks: {
-    // jwt: async ({ token, user }: { token: any; user: any; session: any }) => {
-    //   if (user) {
-    //     token.user = {};
-    //     token.user.id = user.id;
-    //     token.user.name = user.name;
-    //   }
-    //   return token;
-    // },
-    // session: async ({ session, token }: { session: any; token: any }) => {
-    //   session.user = token.user;
-    //   return session;
-    // },
+    async jwt({ token, account }: any) {
+      // Persist the OAuth access_token to the token right after signin
+      if (account) {
+        token.accessToken = account.access_token;
+      }
+      return token;
+    },
+    async session({ session, token, user }: any) {
+      // Send properties to the client, like an access_token from a provider.
+      session.accessToken = token.accessToken;
+      return session;
+    },
   },
 
-  pages: {
-    signIn: "/auth/signin",
-  },
+  // pages: {
+  //   signIn: "/auth/signin",
+  // },
 };
 // });
 
 export default NextAuth(authOptions);
+// function snsLogin(arg0: { account: any; user: any; }): { meta: any; data: any; } | PromiseLike<{ meta: any; data: any; }> {
+//   throw new Error('Function not implemented.');
+// }

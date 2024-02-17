@@ -21,6 +21,7 @@ const NaverLoginButton = ({ onClick }: NaverLoginButtonProps) => {
         _hover={{ bg: "ghost" }}
         _active={{ bg: "ghost" }}
         onClick={onClick}
+        backgroundColor="#48BB78"
       >
         <SiNaver size="40" color="white" />
       </Button>

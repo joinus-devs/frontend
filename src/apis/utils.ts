@@ -77,3 +77,18 @@ export const api: Api = {
     });
   },
 };
+
+export const makeFormBody = (obj: object) => {
+  const formBody = Object.entries(obj).map(([key, value]) => {
+    const encodedKey = encodeURIComponent(key);
+    const encodedValue = encodeURIComponent(value);
+    return encodedKey + "=" + encodedValue;
+  });
+  const joined = formBody.join("&");
+  return joined;
+};
+
+export const tokenCheck = () => {
+  const token = localStorage.getItem("login-token");
+  return token ? token : null;
+};
