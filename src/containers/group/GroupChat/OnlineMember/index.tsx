@@ -38,7 +38,7 @@ export const OnlineMember = ({ group }: OnlineMemberProps) => {
             pl={4}
             pb={4}
           >
-            {members?.map((member, i) => {
+            {members?.data.map((member, i) => {
               return (
                 <Flex
                   alignItems={"center"}

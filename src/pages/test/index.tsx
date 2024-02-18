@@ -26,17 +26,17 @@ const Test = () => {
 
   const handlerSignUp = () => {
     signup({
-      password: "12345",
-      social_id: "1234566",
-      name: "SeongHwi4",
+      password: "12341234",
+      name: "John Doe",
+      profile: "https://kr.object.ncloudstorage.com/joinus/image/profile.png",
       sex: true,
       phone: "01012341234",
-      email: "123456@gmail.com",
+      email: "john@gmail.com",
     });
   };
 
   const handlerSignIn = () => {
-    signin({ email: "123456@gmail.com", password: "12345" });
+    signin({ email: "john@gmail.com", password: "12341234" });
   };
 
   const handlerPostClub = () => {
@@ -48,6 +48,12 @@ const Test = () => {
       minimum_age: 0,
       name: "test3",
       sex: true,
+      images: [
+        {
+          url: "https://kr.object.ncloudstorage.com/joinus/image/profile.png",
+          type: "main",
+        },
+      ],
     });
   };
   return (

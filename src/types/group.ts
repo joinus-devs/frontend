@@ -1,4 +1,4 @@
-import { User } from ".";
+import { User, imgs } from ".";
 import { timer } from ".";
 
 export interface Group extends timer {
@@ -9,7 +9,7 @@ export interface Group extends timer {
   minimum_age: number;
   maximum_age: number;
   categories: string[];
-  imgSrc?: string;
+  images: imgs[];
 }
 
 export interface Feed extends timer {

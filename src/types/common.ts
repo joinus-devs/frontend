@@ -7,3 +7,8 @@ export type timer = {
   updated_at?: Nullable<string>;
   deleted_at?: string;
 };
+
+export type imgs = {
+  url: string;
+  type: string;
+};
