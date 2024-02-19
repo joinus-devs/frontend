@@ -1,31 +1,20 @@
 import { _useFetch, useFetch, usePost } from "@/apis";
 import { CircleImg } from "@/components";
 import { ApiRoutes } from "@/constants";
-import GroupFeedComments from "@/containers/group/GroupFeed/GroupFeedComments";
+import GroupFeedComments from "@/containers/group/GroupFeedComments";
 import { useBgColor } from "@/hooks";
-import { Feed, User, Comment, CommentWithPage } from "@/types";
+import { CommentWithPage, Feed, User } from "@/types";
 import { toUrl } from "@/utils";
 import { formatISO } from "@/utils/date";
-import {
-  Box,
-  Button,
-  Flex,
-  Heading,
-  Icon,
-  Input,
-  Text,
-} from "@chakra-ui/react";
+import { Box, Button, Flex, Heading, Text } from "@chakra-ui/react";
 import { useQueryClient } from "@tanstack/react-query";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { useForm } from "react-hook-form";
-import { FaCheck } from "react-icons/fa";
 import { FeedModifyIcon } from "./FeedModifyIcon";
 import { LikeCommentCounter } from "./LikeCommentCounter";
 import { PostComment } from "./PostComment";
 
 interface GroupFeedItemProps {
-  feed: Feed;
-  groupId: number;
+  data: Feed;
 }
 
 export interface PostComment {
@@ -43,7 +32,8 @@ const initialFormValues: PostComment = {
 };
 
 const maxBodyHeight = 200;
-export const GroupFeedItem = ({ feed, groupId }: GroupFeedItemProps) => {
+
+const GroupFeedItem = ({ data }: GroupFeedItemProps) => {
   const [isComment, setIsComment] = useState(false);
   const [moreContent, setMoreContent] = useState(false);
 
@@ -52,11 +42,11 @@ export const GroupFeedItem = ({ feed, groupId }: GroupFeedItemProps) => {
   const { data: me } = useFetch<User>(ApiRoutes.Me);
 
   const { mutate: postComment } = usePost(
-    toUrl(ApiRoutes.FeedInComments, { id: feed.id })
+    toUrl(ApiRoutes.FeedInComments, { id: data.id })
   );
 
   const { data: comments, refetch: fetchComment } = _useFetch<CommentWithPage>(
-    toUrl(ApiRoutes.FeedInComments, { id: feed.id }),
+    toUrl(ApiRoutes.FeedInComments, { id: data.id }),
     undefined
   );
 
@@ -80,7 +70,7 @@ export const GroupFeedItem = ({ feed, groupId }: GroupFeedItemProps) => {
         bodyRef.current.style.maxHeight = `${maxBodyHeight}px`;
       }
     }
-  }, [bodyRef, feed.content]);
+  }, [bodyRef, data.content]);
   return (
     <Flex
       direction={"column"}
@@ -92,20 +82,18 @@ export const GroupFeedItem = ({ feed, groupId }: GroupFeedItemProps) => {
       maxH={500}
     >
       <Flex gap={4} p={4} position={"relative"}>
-        {me?.id === feed.user_id && (
-          <FeedModifyIcon feed={feed} groupId={groupId} />
-        )}
+        {me?.id === data.user_id && <FeedModifyIcon feed={data} />}
         <CircleImg imgSrc={"/noneUserImg.webp"} alt="userImg" size={16} />
         <Flex direction={"column"} gap={1} justifyContent={"end"}>
-          <Heading size={"md"}>{feed.user?.name}</Heading>
-          <Box opacity={0.7}>{formatISO(feed.created_at)}</Box>
+          <Heading size={"md"}>{data.user?.name}</Heading>
+          <Box opacity={0.7}>{formatISO(data.created_at)}</Box>
         </Flex>
       </Flex>
       <Flex p={4} pl={6} direction={"column"} gap={4} minH={273} maxH={273}>
         <Box ref={bodyRef}>
-          <Heading size={"md"}>{feed.title}</Heading>
+          <Heading size={"md"}>{data.title}</Heading>
           <Text fontSize={"lg"} id="text">
-            {feed.content}
+            {data.content}
           </Text>
         </Box>
       </Flex>
@@ -117,11 +105,11 @@ export const GroupFeedItem = ({ feed, groupId }: GroupFeedItemProps) => {
         )}
       </Box>
       <LikeCommentCounter
-        commentCount={feed.comment_count}
+        commentCount={data.comment_count}
         likeCount={0}
         handleCommentClick={handleCommentClick}
       />
-      <PostComment groupId={groupId} type="group" feedId={feed.id} />
+      <PostComment type="group" feedId={data.id} />
 
       {isComment && comments?.data?.length ? (
         <GroupFeedComments comments={comments.data} />
@@ -131,3 +119,5 @@ export const GroupFeedItem = ({ feed, groupId }: GroupFeedItemProps) => {
     </Flex>
   );
 };
+
+export default GroupFeedItem;

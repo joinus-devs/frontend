@@ -4,7 +4,7 @@ import { ApiRoutes } from "@/constants";
 import { User, Comment as _Comment } from "@/types";
 import { formatISO } from "@/utils/date";
 import { Button, Flex, Text, Textarea } from "@chakra-ui/react";
-import { useCallback, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { PostComment } from "../../GroupFeedItem";
 import { CommentModifyIcon } from "./CommentModifyIcon";
@@ -26,6 +26,8 @@ export const Comment = ({ comment }: CommentProps) => {
 
   const { data: me } = useFetch<User>(ApiRoutes.Me);
 
+  const isMine = useMemo(() => me?.id === comment.user_id, [me, comment]);
+
   const handleSubmitComment = useCallback(
     (data: PostComment) => {
       modifyComment(data, {
@@ -39,8 +41,11 @@ export const Comment = ({ comment }: CommentProps) => {
 
   return (
     <Flex gap={4} position={"relative"} overflow={"hidden"}>
-      {me?.id === comment.user_id && !isModify && (
-        <CommentModifyIcon comment={comment} set={setIsModify} />
+      {isMine && !isModify && (
+        <CommentModifyIcon
+          comment={comment}
+          onClick={() => setIsModify(true)}
+        />
       )}
       <CircleImg imgSrc={"/noneUserImg.webp"} alt={`comment_user`} size={12} />
       <Flex direction={"column"} gap={1} w={"100%"}>

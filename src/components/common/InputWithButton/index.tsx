@@ -1,4 +1,4 @@
-import { PostComment } from "@/containers/group/GroupFeed/GroupFeedItem";
+import { PostComment } from "@/containers/group/GroupFeedItem";
 import { Button, Flex, Icon, Input } from "@chakra-ui/react";
 import { UseFormRegister } from "react-hook-form";
 import { IconType } from "react-icons";

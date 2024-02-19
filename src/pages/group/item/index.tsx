@@ -1,15 +1,14 @@
-import Link from "next/link";
 import {
+  Box,
   Card,
   CardBody,
+  CardFooter,
   Heading,
+  Image,
   Stack,
   Text,
-  Image,
-  CardFooter,
-  Box,
 } from "@chakra-ui/react";
-import { IoPersonSharp } from "react-icons/io5";
+import Link from "next/link";
 import { GroupCardProps } from "../list";
 
 interface GroupProps {

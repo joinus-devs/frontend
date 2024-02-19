@@ -23,7 +23,7 @@ const Test = () => {
     toUrl(ApiRoutes.FeedInComments, { id: 5 })
   );
   const { mutate: joinClub } = usePost(
-    toUrl(ApiRoutes.GroupMembers, { id: 3 })
+    toUrl(ApiRoutes.GroupMembers, { id: 1 })
   );
 
   const handlerSignUp = () => {
@@ -38,7 +38,7 @@ const Test = () => {
   };
 
   const handlerSignIn = () => {
-    signin({ email: "john@gmail.com", password: "12341234" });
+    signin({ email: "john42@gmail.com", password: "12341234" });
   };
 
   const handlerPostClub = () => {

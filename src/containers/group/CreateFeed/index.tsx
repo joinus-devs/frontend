@@ -1,3 +1,4 @@
+import { Feed } from "@/types";
 import { Flex, Button, Input, Text } from "@chakra-ui/react";
 import dynamic from "next/dynamic";
 import { Controller, useForm } from "react-hook-form";
@@ -13,13 +14,10 @@ const FroalaEditor = dynamic(() => import("@/containers/post/Editor"), {
 });
 
 interface CreateFeedProps {
-  post?: {
-    title: string;
-    content: string;
-  };
+  feed?: Feed;
 }
 
-const CreateFeed = ({ post }: CreateFeedProps) => {
+const CreateFeed = ({ feed }: CreateFeedProps) => {
   const {
     register,
     handleSubmit,
@@ -30,8 +28,8 @@ const CreateFeed = ({ post }: CreateFeedProps) => {
   } = useForm<PostData>({
     mode: "onChange",
     defaultValues: {
-      title: post?.title || "",
-      content: post?.content || "",
+      title: feed?.title || "",
+      content: feed?.content || "",
     },
   });
 

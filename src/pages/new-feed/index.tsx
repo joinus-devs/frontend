@@ -1,21 +1,10 @@
-import { useFetch } from "@/apis";
-import { CircleImg, DefaultLayout } from "@/components";
-import { ApiRoutes } from "@/constants";
-import { GroupFeedItem } from "@/containers/group/GroupFeed/GroupFeedItem";
-import { useBgColor } from "@/hooks";
-import { FeedWithPage } from "@/types";
-import { toUrl } from "@/utils";
-import { Box, Flex, Heading, Tag } from "@chakra-ui/react";
+import { Feed, useGetFeeds } from "@/apis/feed";
+import { DefaultLayout, InfiniteList } from "@/components";
+import { NewFeedItem } from "@/containers";
+import { Flex } from "@chakra-ui/react";
 import Head from "next/head";
-import { useRouter } from "next/router";
 
-const dummyGroupData = {
-  name: "dummy",
-};
 const NewFeed = () => {
-  const { data: feeds } = useFetch<FeedWithPage>(toUrl(ApiRoutes.Feeds));
-  const router = useRouter();
-  const bgColor = useBgColor();
   return (
     <>
       <Head>
@@ -26,52 +15,10 @@ const NewFeed = () => {
       </Head>
       <DefaultLayout>
         <Flex w={"100%"} direction={"column"} pt={8} pb={8} gap={8}>
-          {feeds?.data.map((feed, index) => {
-            return (
-              <Flex
-                gap={4}
-                boxShadow={"lg"}
-                p={4}
-                borderRadius={12}
-                key={`feed_${index}`}
-              >
-                <Flex
-                  flex={1}
-                  justifyContent={"center"}
-                  alignItems={"center"}
-                  direction={"column"}
-                  gap={4}
-                  as={"button"}
-                  onClick={() => router.push(`/group/${feed.club_id}`)}
-                  position={"relative"}
-                  boxShadow={"md"}
-                  borderRadius={12}
-                  backgroundColor={bgColor}
-                >
-                  <Tag
-                    position={"absolute"}
-                    right={8}
-                    top={8}
-                    p={2}
-                    h={8}
-                    fontSize={16}
-                  >
-                    category
-                    {/* {dummyGroupData.category[0]} */}
-                  </Tag>
-                  <CircleImg
-                    imgSrc={"/none-groupimg.webp"}
-                    alt="group_img"
-                    size={48}
-                  />
-                  <Heading size={"md"}>{dummyGroupData.name}</Heading>
-                </Flex>
-                <Box flex={2}>
-                  <GroupFeedItem feed={feed} />
-                </Box>
-              </Flex>
-            );
-          })}
+          <InfiniteList<Feed>
+            infiniteQueryResult={useGetFeeds({ limit: 10 })}
+            renderItem={NewFeedItem}
+          />
         </Flex>
       </DefaultLayout>
     </>

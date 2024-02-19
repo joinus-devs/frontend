@@ -8,31 +8,18 @@ import {
 import {
   ApiError,
   ApiResponse,
+  CursorQueryResponse,
   InfiniteQueryOptions,
   PageQueryResponse,
   QueryKey,
   QueryOptions,
 } from "./types";
 import { api } from "./utils";
-import { toUrl } from "@/utils";
-import { ApiRoutes } from "@/constants";
 
 const fetcher = async <T>(context: QueryFunctionContext<QueryKey>) => {
   const { queryKey } = context;
   const [url, params] = queryKey;
   const res = await api.get<ApiResponse<T>>(url, params);
-  return res.data;
-};
-
-const pageFetcher = async <T>(
-  context: QueryFunctionContext<QueryKey, number>
-) => {
-  const { queryKey, pageParam } = context;
-  const [url, params] = queryKey;
-  const res = await api.get<ApiResponse<T>>(url, {
-    ...params,
-    page: pageParam,
-  });
   return res.data;
 };
 
@@ -95,11 +82,19 @@ export const useLoadMore = <T>(
 ) => {
   return _useInfiniteQuery({
     queryKey: [url!, params],
-    queryFn: pageFetcher,
-    initialPageParam: 1,
-    ...options,
+    queryFn: async (context) => {
+      const { queryKey, pageParam } = context;
+      const [url, params] = queryKey;
+      const res = await api.get<ApiResponse<CursorQueryResponse<T>>>(url, {
+        ...params,
+        cursor: pageParam,
+      });
+      return res.data;
+    },
+    initialPageParam: null,
     getPreviousPageParam: (firstPage) => firstPage.previous,
     getNextPageParam: (lastPage) => lastPage.next,
+    ...options,
   });
 };
 

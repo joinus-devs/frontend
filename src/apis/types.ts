@@ -1,5 +1,6 @@
-import { Optional } from "@/types";
+import { Nullable, Optional } from "@/types";
 import {
+  InfiniteData,
   UseInfiniteQueryOptions,
   UseQueryOptions,
 } from "@tanstack/react-query";
@@ -23,6 +24,17 @@ export class ApiError extends Error {
   }
 }
 
+export type Scheme = {
+  id: number;
+  created_at?: string;
+  updated_at?: Nullable<string>;
+  deleted_at?: string;
+};
+
+export type CursorQueryParams = {
+  limit: number;
+};
+
 export interface PageQueryResponse<T> {
   total: number;
   data: T;
@@ -45,7 +57,18 @@ export type PageQueryOptions<T, S = PageQueryResponse<T>> = UseQueryOptions<
   QueryKey
 >;
 
-export type InfiniteQueryOptions<
-  T,
-  S = CursorQueryResponse<T>,
-> = UseInfiniteQueryOptions<S, ApiError, S, S, QueryKey, number>;
+export type InfiniteQueryOptions<T, S = CursorQueryResponse<T>> = Omit<
+  UseInfiniteQueryOptions<
+    S,
+    ApiError,
+    InfiniteData<S>,
+    S,
+    QueryKey,
+    Nullable<number>
+  >,
+  | "queryKey"
+  | "queryFn"
+  | "initialPageParam"
+  | "getPreviousPageParam"
+  | "getNextPageParam"
+>;

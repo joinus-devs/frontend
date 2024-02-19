@@ -1,5 +1,5 @@
 import { Box, Flex } from "@chakra-ui/react";
-import { GroupFeedItem } from "../GroupFeed/GroupFeedItem";
+import { GroupFeedItem } from "../GroupFeedItem";
 import { useRouter } from "next/router";
 import { useFetch } from "@/apis";
 import { FeedWithPage } from "@/types";

@@ -2,10 +2,10 @@ import { useFetch } from "@/apis";
 import { CircleImg } from "@/components";
 import { ApiRoutes } from "@/constants";
 import { GroupBanner, GroupDescription } from "@/containers";
-import GroupFeedComments from "@/containers/group/GroupFeed/GroupFeedComments";
-import { FeedModifyIcon } from "@/containers/group/GroupFeed/GroupFeedItem/FeedModifyIcon";
-import { LikeCommentCounter } from "@/containers/group/GroupFeed/GroupFeedItem/LikeCommentCounter";
-import { PostComment } from "@/containers/group/GroupFeed/GroupFeedItem/PostComment";
+import GroupFeedComments from "@/containers/group/GroupFeedComments";
+import { FeedModifyIcon } from "@/containers/group/GroupFeedItem/FeedModifyIcon";
+import { LikeCommentCounter } from "@/containers/group/GroupFeedItem/LikeCommentCounter";
+import { PostComment } from "@/containers/group/GroupFeedItem/PostComment";
 import { CommentWithPage, Feed, Group, User } from "@/types";
 import { toUrl } from "@/utils";
 import { formatISO } from "@/utils/date";
@@ -39,9 +39,7 @@ const FeedDetail = () => {
             </Box>
             <Box position={"relative"}>
               <Flex gap={4} p={4}>
-                {me?.id === feed.user_id && (
-                  <FeedModifyIcon feed={feed} groupId={group.id} />
-                )}
+                {me?.id === feed.user_id && <FeedModifyIcon feed={feed} />}
                 <CircleImg
                   imgSrc={"/noneUserImg.webp"}
                   alt="userImg"
@@ -61,11 +59,9 @@ const FeedDetail = () => {
               <LikeCommentCounter commentCount={0} likeCount={0} />
               <PostComment type="feed" feedId={feed.id} />
             </Box>
-            {comments?.data && (
-              <Flex direction={"column"}>
-                <GroupFeedComments comments={comments.data} />
-              </Flex>
-            )}
+            <Flex direction={"column"}>
+              <GroupFeedComments comments={comments?.data ?? []} />
+            </Flex>
           </>
         )}
       </Flex>

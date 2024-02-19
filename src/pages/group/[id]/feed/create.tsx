@@ -1,5 +1,4 @@
-import { CreateFeed } from "@/containers";
-import GroupDetail from "..";
+import { CreateFeed, GroupDetail } from "@/containers";
 
 const Create = () => {
   return (

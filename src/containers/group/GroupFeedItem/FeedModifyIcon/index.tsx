@@ -2,7 +2,7 @@ import { useDelete } from "@/apis";
 import { ApiRoutes, PageRoutes } from "@/constants";
 import { useModalStore } from "@/stores";
 import { Feed } from "@/types";
-import { toUrl } from "@/utils";
+import { QueryParser, toUrl } from "@/utils";
 import {
   Box,
   Icon,
@@ -17,14 +17,16 @@ import { BsThreeDotsVertical } from "react-icons/bs";
 
 interface ModifyIconProps {
   feed: Feed;
-  groupId?: number;
 }
 
-export const FeedModifyIcon = ({ feed, groupId }: ModifyIconProps) => {
+export const FeedModifyIcon = ({ feed }: ModifyIconProps) => {
   const queryClient = useQueryClient();
   const router = useRouter();
   const { openConfirm } = useModalStore(["openConfirm"]);
   const { mutate: deleteFeed } = useDelete(ApiRoutes.Feeds);
+
+  const groupId = QueryParser.toNumber(router.query.id);
+
   return (
     <>
       <Popover trigger={"click"} placement="left">

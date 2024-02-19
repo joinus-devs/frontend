@@ -1,7 +1,7 @@
 import { usePost } from "@/apis";
 import { CircleImg } from "@/components";
 import { ApiRoutes } from "@/constants";
-import { toUrl } from "@/utils";
+import { QueryParser, toUrl } from "@/utils";
 import { Button, Flex, Icon, Input } from "@chakra-ui/react";
 import { useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/router";
@@ -16,14 +16,14 @@ interface PostComment {
 interface PostCommentProps {
   type: "group" | "feed";
   feedId: number;
-  groupId?: number;
 }
 
 const initialFormValues: PostComment = {
   content: "",
 };
 
-export const PostComment = ({ type, feedId, groupId }: PostCommentProps) => {
+export const PostComment = ({ type, feedId }: PostCommentProps) => {
+  const router = useRouter();
   const queryClient = useQueryClient();
   const { mutate: postComment } = usePost(
     toUrl(ApiRoutes.FeedInComments, { id: feedId })
@@ -32,6 +32,8 @@ export const PostComment = ({ type, feedId, groupId }: PostCommentProps) => {
   const { register, handleSubmit, reset } = useForm<PostComment>({
     defaultValues: initialFormValues,
   });
+
+  const groupId = QueryParser.toNumber(router.query.id);
 
   const handleSubmitComment = useCallback(
     (data: PostComment) => {

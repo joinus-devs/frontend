@@ -1,6 +1,7 @@
 import { useDelete, useFetch, useUpdate } from "@/apis";
 import { CircleImg } from "@/components";
 import { ApiRoutes } from "@/constants";
+import { GroupDetail } from "@/containers";
 import { UserWithPage } from "@/types";
 import { toUrl } from "@/utils";
 import { formatISO } from "@/utils/date";
@@ -8,7 +9,6 @@ import { Button, Flex, Heading, Text } from "@chakra-ui/react";
 import { useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import GroupDetail from "..";
 
 const Permission = () => {
   const [permissionUser, setPermissionUser] = useState<number | null>(null);

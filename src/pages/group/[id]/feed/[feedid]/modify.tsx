@@ -1,10 +1,9 @@
-import { CreateFeed } from "@/containers";
-import GroupDetail from "../..";
-import { useRouter } from "next/router";
 import { useFetch } from "@/apis";
-import { toUrl } from "@/utils";
 import { ApiRoutes } from "@/constants";
+import { CreateFeed, GroupDetail } from "@/containers";
 import { Feed } from "@/types";
+import { toUrl } from "@/utils";
+import { useRouter } from "next/router";
 
 const Modify = () => {
   const router = useRouter();
@@ -15,13 +14,8 @@ const Modify = () => {
     toUrl(ApiRoutes.Feeds, { id: name })
   );
 
-  const post = {
-    title: feed!.title,
-    content: feed!.content,
-  };
-
   return (
-    <GroupDetail>{isSuccess && feed && <CreateFeed post={post} />}</GroupDetail>
+    <GroupDetail>{isSuccess && feed && <CreateFeed feed={feed} />}</GroupDetail>
   );
 };
 

@@ -7,13 +7,13 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 
 interface GroupDetailProps {
-  children: React.ReactNode;
+  children?: React.ReactNode;
 }
 
 const GroupDetail = ({ children }: GroupDetailProps) => {
   const router = useRouter();
   const numberingQueryId = Number(router.query.id);
-  const { data: group, isSuccess } = useGetGroup(numberingQueryId);
+  const { data: group } = useGetGroup(numberingQueryId);
 
   return (
     <>
@@ -24,23 +24,21 @@ const GroupDetail = ({ children }: GroupDetailProps) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <DefaultLayout>
-        {isSuccess && (
-          <Flex direction={"column"} w={"100%"} minH={1400}>
-            <GroupBanner />
-            <GroupDescription group={group} />
-            <GroupNav groupId={numberingQueryId} />
-            <Box
-              flex={2}
-              overflow={"hidden"}
-              borderRightWidth={"1px"}
-              borderLeftWidth={"1px"}
-            >
-              <Box mt={8} mb={8} ml={2} mr={2}>
-                {children}
-              </Box>
+        <Flex direction={"column"} w={"100%"} minH={1400}>
+          <GroupBanner />
+          <GroupDescription group={group} />
+          <GroupNav groupId={numberingQueryId} />
+          <Box
+            flex={2}
+            overflow={"hidden"}
+            borderRightWidth={"1px"}
+            borderLeftWidth={"1px"}
+          >
+            <Box mt={8} mb={8} ml={2} mr={2}>
+              {children}
             </Box>
-          </Flex>
-        )}
+          </Box>
+        </Flex>
       </DefaultLayout>
     </>
   );
