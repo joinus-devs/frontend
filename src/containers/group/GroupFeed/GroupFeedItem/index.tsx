@@ -21,10 +21,11 @@ import { useForm } from "react-hook-form";
 import { FaCheck } from "react-icons/fa";
 import { FeedModifyIcon } from "./FeedModifyIcon";
 import { LikeCommentCounter } from "./LikeCommentCounter";
+import { PostComment } from "./PostComment";
 
 interface GroupFeedItemProps {
   feed: Feed;
-  groupId?: number;
+  groupId: number;
 }
 
 export interface PostComment {
@@ -51,37 +52,19 @@ export const GroupFeedItem = ({ feed, groupId }: GroupFeedItemProps) => {
   const { data: me } = useFetch<User>(ApiRoutes.Me);
 
   const { mutate: postComment } = usePost(
-    toUrl(ApiRoutes.Comments, { id: feed.id })
+    toUrl(ApiRoutes.FeedInComments, { id: feed.id })
   );
 
   const { data: comments, refetch: fetchComment } = _useFetch<CommentWithPage>(
-    toUrl(ApiRoutes.Comments, { id: feed.id }),
+    toUrl(ApiRoutes.FeedInComments, { id: feed.id }),
     undefined
   );
-
-  const { register, handleSubmit, reset } = useForm<PostComment>({
-    defaultValues: initialFormValues,
-  });
 
   const bgColor = useBgColor();
 
   const handleCommentClick = useCallback(() => {
     setIsComment((prev) => !prev);
   }, []);
-
-  const handleSubmitComment = useCallback(
-    (data: PostComment) => {
-      postComment(data, {
-        onSuccess: () => {
-          queryClient.invalidateQueries({
-            queryKey: [toUrl(ApiRoutes.GroupFeed, { id: groupId })],
-          });
-          reset(initialFormValues);
-        },
-      });
-    },
-    [groupId, postComment, queryClient, reset]
-  );
 
   useEffect(() => {
     if (!isComment) return;
@@ -138,36 +121,7 @@ export const GroupFeedItem = ({ feed, groupId }: GroupFeedItemProps) => {
         likeCount={0}
         handleCommentClick={handleCommentClick}
       />
-      <Flex p={4} gap={2} alignItems={"center"}>
-        <CircleImg imgSrc={"/noneUserImg.webp"} alt="userImg" size={14} />
-        <Flex
-          as={"form"}
-          position={"relative"}
-          w={"100%"}
-          onSubmit={handleSubmit(handleSubmitComment)}
-        >
-          <Input
-            placeholder={"댓글을 입력하세요"}
-            size="lg"
-            h={16}
-            ml={4}
-            {...register("content")}
-            name="comment_input"
-          />
-          <Button
-            type="submit"
-            position={"absolute"}
-            fontWeight={"bold"}
-            m={2}
-            w={12}
-            h={12}
-            zIndex={1}
-            right={0}
-          >
-            <Icon as={FaCheck} />
-          </Button>
-        </Flex>
-      </Flex>
+      <PostComment groupId={groupId} type="group" feedId={feed.id} />
 
       {isComment && comments?.data?.length ? (
         <GroupFeedComments comments={comments.data} />

@@ -19,7 +19,9 @@ const Test = () => {
   const { refetch: getGroupMembers } = useGetGroupMembers(3);
   const { mutate: postFeed } = usePost(toUrl(ApiRoutes.GroupFeed, { id: 1 }));
   const { refetch: getFeed } = useFetch(toUrl(ApiRoutes.GroupFeed, { id: 1 }));
-  const { mutate: postComment } = usePost(toUrl(ApiRoutes.Comments, { id: 5 }));
+  const { mutate: postComment } = usePost(
+    toUrl(ApiRoutes.FeedInComments, { id: 5 })
+  );
   const { mutate: joinClub } = usePost(
     toUrl(ApiRoutes.GroupMembers, { id: 3 })
   );

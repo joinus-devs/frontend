@@ -5,7 +5,7 @@ import { IoHeartSharp } from "react-icons/io5";
 interface LikeCommentCounterProps {
   commentCount: number;
   likeCount: number;
-  handleCommentClick: () => void;
+  handleCommentClick?: () => void;
 }
 
 export const LikeCommentCounter = ({

@@ -8,6 +8,8 @@ export interface User extends timer {
   social_id: string;
   role?: string;
   exp?: number;
+  type?: string;
+  profile?: string;
 }
 
 export interface UserWithPage {

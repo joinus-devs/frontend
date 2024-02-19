@@ -11,7 +11,8 @@ export enum ApiRoutes {
   GroupMembers = "clubs/:id/users/:userId?",
   GroupFeed = "clubs/:id/feeds",
   Feeds = "feeds/:id?",
-  Comments = "feeds/:id/comments",
+  FeedInComments = "feeds/:id?/comments",
+  Comments = "comments/:id?",
 }
 
 export enum PageRoutes {
