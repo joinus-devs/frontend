@@ -18,6 +18,10 @@ const GroupMember = () => {
     roles: "staff",
   });
 
+  const { data: manager } = useGetGroupMembers(numberingQuery, {
+    roles: ["admin", "staff"],
+  });
+
   return (
     <Box minH={800}>
       <Flex gap={8} direction={"column"} pt={8}>

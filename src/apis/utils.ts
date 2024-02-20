@@ -22,7 +22,12 @@ type Api = {
 
 export const api: Api = {
   get: (url, params) => {
-    const queryString = new URLSearchParams(params as Record<string, string>);
+    const queryString = new URLSearchParams();
+    Object.entries(params || {}).forEach(([key, value]) => {
+      if (Array.isArray(value))
+        value.forEach((v) => queryString.append(key, v));
+      else queryString.append(key, value);
+    });
     return extendedFetch(`${protoc}://${domain}/${url}?${queryString}`, {
       method: "GET",
       headers: {
