@@ -1,7 +1,8 @@
 import { ApiError, CursorQueryResponse } from "@/apis";
-import { Box } from "@chakra-ui/react";
+import { useVirtualize } from "@/hooks";
+import { Box, Center, Flex, Spinner } from "@chakra-ui/react";
 import { InfiniteData, UseInfiniteQueryResult } from "@tanstack/react-query";
-import { useEffect, useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 interface InfiniteListProps<T> {
   infiniteQueryResult: UseInfiniteQueryResult<
@@ -17,27 +18,55 @@ interface InfiniteListProps<T> {
  * @param renderItem this is the component that will be rendered for each item
  * @returns
  */
+
+const gap = 4;
+
 const InfiniteList = <T,>({
   infiniteQueryResult,
   renderItem: Item,
 }: InfiniteListProps<T>) => {
+  const [itemHeight, setItemHeight] = useState(0);
   const observerRef = useRef<HTMLDivElement>(null);
-
-  const { data, fetchNextPage } = infiniteQueryResult;
+  const containerRef = useRef<HTMLDivElement>(null);
+  const { data, fetchNextPage, isFetching } = infiniteQueryResult;
 
   const flattenData = useMemo(() => {
-    return data?.pages.flatMap((page) => page.data);
+    return (data?.pages ?? []).map((page) => page.data).flat();
   }, [data]);
 
+  const { containerHeight, startIndex, endIndex } = useVirtualize({
+    container: typeof window !== "undefined" ? window : null,
+    numItems: flattenData.length,
+    itemHeight,
+    gap,
+    marginTop: containerRef.current?.offsetTop ?? 0,
+  });
+
+  const items = useMemo(() => {
+    if (!flattenData.length) return;
+    return flattenData.slice(startIndex, endIndex).map((item, idx) => (
+      <Box
+        key={idx}
+        pos={"absolute"}
+        top={0}
+        left={0}
+        right={0}
+        transform={`translateY(${
+          (startIndex + idx) * itemHeight + (startIndex + idx) * gap
+        }px)`}
+      >
+        <Item data={item} />
+      </Box>
+    ));
+  }, [Item, endIndex, flattenData, itemHeight, startIndex]);
+
   useEffect(() => {
-    // intersectionObserver
     const observerElement = observerRef.current;
 
     if (!observerElement) return;
 
     const observer = new IntersectionObserver((entries) => {
       if (entries[0].isIntersecting) {
-        console.log("fetchNextPage");
         fetchNextPage();
       }
     });
@@ -46,12 +75,30 @@ const InfiniteList = <T,>({
     return () => observer.disconnect();
   }, [fetchNextPage]);
 
+  useEffect(() => {
+    if (items && items.length === 0) return;
+    const firstItem = containerRef.current?.firstChild?.firstChild;
+    if (!(firstItem instanceof HTMLElement)) return;
+    setItemHeight(firstItem.clientHeight);
+  }, [items]);
+
   return (
     <>
-      {flattenData?.map((data, index) => (
-        <Item key={`feed_${index}`} data={data} />
-      ))}
+      <Flex
+        ref={containerRef}
+        direction={"column"}
+        gap={4}
+        position={"relative"}
+        minH={containerHeight}
+      >
+        {items}
+      </Flex>
       <Box ref={observerRef} />
+      {isFetching && (
+        <Center minH={20}>
+          <Spinner color={"primary.500"} />
+        </Center>
+      )}
     </>
   );
 };

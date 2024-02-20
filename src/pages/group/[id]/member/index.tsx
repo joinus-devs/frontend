@@ -1,5 +1,5 @@
 import { GroupMember } from "@/containers";
-import GroupDetail from "..";
+import { GroupDetail } from "@/containers";
 
 const Member = () => {
   return (

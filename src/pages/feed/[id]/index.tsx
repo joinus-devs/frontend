@@ -56,7 +56,10 @@ const FeedDetail = () => {
                   {feed.content}
                 </Text>
               </Flex>
-              <LikeCommentCounter commentCount={0} likeCount={0} />
+              <LikeCommentCounter
+                commentCount={feed.comment_count}
+                likeCount={0}
+              />
               <PostComment type="feed" feedId={feed.id} />
             </Box>
             <Flex direction={"column"}>
