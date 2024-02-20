@@ -10,6 +10,7 @@ import { CommentWithPage, Feed, Group, User } from "@/types";
 import { toUrl } from "@/utils";
 import { formatISO } from "@/utils/date";
 import { Box, Flex, Heading, Text } from "@chakra-ui/react";
+import { useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 
 const FeedDetail = () => {
@@ -30,7 +31,7 @@ const FeedDetail = () => {
 
   return (
     <Flex justify={"center"}>
-      <Flex w={{ base: "100%", xl: "1280px" }} direction={"column"}>
+      <Flex w={{ base: "100%", xl: "1280px" }} direction={"column"} mb={100}>
         {feed && group && (
           <>
             <Box shadow={"md"} mb={10} borderRadius={12} overflow={"hidden"}>
@@ -47,7 +48,7 @@ const FeedDetail = () => {
                 />
                 <Flex direction={"column"} gap={1} justifyContent={"end"}>
                   <Heading size={"md"}>{feed.user.name}</Heading>
-                  <Box opacity={0.7}>{formatISO(feed.created_at)}</Box>
+                  <Text opacity={0.7}>{formatISO(feed.created_at)}</Text>
                 </Flex>
               </Flex>
               <Flex p={4} pl={6} direction={"column"} gap={4}>

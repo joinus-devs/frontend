@@ -78,6 +78,7 @@ const InfiniteList = <T,>({
   useEffect(() => {
     if (items && items.length === 0) return;
     const firstItem = containerRef.current?.firstChild?.firstChild;
+    console.log("container", containerRef.current?.firstChild);
     if (!(firstItem instanceof HTMLElement)) return;
     setItemHeight(firstItem.clientHeight);
   }, [items]);

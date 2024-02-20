@@ -11,6 +11,7 @@ import {
   PopoverTrigger,
   Text,
 } from "@chakra-ui/react";
+import { useQueryClient } from "@tanstack/react-query";
 import { BsThreeDotsVertical } from "react-icons/bs";
 
 interface CommentModifyIconProps {
@@ -23,8 +24,8 @@ export const CommentModifyIcon = ({
   onClick,
 }: CommentModifyIconProps) => {
   const { openConfirm } = useModalStore(["openConfirm"]);
-  const { mutate: deleteComment } = useDelete(toUrl(ApiRoutes.Comments));
-
+  const { mutate: deleteComment } = useDelete(ApiRoutes.Comments);
+  const queryClient = useQueryClient();
   return (
     <Popover trigger={"click"} placement="left">
       <PopoverTrigger>
@@ -32,7 +33,7 @@ export const CommentModifyIcon = ({
           <Icon as={BsThreeDotsVertical} fontSize={20} />
         </Box>
       </PopoverTrigger>
-      <PopoverContent width={20} alignItems={"center"} mt={12}>
+      <PopoverContent width={20} alignItems={"center"}>
         <Text padding={2} as={"button"} onClick={onClick}>
           수정
         </Text>
@@ -46,7 +47,22 @@ export const CommentModifyIcon = ({
               onConfirm: () => {
                 deleteComment(comment.id, {
                   onSuccess: () => {
-                    console.log("delete comment success");
+                    //삭제시 feed의 comment를 다시 불러오기 위한 쿼리 invalidation
+                    queryClient.invalidateQueries({
+                      queryKey: [
+                        toUrl(ApiRoutes.FeedInComments, {
+                          id: comment.feed_id,
+                        }),
+                      ],
+                    });
+                    //삭제시 feed의 감소된 comment_count 출력을 위한 쿼리 invalidation
+                    queryClient.invalidateQueries({
+                      queryKey: [
+                        toUrl(ApiRoutes.Feeds, {
+                          id: comment.feed_id,
+                        }),
+                      ],
+                    });
                   },
                 });
               },

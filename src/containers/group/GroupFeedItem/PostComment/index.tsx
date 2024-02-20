@@ -49,6 +49,9 @@ export const PostComment = ({ type, feedId }: PostCommentProps) => {
               queryKey: [toUrl(ApiRoutes.Feeds, { id: feedId })],
             });
           }
+          queryClient.invalidateQueries({
+            queryKey: [toUrl(ApiRoutes.FeedInComments, { id: feedId })],
+          });
           reset(initialFormValues);
         },
       });
