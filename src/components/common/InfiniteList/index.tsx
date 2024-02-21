@@ -9,7 +9,17 @@ interface InfiniteListProps<T> {
     InfiniteData<CursorQueryResponse<T[]>, unknown>,
     ApiError
   >;
-  renderItem: ({ data }: { data: T }) => JSX.Element;
+  renderItem: ({
+    data,
+    setDynamicHeight,
+    dynamicHeight,
+  }: {
+    data: T;
+    setDynamicHeight: React.Dispatch<React.SetStateAction<number>>;
+    dynamicHeight: number;
+  }) => JSX.Element;
+  setDynamicHeight: React.Dispatch<React.SetStateAction<number>>;
+  dynamicHeight: number;
 }
 
 /**
@@ -24,6 +34,8 @@ const gap = 4;
 const InfiniteList = <T,>({
   infiniteQueryResult,
   renderItem: Item,
+  setDynamicHeight,
+  dynamicHeight,
 }: InfiniteListProps<T>) => {
   const [itemHeight, setItemHeight] = useState(0);
   const observerRef = useRef<HTMLDivElement>(null);
@@ -40,8 +52,10 @@ const InfiniteList = <T,>({
     itemHeight,
     gap,
     marginTop: containerRef.current?.offsetTop ?? 0,
+    dynamicHeight,
   });
 
+  console.log(containerHeight, startIndex, endIndex);
   const items = useMemo(() => {
     if (!flattenData.length) return;
     return flattenData.slice(startIndex, endIndex).map((item, idx) => (
@@ -52,13 +66,27 @@ const InfiniteList = <T,>({
         left={0}
         right={0}
         transform={`translateY(${
-          (startIndex + idx) * itemHeight + (startIndex + idx) * gap
+          (startIndex + idx) * itemHeight +
+          (startIndex + idx) * gap +
+          dynamicHeight
         }px)`}
       >
-        <Item data={item} />
+        <Item
+          data={item}
+          setDynamicHeight={setDynamicHeight}
+          dynamicHeight={dynamicHeight}
+        />
       </Box>
     ));
-  }, [Item, endIndex, flattenData, itemHeight, startIndex]);
+  }, [
+    Item,
+    dynamicHeight,
+    endIndex,
+    flattenData,
+    itemHeight,
+    setDynamicHeight,
+    startIndex,
+  ]);
 
   useEffect(() => {
     const observerElement = observerRef.current;
@@ -78,7 +106,7 @@ const InfiniteList = <T,>({
   useEffect(() => {
     if (items && items.length === 0) return;
     const firstItem = containerRef.current?.firstChild?.firstChild;
-    console.log("container", containerRef.current?.firstChild);
+
     if (!(firstItem instanceof HTMLElement)) return;
     setItemHeight(firstItem.clientHeight);
   }, [items]);

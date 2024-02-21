@@ -38,9 +38,9 @@ const NewFeedItem = ({ data }: NewFeedItemProps) => {
         <CircleImg imgSrc={"/none-groupimg.webp"} alt="group_img" size={48} />
         <Heading size={"md"}>{dummyGroupData.name}</Heading>
       </Flex>
-      <Box flex={2}>
+      {/* <Box flex={2}>
         <GroupFeedItem data={data} />
-      </Box>
+      </Box> */}
     </Flex>
   );
 };

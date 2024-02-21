@@ -19,6 +19,7 @@ export enum PageRoutes {
   Home = "/",
   Group = "/group/:id?",
   CreateGroup = "/group/create",
+  Feed = "/feed/:id?",
   NewFeed = "/new-feed",
   Support = "/support",
   SignIn = "/auth/signin",
