@@ -1,11 +1,19 @@
+import { usePost } from "@/apis";
+import { usePostFeed } from "@/apis/feed";
+import { ApiRoutes, PageRoutes } from "@/constants";
 import { Feed } from "@/types";
+import { QueryParser, toUrl } from "@/utils";
 import { Flex, Button, Input, Text } from "@chakra-ui/react";
+import { useQueryClient } from "@tanstack/react-query";
 import dynamic from "next/dynamic";
+import { useRouter } from "next/router";
 import { Controller, useForm } from "react-hook-form";
 
 interface PostData {
   title: string;
   content: string;
+  is_private: boolean;
+  comment_count: number;
 }
 
 const FroalaEditor = dynamic(() => import("@/containers/post/Editor"), {
@@ -30,11 +38,24 @@ const CreateFeed = ({ feed }: CreateFeedProps) => {
     defaultValues: {
       title: feed?.title || "",
       content: feed?.content || "",
+      is_private: false,
+      comment_count: 0,
     },
   });
+  const router = useRouter();
+  const clubId = QueryParser.toNumber(router.query.id);
+  const { mutate } = usePostFeed(clubId);
 
   const onSubmit = (values: PostData) => {
-    console.log(values);
+    mutate(values, {
+      onSuccess: () => {
+        router.push(
+          toUrl(PageRoutes.GroupFeed, {
+            id: clubId,
+          })
+        );
+      },
+    });
   };
   return (
     <form onSubmit={handleSubmit(onSubmit)}>

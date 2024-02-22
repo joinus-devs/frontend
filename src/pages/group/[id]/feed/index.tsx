@@ -4,7 +4,6 @@ import { GroupDetail, GroupFeedItem } from "@/containers";
 import { Feed } from "@/types";
 import { QueryParser } from "@/utils";
 import { useRouter } from "next/router";
-import { useState } from "react";
 
 const FeedPage = () => {
   const router = useRouter();

@@ -18,13 +18,6 @@ export interface GetGroupFeedsParams extends CursorQueryParams {
   clubId?: number;
 }
 
-export interface PostFeedParams {
-  title: string;
-  content: string;
-  clubId: number;
-  isPrivate: boolean;
-}
-
 export const useDeleteFeed = () => {
   return useDelete(toUrl(ApiRoutes.Feeds));
 };
@@ -40,6 +33,6 @@ export const useGetFeeds = (params: CursorQueryParams) => {
   return useLoadMore<Feed[]>(toUrl(ApiRoutes.Feeds), params);
 };
 
-// export const usePostFeed = (params:) => {
-//   return usePost(toUrl(ApiRoutes.Feeds));
-// }
+export const usePostFeed = (clubId?: number) => {
+  return usePost(toUrl(ApiRoutes.GroupFeed, { id: clubId }));
+};
