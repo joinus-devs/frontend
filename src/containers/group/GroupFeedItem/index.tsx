@@ -47,8 +47,8 @@ const GroupFeedItem = ({ data }: GroupFeedItemProps) => {
   const bgColor = useBgColor();
 
   const handleCommentClick = useCallback(() => {
-    setIsComment((prev) => !prev);
-  }, []);
+    router.push(toUrl(PageRoutes.Feed, { id: data.id }));
+  }, [data.id, router]);
 
   useEffect(() => {
     if (!isComment) return;

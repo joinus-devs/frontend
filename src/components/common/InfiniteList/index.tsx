@@ -10,6 +10,7 @@ interface InfiniteListProps<T> {
     ApiError
   >;
   renderItem: ({ data }: { data: T }) => JSX.Element;
+  gap?: number;
 }
 
 /**
@@ -19,11 +20,10 @@ interface InfiniteListProps<T> {
  * @returns
  */
 
-const gap = 4;
-
 const InfiniteList = <T,>({
   infiniteQueryResult,
   renderItem: Item,
+  gap = 0,
 }: InfiniteListProps<T>) => {
   const [itemHeight, setItemHeight] = useState(0);
   const observerRef = useRef<HTMLDivElement>(null);
@@ -58,7 +58,7 @@ const InfiniteList = <T,>({
         <Item data={item} />
       </Box>
     ));
-  }, [Item, endIndex, flattenData, itemHeight, startIndex]);
+  }, [Item, endIndex, flattenData, gap, itemHeight, startIndex]);
 
   useEffect(() => {
     const observerElement = observerRef.current;
@@ -88,7 +88,7 @@ const InfiniteList = <T,>({
       <Flex
         ref={containerRef}
         direction={"column"}
-        gap={4}
+        gap={gap}
         position={"relative"}
         minH={containerHeight}
       >

@@ -1,6 +1,6 @@
 import { usePost } from "@/apis";
 import { CircleImg } from "@/components";
-import { ApiRoutes } from "@/constants";
+import { ApiRoutes, PageRoutes } from "@/constants";
 import { QueryParser, toUrl } from "@/utils";
 import { Button, Flex, Icon, Input } from "@chakra-ui/react";
 import { useQueryClient } from "@tanstack/react-query";
@@ -8,6 +8,7 @@ import { useRouter } from "next/router";
 import { useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { FaCheck } from "react-icons/fa";
+import { pageRouter } from "../../GroupNav/pageRouter";
 
 interface PostComment {
   content: string;
@@ -53,10 +54,11 @@ export const PostComment = ({ type, feedId }: PostCommentProps) => {
             queryKey: [toUrl(ApiRoutes.FeedInComments, { id: feedId })],
           });
           reset(initialFormValues);
+          router.push(toUrl(PageRoutes.Feed, { id: feedId }));
         },
       });
     },
-    [feedId, groupId, postComment, queryClient, reset, type]
+    [feedId, groupId, postComment, queryClient, reset, router, type]
   );
 
   return (

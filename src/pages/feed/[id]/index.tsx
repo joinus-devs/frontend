@@ -1,12 +1,13 @@
-import { useFetch } from "@/apis";
-import { CircleImg } from "@/components";
+import { useFetch, useGetComment } from "@/apis";
+import { CircleImg, InfiniteList } from "@/components";
 import { ApiRoutes } from "@/constants";
 import { GroupBanner, GroupDescription } from "@/containers";
 import GroupFeedComments from "@/containers/group/GroupFeedComments";
+import FeedComment from "@/containers/group/GroupFeedComments/Comment";
 import { FeedModifyIcon } from "@/containers/group/GroupFeedItem/FeedModifyIcon";
 import { LikeCommentCounter } from "@/containers/group/GroupFeedItem/LikeCommentCounter";
 import { PostComment } from "@/containers/group/GroupFeedItem/PostComment";
-import { CommentWithPage, Feed, Group, User } from "@/types";
+import { Comment, CommentWithPage, Feed, Group, User } from "@/types";
 import { toUrl } from "@/utils";
 import { formatISO } from "@/utils/date";
 import { Box, Flex, Heading, Text } from "@chakra-ui/react";
@@ -60,16 +61,16 @@ const FeedDetail = () => {
             </>
           )}
         </Box>
-        {/* <InfiniteList<Comment>
-          infiniteQueryResult={useGetComment({
-            feedId: feed?.id,
-            limit: 10,
-          })}
-          renderItem={FeedComment}
-        /> */}
-        <Flex direction={"column"}>
-          <GroupFeedComments comments={comments?.data ?? []} />
-        </Flex>
+        <Box borderTopWidth={"1px"} gap={6} p={8}>
+          <InfiniteList<Comment>
+            infiniteQueryResult={useGetComment({
+              feedId: feed?.id,
+              limit: 10,
+            })}
+            renderItem={FeedComment}
+            gap={20}
+          />
+        </Box>
       </Flex>
     </Flex>
   );
