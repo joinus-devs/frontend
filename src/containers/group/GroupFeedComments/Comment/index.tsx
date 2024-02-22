@@ -4,7 +4,7 @@ import { ApiRoutes } from "@/constants";
 import { User, Comment } from "@/types";
 import { formatISO } from "@/utils/date";
 import { Box, Button, Flex, Text, Textarea } from "@chakra-ui/react";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { PostComment } from "../../GroupFeedItem";
 import { CommentModifyIcon } from "./CommentModifyIcon";
@@ -17,7 +17,10 @@ interface CommentProps {
 
 const FeedComment = ({ data }: CommentProps) => {
   const [isModify, setIsModify] = useState(false);
+  const [height, setHeight] = useState(0);
   const queryClient = useQueryClient();
+  const textRef = useRef<HTMLDivElement>(null);
+
   const { register, handleSubmit } = useForm<PostComment>({
     defaultValues: { content: data.content },
   });
@@ -45,8 +48,19 @@ const FeedComment = ({ data }: CommentProps) => {
     [data.feed_id, modifyComment, queryClient]
   );
 
+  useEffect(() => {
+    if (!textRef.current) return;
+    setHeight(textRef.current.clientHeight);
+  }, []);
+
   return (
-    <Flex gap={4} position={"relative"}>
+    <Flex
+      gap={4}
+      position={"relative"}
+      boxShadow={"sm"}
+      p={8}
+      borderRadius={12}
+    >
       {isMine && !isModify && (
         <CommentModifyIcon comment={data} onClick={() => setIsModify(true)} />
       )}
@@ -61,9 +75,10 @@ const FeedComment = ({ data }: CommentProps) => {
             w={"100%"}
             defaultValue={data.content}
             {...register("content")}
+            minH={height}
           />
         ) : (
-          <Text>{data.content} </Text>
+          <Text ref={textRef}>{data.content} </Text>
         )}
         {isModify && (
           <Flex

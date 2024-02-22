@@ -46,14 +46,9 @@ const GroupFeedItem = ({ data }: GroupFeedItemProps) => {
 
   const bgColor = useBgColor();
 
-  const handleCommentClick = useCallback(() => {
+  const routerPushHandler = useCallback(() => {
     router.push(toUrl(PageRoutes.Feed, { id: data.id }));
   }, [data.id, router]);
-
-  useEffect(() => {
-    if (!isComment) return;
-    fetchComment();
-  }, [fetchComment, isComment]);
 
   useEffect(() => {
     if (bodyRef.current) {
@@ -96,12 +91,7 @@ const GroupFeedItem = ({ data }: GroupFeedItemProps) => {
         <Box position={"relative"}>
           {moreContent && (
             <Box position={"absolute"} top={-10} opacity={0.8} right={"50%"}>
-              <Button
-                p={2}
-                onClick={() =>
-                  router.push(toUrl(PageRoutes.Feed, { id: data.id }))
-                }
-              >
+              <Button p={2} onClick={() => routerPushHandler()}>
                 더보기
               </Button>
             </Box>
@@ -110,15 +100,10 @@ const GroupFeedItem = ({ data }: GroupFeedItemProps) => {
         <LikeCommentCounter
           commentCount={data.comment_count}
           likeCount={0}
-          handleCommentClick={handleCommentClick}
+          handleCommentClick={routerPushHandler}
         />
         <PostComment type="group" feedId={data.id} />
       </Flex>
-      {isComment && comments?.data?.length && (
-        <Box ref={commentRef}>
-          <GroupFeedComments comments={comments.data} />
-        </Box>
-      )}
     </>
   );
 };

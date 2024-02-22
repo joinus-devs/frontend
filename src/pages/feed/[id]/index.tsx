@@ -1,8 +1,8 @@
 import { useFetch, useGetComment } from "@/apis";
 import { CircleImg, InfiniteList } from "@/components";
+import { WindowVirtualList } from "@/components/common/DynamicInfiniteList";
 import { ApiRoutes } from "@/constants";
 import { GroupBanner, GroupDescription } from "@/containers";
-import GroupFeedComments from "@/containers/group/GroupFeedComments";
 import FeedComment from "@/containers/group/GroupFeedComments/Comment";
 import { FeedModifyIcon } from "@/containers/group/GroupFeedItem/FeedModifyIcon";
 import { LikeCommentCounter } from "@/containers/group/GroupFeedItem/LikeCommentCounter";
@@ -61,14 +61,14 @@ const FeedDetail = () => {
             </>
           )}
         </Box>
-        <Box borderTopWidth={"1px"} gap={6} p={8}>
-          <InfiniteList<Comment>
+        <Box borderTopWidth={"1px"} p={8}>
+          <WindowVirtualList<Comment>
             infiniteQueryResult={useGetComment({
               feedId: feed?.id,
               limit: 10,
             })}
             renderItem={FeedComment}
-            gap={20}
+            gap={8}
           />
         </Box>
       </Flex>

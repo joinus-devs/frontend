@@ -1,7 +1,7 @@
 import { ApiRoutes } from "@/constants";
 import { Group, User } from "@/types";
 import { toUrl } from "@/utils";
-import { CursorQueryParams, Scheme, useDelete, useLoadMore } from ".";
+import { CursorQueryParams, Scheme, useDelete, useLoadMore, usePost } from ".";
 
 export interface Feed extends Scheme {
   club_id: number;
@@ -18,6 +18,13 @@ export interface GetGroupFeedsParams extends CursorQueryParams {
   clubId?: number;
 }
 
+export interface PostFeedParams {
+  title: string;
+  content: string;
+  clubId: number;
+  isPrivate: boolean;
+}
+
 export const useDeleteFeed = () => {
   return useDelete(toUrl(ApiRoutes.Feeds));
 };
@@ -32,3 +39,7 @@ export const useGetGroupFeeds = (params: GetGroupFeedsParams) => {
 export const useGetFeeds = (params: CursorQueryParams) => {
   return useLoadMore<Feed[]>(toUrl(ApiRoutes.Feeds), params);
 };
+
+// export const usePostFeed = (params:) => {
+//   return usePost(toUrl(ApiRoutes.Feeds));
+// }
