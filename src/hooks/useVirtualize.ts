@@ -7,7 +7,6 @@ interface UseVirtualizeProps {
   itemHeight: number;
   gap?: number;
   marginTop?: number;
-  dynamicHeight?: number;
 }
 
 const useVirtualize = ({
@@ -16,11 +15,10 @@ const useVirtualize = ({
   itemHeight,
   gap = 0,
   marginTop = 0,
-  dynamicHeight = 0,
 }: UseVirtualizeProps) => {
   const [viewportHeight, setViewportHeight] = useState(0);
   const [scrollTop, setScrollTop] = useState(0);
-  console.log(dynamicHeight);
+
   const effectiveHeight = useMemo(() => {
     return itemHeight === 0 ? 0 : itemHeight + gap;
   }, [gap, itemHeight]);
@@ -72,18 +70,16 @@ const useVirtualize = ({
 
   const { startIndex, endIndex } = useMemo(() => {
     if (effectiveHeight === 0) return { startIndex: 0, endIndex: 1 };
-    console.log("scrollTop", scrollTop, "dynamicHeight", dynamicHeight);
     const startIndex = Math.max(0, Math.floor(scrollTop / effectiveHeight));
     const endIndex = Math.min(
       numItems,
-      Math.ceil((scrollTop + viewportHeight + dynamicHeight) / effectiveHeight)
+      Math.ceil((scrollTop + viewportHeight) / effectiveHeight)
     );
 
     return { startIndex, endIndex };
-  }, [dynamicHeight, effectiveHeight, numItems, scrollTop, viewportHeight]);
-
+  }, [effectiveHeight, numItems, scrollTop, viewportHeight]);
   return {
-    containerHeight: numItems * effectiveHeight - gap + dynamicHeight,
+    containerHeight: numItems * effectiveHeight - gap,
     startIndex,
     endIndex,
   };

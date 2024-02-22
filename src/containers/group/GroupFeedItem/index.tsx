@@ -16,8 +16,6 @@ import { useRouter } from "next/router";
 
 interface GroupFeedItemProps {
   data: Feed;
-  dynamicHeight: number;
-  setDynamicHeight: React.Dispatch<React.SetStateAction<number>>;
 }
 
 export interface PostComment {
@@ -30,17 +28,9 @@ export const dummyUserData = {
   imgSrc: "/noneUserImg.webp",
 };
 
-const initialFormValues: PostComment = {
-  content: "",
-};
-
 const maxBodyHeight = 200;
 
-const GroupFeedItem = ({
-  data,
-  setDynamicHeight,
-  dynamicHeight,
-}: GroupFeedItemProps) => {
+const GroupFeedItem = ({ data }: GroupFeedItemProps) => {
   const [isComment, setIsComment] = useState(false);
   const [moreContent, setMoreContent] = useState(false);
 
@@ -76,15 +66,6 @@ const GroupFeedItem = ({
     }
   }, [bodyRef, data.content]);
 
-  useEffect(() => {
-    if (!isComment || comments?.data.length === 0 || !commentRef.current)
-      return;
-    if (isComment)
-      console.log("isComemnt", commentRef.current.offsetHeight, dynamicHeight);
-    setDynamicHeight(commentRef.current.offsetHeight + dynamicHeight);
-    if (!isComment) console.log("!isComment");
-    setDynamicHeight(dynamicHeight - commentRef.current.offsetHeight);
-  }, [comments?.data.length, dynamicHeight, isComment, setDynamicHeight]);
   return (
     <>
       <Flex

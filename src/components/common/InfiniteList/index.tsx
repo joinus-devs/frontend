@@ -9,17 +9,7 @@ interface InfiniteListProps<T> {
     InfiniteData<CursorQueryResponse<T[]>, unknown>,
     ApiError
   >;
-  renderItem: ({
-    data,
-    setDynamicHeight,
-    dynamicHeight,
-  }: {
-    data: T;
-    setDynamicHeight: React.Dispatch<React.SetStateAction<number>>;
-    dynamicHeight: number;
-  }) => JSX.Element;
-  setDynamicHeight: React.Dispatch<React.SetStateAction<number>>;
-  dynamicHeight: number;
+  renderItem: ({ data }: { data: T }) => JSX.Element;
 }
 
 /**
@@ -34,8 +24,6 @@ const gap = 4;
 const InfiniteList = <T,>({
   infiniteQueryResult,
   renderItem: Item,
-  setDynamicHeight,
-  dynamicHeight,
 }: InfiniteListProps<T>) => {
   const [itemHeight, setItemHeight] = useState(0);
   const observerRef = useRef<HTMLDivElement>(null);
@@ -52,10 +40,8 @@ const InfiniteList = <T,>({
     itemHeight,
     gap,
     marginTop: containerRef.current?.offsetTop ?? 0,
-    dynamicHeight,
   });
 
-  console.log(containerHeight, startIndex, endIndex);
   const items = useMemo(() => {
     if (!flattenData.length) return;
     return flattenData.slice(startIndex, endIndex).map((item, idx) => (
@@ -66,27 +52,13 @@ const InfiniteList = <T,>({
         left={0}
         right={0}
         transform={`translateY(${
-          (startIndex + idx) * itemHeight +
-          (startIndex + idx) * gap +
-          dynamicHeight
+          (startIndex + idx) * itemHeight + (startIndex + idx) * gap
         }px)`}
       >
-        <Item
-          data={item}
-          setDynamicHeight={setDynamicHeight}
-          dynamicHeight={dynamicHeight}
-        />
+        <Item data={item} />
       </Box>
     ));
-  }, [
-    Item,
-    dynamicHeight,
-    endIndex,
-    flattenData,
-    itemHeight,
-    setDynamicHeight,
-    startIndex,
-  ]);
+  }, [Item, endIndex, flattenData, itemHeight, startIndex]);
 
   useEffect(() => {
     const observerElement = observerRef.current;
