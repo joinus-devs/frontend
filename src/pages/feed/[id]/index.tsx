@@ -23,9 +23,6 @@ const FeedDetail = () => {
   const { data: group } = useFetch<Group>(
     toUrl(ApiRoutes.Group, { id: feed?.club_id })
   );
-  const { data: comments } = useFetch<CommentWithPage>(
-    toUrl(ApiRoutes.FeedInComments, { id: feed?.id })
-  );
 
   const { data: me } = useFetch<User>(ApiRoutes.Me);
 

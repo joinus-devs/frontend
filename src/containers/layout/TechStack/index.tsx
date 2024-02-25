@@ -1,5 +1,5 @@
 import { Flex, Heading, Link } from "@chakra-ui/react";
-import { libraries } from "@/constants";
+import { libraries, libs } from "@/constants";
 
 const TechStack = () => {
   return (
@@ -8,48 +8,33 @@ const TechStack = () => {
         Stack
       </Heading>
       <Flex flex={1}>
-        <Flex flex={1} direction={"column"} gap={6}>
-          <Heading as={"h4"} size={"md"}>
-            Frontend
-          </Heading>
-          <Flex gap={4} direction={"column"} fontSize={16}>
-            {libraries.frontend.map((lib, i) => {
-              return (
-                <Link key={`frontend_${i}`} href={lib.link} target={"_blank"}>
-                  {lib.name}
-                </Link>
-              );
-            })}
-          </Flex>
-        </Flex>
-        <Flex flex={1} direction={"column"} gap={6}>
-          <Heading as={"h4"} size={"md"}>
-            Backend
-          </Heading>
-          <Flex gap={4} direction={"column"} fontSize={16}>
-            {libraries.backend.map((lib, i) => {
-              return (
-                <Link key={`backend_${i}`} href={lib.link} target={"_blank"}>
-                  {lib.name}
-                </Link>
-              );
-            })}
-          </Flex>
-        </Flex>
-        <Flex flex={1} direction={"column"} gap={6}>
-          <Heading as={"h4"} size={"md"}>
-            Infra
-          </Heading>
-          <Flex gap={4} direction={"column"} fontSize={16}>
-            {libraries.infra.map((lib, i) => {
-              return (
-                <Link key={`infra_${i}`} href={lib.link} target={"_blank"}>
-                  {lib.name}
-                </Link>
-              );
-            })}
-          </Flex>
-        </Flex>
+        {libs.map((data, index) => {
+          return (
+            <Flex
+              flex={1}
+              direction={"column"}
+              gap={6}
+              key={`${data.head}_${index}`}
+            >
+              <Heading as={"h4"} size={"md"}>
+                {data.head}
+              </Heading>
+              <Flex gap={4} direction={"column"} fontSize={16}>
+                {data.libraries.map((lib, i) => {
+                  return (
+                    <Link
+                      key={`${data.head}_lib_${i}`}
+                      href={lib.link}
+                      target={"_blank"}
+                    >
+                      {lib.name}
+                    </Link>
+                  );
+                })}
+              </Flex>
+            </Flex>
+          );
+        })}
       </Flex>
     </Flex>
   );

@@ -17,6 +17,7 @@ export interface CreateGroupFormValues {
   minimum_age: number;
   maximum_age: number;
   capacity: number;
+  sex: boolean;
 }
 
 export const initialFormValues: CreateGroupFormValues = {
@@ -26,6 +27,7 @@ export const initialFormValues: CreateGroupFormValues = {
   minimum_age: 0,
   maximum_age: 100,
   capacity: 10,
+  sex: false,
 };
 
 export const bgColorAnimation = keyframes`

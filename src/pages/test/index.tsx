@@ -28,17 +28,17 @@ const Test = () => {
 
   const handlerSignUp = () => {
     signup({
-      password: "12341234",
-      name: "John Doe",
+      password: "12341234!@",
+      name: "JohnDoe522",
       profile: "https://kr.object.ncloudstorage.com/joinus/image/profile.png",
       sex: true,
-      phone: "01012341234",
-      email: "john@gmail.com",
+      phone: "01012341239",
+      email: "john522@gmail.com",
     });
   };
 
   const handlerSignIn = () => {
-    signin({ email: "john42@gmail.com", password: "12341234" });
+    signin({ email: "john@gmail.com", password: "12341234" });
   };
 
   const handlerPostClub = () => {
