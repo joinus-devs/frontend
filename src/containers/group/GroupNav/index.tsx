@@ -24,6 +24,7 @@ const GroupNav = ({ groupId }: GroupNavProps) => {
   const { name, name2 } = useGetPathname();
   //pathname을 / 를 기준으로 나누어 group/:id를 제외한 뒤에부분을 name과 name2로 지정했습니다.
 
+  //여기서 me와 그룹의 운영진을 비교하여 해당한다면 승인목록을 보여줌
   useEffect(() => {
     setTabIndex(switchTab(name));
   }, [name]);

@@ -42,13 +42,22 @@ const CreateFeed = ({ feed }: CreateFeedProps) => {
       comment_count: 0,
     },
   });
+
+  const queryClient = useQueryClient();
   const router = useRouter();
   const clubId = QueryParser.toNumber(router.query.id);
   const { mutate } = usePostFeed(clubId);
 
   const onSubmit = (values: PostData) => {
     mutate(values, {
-      onSuccess: () => {
+      onSuccess: async () => {
+        await queryClient.invalidateQueries({
+          queryKey: [
+            toUrl(ApiRoutes.GroupFeed, {
+              id: clubId,
+            }),
+          ],
+        });
         router.push(
           toUrl(PageRoutes.GroupFeed, {
             id: clubId,

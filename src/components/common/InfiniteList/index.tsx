@@ -1,6 +1,6 @@
 import { ApiError, CursorQueryResponse } from "@/apis";
 import { useVirtualize } from "@/hooks";
-import { Box, Center, Flex, Spinner } from "@chakra-ui/react";
+import { Box, Center, Flex, Spinner, Text } from "@chakra-ui/react";
 import { InfiniteData, UseInfiniteQueryResult } from "@tanstack/react-query";
 import { useEffect, useMemo, useRef, useState } from "react";
 
@@ -44,6 +44,7 @@ const InfiniteList = <T,>({
 
   const items = useMemo(() => {
     if (!flattenData.length) return;
+
     return flattenData.slice(startIndex, endIndex).map((item, idx) => (
       <Box
         key={idx}
@@ -99,6 +100,9 @@ const InfiniteList = <T,>({
         <Center minH={20}>
           <Spinner color={"primary.500"} />
         </Center>
+      )}
+      {!items && !isFetching && (
+        <Text textAlign={"center"}>데이터가 없습니다.</Text>
       )}
     </>
   );

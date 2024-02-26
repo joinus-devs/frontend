@@ -38,7 +38,7 @@ const Test = () => {
   };
 
   const handlerSignIn = () => {
-    signin({ email: "john@gmail.com", password: "12341234" });
+    signin({ email: "john522@gmail.com", password: "12341234!@" });
   };
 
   const handlerPostClub = () => {
