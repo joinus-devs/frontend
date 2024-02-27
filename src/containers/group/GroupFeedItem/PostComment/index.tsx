@@ -8,7 +8,6 @@ import { useRouter } from "next/router";
 import { useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { FaCheck } from "react-icons/fa";
-import { pageRouter } from "../../GroupNav/pageRouter";
 
 interface PostComment {
   content: string;

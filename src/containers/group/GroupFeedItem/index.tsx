@@ -1,18 +1,16 @@
-import { _useFetch, useFetch, usePost } from "@/apis";
+import { useFetch } from "@/apis";
 import { CircleImg } from "@/components";
 import { ApiRoutes, PageRoutes } from "@/constants";
-import GroupFeedComments from "@/containers/group/GroupFeedComments";
 import { useBgColor } from "@/hooks";
-import { CommentWithPage, Feed, User } from "@/types";
+import { Feed, User } from "@/types";
 import { toUrl } from "@/utils";
 import { formatISO } from "@/utils/date";
 import { Box, Button, Flex, Heading, Text } from "@chakra-ui/react";
-import { useQueryClient } from "@tanstack/react-query";
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import { useRouter } from "next/router";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { FeedModifyIcon } from "./FeedModifyIcon";
 import { LikeCommentCounter } from "./LikeCommentCounter";
 import { PostComment } from "./PostComment";
-import { useRouter } from "next/router";
 
 interface GroupFeedItemProps {
   data: Feed;
@@ -31,18 +29,11 @@ export const dummyUserData = {
 const maxBodyHeight = 200;
 
 const GroupFeedItem = ({ data }: GroupFeedItemProps) => {
-  const [isComment, setIsComment] = useState(false);
   const [moreContent, setMoreContent] = useState(false);
 
   const router = useRouter();
   const bodyRef = useRef<HTMLDivElement>(null);
-  const commentRef = useRef<HTMLDivElement>(null);
   const { data: me } = useFetch<User>(ApiRoutes.Me);
-
-  const { data: comments, refetch: fetchComment } = _useFetch<CommentWithPage>(
-    toUrl(ApiRoutes.FeedInComments, { id: data.id }),
-    undefined
-  );
 
   const bgColor = useBgColor();
 

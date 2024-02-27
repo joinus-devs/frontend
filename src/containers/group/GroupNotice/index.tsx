@@ -1,33 +1,10 @@
 import { Box, Flex } from "@chakra-ui/react";
-import { GroupFeedItem } from "../GroupFeedItem";
 import { useRouter } from "next/router";
 import { useFetch } from "@/apis";
 import { FeedWithPage } from "@/types";
 import { toUrl } from "@/utils";
 import { ApiRoutes } from "@/constants";
-
-const dummyNoticeData = [
-  {
-    id: 10,
-    club_id: 1,
-    user_id: 1,
-    title: "공지사항입니다.",
-    content: "공지사항입니다.",
-    createdAt: "2024-01-13",
-    is_private: false,
-    comment_count: 0,
-  },
-  {
-    id: 11,
-    club_id: 1,
-    user_id: 1,
-    title: "공지사항입니다.",
-    content: "공지사항입니다.",
-    createdAt: "2024-01-13",
-    is_private: false,
-    comment_count: 0,
-  },
-];
+import { GroupFeedItem } from "..";
 
 const GroupNotice = () => {
   const router = useRouter();
@@ -42,7 +19,7 @@ const GroupNotice = () => {
     <Box>
       <Flex direction={"column"} gap={4} p={4}>
         {feeds?.data.map((feed, index) => (
-          <GroupFeedItem feed={feed} key={`feed_${index}`} />
+          <GroupFeedItem data={feed} key={`notice_${index}`} />
         ))}
       </Flex>
     </Box>

@@ -1,4 +1,4 @@
-import { PageRoutes, groupNavItems } from "@/constants";
+import { ApiRoutes, PageRoutes, groupNavItems } from "@/constants";
 import {
   Box,
   Button,
@@ -13,6 +13,8 @@ import { useRouter } from "next/router";
 import useGetPathname from "./useGetPathname";
 import { toUrl } from "@/utils";
 import { useEffect, useState } from "react";
+import { useFetch, useGetGroupMembers } from "@/apis";
+import { User } from "@/types";
 
 interface GroupNavProps {
   groupId: number;
@@ -20,9 +22,27 @@ interface GroupNavProps {
 
 const GroupNav = ({ groupId }: GroupNavProps) => {
   const [tabIndex, setTabIndex] = useState(0);
+  const [isManager, setIsManger] = useState(false);
   const router = useRouter();
   const { name, name2 } = useGetPathname();
+
   //pathname을 / 를 기준으로 나누어 group/:id를 제외한 뒤에부분을 name과 name2로 지정했습니다.
+  const { data: me, isSuccess: meSuccess } = useFetch<User>(ApiRoutes.Me);
+  const { data: manager, isSuccess: managerSuccess } = useGetGroupMembers(
+    groupId,
+    {
+      roles: ["admin", "staff"],
+    }
+  );
+
+  useEffect(() => {
+    if (!meSuccess || !managerSuccess) return;
+    manager.data?.map((v) => {
+      if (v.id === me.id) {
+        setIsManger(true);
+      }
+    });
+  }, [manager?.data, managerSuccess, me?.id, meSuccess]);
 
   //여기서 me와 그룹의 운영진을 비교하여 해당한다면 승인목록을 보여줌
   useEffect(() => {
@@ -60,7 +80,7 @@ const GroupNav = ({ groupId }: GroupNavProps) => {
         <Button
           position={"absolute"}
           right={0}
-          display={name === "member" ? "block" : "none"}
+          display={name === "member" && isManager ? "block" : "none"}
           onClick={() => {
             if (name2 === "permission")
               router.push(toUrl(PageRoutes.GroupMember, { id: groupId }));
