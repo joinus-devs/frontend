@@ -1,5 +1,6 @@
 import { Feed, useGetFeeds } from "@/apis/feed";
-import { DefaultLayout, InfiniteList } from "@/components";
+import { DefaultLayout } from "@/components";
+import { WindowVirtualList } from "@/components/common/DynamicInfiniteList";
 import { NewFeedItem } from "@/containers";
 import { Flex } from "@chakra-ui/react";
 import Head from "next/head";
@@ -15,7 +16,7 @@ const NewFeed = () => {
       </Head>
       <DefaultLayout>
         <Flex w={"100%"} direction={"column"} pt={8} pb={8} gap={8}>
-          <InfiniteList<Feed>
+          <WindowVirtualList<Feed>
             infiniteQueryResult={useGetFeeds({ limit: 10 })}
             renderItem={NewFeedItem}
           />

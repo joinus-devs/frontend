@@ -1,5 +1,5 @@
 import { useFetch, useGetComment } from "@/apis";
-import { CircleImg, InfiniteList } from "@/components";
+import { CircleImg } from "@/components";
 import { WindowVirtualList } from "@/components/common/DynamicInfiniteList";
 import { ApiRoutes } from "@/constants";
 import { GroupBanner, GroupDescription } from "@/containers";
@@ -7,7 +7,7 @@ import FeedComment from "@/containers/group/GroupFeedComments/Comment";
 import { FeedModifyIcon } from "@/containers/group/GroupFeedItem/FeedModifyIcon";
 import { LikeCommentCounter } from "@/containers/group/GroupFeedItem/LikeCommentCounter";
 import { PostComment } from "@/containers/group/GroupFeedItem/PostComment";
-import { Comment, CommentWithPage, Feed, Group, User } from "@/types";
+import { Comment, Feed, Group, User } from "@/types";
 import { toUrl } from "@/utils";
 import { formatISO } from "@/utils/date";
 import { Box, Flex, Heading, Text } from "@chakra-ui/react";

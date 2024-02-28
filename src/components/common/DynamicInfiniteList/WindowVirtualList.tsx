@@ -1,8 +1,8 @@
 import { ApiError, CursorQueryResponse } from "@/apis";
+import { Box, Center, Flex, Spacer, Spinner, Text } from "@chakra-ui/react";
 import { InfiniteData, UseInfiniteQueryResult } from "@tanstack/react-query";
-import { useMemo, useLayoutEffect, useRef, useEffect, useState } from "react";
 import { useWindowVirtualizer } from "@tanstack/react-virtual";
-import { Box, Center, Flex, Spacer, Spinner } from "@chakra-ui/react";
+import { useEffect, useMemo, useRef } from "react";
 
 interface WindowVirtualListProps<T> {
   infiniteQueryResult: UseInfiniteQueryResult<
@@ -67,6 +67,9 @@ const WindowVirtualList = <T,>({
         <Center minH={20}>
           <Spinner color={"primary.500"} />
         </Center>
+      )}
+      {!items && !isFetching && (
+        <Text textAlign={"center"}>데이터가 없습니다.</Text>
       )}
     </>
   );

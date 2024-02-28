@@ -1,3 +1,4 @@
+import { toCategory } from "@/constants";
 import { Group } from "@/types";
 import { Box, Flex, Heading, Tag, Text } from "@chakra-ui/react";
 
@@ -12,9 +13,13 @@ const GroupDescription = ({ group }: GroupDescriptionProps) => {
         <Heading size={"lg"} p={4} pb={8}>
           {group?.name ?? ""}
         </Heading>
-        <Tag p={2} h={8} fontSize={16}>
-          IT
-        </Tag>
+        {group?.categories.map((category, index) => {
+          return (
+            <Tag p={2} h={8} fontSize={16} key={index}>
+              {toCategory[category]}
+            </Tag>
+          );
+        })}
       </Flex>
       <Text fontSize={"lg"} pl={4}>
         {group?.description ?? ""}

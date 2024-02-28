@@ -1,5 +1,5 @@
 import { useGetGroupFeeds } from "@/apis/feed";
-import { InfiniteList } from "@/components";
+import { WindowVirtualList } from "@/components/common/DynamicInfiniteList";
 import { GroupDetail, GroupFeedItem } from "@/containers";
 import { Feed } from "@/types";
 import { QueryParser } from "@/utils";
@@ -10,7 +10,7 @@ const FeedPage = () => {
 
   return (
     <GroupDetail>
-      <InfiniteList<Feed>
+      <WindowVirtualList<Feed>
         infiniteQueryResult={useGetGroupFeeds({
           clubId: QueryParser.toNumber(router.query.id),
           limit: 10,
