@@ -33,14 +33,13 @@ const NewFeedItem = ({ data }: NewFeedItemProps) => {
       >
         <Tag position={"absolute"} right={8} top={8} p={2} h={8} fontSize={16}>
           category
-          {/* {dummyGroupData.category[0]} */}
         </Tag>
         <CircleImg imgSrc={"/none-groupimg.webp"} alt="group_img" size={48} />
         <Heading size={"md"}>{dummyGroupData.name}</Heading>
       </Flex>
-      {/* <Box flex={2}>
+      <Box flex={2}>
         <GroupFeedItem data={data} />
-      </Box> */}
+      </Box>
     </Flex>
   );
 };

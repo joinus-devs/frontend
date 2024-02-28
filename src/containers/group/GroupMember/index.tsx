@@ -1,7 +1,9 @@
-import { useGetGroupMembers } from "@/apis";
+import { useFetch, useGetGroupMembers } from "@/apis";
 import { Box, Flex } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { Template } from "./Template";
+import { User } from "@/types";
+import { ApiRoutes } from "@/constants";
 
 const GroupMember = () => {
   const router = useRouter();
@@ -18,9 +20,7 @@ const GroupMember = () => {
     roles: "staff",
   });
 
-  const { data: manager } = useGetGroupMembers(numberingQuery, {
-    roles: ["admin", "staff"],
-  });
+  const { data: me, isSuccess: meSuccess } = useFetch<User>(ApiRoutes.Me);
 
   return (
     <Box minH={800}>
@@ -29,16 +29,19 @@ const GroupMember = () => {
           groupMember={admin?.data}
           header="Admin"
           groupId={numberingQuery}
+          admin={me?.id === admin?.data[0].id ? true : false}
         />
         <Template
           groupMember={staff?.data}
           header="Manager"
           groupId={numberingQuery}
+          admin={me?.id === admin?.data[0].id ? true : false}
         />
         <Template
           groupMember={member?.data}
           header="User"
           groupId={numberingQuery}
+          admin={me?.id === admin?.data[0].id ? true : false}
         />
       </Flex>
     </Box>

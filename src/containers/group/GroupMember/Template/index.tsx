@@ -24,17 +24,25 @@ interface TemplateProps {
   groupMember?: User[];
   header: string;
   groupId: number;
+  admin: boolean;
 }
 
-export const Template = ({ groupMember, header, groupId }: TemplateProps) => {
+export const Template = ({
+  groupMember,
+  header,
+  groupId,
+  admin,
+}: TemplateProps) => {
   const [id, setId] = useState<number | null>(null);
   const queryClient = useQueryClient();
+
   const { mutate: updateRole } = useUpdate(
     toUrl(ApiRoutes.GroupMembers, {
       id: groupId,
       userId: id,
     })
   );
+
   const handlerRoleChange = async (v: User) => {
     await setId(v.id);
     const changedRole = v.role === "member" ? "staff" : "member";
@@ -51,6 +59,7 @@ export const Template = ({ groupMember, header, groupId }: TemplateProps) => {
       }
     );
   };
+
   return (
     <Flex direction={"column"} gap={8}>
       <Grid templateColumns={"repeat(4,1fr)"}>
@@ -62,7 +71,6 @@ export const Template = ({ groupMember, header, groupId }: TemplateProps) => {
       </Grid>
       <Grid pb={8} templateColumns={"repeat(4,1fr)"} rowGap={12}>
         {groupMember?.map((v, index) => {
-          console.log(v);
           return (
             <Popover trigger={"click"} key={`${header}_${index}`}>
               <PopoverTrigger>
@@ -83,20 +91,20 @@ export const Template = ({ groupMember, header, groupId }: TemplateProps) => {
                   </Flex>
                 </GridItem>
               </PopoverTrigger>
-              {v.role !== "admin" && (
-                <PopoverContent width={60}>
-                  <PopoverHeader>{v.name}</PopoverHeader>
-                  <PopoverCloseButton />
-                  <PopoverBody>
-                    <Flex gap={4}>
-                      <Button onClick={() => handlerRoleChange(v)}>
+              <PopoverContent width={60}>
+                <PopoverHeader>{v.name}</PopoverHeader>
+                <PopoverCloseButton />
+                <PopoverBody>
+                  <Flex gap={4}>
+                    {admin && v.role !== "admin" && (
+                      <Button onClick={() => handlerRoleChange(v)} flex={1}>
                         {v.role === "member" ? "직위상승" : "직위강등"}
                       </Button>
-                      <Button>상세페이지</Button>
-                    </Flex>
-                  </PopoverBody>
-                </PopoverContent>
-              )}
+                    )}
+                    <Button flex={1}>상세페이지</Button>
+                  </Flex>
+                </PopoverBody>
+              </PopoverContent>
             </Popover>
           );
         })}
