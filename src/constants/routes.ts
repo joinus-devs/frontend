@@ -33,6 +33,7 @@ export enum PageRoutes {
   GroupCreateFeed = "/group/:id/feed/create",
   GroupModifyFeed = "/group/:id/feed/:feedId/modify",
   GroupPermissionMember = "/group/:id/member/permission",
+  GroupSetting = "/group/:id/setting",
 }
 
 export const navs = [

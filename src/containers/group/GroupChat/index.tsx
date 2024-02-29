@@ -148,7 +148,7 @@ const GroupChat = ({ group }: GroupChatProps) => {
             <Heading size={"lg"} opacity={0.9}>
               {group?.name}
             </Heading>
-            <Text opacity={0.6}>{data?.length} members</Text>
+            <Text opacity={0.6}>{data?.data.length} members</Text>
             <SetBgImage setBgImg={setBgImg} />
           </Flex>
         </Flex>
