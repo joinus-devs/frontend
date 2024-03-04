@@ -1,5 +1,6 @@
 import { useFetch } from "@/apis";
 import { ApiRoutes } from "@/constants";
+import { GroupSetting } from "@/containers";
 import { Group } from "@/types";
 import { QueryParser, toUrl } from "@/utils";
 import {
@@ -18,10 +19,71 @@ import {
   Tr,
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
-import { useCallback, useMemo } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 
+interface ImgSettingProps {
+  type: string;
+  url: string;
+}
+
+const dummyImg = [
+  {
+    type: "sub",
+    url: "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg",
+  },
+  {
+    type: "main",
+    url: "https://cdn.pixabay.com/photo/2024/02/05/10/48/bird-8554205_1280.jpg",
+  },
+  {
+    type: "sub",
+    url: "https://cdn.pixabay.com/photo/2024/02/22/09/04/warehouse-8589487_1280.jpg",
+  },
+  {
+    type: "sub",
+    url: "https://cdn.pixabay.com/photo/2024/02/22/09/04/warehouse-8589487_1280.jpg",
+  },
+  {
+    type: "sub",
+    url: "https://cdn.pixabay.com/photo/2024/02/22/09/04/warehouse-8589487_1280.jpg",
+  },
+  {
+    type: "sub",
+    url: "https://cdn.pixabay.com/photo/2024/02/22/09/04/warehouse-8589487_1280.jpg",
+  },
+  {
+    type: "sub",
+    url: "https://cdn.pixabay.com/photo/2024/02/22/09/04/warehouse-8589487_1280.jpg",
+  },
+  {
+    type: "sub",
+    url: "https://cdn.pixabay.com/photo/2024/02/22/09/04/warehouse-8589487_1280.jpg",
+  },
+  {
+    type: "sub",
+    url: "https://cdn.pixabay.com/photo/2024/02/22/09/04/warehouse-8589487_1280.jpg",
+  },
+  {
+    type: "sub",
+    url: "https://cdn.pixabay.com/photo/2024/02/22/09/04/warehouse-8589487_1280.jpg",
+  },
+  {
+    type: "sub",
+    url: "https://cdn.pixabay.com/photo/2024/02/22/09/04/warehouse-8589487_1280.jpg",
+  },
+  {
+    type: "sub",
+    url: "https://cdn.pixabay.com/photo/2024/02/22/09/04/warehouse-8589487_1280.jpg",
+  },
+  {
+    type: "sub",
+    url: "https://cdn.pixabay.com/photo/2024/02/22/09/04/warehouse-8589487_1280.jpg",
+  },
+];
+
 const Setting = () => {
+  const [img, setImg] = useState<ImgSettingProps[]>(dummyImg);
   const { register, handleSubmit, setValue } = useForm<Group>();
   const router = useRouter();
   const numberingQuery = QueryParser.toNumber(router.query.id);
@@ -111,15 +173,17 @@ const Setting = () => {
       },
     ];
   }, [group, isSuccess, onChangeSex, register]);
-
+  console.log(img);
   return (
     <Flex justify={"center"}>
       <Flex
-        w={{ base: "100%", xl: "960px" }}
+        w={{ base: "100%", xl: "768px" }}
         direction={"column"}
         mt={"100px"}
+        mb={"100px"}
         as={"form"}
         onSubmit={handleSubmit(onSubmit)}
+        gap={4}
       >
         <TableContainer>
           <Table variant="unstyled">
@@ -127,16 +191,25 @@ const Setting = () => {
               {groupMeta?.map((meta, index) => {
                 return (
                   <Tr key={index}>
-                    <Th width={"20%"} fontSize={16}>
+                    <Th width={"15%"} fontSize={16}>
                       {meta.key}
                     </Th>
                     <Td>{meta.input}</Td>
                   </Tr>
                 );
               })}
+              <Tr>
+                <Th width={"15%"} fontSize={16} verticalAlign={"top"} pt={8}>
+                  Images
+                </Th>
+                <Td>
+                  <GroupSetting imgData={img} setImgData={setImg} />
+                </Td>
+              </Tr>
             </Tbody>
           </Table>
         </TableContainer>
+
         <Flex gap={2} justifyContent={"end"} mr={"24px"}>
           <Button>돌아가기</Button>
           <Button type="submit">수정완료</Button>
