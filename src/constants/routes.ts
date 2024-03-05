@@ -13,6 +13,7 @@ export enum ApiRoutes {
   Feeds = "feeds/:id?",
   FeedInComments = "feeds/:id?/comments",
   Comments = "comments/:id?",
+  Image = "storage/image",
 }
 
 export enum PageRoutes {

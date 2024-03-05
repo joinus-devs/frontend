@@ -3,7 +3,7 @@ import { useGetGroupMembers } from "@/apis/group";
 import { useDelete, useFetch, usePost } from "@/apis/hooks";
 import { ApiRoutes } from "@/constants";
 import { toUrl } from "@/utils";
-import { Button } from "@chakra-ui/react";
+import { Button, Input } from "@chakra-ui/react";
 
 const Test = () => {
   const { mutate: signup } = usePost(ApiRoutes.SignUp);
@@ -29,11 +29,12 @@ const Test = () => {
   const handlerSignUp = () => {
     signup({
       password: "12341234!@",
-      name: "JohnDoe52",
+      name: "JohnDoe522",
       profile: "https://kr.object.ncloudstorage.com/joinus/image/profile.png",
+      birth: "1995-01-01",
       sex: true,
       phone: "01012341239",
-      email: "john52@gmail.com",
+      email: "john522@gmail.com",
     });
   };
 
@@ -88,6 +89,7 @@ const Test = () => {
         post comment
       </Button>
       <Button onClick={() => joinClub({})}>joinClub</Button>
+      <Input type={"file"} />
     </>
   );
 };

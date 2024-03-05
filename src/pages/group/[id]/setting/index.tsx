@@ -1,6 +1,7 @@
 import { useFetch } from "@/apis";
 import { ApiRoutes } from "@/constants";
 import { GroupSetting } from "@/containers";
+import UploadImg from "@/containers/group/GroupSetting/UploadImg/indetx";
 import { Group } from "@/types";
 import { QueryParser, toUrl } from "@/utils";
 import {
@@ -203,7 +204,16 @@ const Setting = () => {
                   Images
                 </Th>
                 <Td>
-                  <GroupSetting imgData={img} setImgData={setImg} />
+                  <Flex
+                    direction={"column"}
+                    gap={8}
+                    boxShadow={"lg"}
+                    maxH={"800px"}
+                    overflowY={"auto"}
+                  >
+                    <UploadImg />
+                    <GroupSetting imgData={img} setImgData={setImg} />
+                  </Flex>
                 </Td>
               </Tr>
             </Tbody>

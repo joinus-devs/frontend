@@ -71,10 +71,8 @@ const GroupSetting = ({ imgData, setImgData }: ImgSettingProps) => {
       w={"100%"}
       h={"100%"}
       templateColumns="repeat(3, 1fr)"
-      boxShadow={"md"}
+      boxShadow={"lg"}
       p={4}
-      maxH={"500px"}
-      overflowY={"auto"}
     >
       {imgData.map((v, index) => {
         return (
