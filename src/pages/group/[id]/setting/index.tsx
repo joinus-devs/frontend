@@ -1,13 +1,12 @@
 import { useFetch } from "@/apis";
+import { EditCustomTable } from "@/components";
 import { ApiRoutes } from "@/constants";
 import { GroupSetting } from "@/containers";
-import UploadImg from "@/containers/group/GroupSetting/UploadImg/indetx";
 import { Group } from "@/types";
 import { QueryParser, toUrl } from "@/utils";
 import {
   Button,
   Flex,
-  Input,
   Radio,
   RadioGroup,
   Stack,
@@ -15,7 +14,6 @@ import {
   TableContainer,
   Tbody,
   Td,
-  Textarea,
   Th,
   Tr,
 } from "@chakra-ui/react";
@@ -26,6 +24,12 @@ import { useForm } from "react-hook-form";
 interface ImgSettingProps {
   type: string;
   url: string;
+}
+interface GroupMeta {
+  key: string;
+  default: string | number;
+  fieldName: keyof Group;
+  input?: JSX.Element;
 }
 
 const dummyImg = [
@@ -85,7 +89,7 @@ const dummyImg = [
 
 const Setting = () => {
   const [img, setImg] = useState<ImgSettingProps[]>(dummyImg);
-  const { register, handleSubmit, setValue } = useForm<Group>();
+
   const router = useRouter();
   const numberingQuery = QueryParser.toNumber(router.query.id);
 
@@ -95,67 +99,56 @@ const Setting = () => {
     })
   );
 
+  const { register, handleSubmit, setValue } = useForm<Group>({
+    defaultValues: group,
+  });
+
   const onSubmit = (data: Group) => {
-    console.log(data);
+    const form = { ...group, ...data };
+    console.log(form);
   };
 
   const onChangeSex = useCallback(
     (value: string) => {
       setValue("sex", value === "1" ? true : false);
     },
+
     [setValue]
   );
 
-  const groupMeta = useMemo(() => {
+  const groupMeta: GroupMeta[] | undefined = useMemo(() => {
     if (!isSuccess) return;
-    console.log(group);
     return [
       {
         key: "그룹명",
-        input: <Input defaultValue={group?.name} {...register("name")} />,
+        default: group?.name,
+        fieldName: "name",
       },
 
       {
         key: "그룹 설명",
-        input: (
-          <Textarea
-            defaultValue={group?.description}
-            {...register("description")}
-          />
-        ),
+        default: group?.description,
+        fieldName: "description",
       },
       {
         key: "최대 인원",
-        input: (
-          <Input
-            defaultValue={group?.capacity}
-            width={"20%"}
-            {...register("capacity")}
-          />
-        ),
+        default: group?.capacity,
+        fieldName: "capacity",
       },
       {
         key: "최소 연령",
-        input: (
-          <Input
-            defaultValue={group?.minimum_age}
-            width={"20%"}
-            {...register("minimum_age")}
-          />
-        ),
+        default: group?.minimum_age,
+        fieldName: "minimum_age",
       },
       {
         key: "최대 연령",
-        input: (
-          <Input
-            defaultValue={group?.maximum_age}
-            width={"20%"}
-            {...register("maximum_age")}
-          />
-        ),
+        fieldName: "maximum_age",
+        default: group?.maximum_age,
       },
       {
         key: "그룹 성별",
+        default: "",
+        fieldName: "sex",
         input: (
           <RadioGroup
             defaultValue={group?.sex === true ? "1" : "2"}
@@ -173,8 +166,8 @@ const Setting = () => {
         ),
       },
     ];
-  }, [group, isSuccess, onChangeSex, register]);
-  console.log(img);
+  }, [group, isSuccess, onChangeSex]);
+
   return (
     <Flex justify={"center"}>
       <Flex
@@ -190,30 +183,38 @@ const Setting = () => {
           <Table variant="unstyled">
             <Tbody>
               {groupMeta?.map((meta, index) => {
-                return (
-                  <Tr key={index}>
-                    <Th width={"15%"} fontSize={16}>
-                      {meta.key}
-                    </Th>
-                    <Td>{meta.input}</Td>
-                  </Tr>
-                );
+                if (meta.key === "그룹 성별") {
+                  return (
+                    <Tr key={index}>
+                      <Th width={"15%"} fontSize={16}>
+                        {meta.key}
+                      </Th>
+                      <Td>{meta.input}</Td>
+                    </Tr>
+                  );
+                } else {
+                  return (
+                    <Tr key={index}>
+                      <Th width={"15%"} fontSize={16}>
+                        {meta.key}
+                      </Th>
+                      <Td position={"relative"}>
+                        <EditCustomTable
+                          defaultValue={meta.default}
+                          fieldName={meta.fieldName}
+                          register={register}
+                        />
+                      </Td>
+                    </Tr>
+                  );
+                }
               })}
               <Tr>
                 <Th width={"15%"} fontSize={16} verticalAlign={"top"} pt={8}>
                   Images
                 </Th>
                 <Td>
-                  <Flex
-                    direction={"column"}
-                    gap={8}
-                    boxShadow={"lg"}
-                    maxH={"800px"}
-                    overflowY={"auto"}
-                  >
-                    <UploadImg />
-                    <GroupSetting imgData={img} setImgData={setImg} />
-                  </Flex>
+                  <GroupSetting imgData={img} setImgData={setImg} />
                 </Td>
               </Tr>
             </Tbody>
