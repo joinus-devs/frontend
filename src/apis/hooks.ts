@@ -1,3 +1,5 @@
+import { ApiRoutes } from "@/constants";
+import { toUrl } from "@/utils";
 import {
   MutationOptions,
   QueryFunctionContext,
@@ -13,10 +15,9 @@ import {
   PageQueryResponse,
   QueryKey,
   QueryOptions,
+  UrlBuilder,
 } from "./types";
-import { api } from "./utils";
-import { toUrl } from "@/utils";
-import { ApiRoutes } from "@/constants";
+import { api, buildUrl } from "./utils";
 
 const fetcher = async <T>(context: QueryFunctionContext<QueryKey>) => {
   const { queryKey } = context;
@@ -115,6 +116,33 @@ export const usePost = <T = object, S = unknown>(
     mutationFn: (data) => api.post<ApiResponse<S>>(url, data ?? undefined),
     ...options,
   });
+};
+
+export const usePostFormData = <T = FormData, S = unknown>(
+  url: string,
+  options?: MutationOptions<ApiResponse<S>, unknown, T>
+) => {
+  return useMutation<ApiResponse<S>, unknown, T>({
+    mutationFn: (data) => api.postForm<ApiResponse<S>>(url, data as FormData),
+    ...options,
+  });
+};
+
+export const usePostForm = <TOld, TNew extends FormData, TRes = unknown>(
+  url: UrlBuilder<TNew>,
+  params?: object,
+  options?: MutationOptions<TRes, TNew>,
+  updater?: (old: TOld, data: TNew) => TOld
+) => {
+  return useMutation<TOld, TNew, ApiResponse<TRes>>(
+    (data) =>
+      data
+        ? api.postForm<ApiResponse<TRes>>(buildUrl(url, data), data)
+        : api.postForm<ApiResponse<TRes>>(buildUrl(url, data)),
+    options,
+    [url, params],
+    updater
+  );
 };
 
 /**

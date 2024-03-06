@@ -1,3 +1,4 @@
+import { UrlBuilder } from ".";
 import { ApiError } from "./types";
 
 const protoc = process.env.NODE_ENV === "production" ? "https" : "http";
@@ -78,7 +79,15 @@ export const api: Api = {
   postForm: (url, body) => {
     return extendedFetch(`${protoc}://${domain}/${url}`, {
       method: "POST",
+      headers: {
+        // "Content-Type": "multipart/form-data",
+        Authorization: localStorage.getItem("login-token") || "",
+      },
       body,
     });
   },
+};
+
+export const buildUrl = <T>(url: UrlBuilder<T>, data: T) => {
+  return typeof url === "function" ? url(data) : url;
 };

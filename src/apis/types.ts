@@ -72,3 +72,5 @@ export type InfiniteQueryOptions<T, S = CursorQueryResponse<T>> = Omit<
   | "getPreviousPageParam"
   | "getNextPageParam"
 >;
+
+export type UrlBuilder<T> = string | ((data: T) => string);

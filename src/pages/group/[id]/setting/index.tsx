@@ -1,14 +1,16 @@
 import { useFetch } from "@/apis";
 import { EditCustomTable } from "@/components";
 import { ApiRoutes } from "@/constants";
-import { GroupSetting } from "@/containers";
+import { CategoryBox, ImageBox } from "@/containers";
 import { Group } from "@/types";
 import { QueryParser, toUrl } from "@/utils";
 import {
+  Box,
   Button,
   Flex,
   Radio,
   RadioGroup,
+  Spinner,
   Stack,
   Table,
   TableContainer,
@@ -89,7 +91,7 @@ const dummyImg = [
 
 const Setting = () => {
   const [img, setImg] = useState<ImgSettingProps[]>(dummyImg);
-
+  const [categories, setCategories] = useState<string[]>([]);
   const router = useRouter();
   const numberingQuery = QueryParser.toNumber(router.query.id);
 
@@ -118,6 +120,7 @@ const Setting = () => {
 
   const groupMeta: GroupMeta[] | undefined = useMemo(() => {
     if (!isSuccess) return;
+    setCategories(group.categories);
     return [
       {
         key: "그룹명",
@@ -209,12 +212,21 @@ const Setting = () => {
                   );
                 }
               })}
+
               <Tr>
                 <Th width={"15%"} fontSize={16} verticalAlign={"top"} pt={8}>
                   Images
                 </Th>
                 <Td>
-                  <GroupSetting imgData={img} setImgData={setImg} />
+                  <ImageBox imgData={img} setImgData={setImg} />
+                </Td>
+              </Tr>
+              <Tr>
+                <Th width={"15%"} fontSize={16} verticalAlign={"top"} pt={8}>
+                  Category
+                </Th>
+                <Td>
+                  <CategoryBox categories={categories} />
                 </Td>
               </Tr>
             </Tbody>

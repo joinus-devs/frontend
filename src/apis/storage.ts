@@ -1,6 +1,22 @@
 import { ApiRoutes } from "@/constants";
-import { usePost } from ".";
+import { usePostForm, usePostFormData } from ".";
+import { toUrl } from "@/utils";
+
+interface UploadResponse {
+  filepath: string;
+  mimetype: string;
+  mtime: string;
+  newFilename: string;
+  originalFilename: string;
+  size: number;
+}
 
 export const usePostImg = () => {
-  return usePost(ApiRoutes.Image);
+  return usePostFormData(ApiRoutes.Image);
+};
+
+export const useUploadImg = () => {
+  return usePostForm<unknown, FormData, { [key: string]: UploadResponse[] }>(
+    toUrl(ApiRoutes.Image)
+  );
 };

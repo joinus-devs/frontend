@@ -10,4 +10,4 @@ export { default as GroupNav } from "./GroupNav";
 export { default as GroupNotice } from "./GroupNotice";
 export { default as SetGroup } from "./SetGroup";
 export { default as SetGroupOptions } from "./SetGroupOptions";
-export { default as GroupSetting } from "./GroupSetting";
+export * from "./GroupSetting";

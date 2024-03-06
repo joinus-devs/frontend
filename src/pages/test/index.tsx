@@ -1,4 +1,4 @@
-import { useSignin } from "@/apis";
+import { useSignin, useUpdate } from "@/apis";
 import { useGetGroupMembers } from "@/apis/group";
 import { useDelete, useFetch, usePost } from "@/apis/hooks";
 import { ApiRoutes } from "@/constants";
@@ -15,6 +15,7 @@ const Test = () => {
   const { data: categories, refetch: getCategories } = useFetch(
     toUrl(ApiRoutes.Category)
   );
+  const { mutate: updateClub } = useUpdate(toUrl(ApiRoutes.Group, { id: 1 }));
   const { mutate: deleteCategory } = useDelete(ApiRoutes.Category);
   const { refetch: getGroupMembers } = useGetGroupMembers(3);
   const { mutate: postFeed } = usePost(toUrl(ApiRoutes.GroupFeed, { id: 1 }));
@@ -41,7 +42,23 @@ const Test = () => {
   const handlerSignIn = () => {
     signin({ email: "john522@gmail.com", password: "12341234!@" });
   };
-
+  const hanldeUpdateClub = () => {
+    updateClub({
+      name: "test3",
+      description: "gd2",
+      capacity: 20,
+      sex: true,
+      minimum_age: 0,
+      maximum_age: 100,
+      categories: [1, 2, 3],
+      images: [
+        {
+          url: "https://kr.object.ncloudstorage.com/joinus/image/profile.png",
+          type: "main",
+        },
+      ],
+    });
+  };
   const handlerPostClub = () => {
     postClub({
       capacity: 20,
@@ -66,7 +83,7 @@ const Test = () => {
       <Button onClick={() => me()}>Me</Button>
       <Button onClick={() => club()}>Club</Button>
       <Button onClick={() => handlerPostClub()}>Post Club</Button>
-      <Button onClick={() => postCategory({ name: "영화" })}>
+      <Button onClick={() => postCategory({ name: "음악" })}>
         post Category
       </Button>
       <Button onClick={() => getCategories()}>get Category</Button>
@@ -89,6 +106,7 @@ const Test = () => {
         post comment
       </Button>
       <Button onClick={() => joinClub({})}>joinClub</Button>
+      <Button onClick={() => hanldeUpdateClub()}>UpdateClub</Button>
       <Input type={"file"} />
     </>
   );
