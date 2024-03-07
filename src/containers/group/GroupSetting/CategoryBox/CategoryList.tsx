@@ -43,6 +43,8 @@ const CategoryList = ({ categories, setCategories }: CategoryBoxProps) => {
             fontWeight={"semibold"}
             key={index}
             gap={2}
+            boxShadow={selectedList.includes(category) ? "md" : ""}
+            transition={"all 0.5s ease"}
           >
             <Text>{category}</Text>
             {selectedList.includes(category) ? (

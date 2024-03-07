@@ -1,5 +1,6 @@
 import { Group } from "@/types";
 import {
+  Button,
   ButtonGroup,
   Editable,
   EditableInput,
@@ -33,28 +34,13 @@ const EditCustomTable = ({
     } = useEditableControls();
 
     return isEditing ? (
-      <ButtonGroup justifyContent="center" size={"sm"}>
-        <Flex
-          fontSize={16}
-          w={10}
-          h={10}
-          justifyContent={"center"}
-          alignItems={"center"}
-          as={"button"}
-        >
+      <ButtonGroup justifyContent="center" size={"sm"} pl={2}>
+        <Button fontSize={16} w={10} h={10}>
           <Icon as={FaCheck} {...getSubmitButtonProps()} />
-        </Flex>
-
-        <Flex
-          fontSize={20}
-          w={10}
-          h={10}
-          justifyContent={"center"}
-          alignItems={"center"}
-          as={"button"}
-        >
-          <Icon as={IoClose} {...getCancelButtonProps()} />
-        </Flex>
+        </Button>
+        <Button fontSize={20} w={10} h={10}>
+          <Icon as={IoClose} {...getCancelButtonProps()} fontWeight={"bold"} />
+        </Button>
       </ButtonGroup>
     ) : (
       <Flex
@@ -64,6 +50,10 @@ const EditCustomTable = ({
         position={"absolute"}
         right={0}
         as={"button"}
+        _hover={{
+          transform: "scale(1.2)",
+          transition: "all 0.5s ease",
+        }}
       >
         <Icon size="sm" as={LuClipboardEdit} {...getEditButtonProps()} />
       </Flex>
@@ -74,13 +64,12 @@ const EditCustomTable = ({
     <Editable
       textAlign="center"
       defaultValue={String(defaultValue)}
-      fontSize="2xl"
       isPreviewFocusable={false}
       as={Flex}
       direction={"row"}
       gap={2}
     >
-      <EditablePreview />
+      <EditablePreview fontStyle={"italic"} />
       <EditableInput {...register(fieldName)} />
       <EditableControls />
     </Editable>

@@ -2,6 +2,7 @@ import {
   Box,
   Button,
   Flex,
+  FormControl,
   Grid,
   Icon,
   Popover,
@@ -10,6 +11,9 @@ import {
   PopoverContent,
   PopoverHeader,
   PopoverTrigger,
+  Td,
+  Th,
+  Tr,
 } from "@chakra-ui/react";
 import UploadImg from "../UploadImg/indetx";
 import { useModalStore } from "@/stores";
@@ -61,68 +65,87 @@ const ImageBox = ({ imgData, setImgData }: ImageBoxProps) => {
   );
 
   return (
-    <Flex
-      direction={"column"}
-      gap={8}
-      boxShadow={"lg"}
-      maxH={"800px"}
-      overflowY={"auto"}
-      overflowX={"hidden"}
-    >
-      <UploadImg />
-      <Grid
-        gap={4}
-        w={"100%"}
-        h={"100%"}
-        templateColumns="repeat(3, 1fr)"
-        boxShadow={"lg"}
-        p={4}
-      >
-        {imgData.map((v, index) => {
-          return (
-            <Box key={index} position={"relative"}>
-              {v.type === "main" && (
-                <Icon
-                  as={FaCheck}
-                  color={"primary.500"}
-                  fontSize={32}
-                  position={"absolute"}
-                  top={-2}
-                  right={-2}
-                  zIndex={1}
-                />
-              )}
-
-              <Popover trigger={"click"} placement="bottom">
-                <PopoverTrigger>
-                  <Box w={"100%"} h={200} position={"relative"} shadow={"lg"}>
-                    <Image
-                      src={v.url}
-                      fill
-                      style={{ objectFit: "cover" }}
-                      alt="group image"
+    <Tr>
+      <Th width={"15%"} fontSize={16} verticalAlign={"top"} pt={8}>
+        Images
+      </Th>
+      <Td>
+        <FormControl
+          as={Flex}
+          direction={"column"}
+          gap={8}
+          boxShadow={"lg"}
+          maxH={"800px"}
+          overflowY={"auto"}
+          overflowX={"hidden"}
+        >
+          <UploadImg />
+          <Grid
+            gap={4}
+            w={"100%"}
+            h={"100%"}
+            templateColumns="repeat(3, 1fr)"
+            boxShadow={"lg"}
+            p={4}
+          >
+            {imgData.map((v, index) => {
+              return (
+                <Box key={index} position={"relative"}>
+                  {v.type === "main" && (
+                    <Icon
+                      as={FaCheck}
+                      color={"primary.500"}
+                      fontSize={32}
+                      position={"absolute"}
+                      top={-2}
+                      right={-2}
+                      zIndex={1}
                     />
-                  </Box>
-                </PopoverTrigger>
-                <PopoverContent width={48}>
-                  <PopoverHeader fontWeight="semibold">설정</PopoverHeader>
-                  <PopoverArrow />
-                  <PopoverCloseButton />
-                  <Flex gap={2} p={2}>
-                    <Button flex={1} onClick={() => handleMainSettingClick(v)}>
-                      {v.type === "main" ? "main해제" : "main설정"}
-                    </Button>
-                    <Button flex={1} onClick={() => handleDeleteClick(index)}>
-                      삭제
-                    </Button>
-                  </Flex>
-                </PopoverContent>
-              </Popover>
-            </Box>
-          );
-        })}
-      </Grid>
-    </Flex>
+                  )}
+
+                  <Popover trigger={"click"} placement="bottom">
+                    <PopoverTrigger>
+                      <Box
+                        w={"100%"}
+                        h={200}
+                        position={"relative"}
+                        boxShadow={"outline"}
+                      >
+                        <Image
+                          src={v.url}
+                          fill
+                          style={{ objectFit: "cover" }}
+                          alt="group image"
+                        />
+                      </Box>
+                    </PopoverTrigger>
+                    <PopoverContent width={48}>
+                      <PopoverHeader fontWeight="semibold">설정</PopoverHeader>
+                      <PopoverArrow />
+                      <PopoverCloseButton />
+                      <Flex gap={2} p={2}>
+                        <Button
+                          flex={1}
+                          onClick={() => handleMainSettingClick(v)}
+                        >
+                          {v.type === "main" ? "main해제" : "main설정"}
+                        </Button>
+                        <Button
+                          flex={1}
+                          onClick={() => handleDeleteClick(index)}
+                        >
+                          삭제
+                        </Button>
+                      </Flex>
+                    </PopoverContent>
+                  </Popover>
+                </Box>
+              );
+            })}
+          </Grid>
+        </FormControl>
+      </Td>
+    </Tr>
   );
 };
 

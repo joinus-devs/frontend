@@ -2,6 +2,7 @@ import { useFetch } from "@/apis";
 import { EditCustomTable } from "@/components";
 import { ApiRoutes } from "@/constants";
 import { CategoryBox, ImageBox } from "@/containers";
+import AgeBox from "@/containers/group/GroupSetting/AgeBox";
 import { Group } from "@/types";
 import { QueryParser, toUrl } from "@/utils";
 import {
@@ -10,6 +11,10 @@ import {
   Flex,
   Radio,
   RadioGroup,
+  RangeSlider,
+  RangeSliderFilledTrack,
+  RangeSliderThumb,
+  RangeSliderTrack,
   Spinner,
   Stack,
   Table,
@@ -101,7 +106,7 @@ const Setting = () => {
     })
   );
 
-  const { register, handleSubmit, setValue } = useForm<Group>({
+  const { register, handleSubmit, setValue, watch } = useForm<Group>({
     defaultValues: group,
   });
 
@@ -120,8 +125,11 @@ const Setting = () => {
 
   useEffect(() => {
     if (!isSuccess || !group) return;
+    //초기에 default값으로 undefined가 들어가서 에러가 발생함
+    setValue("minimum_age", group.minimum_age);
+    setValue("maximum_age", group.maximum_age);
     setCategories(group.categories);
-  }, [group, isSuccess]);
+  }, [group, isSuccess, setValue]);
 
   const groupMeta: GroupMeta[] | undefined = useMemo(() => {
     if (!isSuccess) return;
@@ -141,16 +149,6 @@ const Setting = () => {
         key: "최대 인원",
         default: group?.capacity,
         fieldName: "capacity",
-      },
-      {
-        key: "최소 연령",
-        default: group?.minimum_age,
-        fieldName: "minimum_age",
-      },
-      {
-        key: "최대 연령",
-        fieldName: "maximum_age",
-        default: group?.maximum_age,
       },
       {
         key: "그룹 성별",
@@ -216,30 +214,17 @@ const Setting = () => {
                   );
                 }
               })}
-
-              <Tr>
-                <Th width={"15%"} fontSize={16} verticalAlign={"top"} pt={8}>
-                  Images
-                </Th>
-                <Td>
-                  <ImageBox imgData={img} setImgData={setImg} />
-                </Td>
-              </Tr>
-              <Tr>
-                <Th width={"15%"} fontSize={16} verticalAlign={"top"} pt={8}>
-                  Category
-                </Th>
-                <Td>
-                  <CategoryBox
-                    categories={categories}
-                    setCategories={setCategories}
-                  />
-                </Td>
-              </Tr>
+              {group && watch("minimum_age") !== undefined && (
+                <AgeBox group={group} setValue={setValue} watch={watch} />
+              )}
+              <ImageBox imgData={img} setImgData={setImg} />
+              <CategoryBox
+                categories={categories}
+                setCategories={setCategories}
+              />
             </Tbody>
           </Table>
         </TableContainer>
-
         <Flex gap={2} justifyContent={"end"} mr={"24px"}>
           <Button>돌아가기</Button>
           <Button type="submit">수정완료</Button>

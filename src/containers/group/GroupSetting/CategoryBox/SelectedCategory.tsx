@@ -28,6 +28,7 @@ const SelectedCategories = ({
             fontWeight={"semibold"}
             key={index}
             position={"relative"}
+            boxShadow={"md"}
           >
             <Text>{toCategory[category]}</Text>
             <Icon

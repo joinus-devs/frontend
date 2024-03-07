@@ -50,7 +50,7 @@ const Test = () => {
       description: "gd2",
       capacity: 20,
       sex: true,
-      minimum_age: 0,
+      minimum_age: 20,
       maximum_age: 100,
       categories: [1, 2, 3],
       images: [
