@@ -20,7 +20,7 @@ import {
   Tr,
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 
 interface ImgSettingProps {
@@ -91,7 +91,7 @@ const dummyImg = [
 
 const Setting = () => {
   const [img, setImg] = useState<ImgSettingProps[]>(dummyImg);
-  const [categories, setCategories] = useState<string[]>([]);
+  const [categories, setCategories] = useState<number[]>([]);
   const router = useRouter();
   const numberingQuery = QueryParser.toNumber(router.query.id);
 
@@ -106,7 +106,7 @@ const Setting = () => {
   });
 
   const onSubmit = (data: Group) => {
-    const form = { ...group, ...data };
+    const form = { ...group, ...data, categories: categories };
     console.log(form);
   };
 
@@ -118,9 +118,13 @@ const Setting = () => {
     [setValue]
   );
 
+  useEffect(() => {
+    if (!isSuccess || !group) return;
+    setCategories(group.categories);
+  }, [group, isSuccess]);
+
   const groupMeta: GroupMeta[] | undefined = useMemo(() => {
     if (!isSuccess) return;
-    setCategories(group.categories);
     return [
       {
         key: "그룹명",
@@ -226,7 +230,10 @@ const Setting = () => {
                   Category
                 </Th>
                 <Td>
-                  <CategoryBox categories={categories} />
+                  <CategoryBox
+                    categories={categories}
+                    setCategories={setCategories}
+                  />
                 </Td>
               </Tr>
             </Tbody>

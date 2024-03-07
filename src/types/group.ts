@@ -8,7 +8,7 @@ export interface Group extends timer {
   sex: boolean;
   minimum_age: number;
   maximum_age: number;
-  categories: string[];
+  categories: number[];
   images: imgs[];
 }
 

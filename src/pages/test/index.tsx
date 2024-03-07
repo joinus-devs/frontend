@@ -4,6 +4,7 @@ import { useDelete, useFetch, usePost } from "@/apis/hooks";
 import { ApiRoutes } from "@/constants";
 import { toUrl } from "@/utils";
 import { Button, Input } from "@chakra-ui/react";
+import { toCategory } from "@/constants";
 
 const Test = () => {
   const { mutate: signup } = usePost(ApiRoutes.SignUp);
@@ -27,6 +28,7 @@ const Test = () => {
     toUrl(ApiRoutes.GroupMembers, { id: 1 })
   );
 
+  const categoryValues = Object.values(toCategory);
   const handlerSignUp = () => {
     signup({
       password: "12341234!@",
@@ -83,7 +85,15 @@ const Test = () => {
       <Button onClick={() => me()}>Me</Button>
       <Button onClick={() => club()}>Club</Button>
       <Button onClick={() => handlerPostClub()}>Post Club</Button>
-      <Button onClick={() => postCategory({ name: "음악" })}>
+      <Button
+        onClick={() => {
+          categoryValues.map((category) => {
+            postCategory({
+              name: category,
+            });
+          });
+        }}
+      >
         post Category
       </Button>
       <Button onClick={() => getCategories()}>get Category</Button>
