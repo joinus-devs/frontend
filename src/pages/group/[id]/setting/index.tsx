@@ -1,6 +1,6 @@
 import { useFetch } from "@/apis";
 import { ApiRoutes } from "@/constants";
-import { AgeBox, CategoryBox, ImageBox } from "@/containers";
+import { AgeBox, CategoryBox, GroupDetail, ImageBox } from "@/containers";
 import { Group } from "@/types";
 import { QueryParser, toUrl } from "@/utils";
 import { Button, Flex, Table, TableContainer, Tbody } from "@chakra-ui/react";
@@ -112,39 +112,39 @@ const Setting = () => {
   }, [group, isSuccess, setValue]);
 
   return (
-    <Flex justify={"center"}>
-      <Flex
-        w={{ base: "100%", xl: "768px" }}
-        direction={"column"}
-        mt={"100px"}
-        mb={"100px"}
-        as={"form"}
-        onSubmit={handleSubmit(onSubmit)}
-        gap={4}
-      >
-        <TableContainer>
-          <Table variant="unstyled">
-            <Tbody>
-              <GroupMeta
-                group={group}
-                onChangeSex={onChangeSex}
-                register={register}
-              />
-              <AgeBox group={group} setValue={setValue} watch={watch} />
-              <ImageBox imgData={img} setImgData={setImg} />
-              <CategoryBox
-                categories={categories}
-                setCategories={setCategories}
-              />
-            </Tbody>
-          </Table>
-        </TableContainer>
-        <Flex gap={2} justifyContent={"end"} mr={"24px"}>
-          <Button>돌아가기</Button>
-          <Button type="submit">수정완료</Button>
+    <GroupDetail>
+      <Flex justify={"center"}>
+        <Flex
+          w={{ base: "100%", xl: "768px" }}
+          direction={"column"}
+          mb={"100px"}
+          as={"form"}
+          onSubmit={handleSubmit(onSubmit)}
+        >
+          <TableContainer>
+            <Table variant="unstyled">
+              <Tbody>
+                <GroupMeta
+                  group={group}
+                  onChangeSex={onChangeSex}
+                  register={register}
+                />
+                <AgeBox group={group} setValue={setValue} watch={watch} />
+                <ImageBox imgData={img} setImgData={setImg} />
+                <CategoryBox
+                  categories={categories}
+                  setCategories={setCategories}
+                />
+              </Tbody>
+            </Table>
+          </TableContainer>
+          <Flex gap={2} justifyContent={"end"} mr={"24px"}>
+            <Button>돌아가기</Button>
+            <Button type="submit">수정완료</Button>
+          </Flex>
         </Flex>
       </Flex>
-    </Flex>
+    </GroupDetail>
   );
 };
 

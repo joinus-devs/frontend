@@ -35,7 +35,7 @@ const GroupDescription = ({ group }: GroupDescriptionProps) => {
         <Heading size={"lg"} p={4} pb={8}>
           {group?.name ?? ""}
         </Heading>
-        {group?.categories.map((category, index) => {
+        {group?.categories?.map((category, index) => {
           return (
             <Tag
               p={4}

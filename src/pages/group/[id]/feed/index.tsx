@@ -7,7 +7,6 @@ import { useRouter } from "next/router";
 
 const FeedPage = () => {
   const router = useRouter();
-
   return (
     <GroupDetail>
       <WindowVirtualList<Feed>

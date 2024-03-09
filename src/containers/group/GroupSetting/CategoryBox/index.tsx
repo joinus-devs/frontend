@@ -22,7 +22,7 @@ const CategoryBox = ({ categories, setCategories }: CategoryBoxProps) => {
         Category
       </Th>
       <Td>
-        <Skeleton height="416" isLoaded={!!categories}>
+        <Skeleton height="300px" isLoaded={!!categories}>
           <FormControl
             as={Flex}
             gap={8}

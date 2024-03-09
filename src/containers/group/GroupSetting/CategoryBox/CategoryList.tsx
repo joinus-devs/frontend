@@ -43,7 +43,10 @@ const CategoryList = ({ categories, setCategories }: CategoryBoxProps) => {
               borderRadius="full"
               variant="solid"
               bgColor={"gray.100"}
-              color={"black"}
+              color={selectedList.includes(category) ? "green" : "black"}
+              fontWeight={
+                selectedList.includes(category) ? "semibold" : "normal"
+              }
             >
               <TagLabel>{category}</TagLabel>
               {selectedList.includes(category) ? (
