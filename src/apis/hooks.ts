@@ -128,22 +128,22 @@ export const usePostFormData = <T = FormData, S = unknown>(
   });
 };
 
-export const usePostForm = <TOld, TNew extends FormData, TRes = unknown>(
-  url: UrlBuilder<TNew>,
-  params?: object,
-  options?: MutationOptions<TRes, TNew>,
-  updater?: (old: TOld, data: TNew) => TOld
-) => {
-  return useMutation<TOld, TNew, ApiResponse<TRes>>(
-    (data) =>
-      data
-        ? api.postForm<ApiResponse<TRes>>(buildUrl(url, data), data)
-        : api.postForm<ApiResponse<TRes>>(buildUrl(url, data)),
-    options,
-    [url, params],
-    updater
-  );
-};
+// export const usePostForm = <TOld, TNew extends FormData, TRes = unknown>(
+//   url: UrlBuilder<TNew>,
+//   params?: object,
+//   options?: MutationOptions<TRes, TNew>,
+//   updater?: (old: TOld, data: TNew) => TOld
+// ) => {
+//   return useMutation<TOld, TNew, ApiResponse<TRes>>(
+//     (data) =>
+//       data
+//         ? api.postForm<ApiResponse<TRes>>(buildUrl(url, data), data)
+//         : api.postForm<ApiResponse<TRes>>(buildUrl(url, data)),
+//     options,
+//     [url, params],
+//     updater
+//   );
+// };
 
 /**
  * T = 요청 보낼때 body의 타입

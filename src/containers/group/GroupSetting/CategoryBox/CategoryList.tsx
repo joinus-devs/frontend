@@ -1,6 +1,6 @@
 import { toCategory } from "@/constants";
 import { useModalStore } from "@/stores";
-import { Box, Flex, Icon, Text } from "@chakra-ui/react";
+import { HStack, Tag, TagLabel, TagRightIcon } from "@chakra-ui/react";
 import { useCallback } from "react";
 import { GoPlus } from "react-icons/go";
 import { IoIosCheckmark } from "react-icons/io";
@@ -10,7 +10,8 @@ const CategoryList = ({ categories, setCategories }: CategoryBoxProps) => {
   const { openAlert } = useModalStore(["openAlert"]);
 
   const list = Object.values(toCategory);
-  const selectedList = categories.map((category) => toCategory[category]);
+  const selectedList =
+    categories?.map((category) => toCategory[category]) ?? [];
 
   const handleAddCategory = useCallback(
     (category: string) => {
@@ -29,29 +30,26 @@ const CategoryList = ({ categories, setCategories }: CategoryBoxProps) => {
         return [...prev, Number(categoryKey)];
       });
     },
-    [categories.length, openAlert, setCategories]
+    [categories?.length, openAlert, setCategories]
   );
 
   return (
     <>
       {list.map((category, index) => {
         return (
-          <Flex
-            p={4}
-            borderRadius={12}
-            backgroundColor={"primary.100"}
-            fontWeight={"semibold"}
-            key={index}
-            gap={2}
-            boxShadow={selectedList.includes(category) ? "md" : ""}
-            transition={"all 0.5s ease"}
-          >
-            <Text>{category}</Text>
-            {selectedList.includes(category) ? (
-              <Icon as={IoIosCheckmark} fontSize={20} />
-            ) : (
-              <Box pt={0.5}>
-                <Icon
+          <HStack spacing={4} key={`tag_${index}`}>
+            <Tag
+              size={"lg"}
+              borderRadius="full"
+              variant="solid"
+              bgColor={"gray.100"}
+              color={"black"}
+            >
+              <TagLabel>{category}</TagLabel>
+              {selectedList.includes(category) ? (
+                <TagRightIcon as={IoIosCheckmark} fontSize={20} />
+              ) : (
+                <TagRightIcon
                   as={GoPlus}
                   _hover={{
                     cursor: "pointer",
@@ -60,9 +58,9 @@ const CategoryList = ({ categories, setCategories }: CategoryBoxProps) => {
                   }}
                   onClick={() => handleAddCategory(category)}
                 />
-              </Box>
-            )}
-          </Flex>
+              )}
+            </Tag>
+          </HStack>
         );
       })}
     </>

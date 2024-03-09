@@ -1,7 +1,6 @@
 import { toCategory } from "@/constants";
-import { Box, Icon, Text } from "@chakra-ui/react";
+import { HStack, Tag, TagCloseButton, TagLabel } from "@chakra-ui/react";
 import { useCallback } from "react";
-import { TiDelete } from "react-icons/ti";
 import { CategoryBoxProps } from ".";
 
 const SelectedCategories = ({
@@ -19,31 +18,30 @@ const SelectedCategories = ({
 
   return (
     <>
-      {categories.map((category, index) => {
+      {categories?.map((category, index) => {
         return (
-          <Box
-            p={4}
-            borderRadius={12}
-            backgroundColor={"primary.100"}
-            fontWeight={"semibold"}
-            key={index}
-            position={"relative"}
-            boxShadow={"md"}
-          >
-            <Text>{toCategory[category]}</Text>
-            <Icon
-              as={TiDelete}
-              position={"absolute"}
-              top={0}
-              right={0}
-              _hover={{
-                cursor: "pointer",
-                transform: "scale(1.5)",
-                transition: "all 0.5s ease",
-              }}
-              onClick={() => handleDelete(category)}
-            />
-          </Box>
+          <HStack spacing={4} key={`selected_tag_${index}`}>
+            <Tag
+              size={"lg"}
+              borderRadius="full"
+              variant="outline"
+              colorScheme="green"
+              border={"1px solid"}
+              bgColor={"white"}
+            >
+              <TagLabel fontWeight={"semibold"}>
+                {toCategory[category]}
+              </TagLabel>
+              <TagCloseButton
+                _hover={{
+                  cursor: "pointer",
+                  transform: "scale(1.5)",
+                  transition: "all 0.5s ease",
+                }}
+                onClick={() => handleDelete(category)}
+              />
+            </Tag>
+          </HStack>
         );
       })}
     </>

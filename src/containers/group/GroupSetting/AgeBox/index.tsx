@@ -9,12 +9,13 @@ import {
   Tr,
   Th,
   Td,
+  Skeleton,
 } from "@chakra-ui/react";
 import { useCallback } from "react";
 import { UseFormSetValue, UseFormWatch } from "react-hook-form";
 
 interface AgeBoxProps {
-  group: Group;
+  group?: Group;
   setValue: UseFormSetValue<Group>;
   watch: UseFormWatch<Group>;
 }
@@ -32,21 +33,25 @@ const AgeBox = ({ group, setValue, watch }: AgeBoxProps) => {
     <Tr>
       <Th fontSize={16}>연령 제한</Th>
       <Td>
-        <FormControl pr={8}>
-          <RangeSlider
-            defaultValue={[group.minimum_age, group.maximum_age]}
-            onChange={(value) => handleChangeSlider(value)}
-          >
-            <RangeSliderTrack>
-              <RangeSliderFilledTrack />
-            </RangeSliderTrack>
-            <RangeSliderThumb index={0} />
-            <RangeSliderThumb index={1} />
-          </RangeSlider>
-          <FormHelperText>
-            연령 : {options[0]}~{options[1]}세
-          </FormHelperText>
-        </FormControl>
+        {group && watch("minimum_age") !== undefined ? (
+          <FormControl pr={8}>
+            <RangeSlider
+              defaultValue={[group.minimum_age, group.maximum_age]}
+              onChange={(value) => handleChangeSlider(value)}
+            >
+              <RangeSliderTrack>
+                <RangeSliderFilledTrack />
+              </RangeSliderTrack>
+              <RangeSliderThumb index={0} />
+              <RangeSliderThumb index={1} />
+            </RangeSlider>
+            <FormHelperText>
+              연령 : {options[0]}~{options[1]}세
+            </FormHelperText>
+          </FormControl>
+        ) : (
+          <Skeleton height={"20px"} />
+        )}
       </Td>
     </Tr>
   );

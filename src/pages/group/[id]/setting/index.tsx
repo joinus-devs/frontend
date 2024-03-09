@@ -1,32 +1,13 @@
 import { useFetch } from "@/apis";
-import { EditCustomTable } from "@/components";
 import { ApiRoutes } from "@/constants";
-import { CategoryBox, ImageBox } from "@/containers";
-import AgeBox from "@/containers/group/GroupSetting/AgeBox";
+import { AgeBox, CategoryBox, ImageBox } from "@/containers";
 import { Group } from "@/types";
 import { QueryParser, toUrl } from "@/utils";
-import {
-  Box,
-  Button,
-  Flex,
-  Radio,
-  RadioGroup,
-  RangeSlider,
-  RangeSliderFilledTrack,
-  RangeSliderThumb,
-  RangeSliderTrack,
-  Spinner,
-  Stack,
-  Table,
-  TableContainer,
-  Tbody,
-  Td,
-  Th,
-  Tr,
-} from "@chakra-ui/react";
+import { Button, Flex, Table, TableContainer, Tbody } from "@chakra-ui/react";
 import { useRouter } from "next/router";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import GroupMeta from "./GroupMeta";
 
 interface ImgSettingProps {
   type: string;
@@ -125,53 +106,10 @@ const Setting = () => {
 
   useEffect(() => {
     if (!isSuccess || !group) return;
-    //초기에 default값으로 undefined가 들어가서 에러가 발생함
     setValue("minimum_age", group.minimum_age);
     setValue("maximum_age", group.maximum_age);
     setCategories(group.categories);
   }, [group, isSuccess, setValue]);
-
-  const groupMeta: GroupMeta[] | undefined = useMemo(() => {
-    if (!isSuccess) return;
-    return [
-      {
-        key: "그룹명",
-        default: group?.name,
-        fieldName: "name",
-      },
-
-      {
-        key: "그룹 설명",
-        default: group?.description,
-        fieldName: "description",
-      },
-      {
-        key: "최대 인원",
-        default: group?.capacity,
-        fieldName: "capacity",
-      },
-      {
-        key: "그룹 성별",
-        default: "",
-        fieldName: "sex",
-        input: (
-          <RadioGroup
-            defaultValue={group?.sex === true ? "1" : "2"}
-            onChange={(e) => onChangeSex(e)}
-          >
-            <Stack spacing={5} direction="row">
-              <Radio colorScheme="green" value="1">
-                남성만
-              </Radio>
-              <Radio colorScheme="red" value="2">
-                여성만
-              </Radio>
-            </Stack>
-          </RadioGroup>
-        ),
-      },
-    ];
-  }, [group, isSuccess, onChangeSex]);
 
   return (
     <Flex justify={"center"}>
@@ -187,36 +125,12 @@ const Setting = () => {
         <TableContainer>
           <Table variant="unstyled">
             <Tbody>
-              {groupMeta?.map((meta, index) => {
-                if (meta.key === "그룹 성별") {
-                  return (
-                    <Tr key={index}>
-                      <Th width={"15%"} fontSize={16}>
-                        {meta.key}
-                      </Th>
-                      <Td>{meta.input}</Td>
-                    </Tr>
-                  );
-                } else {
-                  return (
-                    <Tr key={index}>
-                      <Th width={"15%"} fontSize={16}>
-                        {meta.key}
-                      </Th>
-                      <Td position={"relative"}>
-                        <EditCustomTable
-                          defaultValue={meta.default}
-                          fieldName={meta.fieldName}
-                          register={register}
-                        />
-                      </Td>
-                    </Tr>
-                  );
-                }
-              })}
-              {group && watch("minimum_age") !== undefined && (
-                <AgeBox group={group} setValue={setValue} watch={watch} />
-              )}
+              <GroupMeta
+                group={group}
+                onChangeSex={onChangeSex}
+                register={register}
+              />
+              <AgeBox group={group} setValue={setValue} watch={watch} />
               <ImageBox imgData={img} setImgData={setImg} />
               <CategoryBox
                 categories={categories}

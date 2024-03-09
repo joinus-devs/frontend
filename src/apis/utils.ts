@@ -80,7 +80,6 @@ export const api: Api = {
     return extendedFetch(`${protoc}://${domain}/${url}`, {
       method: "POST",
       headers: {
-        // "Content-Type": "multipart/form-data",
         Authorization: localStorage.getItem("login-token") || "",
       },
       body,

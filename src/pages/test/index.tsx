@@ -32,12 +32,12 @@ const Test = () => {
   const handlerSignUp = () => {
     signup({
       password: "12341234!@",
-      name: "JohnDoe522",
+      name: "JohnDoe52",
       profile: "https://kr.object.ncloudstorage.com/joinus/image/profile.png",
       birth: "1995-01-01",
       sex: true,
       phone: "01012341239",
-      email: "john522@gmail.com",
+      email: "john52@gmail.com",
     });
   };
 
@@ -80,8 +80,8 @@ const Test = () => {
   };
   return (
     <>
-      <Button onClick={() => handlerSignUp()}>Sign Up</Button>
-      <Button onClick={() => handlerSignIn()}>Sign In</Button>
+      <Button onClick={handlerSignUp}>Sign Up</Button>
+      <Button onClick={handlerSignIn}>Sign In</Button>
       <Button onClick={() => me()}>Me</Button>
       <Button onClick={() => club()}>Club</Button>
       <Button onClick={() => handlerPostClub()}>Post Club</Button>

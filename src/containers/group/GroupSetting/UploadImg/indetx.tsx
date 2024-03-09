@@ -1,22 +1,20 @@
-import { usePostImg, useUploadImg } from "@/apis/storage";
+import { usePostImg } from "@/apis/storage";
 import { AspectRatio, Flex } from "@chakra-ui/react";
-import { useRouter } from "next/router";
 import { ChangeEvent, useCallback } from "react";
 import Motion from "./Motion";
 
 const UploadImg = () => {
-  const router = useRouter();
   const { mutate: uploadImg } = usePostImg();
-  const { mutate: upload } = useUploadImg();
 
   const handleFileChange = useCallback(
     (event: ChangeEvent<HTMLInputElement>) => {
       if (!event.target.files) return;
       const file = event.target.files[0];
+      if (!file) return;
       const formData = new FormData();
-      formData.append("file", file);
+      formData.append("image", file);
       uploadImg(formData);
-      // upload(formData);
+      event.target.files = null;
     },
     [uploadImg]
   );

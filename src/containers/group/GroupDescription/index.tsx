@@ -37,7 +37,15 @@ const GroupDescription = ({ group }: GroupDescriptionProps) => {
         </Heading>
         {group?.categories.map((category, index) => {
           return (
-            <Tag p={2} h={8} fontSize={16} key={index}>
+            <Tag
+              p={4}
+              h={8}
+              fontSize={16}
+              key={index}
+              fontWeight={"semibold"}
+              mr={2}
+              variant={"outline"}
+            >
               {toCategory[category]}
             </Tag>
           );
