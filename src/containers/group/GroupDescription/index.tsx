@@ -1,9 +1,20 @@
-import { PageRoutes, toCategory } from "@/constants";
+import { usePost } from "@/apis";
+import { ApiRoutes, PageRoutes, toCategory } from "@/constants";
 import { useUserRoleMatcher } from "@/hooks";
 import { Group } from "@/types";
 import { toUrl } from "@/utils";
-import { Box, Flex, Heading, Icon, Tag, Text, Tooltip } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Flex,
+  Heading,
+  Icon,
+  Tag,
+  Text,
+  Tooltip,
+} from "@chakra-ui/react";
 import { useRouter } from "next/router";
+import { useCallback } from "react";
 import { IoIosSettings } from "react-icons/io";
 
 interface GroupDescriptionProps {
@@ -12,10 +23,18 @@ interface GroupDescriptionProps {
 
 const GroupDescription = ({ group }: GroupDescriptionProps) => {
   const router = useRouter();
+  const numberingQuery = Number(router.query.id);
+
+  const { mutate: joinClub } = usePost(
+    toUrl(ApiRoutes.GroupMembers, { id: numberingQuery })
+  );
+  const handlerJoin = useCallback(() => {
+    joinClub({});
+  }, [joinClub]);
 
   return (
     <Box p={8} position={"relative"}>
-      {useUserRoleMatcher(group?.id ?? 0, "admin") && (
+      {useUserRoleMatcher(group?.id ?? 0, ["admin"]) && (
         <Tooltip label="그룹설정" placement={"bottom-end"}>
           <Flex
             position={"absolute"}
@@ -30,7 +49,31 @@ const GroupDescription = ({ group }: GroupDescriptionProps) => {
           </Flex>
         </Tooltip>
       )}
-
+      {!useUserRoleMatcher(group?.id ?? 0, [
+        "member",
+        "banned",
+        "staff",
+        "pending",
+        "admin",
+      ]) && (
+        <Button position={"absolute"} top={4} right={0} onClick={handlerJoin}>
+          가입하기
+        </Button>
+      )}
+      {useUserRoleMatcher(group?.id ?? 0, ["pending"]) && (
+        <Tag
+          position={"absolute"}
+          top={4}
+          right={0}
+          size={"lg"}
+          variant={"solid"}
+          colorScheme="primary"
+          fontWeight={"semibold"}
+          fontSize={16}
+        >
+          승인대기중..
+        </Tag>
+      )}
       <Flex>
         <Heading size={"lg"} p={4} pb={8}>
           {group?.name ?? ""}
@@ -45,6 +88,7 @@ const GroupDescription = ({ group }: GroupDescriptionProps) => {
               fontWeight={"semibold"}
               mr={2}
               variant={"outline"}
+              border={"1px solid"}
             >
               {toCategory[category]}
             </Tag>

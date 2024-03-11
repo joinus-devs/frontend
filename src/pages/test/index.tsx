@@ -32,12 +32,12 @@ const Test = () => {
   const handlerSignUp = () => {
     signup({
       password: "12341234!@",
-      name: "JohnDoe52",
+      name: "JohnDoe522",
       profile: "https://kr.object.ncloudstorage.com/joinus/image/profile.png",
       birth: "1995-01-01",
       sex: true,
       phone: "01012341239",
-      email: "john52@gmail.com",
+      email: "john522@gmail.com",
     });
   };
 

@@ -20,7 +20,7 @@ const GroupMember = () => {
     roles: "staff",
   });
 
-  const { data: me, isSuccess: meSuccess } = useFetch<User>(ApiRoutes.Me);
+  const { data: me } = useFetch<User>(ApiRoutes.Me);
 
   return (
     <Box minH={800}>

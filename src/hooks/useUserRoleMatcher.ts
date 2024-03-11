@@ -3,7 +3,7 @@ import { ApiRoutes } from "@/constants";
 import { User } from "@/types";
 import { useEffect, useMemo } from "react";
 
-const useUserRoleMatcher = (groupId: number, role: string) => {
+const useUserRoleMatcher = (groupId: number, role: string[]) => {
   const { data: roleData, isSuccess: memberSuccess } = useGetGroupMembers(
     groupId,
     {
@@ -11,7 +11,6 @@ const useUserRoleMatcher = (groupId: number, role: string) => {
     }
   );
   const { data: me, isSuccess: meSuccess } = useFetch<User>(ApiRoutes.Me);
-
   const booleanValue = useMemo(() => {
     if (!meSuccess || !memberSuccess) return false;
     return roleData.data.some((v) => v.id === me?.id);
