@@ -1,9 +1,8 @@
-import { usePost } from "@/apis";
 import { usePostFeed } from "@/apis/feed";
 import { ApiRoutes, PageRoutes } from "@/constants";
 import { Feed } from "@/types";
 import { QueryParser, toUrl } from "@/utils";
-import { Flex, Button, Input, Text } from "@chakra-ui/react";
+import { Button, Flex, Input, Text } from "@chakra-ui/react";
 import { useQueryClient } from "@tanstack/react-query";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";

@@ -1,11 +1,16 @@
-import { Icon, Flex, useColorMode, Tooltip } from "@chakra-ui/react";
-import { LogoutStatusIcon } from "./LogoutStatusIcon";
-import { FiMoon } from "react-icons/fi";
+import { useFetch } from "@/apis";
+import { ApiRoutes } from "@/constants";
+import { toUrl } from "@/utils";
+import { Flex, Icon, Tooltip, useColorMode } from "@chakra-ui/react";
 import { FaSun } from "react-icons/fa";
+import { FiMoon } from "react-icons/fi";
 import { LoginStatusIcon } from "./LoginStatusIcon";
+import { LogoutStatusIcon } from "./LogoutStatusIcon";
 
 const LoginIconBox = () => {
   const { colorMode, toggleColorMode } = useColorMode();
+  const { data: me, isError } = useFetch(toUrl(ApiRoutes.Me));
+
   return (
     <Flex gap={2} alignItems={"center"}>
       <Tooltip label={`${colorMode === "dark" ? "light" : "dark"} mode`}>
@@ -21,8 +26,7 @@ const LoginIconBox = () => {
           {colorMode === "light" ? <Icon as={FiMoon} /> : <Icon as={FaSun} />}
         </Flex>
       </Tooltip>
-      <LoginStatusIcon />
-      <LogoutStatusIcon />
+      {!me || isError ? <LogoutStatusIcon /> : <LoginStatusIcon />}
     </Flex>
   );
 };

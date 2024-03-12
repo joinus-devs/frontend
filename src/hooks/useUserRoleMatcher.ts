@@ -1,7 +1,7 @@
 import { useFetch, useGetGroupMembers } from "@/apis";
 import { ApiRoutes } from "@/constants";
 import { User } from "@/types";
-import { useEffect, useMemo } from "react";
+import { useMemo } from "react";
 
 const useUserRoleMatcher = (groupId: number, role: string[]) => {
   const { data: roleData, isSuccess: memberSuccess } = useGetGroupMembers(

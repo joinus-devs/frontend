@@ -5,7 +5,5 @@ import { useRouter } from "next/router";
 export const LogoutStatusIcon = () => {
   const router = useRouter();
 
-  return (
-    <Button onClick={() => router.push(`/${ApiRoutes.SignIn}`)}>Sign in</Button>
-  );
+  return <Button onClick={() => router.push(ApiRoutes.SignIn)}>Sign in</Button>;
 };

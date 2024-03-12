@@ -1,20 +1,12 @@
-import { ApiRoutes, PageRoutes, groupNavItems } from "@/constants";
-import {
-  Box,
-  Button,
-  Flex,
-  Select,
-  Tab,
-  TabList,
-  Tabs,
-} from "@chakra-ui/react";
-import { pageRouter, switchTab } from "./pageRouter";
-import { useRouter } from "next/router";
-import useGetPathname from "./useGetPathname";
-import { toUrl } from "@/utils";
-import { useEffect, useState } from "react";
 import { useFetch, useGetGroupMembers } from "@/apis";
+import { ApiRoutes, PageRoutes, groupNavItems } from "@/constants";
 import { User } from "@/types";
+import { toUrl } from "@/utils";
+import { Box, Button, Flex, Tab, TabList, Tabs } from "@chakra-ui/react";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import { pageRouter, switchTab } from "./pageRouter";
+import useGetPathname from "./useGetPathname";
 
 interface GroupNavProps {
   groupId: number;

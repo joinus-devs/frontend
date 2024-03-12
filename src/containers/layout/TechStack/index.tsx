@@ -1,5 +1,5 @@
+import { libs } from "@/constants";
 import { Flex, Heading, Link } from "@chakra-ui/react";
-import { libraries, libs } from "@/constants";
 
 const TechStack = () => {
   return (
