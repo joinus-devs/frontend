@@ -71,7 +71,7 @@ const ImageBox = ({ imgData, setImgData }: ImageBoxProps) => {
         Images
       </Th>
       <Td>
-        {imgData ? (
+        <Skeleton isLoaded={!!imgData} height={"800px"}>
           <FormControl
             as={Flex}
             direction={"column"}
@@ -148,9 +148,7 @@ const ImageBox = ({ imgData, setImgData }: ImageBoxProps) => {
               })}
             </Grid>
           </FormControl>
-        ) : (
-          <Skeleton height="416px" />
-        )}
+        </Skeleton>
       </Td>
     </Tr>
   );

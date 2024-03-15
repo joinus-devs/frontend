@@ -16,6 +16,7 @@ export interface CategoryBoxProps {
 }
 
 const CategoryBox = ({ categories, setCategories }: CategoryBoxProps) => {
+  console.log(categories);
   return (
     <Tr>
       <Th width={"15%"} fontSize={16} verticalAlign={"top"} pt={8}>
