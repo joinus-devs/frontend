@@ -4,36 +4,35 @@ import { FiMoon } from "react-icons/fi";
 import { FaSun } from "react-icons/fa";
 import { LoginStatusIcon } from "./LoginStatusIcon";
 import { useEffect, useState } from "react";
-import { tokenCheck } from "@/apis/utils";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { getUserInfo, toCheckToken } from "@/apis/auth";
+import userStore from "@/stores/userInfo";
 
 const LoginIconBox = () => {
   const [hasToken, setHasToken] = useState<boolean>(false);
-  const [username, setUsername] = useState<string>("");
   const { colorMode, toggleColorMode } = useColorMode();
+  const { setUserName, setUserProfile } = userStore();
 
   useEffect(() => {
-    const token = tokenCheck();
+    const token = toCheckToken();
     if (token) {
       setHasToken(true);
     }
   }, [setHasToken]);
 
-  // auth/me
+  const { data: userInfo } = useQuery({
+    queryKey: ["userInfo"],
+    queryFn: getUserInfo,
+  });
+
   useEffect(() => {
-    fetch("http://44.204.44.65/auth/me", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: localStorage.getItem("login-token") || "",
-      },
-    })
-      .then((res) => res.json())
-      .then((res) => setUsername(res?.data?.name));
-  }, [setHasToken]);
+    if (!userInfo) return;
+    setUserName(userInfo?.name as string);
+  }, [setUserName, userInfo]);
 
   return (
     <Flex gap={2} alignItems={"center"}>
-      {username}
+      {userInfo?.name}
       <Tooltip label={`${colorMode === "dark" ? "light" : "dark"} mode`}>
         <Flex
           fontSize={20}

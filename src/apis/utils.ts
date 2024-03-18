@@ -87,8 +87,3 @@ export const makeFormBody = (obj: object) => {
   const joined = formBody.join("&");
   return joined;
 };
-
-export const tokenCheck = () => {
-  const token = localStorage.getItem("login-token");
-  return token ? token : null;
-};

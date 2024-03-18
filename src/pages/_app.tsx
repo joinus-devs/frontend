@@ -14,7 +14,6 @@ import {
   QueryClient,
   QueryClientProvider,
 } from "@tanstack/react-query";
-import { SessionProvider } from "next-auth/react";
 import type { AppProps } from "next/app";
 
 const { ToastContainer, toast } = createStandaloneToast();
@@ -42,7 +41,7 @@ const queryClient = new QueryClient({
       // if (!("message" in typedData) || mutation.meta?.ignoreSuccess) return;
       toast({
         title: "Success",
-        description: "Success",
+        description: (data as any).message,
         status: "success",
         duration: 2000,
         isClosable: true,
@@ -77,9 +76,8 @@ export default function App({ Component, pageProps }: AppProps) {
     <QueryClientProvider client={queryClient}>
       <ChakraProvider theme={theme}>
         <ModalProvider />
-        <SessionProvider session={pageProps.session}>
-          <Component {...pageProps} />
-        </SessionProvider>
+
+        <Component {...pageProps} />
       </ChakraProvider>
     </QueryClientProvider>
   );

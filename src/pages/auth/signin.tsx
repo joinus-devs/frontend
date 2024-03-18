@@ -1,3 +1,4 @@
+import { signIn } from "@/apis/auth";
 import { SocialLoginButtons } from "@/containers";
 import {
   Box,
@@ -33,11 +34,7 @@ const Signin = () => {
   });
 
   const onSubmit = async (values: UserData) => {
-    // alert("환영합니다!");
-    const email = values.email;
-    const password = values.password;
-
-    console.log(values);
+    const response = await signIn(values.email, values.password);
   };
 
   return (
@@ -51,10 +48,15 @@ const Signin = () => {
         <form onSubmit={handleSubmit(onSubmit)}>
           <FormControl isInvalid={!!errors.email}>
             <Input
-              type="email"
+              type="text"
               placeholder="아이디"
               {...register("email", {
                 required: "아이디를 입력해주세요",
+                pattern: {
+                  value:
+                    /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i,
+                  message: "이메일 형식에 맞지 않습니다.",
+                },
               })}
             />
             <FormErrorMessage>{errors.email?.message}</FormErrorMessage>
@@ -116,11 +118,7 @@ const Signin = () => {
         소셜 계정으로 간편 로그인
       </Center>
 
-      {/* <Center mt={4}>
-        <HStack> */}
       <SocialLoginButtons />
-      {/* </HStack>
-      </Center> */}
     </>
   );
 };

@@ -20,7 +20,7 @@ export const LoginStatusIcon = () => {
           alignItems={"center"}
           as={"button"}
         >
-          <Icon as={FaRegUser} />
+          <Icon as={FaRegUser} onClick={() => router.push("/auth/myPage")} />
         </Flex>
       </Tooltip>
       <Button onClick={() => logOut()}>Log out</Button>

@@ -1,79 +1,53 @@
-import React, { useCallback, useEffect, useState } from "react";
+import { getKakaoId, issueKakaoToken, signInSocial } from "@/apis/auth";
+import { Spinner } from "@chakra-ui/react";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
-import { makeFormBody } from "@/apis/utils";
+import { useEffect } from "react";
 
 type Props = {};
 
 const KakaoSignin = (props: Props) => {
   const router = useRouter();
   const kakaoCode = router.query.code;
-  const [kakaoToken, setKakaoToken] = useState<string>("");
-  const [kakaoId, setKakaoId] = useState<string>("");
 
-  const getToken = useCallback(async () => {
+  const { mutate: getToken, data: kakaoToken } = useMutation({
+    mutationFn: issueKakaoToken,
+  });
+
+  useEffect(() => {
     if (!kakaoCode) return;
+    getToken(kakaoCode);
+  }, [kakaoCode, getToken]);
 
-    const response = await fetch("https://kauth.kakao.com/oauth/token", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded;charset=utf-8",
-      },
-      body: `grant_type=authorization_code&client_id=${process.env.NEXT_PUBLIC_KAKAO_REST_API}&redirect_uri=${process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URI}&code=${kakaoCode}`,
-    }).then((res) => res.json());
+  const { data: kakaoInfo } = useQuery({
+    queryKey: ["kakao-info", kakaoToken?.access_token],
+    queryFn: () => getKakaoId(kakaoToken?.access_token),
+    enabled: !!kakaoToken,
+  });
 
-    setKakaoToken(response.access_token);
-  }, [kakaoCode]);
+  const { data: signInToken } = useQuery({
+    queryKey: ["kakao-signin", kakaoInfo?.id],
+    queryFn: () => signInSocial(kakaoInfo?.id, "kakao"),
+    enabled: !!kakaoInfo,
+  });
 
-  const getUserInfo = useCallback(async () => {
-    if (!kakaoToken) return;
-
-    const response = await fetch("https://kapi.kakao.com/v2/user/me", {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${kakaoToken}`,
-        "Content-Type": "application/x-www-form-urlencoded;charset=utf-8",
-      },
-    }).then((res) => res.json());
-    setKakaoId(response.id);
-  }, [kakaoToken]);
-
-  const signinSocial = useCallback(async () => {
-    if (!kakaoId) return;
-
-    const response = await fetch("http://44.204.44.65/auth/signin/social", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        social_id: kakaoId.toString(),
-        type: "kakao",
-      }),
-    })
-      .then((res) => res.json())
-      .then((res) => localStorage.setItem("login-token", res.data.token))
-      .then(() => router.push("/"))
-      .catch(() => {
-        router.push({
-          pathname: "/auth/register",
-          query: { socialId: kakaoId, type: "kakao" },
-        });
+  useEffect(() => {
+    if (!kakaoInfo?.id) return;
+    if (signInToken?.data?.token) {
+      localStorage.setItem("login-token", signInToken.data.token);
+      router.push("/");
+    } else {
+      router.push({
+        pathname: "/auth/register/social",
+        query: {
+          socialId: kakaoInfo.id,
+          type: "kakao",
+        },
       });
-  }, [kakaoId, router]);
+    }
+  }, [signInToken, router, kakaoInfo]);
 
-  useEffect(() => {
-    getToken();
-  }, [getToken]);
-
-  useEffect(() => {
-    getUserInfo();
-  }, [getUserInfo]);
-
-  useEffect(() => {
-    signinSocial();
-  }, [signinSocial]);
-
-  return <div>kakaoId : {kakaoId}</div>;
+  return <Spinner />;
 };
 
 export default KakaoSignin;

@@ -1,4 +1,12 @@
+import {
+  checkEmailExists,
+  selectGender,
+  signInSocial,
+  signUpSocial,
+  toFormatBirth,
+} from "@/apis/auth";
 import { GenderSelection } from "@/components";
+import FileUpload from "@/components/common/FileUpload";
 import {
   Box,
   Button,
@@ -9,9 +17,11 @@ import {
   Input,
   useRadioGroup,
   Text,
+  Icon,
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { Controller, useForm } from "react-hook-form";
+import { FiFile } from "react-icons/fi";
 
 interface UserData {
   email: string;
@@ -21,16 +31,17 @@ interface UserData {
   birthday: string;
   phone: string;
   gender: string;
+  file_: FileList;
 }
 
-const Register = () => {
+const RegisterSocial = () => {
   const router = useRouter();
   const {
     handleSubmit,
     register,
     formState: { errors },
     setError,
-    getValues,
+    clearErrors,
     setValue,
     watch,
     control,
@@ -57,8 +68,28 @@ const Register = () => {
   });
   const group = getRootProps();
 
+  const checkDuplicateId = async (value: string) => {
+    const response = await checkEmailExists(value);
+    if (response.status === 400) {
+      return setError("email", {
+        type: "string",
+        message: "올바른 이메일을 입력해주세요.",
+      });
+    }
+
+    if (response.status === 409) {
+      return setError("email", {
+        type: "string",
+        message: "중복된 이메일입니다.",
+      });
+    }
+
+    return clearErrors();
+  };
+
   const onSubmit = async (values: UserData) => {
-    const isMale = values.gender === "남자";
+    const gender = selectGender(values.gender);
+    const birthday = toFormatBirth(values.birthday);
 
     if (values.password !== values.passwordCheck) {
       setError(
@@ -70,39 +101,37 @@ const Register = () => {
       return;
     }
 
-    // signup/social
-    if (router.query.socialId && router.query.type) {
-      const res = await fetch("http://44.204.44.65/auth/signup/social", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          social_id: router.query.socialId,
-          type: router.query.type,
-          name: values?.username,
-          sex: isMale,
-          phone: values?.phone,
-          email: values?.email,
-        }),
-      }).then((response) => console.log("response :", response));
-      // signup
-    } else {
-      const res = await fetch("http://44.204.44.65/auth/signup", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: values?.email,
-          password: values?.password,
-          name: values?.username,
-          // birthday: values?.birthday,
-          phone: values?.phone,
-          sex: isMale,
-        }),
-      }).then((response) => console.log("response :", response));
+    const data = {
+      social_id: router.query.socialId as string,
+      type: router.query.type as string,
+      email: values?.email,
+      name: values?.username,
+      birth: birthday,
+      phone: values?.phone,
+      sex: gender,
+    };
+
+    const response = await signUpSocial(data);
+
+    if (response.status === 200) {
+      window.alert("회원가입에 성공하였습니다!");
+      signInSocial(data.social_id, data.type);
     }
+  };
+
+  // imageUpload
+  const validateFiles = (value: FileList) => {
+    if (value.length < 1) {
+      return "Files is required";
+    }
+    for (const file of Array.from(value)) {
+      const fsMb = file.size / (1024 * 1024);
+      const MAX_FILE_SIZE = 10;
+      if (fsMb > MAX_FILE_SIZE) {
+        return "Max file size 10mb";
+      }
+    }
+    return true;
   };
 
   return (
@@ -116,40 +145,17 @@ const Register = () => {
         <Box maxW="sm" mx="auto" mt={2} p={6} borderWidth={1} borderRadius="md">
           <FormControl isInvalid={!!errors.email}>
             <Input
-              type="email"
+              type="text"
               placeholder="이메일"
               {...register("email", {
                 required: "아이디를 입력해주세요",
+                onBlur: (e) => checkDuplicateId(e.target.value),
               })}
             />
             <FormErrorMessage>{errors.email?.message}</FormErrorMessage>
           </FormControl>
 
-          <FormControl mt={4} isInvalid={!!errors.password}>
-            <Input
-              type="password"
-              placeholder="비밀번호"
-              {...register("password", {
-                required: "비밀번호를 입력해주세요",
-              })}
-            />
-            <FormErrorMessage>{errors.password?.message}</FormErrorMessage>
-          </FormControl>
-
-          <FormControl mt={4} isInvalid={!!errors.passwordCheck}>
-            <Input
-              type="password"
-              placeholder="비밀번호 확인"
-              {...register("passwordCheck", {
-                required: "비밀번호가 일치하지 않습니다.",
-              })}
-            />
-            <FormErrorMessage>{errors.passwordCheck?.message}</FormErrorMessage>
-          </FormControl>
-        </Box>
-
-        <Box maxW="sm" mx="auto" mt={2} p={6} borderWidth={1} borderRadius="md">
-          <FormControl isInvalid={!!errors.username}>
+          <FormControl mt={4} isInvalid={!!errors.username}>
             <Input
               type="text"
               placeholder="이름"
@@ -163,16 +169,16 @@ const Register = () => {
           <FormControl mt={4} isInvalid={!!errors.birthday}>
             <Input
               type="text"
-              placeholder="생년월일 6자리"
+              placeholder="생년월일 8자리 (YYYYMMDD)"
               {...register("birthday", {
-                required: "생년월일을 입력해주세요",
+                required: "생년월일 8자리를 입력해주세요",
                 minLength: {
-                  value: 6,
-                  message: "생년월일 6자리를 입력해 주세요",
+                  value: 8,
+                  message: "생년월일 8자리를 입력해 주세요",
                 },
                 maxLength: {
-                  value: 6,
-                  message: "생년월일 6자리를 입력해 주세요",
+                  value: 8,
+                  message: "생년월일 8자리를 입력해 주세요",
                 },
               })}
             />
@@ -238,4 +244,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default RegisterSocial;

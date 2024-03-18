@@ -1,8 +1,5 @@
 import { Box, Button } from "@chakra-ui/react";
 import { IoChatbubble } from "react-icons/io5";
-
-// rest_api = 86427a08892bde3022c0d375378c97ed
-// JavaScript = 269cae7945f6d707d880db1637c919f7
 interface KakaoLoginButtonProps {
   onClick?: () => void;
 }
