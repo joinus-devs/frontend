@@ -1,11 +1,11 @@
 import { Box, Button } from "@chakra-ui/react";
 import { FcGoogle } from "react-icons/fc";
 
-interface GoogleLoginButtonProps {
-  onClick?: () => void;
-}
-
-const GoogleLoginButton = ({ onClick }: GoogleLoginButtonProps) => {
+const GoogleLoginButton = () => {
+  const googleURL = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}&redirect_uri=${process.env.NEXT_PUBLIC_GOOGLE_REDIRECT_URI}&response_type=code&scope=email%20profile`;
+  const googleSignin = () => {
+    window.location.href = googleURL;
+  };
   return (
     <Box
       width="3.5rem"
@@ -23,7 +23,7 @@ const GoogleLoginButton = ({ onClick }: GoogleLoginButtonProps) => {
         backgroundColor="white"
         _hover={{ bg: "white" }}
         _active={{ bg: "ghost" }}
-        onClick={onClick}
+        onClick={googleSignin}
       >
         <FcGoogle size="40" color="white" />
       </Button>

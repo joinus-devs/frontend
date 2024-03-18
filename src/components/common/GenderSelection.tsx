@@ -1,34 +1,29 @@
-import { Box, useRadio } from "@chakra-ui/react";
+import { Button } from "@chakra-ui/react";
 
-function GenderSelection(props: any) {
-  const { getInputProps, getRadioProps } = useRadio(props);
-
-  const input = getInputProps();
-  const checkbox = getRadioProps();
-
+function GenderSelection({
+  value,
+  onChange,
+  isSelected,
+}: {
+  value: string;
+  onChange: (value: string) => void;
+  isSelected: boolean;
+}) {
   return (
-    <Box as="label">
-      <input {...input} />
-      <Box
-        {...checkbox}
-        cursor="pointer"
-        borderWidth="1px"
-        borderRadius="md"
-        boxShadow="md"
-        _checked={{
-          bg: "white",
-          color: "green.500",
-          borderColor: "green.500",
-        }}
-        _focus={{
-          boxShadow: "ghost",
-        }}
-        px={16}
-        py={1}
-      >
-        {props.children}
-      </Box>
-    </Box>
+    <Button
+      onClick={() => onChange(value)}
+      borderWidth="1px"
+      borderRadius={"md"}
+      variant={"outline"}
+      color={isSelected ? "green.500" : "gray.600"}
+      bg={"white"}
+      borderColor={isSelected ? "green.500" : "gray.100"}
+      _hover={{ bg: "white" }}
+      px={16}
+      py={1}
+    >
+      {value}
+    </Button>
   );
 }
 

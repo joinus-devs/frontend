@@ -34,13 +34,14 @@ const Signin = () => {
     },
   });
 
-  const onSubmit = (values: UserData) => {
+  const onSubmit = async (values: UserData) => {
     const username = values.username;
     const password = values.password;
 
-    signIn("credentials", {
+    await signIn("credentials", {
       username,
       password,
+      redirect: true,
       callbackUrl: "/",
     });
   };
@@ -118,12 +119,7 @@ const Signin = () => {
       <Center color="gray" mt={4}>
         소셜 계정으로 간편 로그인
       </Center>
-
-      {/* <Center mt={4}>
-        <HStack> */}
       <SocialLoginButtons />
-      {/* </HStack>
-      </Center> */}
     </>
   );
 };

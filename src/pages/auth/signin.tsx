@@ -1,3 +1,4 @@
+import { signIn } from "@/apis/auth";
 import { SocialLoginButtons } from "@/containers";
 import {
   Box,
@@ -7,13 +8,14 @@ import {
   FormErrorMessage,
   Input,
   Stack,
+  Text,
 } from "@chakra-ui/react";
-import { signIn } from "next-auth/react";
+// import { signIn } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
 
 interface UserData {
-  username: string;
+  email: string;
   password: string;
 }
 
@@ -26,41 +28,38 @@ const Signin = () => {
   } = useForm<UserData>({
     mode: "onSubmit",
     defaultValues: {
-      username: "",
+      email: "",
       password: "",
     },
   });
 
-  const onSubmit = (values: UserData) => {
-    // alert("환영합니다!");
-    // const username = values.username;
-    // const password = values.password;
-
-    // signIn("credentials", {
-    //   username,
-    //   password,
-    //   redirect: true,
-    //   callbackUrl: "/",
-    // });
-    console.log(values);
+  const onSubmit = async (values: UserData) => {
+    const response = await signIn(values.email, values.password);
   };
 
   return (
     <>
-      <Center bg="white" mt={70} h="100px" color="#25D366" fontSize={"3rem"}>
-        <p>JoinUs</p>
+      <Center mt={70} h="100px" color="#25D366" fontSize={"3rem"}>
+        <Text _hover={{ cursor: "pointer" }} onClick={() => router.push("/")}>
+          JoinUs
+        </Text>
       </Center>
       <Box maxW="sm" mx="auto" mt={2} p={6} borderWidth={1} borderRadius="md">
         <form onSubmit={handleSubmit(onSubmit)}>
-          <FormControl isInvalid={!!errors.username}>
+          <FormControl isInvalid={!!errors.email}>
             <Input
               type="text"
               placeholder="아이디"
-              {...register("username", {
+              {...register("email", {
                 required: "아이디를 입력해주세요",
+                pattern: {
+                  value:
+                    /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i,
+                  message: "이메일 형식에 맞지 않습니다.",
+                },
               })}
             />
-            <FormErrorMessage>{errors.username?.message}</FormErrorMessage>
+            <FormErrorMessage>{errors.email?.message}</FormErrorMessage>
           </FormControl>
 
           <FormControl mt={4} isInvalid={!!errors.password}>
@@ -108,7 +107,7 @@ const Signin = () => {
             variant="ghost"
             color="gray"
             _hover={{ bg: "white" }}
-            onClick={() => router.push("/register")}
+            onClick={() => router.push("/auth/register")}
           >
             회원가입
           </Button>
@@ -119,11 +118,7 @@ const Signin = () => {
         소셜 계정으로 간편 로그인
       </Center>
 
-      {/* <Center mt={4}>
-        <HStack> */}
       <SocialLoginButtons />
-      {/* </HStack>
-      </Center> */}
     </>
   );
 };

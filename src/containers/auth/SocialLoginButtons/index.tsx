@@ -8,17 +8,11 @@ const SocialLoginButtons = () => {
   return (
     <Center mt={6}>
       <HStack spacing={7}>
-        <NaverLoginButton
-          onClick={() => signIn("naver", { redirect: true, callbackUrl: "/" })}
-        />
+        <NaverLoginButton />
 
-        <KakaoLoginButton
-          onClick={() => signIn("kakao", { callbackUrl: "/" })}
-        />
+        <KakaoLoginButton />
 
-        <GoogleLoginButton
-          onClick={() => signIn("google", { callbackUrl: "/" })}
-        />
+        <GoogleLoginButton />
       </HStack>
     </Center>
   );
