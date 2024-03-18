@@ -9,16 +9,21 @@ import {
   Text,
 } from "@chakra-ui/react";
 import Link from "next/link";
-import { GroupCardProps } from "../list";
+
+export interface GroupCardProps {
+  id: number;
+  name: string;
+  category: string;
+  imgSrc: string;
+  overview: string;
+  members: number;
+}
 
 interface GroupProps {
   groupData: GroupCardProps;
 }
 
 const GroupCard = ({ groupData }: GroupProps) => {
-  const fetchGroupList = async () => {
-    const response = await fetch(``);
-  };
   return (
     <>
       <Link href={`/group/${groupData.id}`}>

@@ -1,13 +1,18 @@
 import { useFetch } from "@/apis";
 import { ApiRoutes } from "@/constants";
-import { AgeBox, CategoryBox, GroupDetail, ImageBox } from "@/containers";
+import {
+  AgeBox,
+  CategoryBox,
+  GroupDetail,
+  GroupMeta,
+  ImageBox,
+} from "@/containers";
 import { Group } from "@/types";
 import { QueryParser, toUrl } from "@/utils";
 import { Button, Flex, Table, TableContainer, Tbody } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import GroupMeta from "./GroupMeta";
 
 interface ImgSettingProps {
   type: string;
