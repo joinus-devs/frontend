@@ -1,15 +1,18 @@
+import { useLogout } from "@/apis";
+import { PageRoutes } from "@/constants";
+import { toUrl } from "@/utils";
 import { Button, Flex, Icon, Tooltip } from "@chakra-ui/react";
-import { useQueryClient } from "@tanstack/react-query";
+import { useRouter } from "next/router";
 import { useCallback } from "react";
 import { FaRegUser } from "react-icons/fa";
 
 export const LoginStatusIcon = () => {
-  const queryClient = useQueryClient();
+  const router = useRouter();
+  const logout = useLogout();
 
-  const handlerLogout = useCallback(() => {
-    localStorage.removeItem("login-token");
-    queryClient.invalidateQueries();
-  }, [queryClient]);
+  const handleRoute = useCallback(() => {
+    router.push(toUrl(PageRoutes.AuthMypage));
+  }, [router]);
 
   return (
     <>
@@ -22,10 +25,10 @@ export const LoginStatusIcon = () => {
           alignItems={"center"}
           as={"button"}
         >
-          <Icon as={FaRegUser} />
+          <Icon as={FaRegUser} onClick={handleRoute} />
         </Flex>
       </Tooltip>
-      <Button onClick={handlerLogout}>Logout</Button>
+      <Button onClick={logout}>Logout</Button>
     </>
   );
 };

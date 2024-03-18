@@ -20,7 +20,7 @@ const dummyData: GroupCardProps = {
   members: 1557,
 };
 
-const index = () => {
+const GroupList = () => {
   return (
     <div>
       <Head>
@@ -39,4 +39,4 @@ const index = () => {
   );
 };
 
-export default index;
+export default GroupList;

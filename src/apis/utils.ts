@@ -1,8 +1,12 @@
 import { UrlBuilder } from ".";
 import { ApiError } from "./types";
 
-const protoc = process.env.NODE_ENV === "production" ? "https" : "http";
+const protoc = "http";
 const domain = process.env.NEXT_PUBLIC_SERVER_DOMAIN;
+
+export const getDomain = (url: string) => {
+  return `${protoc}://${domain}/${url}`;
+};
 
 const extendedFetch = async (input: RequestInfo, init?: RequestInit) => {
   return fetch(input, init).then(async (res) => {
@@ -29,7 +33,7 @@ export const api: Api = {
         value.forEach((v) => queryString.append(key, v));
       else queryString.append(key, value);
     });
-    return extendedFetch(`${protoc}://${domain}/${url}?${queryString}`, {
+    return extendedFetch(`${getDomain(url)}?${queryString}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -38,7 +42,7 @@ export const api: Api = {
     });
   },
   post: (url, body) => {
-    return extendedFetch(`${protoc}://${domain}/${url}`, {
+    return extendedFetch(`${getDomain(url)}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -48,7 +52,7 @@ export const api: Api = {
     });
   },
   put: (url, body) => {
-    return extendedFetch(`${protoc}://${domain}/${url}`, {
+    return extendedFetch(`${getDomain(url)}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -58,7 +62,7 @@ export const api: Api = {
     });
   },
   patch: (url, body) => {
-    return extendedFetch(`${protoc}://${domain}/${url}`, {
+    return extendedFetch(`${getDomain(url)}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -68,7 +72,7 @@ export const api: Api = {
     });
   },
   delete: (url) => {
-    return extendedFetch(`${protoc}://${domain}/${url}`, {
+    return extendedFetch(`${getDomain(url)}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
@@ -77,7 +81,7 @@ export const api: Api = {
     });
   },
   postForm: (url, body) => {
-    return extendedFetch(`${protoc}://${domain}/${url}`, {
+    return extendedFetch(`${getDomain(url)}`, {
       method: "POST",
       headers: {
         Authorization: localStorage.getItem("login-token") || "",

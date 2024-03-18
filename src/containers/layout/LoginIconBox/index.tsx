@@ -1,5 +1,6 @@
 import { useFetch } from "@/apis";
 import { ApiRoutes } from "@/constants";
+import { User } from "@/types";
 import { toUrl } from "@/utils";
 import { Flex, Icon, Tooltip, useColorMode } from "@chakra-ui/react";
 import { FaSun } from "react-icons/fa";
@@ -9,10 +10,11 @@ import { LogoutStatusIcon } from "./LogoutStatusIcon";
 
 const LoginIconBox = () => {
   const { colorMode, toggleColorMode } = useColorMode();
-  const { data: me, isError } = useFetch(toUrl(ApiRoutes.Me));
+  const { data: me, isSuccess, isError } = useFetch<User>(toUrl(ApiRoutes.Me));
 
   return (
     <Flex gap={2} alignItems={"center"}>
+      {isSuccess ? me?.name : ""}
       <Tooltip label={`${colorMode === "dark" ? "light" : "dark"} mode`}>
         <Flex
           fontSize={20}

@@ -16,6 +16,9 @@ interface GroupProps {
 }
 
 const GroupCard = ({ groupData }: GroupProps) => {
+  const fetchGroupList = async () => {
+    const response = await fetch(``);
+  };
   return (
     <>
       <Link href={`/group/${groupData.id}`}>
