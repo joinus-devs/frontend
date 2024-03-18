@@ -1,13 +1,11 @@
-import { CircleImg, DefaultLayout } from "@/components";
-import { dummyData } from "@/containers/group/GroupFeed";
-import { GroupFeedItem } from "@/containers/group/GroupFeed/GroupFeedItem";
-import { Box, Flex, Heading, Tag } from "@chakra-ui/react";
+import { Feed, useGetFeeds } from "@/apis/feed";
+import { DefaultLayout } from "@/components";
+import { WindowVirtualList } from "@/components/common/DynamicInfiniteList";
+import { NewFeedItem } from "@/containers";
+import { Flex } from "@chakra-ui/react";
 import Head from "next/head";
-import { dummyGroupData } from "../group/[id]";
-import { useRouter } from "next/router";
 
 const NewFeed = () => {
-  const router = useRouter();
   return (
     <>
       <Head>
@@ -18,50 +16,10 @@ const NewFeed = () => {
       </Head>
       <DefaultLayout>
         <Flex w={"100%"} direction={"column"} pt={8} pb={8} gap={8}>
-          {dummyData.map((data, index) => {
-            return (
-              <Flex
-                gap={4}
-                boxShadow={"lg"}
-                p={4}
-                borderRadius={12}
-                key={`feed_${index}`}
-              >
-                <Flex
-                  flex={1}
-                  justifyContent={"center"}
-                  alignItems={"center"}
-                  direction={"column"}
-                  gap={4}
-                  as={"button"}
-                  onClick={() => router.push(`/group/${data.groupId}`)}
-                  position={"relative"}
-                  boxShadow={"md"}
-                  borderRadius={12}
-                >
-                  <Tag
-                    position={"absolute"}
-                    right={8}
-                    top={8}
-                    p={2}
-                    h={8}
-                    fontSize={16}
-                  >
-                    {dummyGroupData.category}
-                  </Tag>
-                  <CircleImg
-                    imgSrc={dummyGroupData.imgSrc}
-                    alt="group_img"
-                    size={48}
-                  />
-                  <Heading size={"md"}>{dummyGroupData.name}</Heading>
-                </Flex>
-                <Box flex={2}>
-                  <GroupFeedItem props={data} />
-                </Box>
-              </Flex>
-            );
-          })}
+          <WindowVirtualList<Feed>
+            infiniteQueryResult={useGetFeeds({ limit: 10 })}
+            renderItem={NewFeedItem}
+          />
         </Flex>
       </DefaultLayout>
     </>

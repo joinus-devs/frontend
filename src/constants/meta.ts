@@ -54,3 +54,18 @@ export const libraries = {
     },
   ],
 };
+
+export const libs = [
+  {
+    head: "Frontend",
+    libraries: libraries.frontend,
+  },
+  {
+    head: "Backend",
+    libraries: libraries.backend,
+  },
+  {
+    head: "Infra",
+    libraries: libraries.infra,
+  },
+];

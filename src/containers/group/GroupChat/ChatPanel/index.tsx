@@ -1,12 +1,11 @@
-import { Box, Button, Flex, Input } from "@chakra-ui/react";
-import { ChatLogProps } from "..";
+import InputWithButton from "@/components/common/InputWithButton";
+import { useBgColor } from "@/hooks";
+import { Box, Flex } from "@chakra-ui/react";
+import { useCallback } from "react";
 import { FaCheck } from "react-icons/fa6";
-import { Icon } from "@chakra-ui/react";
+import { ChatLogProps } from "..";
 import { MyChat } from "./MyChat";
 import { OthersChat } from "./OthersChat";
-import { useBgColor } from "@/hooks";
-import InputWithButton from "@/components/common/InputWithButton";
-import { useCallback } from "react";
 
 interface ChatPanelProps {
   chatLog: ChatLogProps[];

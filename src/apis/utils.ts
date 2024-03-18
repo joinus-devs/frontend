@@ -1,3 +1,4 @@
+import { UrlBuilder } from ".";
 import { ApiError } from "./types";
 
 const protoc = "http";
@@ -26,7 +27,12 @@ type Api = {
 
 export const api: Api = {
   get: (url, params) => {
-    const queryString = new URLSearchParams(params as Record<string, string>);
+    const queryString = new URLSearchParams();
+    Object.entries(params || {}).forEach(([key, value]) => {
+      if (Array.isArray(value))
+        value.forEach((v) => queryString.append(key, v));
+      else queryString.append(key, value);
+    });
     return extendedFetch(`${getDomain(url)}?${queryString}`, {
       method: "GET",
       headers: {
@@ -77,17 +83,14 @@ export const api: Api = {
   postForm: (url, body) => {
     return extendedFetch(`${getDomain(url)}`, {
       method: "POST",
+      headers: {
+        Authorization: localStorage.getItem("login-token") || "",
+      },
       body,
     });
   },
 };
 
-export const makeFormBody = (obj: object) => {
-  const formBody = Object.entries(obj).map(([key, value]) => {
-    const encodedKey = encodeURIComponent(key);
-    const encodedValue = encodeURIComponent(value);
-    return encodedKey + "=" + encodedValue;
-  });
-  const joined = formBody.join("&");
-  return joined;
+export const buildUrl = <T>(url: UrlBuilder<T>, data: T) => {
+  return typeof url === "function" ? url(data) : url;
 };

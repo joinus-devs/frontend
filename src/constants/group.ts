@@ -10,5 +10,5 @@ export const groupCategory = [
 ];
 
 export const groupMaxParticipants = [10, 20, 30, 40, 50];
-
+export const groupAcceptSex = ["남성", "여성"];
 export const groupNavItems = ["Home", "Member", "Feed", "Notice"];

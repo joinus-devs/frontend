@@ -1,108 +1,48 @@
+import { useFetch, useGetGroupMembers } from "@/apis";
 import { Box, Flex } from "@chakra-ui/react";
+import { useRouter } from "next/router";
 import { Template } from "./Template";
-
-export const dummyGroupMember = [
-  {
-    id: 1,
-    name: "윤승휘",
-    imgSrc: "/noneUserImg.webp",
-  },
-  {
-    id: 2,
-    name: "이승준",
-    imgSrc: "/noneUserImg.webp",
-  },
-  {
-    id: 3,
-    name: "김민수",
-    imgSrc: "/noneUserImg.webp",
-  },
-  {
-    id: 4,
-    name: "김민수",
-    imgSrc: "/noneUserImg.webp",
-  },
-  {
-    id: 5,
-    name: "김민수",
-    imgSrc: "/noneUserImg.webp",
-  },
-  {
-    id: 5,
-    name: "김민수",
-    imgSrc: "/noneUserImg.webp",
-  },
-  {
-    id: 1,
-    name: "윤승휘",
-    imgSrc: "/noneUserImg.webp",
-  },
-  {
-    id: 2,
-    name: "이승준",
-    imgSrc: "/noneUserImg.webp",
-  },
-  {
-    id: 3,
-    name: "김민수",
-    imgSrc: "/noneUserImg.webp",
-  },
-  {
-    id: 4,
-    name: "김민수",
-    imgSrc: "/noneUserImg.webp",
-  },
-  {
-    id: 5,
-    name: "김민수",
-    imgSrc: "/noneUserImg.webp",
-  },
-  {
-    id: 1,
-    name: "윤승휘",
-    imgSrc: "/noneUserImg.webp",
-  },
-  {
-    id: 2,
-    name: "이승준",
-    imgSrc: "/noneUserImg.webp",
-  },
-  {
-    id: 3,
-    name: "김민수",
-    imgSrc: "/noneUserImg.webp",
-  },
-  {
-    id: 4,
-    name: "김민수",
-    imgSrc: "/noneUserImg.webp",
-  },
-];
-
-const dummyStaffMembers = [
-  {
-    id: 20,
-    name: "김재훈",
-    imgSrc: "/noneUserImg.webp",
-  },
-  {
-    id: 21,
-    name: "이민훈",
-    imgSrc: "/noneUserImg.webp",
-  },
-  {
-    id: 22,
-    name: "윤승휘",
-    imgSrc: "/noneUserImg.webp",
-  },
-];
+import { User } from "@/types";
+import { ApiRoutes } from "@/constants";
 
 const GroupMember = () => {
+  const router = useRouter();
+  const numberingQuery = Number(router.query.id);
+  const { data: admin } = useGetGroupMembers(numberingQuery, {
+    roles: "admin",
+  });
+
+  const { data: member } = useGetGroupMembers(numberingQuery, {
+    roles: "member",
+  });
+
+  const { data: staff } = useGetGroupMembers(numberingQuery, {
+    roles: "staff",
+  });
+
+  const { data: me } = useFetch<User>(ApiRoutes.Me);
+
   return (
     <Box minH={800}>
       <Flex gap={8} direction={"column"} pt={8}>
-        <Template dummyGroupMember={dummyStaffMembers} header="Manager" />
-        <Template dummyGroupMember={dummyGroupMember} header="User" />
+        <Template
+          groupMember={admin?.data}
+          header="Admin"
+          groupId={numberingQuery}
+          admin={me?.id === admin?.data[0].id ? true : false}
+        />
+        <Template
+          groupMember={staff?.data}
+          header="Manager"
+          groupId={numberingQuery}
+          admin={me?.id === admin?.data[0].id ? true : false}
+        />
+        <Template
+          groupMember={member?.data}
+          header="User"
+          groupId={numberingQuery}
+          admin={me?.id === admin?.data[0].id ? true : false}
+        />
       </Flex>
     </Box>
   );

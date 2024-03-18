@@ -1,8 +1,10 @@
 import { ApiRoutes } from "@/constants";
 import { toUrl } from "@/utils";
+import { useQueryClient } from "@tanstack/react-query";
 import { usePost } from "./hooks";
 import { ApiResponse } from "./types";
 import { getDomain } from "./utils";
+import { createStandaloneToast } from "@chakra-ui/react";
 
 interface SigninRequest {
   email: string;
@@ -111,6 +113,8 @@ type GetKakaoId = (token?: string) => Promise<KakaoInfo>;
 type GetGoogleId = (token?: string) => Promise<GoogleInfo>;
 type getNaverId = (token?: string) => Promise<NaverInfo>;
 type getUserInfo = () => Promise<UserData>;
+
+const { toast } = createStandaloneToast();
 
 // kakao
 export const issueKakaoToken: IssueKakaoToken = async (code) => {
@@ -268,6 +272,24 @@ export const getUserInfo: getUserInfo = async () => {
     },
   }).then((res) => res.json());
   return response.data;
+};
+
+export const useLogout = () => {
+  const queryClient = useQueryClient();
+
+  return () => {
+    localStorage.removeItem("login-token");
+    queryClient
+      .invalidateQueries({ queryKey: [toUrl(ApiRoutes.Me)] })
+      .then(() => {
+        toast({
+          title: "로그아웃 되었습니다.",
+          status: "success",
+          duration: 2000,
+          isClosable: true,
+        });
+      });
+  };
 };
 
 // 토큰 체크

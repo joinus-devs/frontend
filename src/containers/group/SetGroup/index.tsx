@@ -1,6 +1,6 @@
 import { useFetch } from "@/apis/hooks";
 import { ApiRoutes } from "@/constants";
-import { FormValues } from "@/pages/group/create";
+import { CreateGroupFormValues } from "@/pages/group/create";
 import { Category } from "@/types/category";
 import {
   FormControl,
@@ -13,7 +13,7 @@ import {
 import { UseFormRegister } from "react-hook-form";
 
 interface SetGroupDetailProps {
-  register: UseFormRegister<FormValues>;
+  register: UseFormRegister<CreateGroupFormValues>;
 }
 
 const SetGroup = ({ register }: SetGroupDetailProps) => {

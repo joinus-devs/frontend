@@ -8,11 +8,16 @@ import {
   Icon,
   Text,
 } from "@chakra-ui/react";
-import { dummyGroupMember } from "../../GroupMember";
 import { CircleImg } from "@/components";
 import { MdOnlinePrediction } from "react-icons/md";
+import { Group } from "@/types";
+import { useGetGroupMembers } from "@/apis";
 
-export const OnlineMember = () => {
+interface OnlineMemberProps {
+  group: Group;
+}
+export const OnlineMember = ({ group }: OnlineMemberProps) => {
+  const { data: members } = useGetGroupMembers(group.id!);
   return (
     <Accordion allowToggle>
       <AccordionItem border={"none"}>
@@ -33,7 +38,7 @@ export const OnlineMember = () => {
             pl={4}
             pb={4}
           >
-            {dummyGroupMember.map((member, i) => {
+            {members?.data.map((member, i) => {
               return (
                 <Flex
                   alignItems={"center"}
@@ -46,7 +51,11 @@ export const OnlineMember = () => {
                     fontSize={28}
                     fill={"primary.500"}
                   />
-                  <CircleImg imgSrc={member.imgSrc} alt="group_img" size={16} />
+                  <CircleImg
+                    imgSrc={"/noneUserImg.webp"}
+                    alt="group_img"
+                    size={16}
+                  />
                   <Text>{member.name}</Text>
                 </Flex>
               );

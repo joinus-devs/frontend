@@ -11,18 +11,30 @@ export enum ApiRoutes {
   CheckEmailExists = "auth/check-email",
   Me = "auth/me",
   Category = "categories",
+  GroupMembers = "clubs/:id/users/:userId?",
+  GroupFeed = "clubs/:id?/feeds",
+  Feeds = "feeds/:id?",
+  FeedInComments = "feeds/:id?/comments",
+  Comments = "comments/:id?",
+  Image = "storage/image",
 }
 
 export enum PageRoutes {
   Home = "/",
   Group = "/group/:id?",
   CreateGroup = "/group/create",
+  Feed = "/feed/:id?",
   NewFeed = "/new-feed",
   Support = "/support",
-  SignIn = "/auth/signin",
-  SignUp = "/auth/signup",
-  SignOut = "/auth/signout",
-  Me = "/auth/me",
+  AuthMypage = "/auth/mypage",
+  GroupHome = "/group/:id/home",
+  GroupMember = "/group/:id/member",
+  GroupFeed = "/group/:id/feed",
+  GroupNotice = "/group/:id/notice",
+  GroupCreateFeed = "/group/:id/feed/create",
+  GroupModifyFeed = "/group/:id/feed/:feedId/modify",
+  GroupPermissionMember = "/group/:id/member/permission",
+  GroupSetting = "/group/:id/setting",
 }
 
 export const navs = [

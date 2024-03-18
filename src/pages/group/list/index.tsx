@@ -1,15 +1,8 @@
 import { DefaultLayout } from "@/components";
-import Head from "next/head";
+import { GroupCard } from "@/containers";
+import { GroupCardProps } from "@/containers/group/GroupCard/GroupCard";
 import { Text } from "@chakra-ui/react";
-import GroupCard from "../item";
-export interface GroupCardProps {
-  id: number;
-  name: string;
-  category: string;
-  imgSrc: string;
-  overview: string;
-  members: number;
-}
+import Head from "next/head";
 
 const dummyData: GroupCardProps = {
   id: 1,

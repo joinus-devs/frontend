@@ -1,5 +1,5 @@
-import { groupMaxParticipants } from "@/constants";
-import { FormValues } from "@/pages/group/create";
+import { groupAcceptSex, groupMaxParticipants } from "@/constants";
+import { CreateGroupFormValues } from "@/pages/group/create";
 import {
   Button,
   Flex,
@@ -15,8 +15,8 @@ import { useCallback } from "react";
 import { UseFormSetValue, UseFormWatch } from "react-hook-form";
 
 interface SetGroupOptionsProps {
-  setValue: UseFormSetValue<FormValues>;
-  watch: UseFormWatch<FormValues>;
+  setValue: UseFormSetValue<CreateGroupFormValues>;
+  watch: UseFormWatch<CreateGroupFormValues>;
 }
 
 const SetGroupOptions = ({ setValue, watch }: SetGroupOptionsProps) => {
@@ -35,7 +35,14 @@ const SetGroupOptions = ({ setValue, watch }: SetGroupOptionsProps) => {
     [setValue]
   );
 
-  const options = watch(["minimum_age", "maximum_age", "capacity"]);
+  const setAcceptSex = useCallback(
+    (value: boolean) => {
+      setValue("sex", value);
+    },
+    [setValue]
+  );
+
+  const options = watch(["minimum_age", "maximum_age", "capacity", "sex"]);
 
   return (
     <>
@@ -63,7 +70,7 @@ const SetGroupOptions = ({ setValue, watch }: SetGroupOptionsProps) => {
           <FormLabel htmlFor="group_option_age" fontWeight={"normal"}>
             Max Member
           </FormLabel>
-          <Flex justifyContent={"space-between"}>
+          <Flex gap={2}>
             {groupMaxParticipants.map((value, index) => {
               return (
                 <Button
@@ -72,6 +79,7 @@ const SetGroupOptions = ({ setValue, watch }: SetGroupOptionsProps) => {
                   variant={options[2] === value ? "solid" : "outline"}
                   w={20}
                   h={16}
+                  flex={1}
                 >
                   {value}
                 </Button>
@@ -79,6 +87,36 @@ const SetGroupOptions = ({ setValue, watch }: SetGroupOptionsProps) => {
             })}
           </Flex>
           <FormHelperText>최대인원 : {options[2]}명</FormHelperText>
+        </FormControl>
+        <FormControl>
+          <FormLabel htmlFor="group_option_age" fontWeight={"normal"}>
+            Accept Sex
+          </FormLabel>
+          <Flex gap={2}>
+            {groupAcceptSex.map((value, index) => {
+              return (
+                <Button
+                  key={`btn_${index}`}
+                  onClick={() => setAcceptSex(value === "남성" ? true : false)}
+                  variant={
+                    options[3] && value === "남성"
+                      ? "solid"
+                      : !options[3] && value === "여성"
+                        ? "solid"
+                        : "outline"
+                  }
+                  w={20}
+                  h={16}
+                  flex={1}
+                >
+                  {value}
+                </Button>
+              );
+            })}
+          </Flex>
+          <FormHelperText>
+            성별제한 : {options[3] ? "남성" : "여성"}만
+          </FormHelperText>
         </FormControl>
       </Flex>
     </>

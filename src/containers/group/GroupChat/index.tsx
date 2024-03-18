@@ -10,6 +10,7 @@ import { MdArrowForwardIos } from "react-icons/md";
 import { ChatPanel } from "./ChatPanel";
 import { OnlineMember } from "./OnlineMember";
 import { SetBgImage } from "./SetBgImage";
+import { useGetGroupMembers } from "@/apis";
 
 interface GroupChatProps {
   group: Group;
@@ -118,7 +119,7 @@ const dummyChatLog: ChatLogProps[] = [
 const GroupChat = ({ group }: GroupChatProps) => {
   const [bgImg, setBgImg] = useState<number>(0);
   const [viewOnlineMember, setViewOnlineMember] = useState<boolean>(false);
-
+  const { data } = useGetGroupMembers(group.id!);
   const handleSubmit = useCallback(() => {}, []);
 
   const currentUserId = 1;
@@ -147,7 +148,7 @@ const GroupChat = ({ group }: GroupChatProps) => {
             <Heading size={"lg"} opacity={0.9}>
               {group?.name}
             </Heading>
-            <Text opacity={0.6}>20 members</Text>
+            <Text opacity={0.6}>{data?.data.length} members</Text>
             <SetBgImage setBgImg={setBgImg} />
           </Flex>
         </Flex>
@@ -175,7 +176,7 @@ const GroupChat = ({ group }: GroupChatProps) => {
             boxStyle={{ position: "relative", alignItems: "center" }}
             buttonStyle={{ fontSize: 28, right: 0 }}
           />
-          <OnlineMember />
+          <OnlineMember group={group} />
         </Flex>
       </Box>
     </Flex>

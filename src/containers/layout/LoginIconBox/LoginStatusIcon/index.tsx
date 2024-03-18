@@ -1,14 +1,19 @@
-import { Tooltip, Flex, Icon, Button } from "@chakra-ui/react";
-import { FaRegUser } from "react-icons/fa";
+import { useLogout } from "@/apis";
+import { PageRoutes } from "@/constants";
+import { toUrl } from "@/utils";
+import { Button, Flex, Icon, Tooltip } from "@chakra-ui/react";
 import { useRouter } from "next/router";
+import { useCallback } from "react";
+import { FaRegUser } from "react-icons/fa";
 
 export const LoginStatusIcon = () => {
   const router = useRouter();
-  const logOut = () => {
-    localStorage.removeItem("login-token");
-    router.push("/");
-    router.reload();
-  };
+  const logout = useLogout();
+
+  const handleRoute = useCallback(() => {
+    router.push(toUrl(PageRoutes.AuthMypage));
+  }, [router]);
+
   return (
     <>
       <Tooltip label="my page">
@@ -20,10 +25,10 @@ export const LoginStatusIcon = () => {
           alignItems={"center"}
           as={"button"}
         >
-          <Icon as={FaRegUser} onClick={() => router.push("/auth/myPage")} />
+          <Icon as={FaRegUser} onClick={handleRoute} />
         </Flex>
       </Tooltip>
-      <Button onClick={() => logOut()}>Log out</Button>
+      <Button onClick={logout}>Logout</Button>
     </>
   );
 };

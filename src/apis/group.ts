@@ -1,21 +1,19 @@
 import { ApiRoutes } from "@/constants";
-import { useFetch } from "./hooks";
+import { Group, UserWithPage } from "@/types";
 import { toUrl } from "@/utils";
-import { ApiResponse } from "./types";
-interface Group {
-  id: number;
-  created_at: string;
-  updated_at: string;
-  deleted_at: string;
-  name: string;
-  description: string;
-  capacity: number;
-  sex: boolean;
-  minimum_age: number;
-  maximum_age: number;
-  categories: string[];
+import { useFetch } from "./hooks";
+
+interface UseGetGroupMemberParams {
+  roles?: string | string[];
 }
 
 export const useGetGroup = (id?: number) => {
   return useFetch<Group>(toUrl(ApiRoutes.Group, { id }));
+};
+
+export const useGetGroupMembers = (
+  id: number,
+  params?: UseGetGroupMemberParams
+) => {
+  return useFetch<UserWithPage>(toUrl(ApiRoutes.GroupMembers, { id }), params);
 };
