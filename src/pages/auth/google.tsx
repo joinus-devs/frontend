@@ -1,8 +1,8 @@
 import { getGoogleId, issueGoogleToken, signInSocial } from "@/apis/auth";
-import { Spinner } from "@chakra-ui/react";
+import { AuthLoading } from "@/containers";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
-import React, { useCallback, useEffect, useState } from "react";
+import { useEffect } from "react";
 
 type Props = {};
 
@@ -47,7 +47,7 @@ const GoogleSignin = (props: Props) => {
     }
   });
 
-  return <Spinner />;
+  return <AuthLoading />;
 };
 
 export default GoogleSignin;

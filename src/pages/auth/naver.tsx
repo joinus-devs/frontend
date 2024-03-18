@@ -1,8 +1,8 @@
 import { getNaverId, issueNaverToken, signInSocial } from "@/apis";
-import { Spinner } from "@chakra-ui/react";
+import { AuthLoading } from "@/containers";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
-import { useCallback, useEffect } from "react";
+import { useEffect } from "react";
 
 type Props = {};
 
@@ -45,7 +45,7 @@ const NaverSignin = (props: Props) => {
     }
   }, [signInToken, router, naverInfo]);
 
-  return <Spinner />;
+  return <AuthLoading />;
 };
 
 export default NaverSignin;

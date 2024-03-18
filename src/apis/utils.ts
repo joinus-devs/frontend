@@ -1,7 +1,11 @@
 import { ApiError } from "./types";
 
-const protoc = process.env.NODE_ENV === "production" ? "https" : "http";
+const protoc = "http";
 const domain = process.env.NEXT_PUBLIC_SERVER_DOMAIN;
+
+export const getDomain = (url: string) => {
+  return `${protoc}://${domain}/${url}`;
+};
 
 const extendedFetch = async (input: RequestInfo, init?: RequestInit) => {
   return fetch(input, init).then(async (res) => {
@@ -23,7 +27,7 @@ type Api = {
 export const api: Api = {
   get: (url, params) => {
     const queryString = new URLSearchParams(params as Record<string, string>);
-    return extendedFetch(`${protoc}://${domain}/${url}?${queryString}`, {
+    return extendedFetch(`${getDomain(url)}?${queryString}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -32,7 +36,7 @@ export const api: Api = {
     });
   },
   post: (url, body) => {
-    return extendedFetch(`${protoc}://${domain}/${url}`, {
+    return extendedFetch(`${getDomain(url)}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -42,7 +46,7 @@ export const api: Api = {
     });
   },
   put: (url, body) => {
-    return extendedFetch(`${protoc}://${domain}/${url}`, {
+    return extendedFetch(`${getDomain(url)}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -52,7 +56,7 @@ export const api: Api = {
     });
   },
   patch: (url, body) => {
-    return extendedFetch(`${protoc}://${domain}/${url}`, {
+    return extendedFetch(`${getDomain(url)}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -62,7 +66,7 @@ export const api: Api = {
     });
   },
   delete: (url) => {
-    return extendedFetch(`${protoc}://${domain}/${url}`, {
+    return extendedFetch(`${getDomain(url)}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
@@ -71,7 +75,7 @@ export const api: Api = {
     });
   },
   postForm: (url, body) => {
-    return extendedFetch(`${protoc}://${domain}/${url}`, {
+    return extendedFetch(`${getDomain(url)}`, {
       method: "POST",
       body,
     });

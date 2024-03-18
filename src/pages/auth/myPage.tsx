@@ -1,22 +1,7 @@
-import React, { useEffect } from "react";
-import FileUpload from "@/components/common/FileUpload";
-import { FiFile } from "react-icons/fi";
-import {
-  Alert,
-  AlertDescription,
-  AlertIcon,
-  AlertTitle,
-  Box,
-  Button,
-  Heading,
-  Image,
-  Text,
-} from "@chakra-ui/react";
-import Head from "next/head";
 import { DefaultLayout } from "@/components";
-import { useQuery } from "@tanstack/react-query";
-import { getUserInfo } from "@/apis/auth";
 import userStore from "@/stores/userInfo";
+import { Box, Button, Heading, Image, Text } from "@chakra-ui/react";
+import Head from "next/head";
 
 type Props = {};
 

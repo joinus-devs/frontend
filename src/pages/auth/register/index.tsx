@@ -15,11 +15,8 @@ import {
   FormErrorMessage,
   HStack,
   Input,
-  useRadioGroup,
   Text,
-  Icon,
-  Alert,
-  Flex,
+  useRadioGroup,
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { Controller, useForm } from "react-hook-form";
@@ -94,6 +91,7 @@ const Register = () => {
   // 아이디 중복 체크
   const checkDuplicateId = async (value: string) => {
     const response = await checkEmailExists(value);
+
     if (response.status === 400) {
       return setError("email", {
         type: "string",

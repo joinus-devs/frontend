@@ -4,8 +4,11 @@ export enum ApiRoutes {
   NewFeed = "new-feed",
   Support = "support",
   SignIn = "auth/signin",
+  SignInSocial = "auth/signin/social",
   SignUp = "auth/signup",
+  SignUpSocial = "auth/signup/social",
   SignOut = "auth/signout",
+  CheckEmailExists = "auth/check-email",
   Me = "auth/me",
   Category = "categories",
 }

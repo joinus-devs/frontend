@@ -1,8 +1,8 @@
+import { ApiRoutes } from "@/constants";
 import { toUrl } from "@/utils";
 import { usePost } from "./hooks";
-import { ApiRoutes } from "@/constants";
-import { api } from "./utils";
 import { ApiResponse } from "./types";
+import { getDomain } from "./utils";
 
 interface SigninRequest {
   email: string;
@@ -126,7 +126,6 @@ export const issueKakaoToken: IssueKakaoToken = async (code) => {
 
 export const getKakaoId: GetKakaoId = async (token) => {
   const response = await fetch("https://kapi.kakao.com/v2/user/me", {
-    method: "GET",
     headers: {
       Authorization: `Bearer ${token}`,
       "Content-Type": "application/x-www-form-urlencoded;charset=utf-8",
@@ -165,21 +164,21 @@ export const getGoogleId: GetGoogleId = async (token) => {
 // naver
 export const issueNaverToken: IssueNaverToken = async (code, state) => {
   const response = await fetch(
-    `http://localhost:3000/api/auth/naverToken?naverState=${state}&naverCode=${code}`
+    `api/auth/naverToken?naverState=${state}&naverCode=${code}`
   ).then((res) => res.json());
   return response;
 };
 
 export const getNaverId: getNaverId = async (token) => {
   const response = await fetch(
-    `http://localhost:3000/api/auth/naverInfo?naverToken=${token}`,
+    `api/auth/naverInfo?naverToken=${token}`,
     {}
   ).then((res) => res.json());
   return response;
 };
 
 export const checkEmailExists = async (email: string) => {
-  const response = await fetch("http://44.204.44.65/auth/check-email", {
+  const response = await fetch(getDomain(toUrl(ApiRoutes.CheckEmailExists)), {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -193,7 +192,7 @@ export const checkEmailExists = async (email: string) => {
 };
 
 export const signUp = async (values: UserData) => {
-  const response = await fetch("http://44.204.44.65/auth/signup", {
+  const response = await fetch(getDomain(toUrl(ApiRoutes.SignUp)), {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -205,7 +204,7 @@ export const signUp = async (values: UserData) => {
 };
 
 export const signUpSocial = async (values: UserData) => {
-  const response = await fetch("http://44.204.44.65/auth/signup/social", {
+  const response = await fetch(getDomain(toUrl(ApiRoutes.SignUpSocial)), {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -217,7 +216,7 @@ export const signUpSocial = async (values: UserData) => {
 };
 
 export const signIn = async (email: string, password: string) => {
-  const response = await fetch(`http://44.204.44.65/auth/signin`, {
+  const response = await fetch(getDomain(toUrl(ApiRoutes.SignIn)), {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
@@ -238,7 +237,7 @@ export const signIn = async (email: string, password: string) => {
 };
 
 export const signInSocial = async (email?: number | string, type?: string) => {
-  const response = await fetch("http://44.204.44.65/auth/signin/social", {
+  const response = await fetch(getDomain(toUrl(ApiRoutes.SignInSocial)), {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -251,7 +250,6 @@ export const signInSocial = async (email?: number | string, type?: string) => {
 
   if (response.status === 200) {
     localStorage.setItem("login-token", response.data.token);
-    alert("환영합니다!");
     window.location.href = "/";
   } else {
     alert("회원가입 페이지로 이동합니다");

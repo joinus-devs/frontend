@@ -1,5 +1,5 @@
 import { getKakaoId, issueKakaoToken, signInSocial } from "@/apis/auth";
-import { Spinner } from "@chakra-ui/react";
+import { AuthLoading } from "@/containers";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
@@ -47,7 +47,7 @@ const KakaoSignin = (props: Props) => {
     }
   }, [signInToken, router, kakaoInfo]);
 
-  return <Spinner />;
+  return <AuthLoading />;
 };
 
 export default KakaoSignin;
