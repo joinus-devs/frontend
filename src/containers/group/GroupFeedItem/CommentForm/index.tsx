@@ -22,7 +22,7 @@ const initialFormValues: PostComment = {
   content: "",
 };
 
-export const PostComment = ({ type, feedId }: PostCommentProps) => {
+export const CommentForm = ({ type, feedId }: PostCommentProps) => {
   const router = useRouter();
   const queryClient = useQueryClient();
   const { mutate: postComment } = usePost(

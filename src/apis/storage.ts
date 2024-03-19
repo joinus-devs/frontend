@@ -12,7 +12,7 @@ interface UploadResponse {
 }
 
 export const usePostImg = () => {
-  return usePostFormData(ApiRoutes.Image);
+  return usePostFormData<FormData, string>(ApiRoutes.Image);
 };
 
 // export const useUploadImg = () => {

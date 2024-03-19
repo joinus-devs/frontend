@@ -16,7 +16,7 @@ interface SetGroupDetailProps {
   register: UseFormRegister<CreateGroupFormValues>;
 }
 
-const SetGroup = ({ register }: SetGroupDetailProps) => {
+const GroupForm = ({ register }: SetGroupDetailProps) => {
   const { data } = useFetch<Category[]>(ApiRoutes.Category);
 
   return (
@@ -66,4 +66,4 @@ const SetGroup = ({ register }: SetGroupDetailProps) => {
   );
 };
 
-export default SetGroup;
+export default GroupForm;

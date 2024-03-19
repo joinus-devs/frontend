@@ -22,7 +22,7 @@ import { useCallback } from "react";
 import { FaCheck } from "react-icons/fa";
 import Image from "next/image";
 
-interface ImgProps {
+export interface ImgProps {
   type: string;
   url: string;
 }
@@ -81,7 +81,7 @@ const ImageBox = ({ imgData, setImgData }: ImageBoxProps) => {
             overflowY={"auto"}
             overflowX={"hidden"}
           >
-            <UploadImg />
+            <UploadImg setImgData={setImgData} />
             <Grid
               gap={4}
               w={"100%"}

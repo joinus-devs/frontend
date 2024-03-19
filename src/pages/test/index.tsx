@@ -53,12 +53,7 @@ const Test = () => {
       minimum_age: 20,
       maximum_age: 100,
       categories: [1, 2, 3],
-      images: [
-        {
-          url: "https://kr.object.ncloudstorage.com/joinus/image/profile.png",
-          type: "main",
-        },
-      ],
+      images: [],
     });
   };
   const handlerPostClub = () => {
@@ -68,14 +63,9 @@ const Test = () => {
       description: "gd2",
       maximum_age: 100,
       minimum_age: 0,
-      name: "test3",
+      name: "test4",
       sex: true,
-      images: [
-        {
-          url: "https://kr.object.ncloudstorage.com/joinus/image/profile.png",
-          type: "main",
-        },
-      ],
+      images: [],
     });
   };
   return (

@@ -1,7 +1,7 @@
 import { ApiRoutes } from "@/constants";
 import { Group, UserWithPage } from "@/types";
 import { toUrl } from "@/utils";
-import { useFetch } from "./hooks";
+import { useFetch, useUpdate } from "./hooks";
 
 interface UseGetGroupMemberParams {
   roles?: string | string[];
@@ -16,4 +16,8 @@ export const useGetGroupMembers = (
   params?: UseGetGroupMemberParams
 ) => {
   return useFetch<UserWithPage>(toUrl(ApiRoutes.GroupMembers, { id }), params);
+};
+
+export const useUpateGroup = (id: number) => {
+  return useUpdate(toUrl(ApiRoutes.Group, { id }));
 };

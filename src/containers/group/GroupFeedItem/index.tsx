@@ -10,7 +10,7 @@ import { useRouter } from "next/router";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { FeedModifyIcon } from "./FeedModifyIcon";
 import { LikeCommentCounter } from "./LikeCommentCounter";
-import { PostComment } from "./PostComment";
+import { CommentForm } from "./CommentForm";
 
 interface GroupFeedItemProps {
   data: Feed;
@@ -93,7 +93,7 @@ const GroupFeedItem = ({ data }: GroupFeedItemProps) => {
           likeCount={0}
           handleCommentClick={routerPushHandler}
         />
-        <PostComment type="group" feedId={data.id} />
+        <CommentForm type="group" feedId={data.id} />
       </Flex>
     </>
   );

@@ -1,4 +1,4 @@
-import { useFetch } from "@/apis";
+import { useFetch, useUpateGroup } from "@/apis";
 import { ApiRoutes } from "@/constants";
 import {
   AgeBox,
@@ -81,10 +81,12 @@ const dummyImg = [
 ];
 
 const Setting = () => {
-  const [img, setImg] = useState<ImgSettingProps[]>(dummyImg);
+  const [img, setImg] = useState<ImgSettingProps[]>([]);
   const [categories, setCategories] = useState<number[]>([]);
   const router = useRouter();
   const numberingQuery = QueryParser.toNumber(router.query.id);
+
+  const { mutate: updateGroup } = useUpateGroup(numberingQuery ?? 0);
 
   const { data: group, isSuccess } = useFetch<Group>(
     toUrl(ApiRoutes.Group, {
@@ -97,8 +99,8 @@ const Setting = () => {
   });
 
   const onSubmit = (data: Group) => {
-    const form = { ...group, ...data, categories: categories };
-    console.log(form);
+    const form = { ...group, ...data, categories: categories, images: img };
+    updateGroup(form);
   };
 
   const onChangeSex = useCallback(
@@ -111,6 +113,7 @@ const Setting = () => {
 
   useEffect(() => {
     if (!isSuccess || !group) return;
+    setImg(group.images);
     setValue("minimum_age", group.minimum_age);
     setValue("maximum_age", group.maximum_age);
     setCategories(group.categories);

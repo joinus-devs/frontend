@@ -6,7 +6,7 @@ import { GroupBanner, GroupDescription } from "@/containers";
 import FeedComment from "@/containers/group/GroupFeedComments/Comment";
 import { FeedModifyIcon } from "@/containers/group/GroupFeedItem/FeedModifyIcon";
 import { LikeCommentCounter } from "@/containers/group/GroupFeedItem/LikeCommentCounter";
-import { PostComment } from "@/containers/group/GroupFeedItem/PostComment";
+import { CommentForm } from "@/containers/group/GroupFeedItem/CommentForm";
 import { Comment, Feed, Group, User } from "@/types";
 import { toUrl } from "@/utils";
 import { formatISO } from "@/utils/date";
@@ -54,7 +54,7 @@ const FeedDetail = () => {
                 commentCount={feed.comment_count}
                 likeCount={0}
               />
-              <PostComment type="feed" feedId={feed.id} />
+              <CommentForm type="feed" feedId={feed.id} />
             </>
           )}
         </Box>

@@ -19,7 +19,7 @@ interface SetGroupOptionsProps {
   watch: UseFormWatch<CreateGroupFormValues>;
 }
 
-const SetGroupOptions = ({ setValue, watch }: SetGroupOptionsProps) => {
+const GroupOptionForm = ({ setValue, watch }: SetGroupOptionsProps) => {
   const setMaxMember = useCallback(
     (value: number) => {
       setValue("capacity", value);
@@ -123,4 +123,4 @@ const SetGroupOptions = ({ setValue, watch }: SetGroupOptionsProps) => {
   );
 };
 
-export default SetGroupOptions;
+export default GroupOptionForm;

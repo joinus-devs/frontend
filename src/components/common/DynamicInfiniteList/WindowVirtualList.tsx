@@ -30,6 +30,7 @@ const WindowVirtualList = <T,>({
     count: flattenData.length,
     estimateSize: () => 40,
     scrollMargin: parentRef.current?.offsetTop,
+    initialOffset: 0,
   });
 
   const items = virtualizer.getVirtualItems();
