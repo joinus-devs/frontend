@@ -25,65 +25,11 @@ interface GroupMeta {
   input?: JSX.Element;
 }
 
-const dummyImg = [
-  {
-    type: "sub",
-    url: "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg",
-  },
-  {
-    type: "main",
-    url: "https://cdn.pixabay.com/photo/2024/02/05/10/48/bird-8554205_1280.jpg",
-  },
-  {
-    type: "sub",
-    url: "https://cdn.pixabay.com/photo/2024/02/22/09/04/warehouse-8589487_1280.jpg",
-  },
-  {
-    type: "sub",
-    url: "https://cdn.pixabay.com/photo/2024/02/22/09/04/warehouse-8589487_1280.jpg",
-  },
-  {
-    type: "sub",
-    url: "https://cdn.pixabay.com/photo/2024/02/22/09/04/warehouse-8589487_1280.jpg",
-  },
-  {
-    type: "sub",
-    url: "https://cdn.pixabay.com/photo/2024/02/22/09/04/warehouse-8589487_1280.jpg",
-  },
-  {
-    type: "sub",
-    url: "https://cdn.pixabay.com/photo/2024/02/22/09/04/warehouse-8589487_1280.jpg",
-  },
-  {
-    type: "sub",
-    url: "https://cdn.pixabay.com/photo/2024/02/22/09/04/warehouse-8589487_1280.jpg",
-  },
-  {
-    type: "sub",
-    url: "https://cdn.pixabay.com/photo/2024/02/22/09/04/warehouse-8589487_1280.jpg",
-  },
-  {
-    type: "sub",
-    url: "https://cdn.pixabay.com/photo/2024/02/22/09/04/warehouse-8589487_1280.jpg",
-  },
-  {
-    type: "sub",
-    url: "https://cdn.pixabay.com/photo/2024/02/22/09/04/warehouse-8589487_1280.jpg",
-  },
-  {
-    type: "sub",
-    url: "https://cdn.pixabay.com/photo/2024/02/22/09/04/warehouse-8589487_1280.jpg",
-  },
-  {
-    type: "sub",
-    url: "https://cdn.pixabay.com/photo/2024/02/22/09/04/warehouse-8589487_1280.jpg",
-  },
-];
-
 const Setting = () => {
   const [img, setImg] = useState<ImgSettingProps[]>([]);
   const [categories, setCategories] = useState<number[]>([]);
   const router = useRouter();
+
   const numberingQuery = QueryParser.toNumber(router.query.id);
 
   const { mutate: updateGroup } = useUpateGroup(numberingQuery ?? 0);

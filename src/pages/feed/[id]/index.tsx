@@ -2,7 +2,7 @@ import { useFetch, useGetComment } from "@/apis";
 import { CircleImg } from "@/components";
 import { WindowVirtualList } from "@/components/common/DynamicInfiniteList";
 import { ApiRoutes } from "@/constants";
-import { GroupBanner, GroupDescription } from "@/containers";
+import { GroupDescription } from "@/containers";
 import FeedComment from "@/containers/group/GroupFeedComments/Comment";
 import { FeedModifyIcon } from "@/containers/group/GroupFeedItem/FeedModifyIcon";
 import { LikeCommentCounter } from "@/containers/group/GroupFeedItem/LikeCommentCounter";
@@ -30,7 +30,6 @@ const FeedDetail = () => {
     <Flex justify={"center"}>
       <Flex w={{ base: "100%", xl: "1280px" }} direction={"column"} mb={100}>
         <Box shadow={"md"} mb={10} borderRadius={12} overflow={"hidden"}>
-          <GroupBanner />
           <GroupDescription group={group} />
         </Box>
         <Box position={"relative"}>

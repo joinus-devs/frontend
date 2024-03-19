@@ -1,6 +1,5 @@
 export { default as CreateFeed } from "./CreateFeed";
 export { default as CustomBtn } from "./CustomBtn";
-export { default as GroupBanner } from "./GroupBanner";
 export { GroupCard } from "./GroupCard";
 export { default as GroupChat } from "./GroupChat";
 export { default as GroupDescription } from "./GroupDescription";

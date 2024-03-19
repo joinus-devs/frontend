@@ -1,7 +1,6 @@
 import { useGetGroup } from "@/apis/group";
 import { DefaultLayout } from "@/components";
 import { GroupDescription, GroupNav } from "@/containers";
-import { GroupBanner } from "@/containers/group";
 import { Box, Flex } from "@chakra-ui/react";
 import Head from "next/head";
 import { useRouter } from "next/router";
@@ -25,7 +24,6 @@ const GroupDetail = ({ children }: GroupDetailProps) => {
       </Head>
       <DefaultLayout>
         <Flex direction={"column"} w={"100%"} minH={1400}>
-          <GroupBanner />
           <GroupDescription group={group} />
           <GroupNav groupId={numberingQueryId} />
           <Box
