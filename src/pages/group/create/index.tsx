@@ -1,7 +1,7 @@
 import { usePost } from "@/apis/hooks";
 import { DefaultLayout } from "@/components";
 import { ApiRoutes } from "@/constants";
-import { CustomBtn, SetGroup, SetGroupOptions } from "@/containers";
+import { CustomBtn, GroupForm, GroupOptionForm } from "@/containers";
 import { useBgColor } from "@/hooks";
 import { toUrl } from "@/utils";
 import { Box, Container, Flex, Heading } from "@chakra-ui/react";
@@ -130,8 +130,8 @@ const CreateGroup = () => {
             borderRadius={"2xl"}
             flexGrow={1}
           >
-            <SetGroup register={register} />
-            <SetGroupOptions setValue={setValue} watch={watch} />
+            <GroupForm register={register} />
+            <GroupOptionForm setValue={setValue} watch={watch} />
           </Container>
         </Flex>
       </DefaultLayout>
