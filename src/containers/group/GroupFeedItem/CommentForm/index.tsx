@@ -53,7 +53,10 @@ export const CommentForm = ({ type, feedId }: PostCommentProps) => {
             queryKey: [toUrl(ApiRoutes.FeedInComments, { id: feedId })],
           });
           reset(initialFormValues);
-          router.push(toUrl(PageRoutes.Feed, { id: feedId }));
+
+          const path = toUrl(PageRoutes.Feed, { id: feedId });
+
+          router.asPath !== path && router.push(path);
         },
       });
     },

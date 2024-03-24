@@ -29,6 +29,7 @@ const Test = () => {
   );
 
   const categoryValues = Object.values(toCategory);
+
   const handlerSignUp = () => {
     signup({
       password: "12341234!@",
@@ -44,6 +45,7 @@ const Test = () => {
   const handlerSignIn = () => {
     signin({ email: "john522@gmail.com", password: "12341234!@" });
   };
+
   const hanldeUpdateClub = () => {
     updateClub({
       name: "test3",
@@ -56,17 +58,20 @@ const Test = () => {
       images: [],
     });
   };
+
   const handlerPostClub = () => {
-    postClub({
-      capacity: 20,
-      categories: [1],
-      description: "gd2",
-      maximum_age: 100,
-      minimum_age: 0,
-      name: "test4",
-      sex: true,
-      images: [],
-    });
+    for (let i = 1; i <= 30; i++) {
+      postClub({
+        capacity: 20,
+        categories: [1, 2, 3],
+        description: "gd2",
+        maximum_age: 100,
+        minimum_age: 0,
+        name: `dummy club ${i}`,
+        sex: true,
+        images: [],
+      });
+    }
   };
   return (
     <>
