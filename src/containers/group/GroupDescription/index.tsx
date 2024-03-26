@@ -2,7 +2,7 @@ import { usePost } from "@/apis";
 import { ApiRoutes, PageRoutes, toCategory } from "@/constants";
 import { useUserRoleMatcher } from "@/hooks";
 import { Group } from "@/types";
-import { toUrl } from "@/utils";
+import { QueryParser, toUrl } from "@/utils";
 import {
   Box,
   Button,
@@ -26,10 +26,10 @@ const none = "/none-groupimg.webp";
 
 const GroupDescription = ({ group }: GroupDescriptionProps) => {
   const router = useRouter();
-  const numberingQuery = Number(router.query.id);
+  const groupId = QueryParser.toNumber(router.query.id);
 
   const { mutate: joinClub } = usePost(
-    toUrl(ApiRoutes.GroupMembers, { id: numberingQuery })
+    toUrl(ApiRoutes.GroupMembers, { id: groupId ?? 0 })
   );
   const handlerJoin = useCallback(() => {
     joinClub({});

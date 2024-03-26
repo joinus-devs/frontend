@@ -1,5 +1,6 @@
-import { CommentForm } from "@/containers/group/GroupFeedItem";
+import { PostComment } from "@/containers/group/GroupFeedItem";
 import { Button, Flex, Icon, Input } from "@chakra-ui/react";
+import { MutableRefObject, Ref, useCallback } from "react";
 import { UseFormRegister } from "react-hook-form";
 import { IconType } from "react-icons";
 
@@ -11,7 +12,7 @@ interface InputWithButtonProps {
   inputStyle?: React.CSSProperties;
   buttonStyle?: React.CSSProperties;
   iconStyle?: React.CSSProperties;
-  register?: UseFormRegister<PostComment>;
+  ref?: MutableRefObject<HTMLInputElement | null>;
 }
 
 const InputWithButton = ({
@@ -22,10 +23,17 @@ const InputWithButton = ({
   inputStyle,
   buttonStyle,
   iconStyle,
-  register,
 }: InputWithButtonProps) => {
+  const wrapSubmit = useCallback(
+    (event: React.FormEvent<HTMLDivElement>) => {
+      event.preventDefault();
+      hanldeSubmit();
+    },
+    [hanldeSubmit]
+  );
+
   return (
-    <Flex as={"form"} style={boxStyle} onSubmit={hanldeSubmit}>
+    <Flex as={"form"} style={boxStyle} onSubmit={wrapSubmit}>
       <Input placeholder={placeholder} size="lg" h={16} style={inputStyle} />
       <Button
         type="submit"
