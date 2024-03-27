@@ -1,30 +1,66 @@
-import InputWithButton from "@/components/common/InputWithButton";
+import { getDomain, useFetch } from "@/apis";
+import { ApiRoutes } from "@/constants";
 import { useBgColor } from "@/hooks";
+import { User } from "@/types";
+import { QueryParser, makeMessage } from "@/utils";
 import { Box, Button, Flex, Icon, Input } from "@chakra-ui/react";
+import Image from "next/image";
+import { useRouter } from "next/router";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { FaCheck } from "react-icons/fa6";
-import { ChatLogProps } from "..";
-import { MyChat } from "./MyChat";
-import { OthersChat } from "./OthersChat";
-import { getDomain, useFetch } from "@/apis";
-import { QueryParser, makeMessage } from "@/utils";
-import { useRouter } from "next/router";
-import { ApiRoutes } from "@/constants";
-import { User } from "@/types";
-import Image from "next/image";
+import Chat from "./Chat";
+import { set } from "react-hook-form";
+
+export interface ChatLog {
+  user: number;
+  body: {
+    message: string;
+    timestamp: string;
+  };
+}
+
+interface dummyType {
+  status: string;
+  body: string;
+  user: number;
+}
 
 interface ChatPanelProps {
-  chatLog: ChatLogProps[];
-  currentUserId: number;
   bgImg: number;
 }
 
-export const ChatPanel = ({
-  chatLog,
-  currentUserId,
-  bgImg,
-}: ChatPanelProps) => {
-  const [chat, setChat] = useState<ChatLogProps[]>([]);
+const dummyChatLog: ChatLog[] = [
+  {
+    user: 1,
+    body: {
+      message: "Hello, World!",
+      timestamp: "2021-10-10 10:10:10",
+    },
+  },
+  {
+    user: 2,
+    body: {
+      message: "Hi, there!",
+      timestamp: "2021-10-10 10:10:10",
+    },
+  },
+  {
+    user: 1,
+    body: {
+      message: "How are you?",
+      timestamp: "2021-10-10 10:10:10",
+    },
+  },
+  {
+    user: 2,
+    body: {
+      message: "I'm fine, thank you!",
+      timestamp: "2021-10-10 10:10:10",
+    },
+  },
+];
+export const ChatPanel = ({ bgImg }: ChatPanelProps) => {
+  const [chat, setChat] = useState<ChatLog[]>([]);
   //초기 채팅방의 내용을 가져옴
 
   const router = useRouter();
@@ -61,16 +97,26 @@ export const ChatPanel = ({
   useEffect(() => {
     const domain = getDomain("", "ws");
     const socket = new WebSocket(domain);
+    ws.current = socket;
 
     socket.onopen = () => {
-      ws.current = socket;
-      ws.current.send(
+      ws.current?.send(
         makeMessage("join", "join test", groupId || 0, me?.id || 0)
       );
+      setChat(dummyChatLog);
+      console.log(ws.current);
     };
     socket.onmessage = (event) => {
       //message이벤트가 발생할때마다 chat배열에 추가
       console.log(JSON.parse(event.data));
+      const data: dummyType = JSON.parse(event.data);
+      setChat((prev) => [
+        ...prev,
+        {
+          user: data.user,
+          body: { message: data.body, timestamp: new Date().toISOString() },
+        },
+      ]);
     };
     socket.onclose = () => {
       console.log("disconnected");
@@ -93,22 +139,10 @@ export const ChatPanel = ({
       </Box>
 
       <Box h={1100} overflowY={"auto"} position={"absolute"} top={0} w={"100%"}>
-        <Flex direction={"column"} gap={4} p={4}>
-          {chatLog.map((v, i) => {
-            if (v.userId === currentUserId)
-              return (
-                <MyChat chat={v} index={i} key={`mychat_${i}`} bg={color} />
-              );
-            else
-              return (
-                <OthersChat
-                  chat={v}
-                  index={i}
-                  key={`otherschat_${i}`}
-                  bg={color}
-                />
-              );
-          })}
+        <Flex direction={"column"} p={4} gap={4}>
+          {chat.map((data, i) => (
+            <Chat key={`chat${i}`} data={data} />
+          ))}
         </Flex>
       </Box>
       <form onSubmit={handleSubmit}>

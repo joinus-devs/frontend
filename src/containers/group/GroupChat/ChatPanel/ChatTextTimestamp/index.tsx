@@ -1,7 +1,8 @@
-import { ChatLogProps } from "../..";
+import { formatISO } from "@/utils/date";
 import { Text } from "@chakra-ui/react";
+import { ChatLog } from "..";
 interface ChatTextTimestampProps {
-  chat: ChatLogProps;
+  chat: ChatLog;
   bg: string;
   timeStyle?: React.CSSProperties;
 }
@@ -11,13 +12,14 @@ export const ChatTextTimestamp = ({
   bg,
   timeStyle,
 }: ChatTextTimestampProps) => {
+  const time = formatISO(chat.body.timestamp);
   return (
     <>
       <Text bg={bg} p={4} borderRadius={16}>
-        {chat.chat}
+        {chat.body.message}
       </Text>
       <Text fontSize={"sm"} opacity={0.8} mr={1} style={timeStyle}>
-        {chat.createdAt}
+        {time}
       </Text>
     </>
   );

@@ -1,27 +1,24 @@
 import { Flex, Text } from "@chakra-ui/react";
-import { ChatLogProps } from "../..";
 import { CircleImg } from "@/components";
-import { ChatTextTimestamp } from "../ChatTextTimestamp";
+import { ChatTextTimestamp } from "../../ChatTextTimestamp";
+import { ChatLog } from "../..";
 
 interface OthersChatProps {
-  chat: ChatLogProps;
-  index: number;
+  chat: ChatLog;
   bg: string;
 }
+const img = "";
+const user = "";
+//해당 정보는 채팅방접속시 map으로 정보를 가져와야함
 
-export const OthersChat = ({ chat, index, bg }: OthersChatProps) => {
+export const OthersChat = ({ chat, bg }: OthersChatProps) => {
   return (
-    <Flex key={`chat_${index}`} justifyContent={"flex-start"}>
+    <Flex justifyContent={"flex-start"}>
       <Flex>
-        <CircleImg
-          imgSrc={chat.userImgSrc}
-          alt="user_img"
-          size={16}
-          style={{ top: 8 }}
-        />
+        <CircleImg imgSrc={img} alt="user_img" size={16} style={{ top: 8 }} />
         <Flex direction={"column"} p={3} borderRadius={"lg"} maxW={400} gap={2}>
           <Text opacity={0.8} fontSize={"md"} pl={1}>
-            {chat.userName}
+            {user}
           </Text>
           <Flex gap={2} alignItems={"end"}>
             <ChatTextTimestamp chat={chat} bg={bg} />
