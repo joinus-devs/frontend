@@ -11,13 +11,19 @@ import { QueryParser, makeMessage } from "@/utils";
 import { useRouter } from "next/router";
 import { ApiRoutes } from "@/constants";
 import { User } from "@/types";
+import Image from "next/image";
 
 interface ChatPanelProps {
   chatLog: ChatLogProps[];
   currentUserId: number;
+  bgImg: number;
 }
 
-export const ChatPanel = ({ chatLog, currentUserId }: ChatPanelProps) => {
+export const ChatPanel = ({
+  chatLog,
+  currentUserId,
+  bgImg,
+}: ChatPanelProps) => {
   const [chat, setChat] = useState<ChatLogProps[]>([]);
   //초기 채팅방의 내용을 가져옴
 
@@ -76,7 +82,16 @@ export const ChatPanel = ({ chatLog, currentUserId }: ChatPanelProps) => {
   }, [groupId, me?.id]);
 
   return (
-    <>
+    <Box h={1200} shadow={"lg"} position={"relative"}>
+      <Box opacity={0.5}>
+        <Image
+          src={`/group_chat${bgImg}.jpg`}
+          alt="group_chat"
+          fill
+          style={{ objectFit: "cover" }}
+        />
+      </Box>
+
       <Box h={1100} overflowY={"auto"} position={"absolute"} top={0} w={"100%"}>
         <Flex direction={"column"} gap={4} p={4}>
           {chatLog.map((v, i) => {
@@ -119,6 +134,6 @@ export const ChatPanel = ({ chatLog, currentUserId }: ChatPanelProps) => {
           </Button>
         </Flex>
       </form>
-    </>
+    </Box>
   );
 };
