@@ -5,6 +5,7 @@ import { useFetch, useUpdate } from "./hooks";
 
 interface UseGetGroupMemberParams {
   roles?: string | string[];
+  limit?: number;
 }
 
 export const useGetGroup = (id?: number) => {

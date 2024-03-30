@@ -9,7 +9,6 @@ import { useRouter } from "next/router";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { FaCheck } from "react-icons/fa6";
 import Chat from "./Chat";
-import { set } from "react-hook-form";
 
 export interface ChatLog {
   user: number;
@@ -31,28 +30,28 @@ interface ChatPanelProps {
 
 const dummyChatLog: ChatLog[] = [
   {
-    user: 1,
+    user: 11,
     body: {
       message: "Hello, World!",
       timestamp: "2021-10-10 10:10:10",
     },
   },
   {
-    user: 2,
+    user: 12,
     body: {
       message: "Hi, there!",
       timestamp: "2021-10-10 10:10:10",
     },
   },
   {
-    user: 1,
+    user: 11,
     body: {
       message: "How are you?",
       timestamp: "2021-10-10 10:10:10",
     },
   },
   {
-    user: 2,
+    user: 12,
     body: {
       message: "I'm fine, thank you!",
       timestamp: "2021-10-10 10:10:10",
@@ -67,7 +66,9 @@ export const ChatPanel = ({ bgImg }: ChatPanelProps) => {
   const color = useBgColor();
   const ws = useRef<WebSocket | null>(null);
   const inputRef = useRef<HTMLInputElement | null>(null);
+
   const groupId = QueryParser.toNumber(router.query.id);
+
   const { data: me } = useFetch<User>(ApiRoutes.Me);
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = useCallback(
@@ -104,11 +105,9 @@ export const ChatPanel = ({ bgImg }: ChatPanelProps) => {
         makeMessage("join", "join test", groupId || 0, me?.id || 0)
       );
       setChat(dummyChatLog);
-      console.log(ws.current);
     };
     socket.onmessage = (event) => {
       //message이벤트가 발생할때마다 chat배열에 추가
-      console.log(JSON.parse(event.data));
       const data: dummyType = JSON.parse(event.data);
       setChat((prev) => [
         ...prev,

@@ -5,6 +5,7 @@ import { ApiRoutes } from "@/constants";
 import { toUrl } from "@/utils";
 import { Button, Input } from "@chakra-ui/react";
 import { toCategory } from "@/constants";
+import { set } from "react-hook-form";
 
 const Test = () => {
   const { mutate: signup } = usePost(ApiRoutes.SignUp);
@@ -34,12 +35,43 @@ const Test = () => {
     signup({
       password: "12341234!@",
       name: "JohnDoe522",
-      profile: "https://kr.object.ncloudstorage.com/joinus/image/profile.png",
+      profile:
+        "https://kr.object.ncloudstorage.com/joinus/image/1711678253222.jpg",
       birth: "1995-01-01",
       sex: true,
       phone: "01012341239",
       email: "john522@gmail.com",
     });
+  };
+
+  const hanlderManySignUp = () => {
+    for (let i = 0; i < 20; i++) {
+      signup({
+        password: "12341234!@",
+        name: `JohnDoe${i}`,
+        profile:
+          "https://kr.object.ncloudstorage.com/joinus/image/1711678253222.jpg",
+        birth: "1995-01-01",
+        sex: true,
+        phone: "01012341239",
+        email: `john${i}@gmail.com`,
+      });
+    }
+  };
+
+  const handlerManyJoinClub = (id: number) => {
+    signin(
+      { email: `john${id}@gmail.com`, password: "12341234!@" },
+      {
+        onSuccess: () => joinClub({}),
+      }
+    );
+  };
+
+  const handlerWrapManyJoinClub = () => {
+    for (let i = 0; i < 20; i++) {
+      handlerManyJoinClub(i);
+    }
   };
 
   const handlerSignIn = () => {
@@ -112,6 +144,8 @@ const Test = () => {
       </Button>
       <Button onClick={() => joinClub({})}>joinClub</Button>
       <Button onClick={() => hanldeUpdateClub()}>UpdateClub</Button>
+      <Button onClick={hanlderManySignUp}>ManySignUp</Button>
+      <Button onClick={handlerWrapManyJoinClub}>ManyJoinClub</Button>
       <Input type={"file"} />
     </>
   );

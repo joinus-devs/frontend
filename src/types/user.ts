@@ -9,7 +9,7 @@ export interface User extends timer {
   role?: string;
   exp?: number;
   type?: string;
-  profile?: string;
+  profile: string;
 }
 
 export interface UserWithPage {
