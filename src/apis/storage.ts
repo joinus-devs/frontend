@@ -1,6 +1,5 @@
 import { ApiRoutes } from "@/constants";
 import { usePostFormData } from ".";
-import { toUrl } from "@/utils";
 
 interface UploadResponse {
   filepath: string;

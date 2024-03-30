@@ -2,7 +2,7 @@ import { useGetGroupMembers } from "@/apis";
 import { formatGroupMembers } from "@/utils/group";
 
 const useFormatMembers = (groupId: number) => {
-  const { data: members } = useGetGroupMembers(groupId || 0, {
+  const { data: members } = useGetGroupMembers(groupId, {
     roles: ["admin", "staff", "member"],
     limit: 50,
   });

@@ -16,6 +16,7 @@ import { MdOnlinePrediction } from "react-icons/md";
 import { Group } from "@/types";
 import { useGetGroupMembers } from "@/apis";
 import { IoIosSearch } from "react-icons/io";
+import { useFormatMembers } from "@/hooks";
 
 interface OnlineMemberProps {
   group: Group;
@@ -25,7 +26,14 @@ export const OnlineMember = ({
   group,
   viewOnlineMember,
 }: OnlineMemberProps) => {
-  const { data: members } = useGetGroupMembers(group.id!);
+  const { data: members } = useGetGroupMembers(group.id || 0);
+
+  // 수정할것
+  // online member를 id값으로 [1,2,3,4,5] 형식으로 받아옵니다.
+  // 해당 배열을 순회하며 formatMembers[onlineMember[i]] 로 해당 멤버의 정보를 가져옵니다.
+
+  const formatMembers = useFormatMembers(group.id || 0);
+
   const handleSubmit = () => {};
   return (
     <Box as={Collapse} in={viewOnlineMember} flex={1} animateOpacity>

@@ -15,9 +15,8 @@ import {
   PageQueryResponse,
   QueryKey,
   QueryOptions,
-  UrlBuilder,
 } from "./types";
-import { api, buildUrl } from "./utils";
+import { api } from "./utils";
 
 const fetcher = async <T>(context: QueryFunctionContext<QueryKey>) => {
   const { queryKey } = context;

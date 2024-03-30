@@ -1,12 +1,11 @@
+import { useGetGroupMembers } from "@/apis";
 import { CircleImg } from "@/components";
-import { Flex, Icon, Heading, Box, Text } from "@chakra-ui/react";
-import { group } from "console";
+import { Group } from "@/types";
+import { Box, Flex, Heading, Icon, Text } from "@chakra-ui/react";
+import React from "react";
 import { BsFillPersonLinesFill } from "react-icons/bs";
 import { MdArrowForwardIos } from "react-icons/md";
 import { SetBgImage } from "../SetBgImage";
-import React from "react";
-import { Group } from "@/types";
-import { useGetGroupMembers } from "@/apis";
 
 interface ChatHeaderProps {
   viewOnlineMember: boolean;

@@ -1,13 +1,12 @@
-import { useFetch, useGetGroupMembers } from "@/apis";
-import { MyChat } from "./MyChat";
-import { OthersChat } from "./OthersChat";
-import { User } from "@/types";
+import { useFetch } from "@/apis";
 import { ApiRoutes } from "@/constants";
 import { useBgColor, useFormatMembers } from "@/hooks";
-import { ChatLog } from "..";
-import { formatGroupMembers } from "@/utils/group";
+import { User } from "@/types";
 import { QueryParser } from "@/utils";
 import { useRouter } from "next/router";
+import { ChatLog } from "..";
+import { MyChat } from "./MyChat";
+import { OthersChat } from "./OthersChat";
 
 interface ChatProps {
   data: ChatLog;
@@ -18,7 +17,7 @@ const Chat = ({ data }: ChatProps) => {
   const groupId = QueryParser.toNumber(router.query.id);
 
   const members = useFormatMembers(groupId || 0);
-
+  console.log(members);
   const { data: me } = useFetch<User>(ApiRoutes.Me);
 
   const isMyChat = data.user === me?.id;
