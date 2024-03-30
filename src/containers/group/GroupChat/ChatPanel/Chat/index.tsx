@@ -17,7 +17,6 @@ const Chat = ({ data }: ChatProps) => {
   const groupId = QueryParser.toNumber(router.query.id);
 
   const members = useFormatMembers(groupId || 0);
-  console.log(members);
   const { data: me } = useFetch<User>(ApiRoutes.Me);
 
   const isMyChat = data.user === me?.id;

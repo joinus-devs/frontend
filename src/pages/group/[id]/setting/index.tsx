@@ -44,10 +44,13 @@ const Setting = () => {
     defaultValues: group,
   });
 
-  const onSubmit = (data: Group) => {
-    const form = { ...group, ...data, categories: categories, images: img };
-    updateGroup(form);
-  };
+  const onSubmit = useCallback(
+    (data: Group) => {
+      const form = { ...group, ...data, categories: categories, images: img };
+      updateGroup(form);
+    },
+    [categories, group, img, updateGroup]
+  );
 
   const onChangeSex = useCallback(
     (value: string) => {
