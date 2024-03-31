@@ -1,14 +1,15 @@
-import { getDomain, useFetch } from "@/apis";
+import { useFetch } from "@/apis";
 import { ApiRoutes } from "@/constants";
-import { useBgColor } from "@/hooks";
+import { useBgColor, useSocketObserver } from "@/hooks";
 import { User } from "@/types";
-import { QueryParser, makeMessage } from "@/utils";
+import { QueryParser } from "@/utils";
 import { Box, Button, Flex, Icon, Input } from "@chakra-ui/react";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { FaCheck } from "react-icons/fa6";
 import Chat from "./Chat";
+import { ChatMessage } from "@/types/chat";
 
 export interface ChatLog {
   user: number;
@@ -18,97 +19,27 @@ export interface ChatLog {
   };
 }
 
-interface dummyType {
-  status: string;
-  body: string;
-  user: number;
-}
-
 interface ChatPanelProps {
   bgImg: number;
 }
 
-const dummyChatLog: ChatLog[] = [
-  {
-    user: 11,
-    body: {
-      message: "Hello, World!",
-      timestamp: "2021-10-10 10:10:10",
-    },
-  },
-  {
-    user: 12,
-    body: {
-      message: "Hi, there!",
-      timestamp: "2021-10-10 10:10:10",
-    },
-  },
-  {
-    user: 11,
-    body: {
-      message: "How are you?",
-      timestamp: "2021-10-10 10:10:10",
-    },
-  },
-  {
-    user: 12,
-    body: {
-      message: "I'm fine, thank you!",
-      timestamp: "2021-10-10 10:10:10",
-    },
-  },
-];
 export const ChatPanel = ({ bgImg }: ChatPanelProps) => {
   const [chat, setChat] = useState<ChatLog[]>([]);
   //초기 채팅방의 내용을 가져옴
 
   const router = useRouter();
   const color = useBgColor();
-  const ws = useRef<WebSocket | null>(null);
   const inputRef = useRef<HTMLInputElement | null>(null);
-
   const groupId = QueryParser.toNumber(router.query.id);
 
   const { data: me } = useFetch<User>(ApiRoutes.Me);
 
-  const handleSubmit: React.FormEventHandler<HTMLFormElement> = useCallback(
-    (event) => {
-      event.preventDefault();
-      if (!ws.current) return;
-      if (ws.current.readyState !== ws.current.OPEN) {
-        console.log("not connected");
-        return;
-      }
-      ws.current?.send(
-        makeMessage(
-          "broadcast",
-          inputRef.current?.value || "",
-          groupId || 0,
-          me?.id || 0
-        )
-      );
-      if (inputRef.current) {
-        inputRef.current.value = "";
-        inputRef.current.focus();
-      }
-    },
-    [groupId, me?.id]
-  );
+  const { subscribe, submit } = useSocketObserver({ groupId, userId: me?.id });
 
   useEffect(() => {
-    const domain = getDomain("", "ws");
-    const socket = new WebSocket(domain);
-    ws.current = socket;
+    //기존채팅정보를 chat에 저장
 
-    socket.onopen = () => {
-      ws.current?.send(
-        makeMessage("join", "join test", groupId || 0, me?.id || 0)
-      );
-      setChat(dummyChatLog);
-    };
-    socket.onmessage = (event) => {
-      //message이벤트가 발생할때마다 chat배열에 추가
-      const data: dummyType = JSON.parse(event.data);
+    subscribe((data: ChatMessage) => {
       setChat((prev) => [
         ...prev,
         {
@@ -116,15 +47,8 @@ export const ChatPanel = ({ bgImg }: ChatPanelProps) => {
           body: { message: data.body, timestamp: new Date().toISOString() },
         },
       ]);
-    };
-    socket.onclose = () => {
-      console.log("disconnected");
-    };
-
-    return () => {
-      ws.current && ws.current.close();
-    };
-  }, [groupId, me?.id]);
+    });
+  }, [subscribe]);
 
   return (
     <Box h={1200} shadow={"lg"} position={"relative"}>
@@ -144,7 +68,15 @@ export const ChatPanel = ({ bgImg }: ChatPanelProps) => {
           ))}
         </Flex>
       </Box>
-      <form onSubmit={handleSubmit}>
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          if (!inputRef.current?.value) return;
+          submit(inputRef.current.value);
+          inputRef.current.value = "";
+          inputRef.current.focus();
+        }}
+      >
         <Flex position={"absolute"} bottom={0} width={"100%"} p={16}>
           <Input
             placeholder={"message"}

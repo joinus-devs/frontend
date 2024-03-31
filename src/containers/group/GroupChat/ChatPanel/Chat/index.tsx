@@ -7,12 +7,15 @@ import { useRouter } from "next/router";
 import { ChatLog } from "..";
 import { MyChat } from "./MyChat";
 import { OthersChat } from "./OthersChat";
+import { ChatType } from "@/constants/chat";
+import ParticipationLog from "./ParticipationLog";
 
 interface ChatProps {
   data: ChatLog;
 }
 
 const Chat = ({ data }: ChatProps) => {
+  console.log("chatdata : ", data);
   const router = useRouter();
   const groupId = QueryParser.toNumber(router.query.id);
 
@@ -20,8 +23,12 @@ const Chat = ({ data }: ChatProps) => {
   const { data: me } = useFetch<User>(ApiRoutes.Me);
 
   const isMyChat = data.user === me?.id;
+  const isParticipantLog =
+    data.body.message === ChatType.Join || data.body.message === ChatType.Leave;
+
   const color = useBgColor();
 
+  if (isParticipantLog) return <ParticipationLog log={data} />;
   if (isMyChat) return <MyChat chat={data} bg={color} />;
   else return <OthersChat chat={data} bg={color} members={members} />;
 };
