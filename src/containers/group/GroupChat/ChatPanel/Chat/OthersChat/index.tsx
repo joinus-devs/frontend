@@ -11,7 +11,7 @@ interface OthersChatProps {
 export const OthersChat = ({ chat, bg, members }: OthersChatProps) => {
   return (
     <Flex justifyContent={"flex-start"}>
-      {members[chat.user] && (
+      {chat.user && members[chat.user] && (
         <Flex>
           <CircleImg
             imgSrc={members[chat.user].profile}

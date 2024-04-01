@@ -6,7 +6,6 @@ const useFormatMembers = (groupId: number) => {
     roles: ["admin", "staff", "member"],
     limit: 50,
   });
-
   const formatData = formatGroupMembers(members?.data || []);
   return formatData;
 };

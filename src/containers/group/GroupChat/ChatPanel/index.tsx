@@ -1,22 +1,20 @@
 import { useFetch } from "@/apis";
 import { ApiRoutes } from "@/constants";
 import { useBgColor, useSocketObserver } from "@/hooks";
-import { User } from "@/types";
-import { QueryParser } from "@/utils";
+import { InfiniteResponse, User } from "@/types";
+import { QueryParser, toUrl } from "@/utils";
 import { Box, Button, Flex, Icon, Input } from "@chakra-ui/react";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
 import { FaCheck } from "react-icons/fa6";
 import Chat from "./Chat";
-import { ChatMessage } from "@/types/chat";
+import { ApiResponseChat, SocketMessage } from "@/types/chat";
 
 export interface ChatLog {
-  user: number;
-  body: {
-    message: string;
-    timestamp: string;
-  };
+  user: number | undefined;
+  message: string;
+  timestamp: string;
 }
 
 interface ChatPanelProps {
@@ -33,22 +31,26 @@ export const ChatPanel = ({ bgImg }: ChatPanelProps) => {
   const groupId = QueryParser.toNumber(router.query.id);
 
   const { data: me } = useFetch<User>(ApiRoutes.Me);
+  const { data: chatData } = useFetch<InfiniteResponse<ApiResponseChat>>(
+    toUrl(ApiRoutes.Chat, { groupId })
+  );
 
   const { subscribe, submit } = useSocketObserver({ groupId, userId: me?.id });
 
   useEffect(() => {
     //기존채팅정보를 chat에 저장
-
-    subscribe((data: ChatMessage) => {
+    console.log("chatData", chatData);
+    subscribe((data: SocketMessage) => {
       setChat((prev) => [
         ...prev,
         {
           user: data.user,
-          body: { message: data.body, timestamp: new Date().toISOString() },
+          message: data.body.message,
+          timestamp: new Date(data.body.timestamp).toString(),
         },
       ]);
     });
-  }, [subscribe]);
+  }, [chatData, subscribe]);
 
   return (
     <Box h={1200} shadow={"lg"} position={"relative"}>

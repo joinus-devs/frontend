@@ -12,11 +12,11 @@ export const ChatTextTimestamp = ({
   bg,
   timeStyle,
 }: ChatTextTimestampProps) => {
-  const time = formatISO(chat.body.timestamp);
+  const time = formatISO(chat.timestamp);
   return (
     <>
       <Text bg={bg} p={4} borderRadius={16}>
-        {chat.body.message}
+        {chat.message}
       </Text>
       <Text fontSize={"sm"} opacity={0.8} mr={1} style={timeStyle}>
         {time}

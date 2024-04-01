@@ -12,3 +12,12 @@ export type imgs = {
   url: string;
   type: string;
 };
+
+export type InfiniteResponse<T> = {
+  status: number;
+  data: {
+    next: number;
+    data: T[];
+  };
+  message: string;
+};

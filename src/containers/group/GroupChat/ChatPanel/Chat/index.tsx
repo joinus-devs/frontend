@@ -15,7 +15,6 @@ interface ChatProps {
 }
 
 const Chat = ({ data }: ChatProps) => {
-  console.log("chatdata : ", data);
   const router = useRouter();
   const groupId = QueryParser.toNumber(router.query.id);
 
@@ -24,7 +23,7 @@ const Chat = ({ data }: ChatProps) => {
 
   const isMyChat = data.user === me?.id;
   const isParticipantLog =
-    data.body.message === ChatType.Join || data.body.message === ChatType.Leave;
+    data.message === ChatType.Join || data.message === ChatType.Leave;
 
   const color = useBgColor();
 

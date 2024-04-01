@@ -1,5 +1,5 @@
 import { getDomain } from "@/apis";
-import { ChatMessage } from "@/types/chat";
+import { SocketMessage } from "@/types/chat";
 import { makeMessage } from "@/utils";
 import { useCallback, useEffect, useRef } from "react";
 
@@ -37,7 +37,7 @@ const useSocketObserver = ({ groupId, userId }: UseSocketObserverProps) => {
       ws.current?.send(makeMessage("join", "join test", groupId, userId));
     };
     socket.onmessage = (event) => {
-      const data: ChatMessage = JSON.parse(event.data);
+      const data: SocketMessage = JSON.parse(event.data);
       console.log("event", data);
       callback.current && callback.current(data);
     };
