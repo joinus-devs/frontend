@@ -34,6 +34,7 @@ export interface UserData {
 
 const Register = () => {
   const router = useRouter();
+
   const {
     handleSubmit,
     register,
@@ -70,6 +71,7 @@ const Register = () => {
   const onSubmit = async (values: UserData) => {
     const gender = selectGender(values.gender);
     const birthday = toFormatBirth(values.birthday);
+    const profileURL = "/noneUserImg.webp";
 
     const data = {
       email: values?.email,
@@ -78,6 +80,7 @@ const Register = () => {
       birth: birthday,
       phone: values?.phone,
       sex: gender,
+      profile: process.env.NEXT_PUBLIC_CLIENT_DOMAIN + profileURL,
     };
 
     const response = await signUp(data);
@@ -234,22 +237,8 @@ const Register = () => {
                 );
               })}
             </HStack>
+            <FormErrorMessage>{errors.gender?.message}</FormErrorMessage>
           </FormControl>
-          <FormErrorMessage>{errors.gender?.message}</FormErrorMessage>
-          {/* image Upload */}
-          {/* <FormControl mt={4} isInvalid={!!errors.file_} isRequired>
-            <FileUpload
-              accept={"image/*"}
-              multiple
-              register={register("file_", { validate: validateFiles })}
-            >
-              <Button leftIcon={<Icon as={FiFile} />}>Upload</Button>
-            </FileUpload>
-
-            <FormErrorMessage>
-              {errors.file_ && errors?.file_.message}
-            </FormErrorMessage>
-          </FormControl> */}
         </Box>
         <Center>
           <Button

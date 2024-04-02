@@ -1,28 +1,22 @@
+import { toCheckToken } from "@/apis";
 import { DefaultLayout } from "@/components";
-import userStore from "@/stores/userInfo";
-import { Box, Button, Heading, Image, Text } from "@chakra-ui/react";
+import UpdateUserForm from "@/containers/auth/mypage/updateUserForm";
+import { Box, Heading, Text } from "@chakra-ui/react";
 import Head from "next/head";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
 
 type Props = {};
 
 const MyPage = (props: Props) => {
-  const { userName } = userStore();
-  // imageUpload
-  const validateFiles = (value: FileList) => {
-    if (value.length < 1) {
-      return "Files is required";
-    }
-    for (const file of Array.from(value)) {
-      const fsMb = file.size / (1024 * 1024);
-      const MAX_FILE_SIZE = 10;
-      if (fsMb > MAX_FILE_SIZE) {
-        return "Max file size 10mb";
-      }
-    }
-    return true;
-  };
+  const router = useRouter();
 
-  // "https://kr.object.ncloudstorage.com/joinus/image/profile.png"
+  useEffect(() => {
+    const hasToken = toCheckToken();
+    if (!hasToken) {
+      router.push("/");
+    }
+  }, [router]);
 
   return (
     <>
@@ -33,7 +27,7 @@ const MyPage = (props: Props) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <DefaultLayout>
-        <Box ml={8} mt={2}>
+        <Box ml={44} mt={2}>
           <Heading as="h1" size="md">
             프로필 수정
           </Heading>
@@ -41,29 +35,7 @@ const MyPage = (props: Props) => {
             프로필 사진과 이름을 변경할 수 있습니다.
           </Text>
         </Box>
-
-        <Box ml={8} mt={6} display={"flex"}>
-          <Text>프로필 사진</Text>
-          <Image
-            mt={4}
-            ml={10}
-            borderRadius="full"
-            boxSize="120px"
-            src="https://bit.ly/dan-abramov"
-            alt="Dan Abramov"
-          />
-        </Box>
-
-        <Box ml={8} mt={6}>
-          <Button>사진 변경</Button>
-          <Button>삭제</Button>
-          <Button>버튼</Button>
-        </Box>
-
-        <Box ml={8} mt={10}>
-          <Text>별명</Text>
-        </Box>
-        <Button mt={8}>적용</Button>
+        <UpdateUserForm />
       </DefaultLayout>
     </>
   );

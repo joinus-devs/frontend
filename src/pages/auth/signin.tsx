@@ -1,5 +1,8 @@
+import { getDomain } from "@/apis";
 import { signIn } from "@/apis/auth";
+import { ApiRoutes } from "@/constants";
 import { SocialLoginButtons } from "@/containers";
+import { toUrl } from "@/utils";
 import {
   Box,
   Button,
@@ -10,7 +13,7 @@ import {
   Stack,
   Text,
 } from "@chakra-ui/react";
-// import { signIn } from "next-auth/react";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
 
@@ -21,6 +24,7 @@ interface UserData {
 
 const Signin = () => {
   const router = useRouter();
+  const queryClient = useQueryClient();
   const {
     handleSubmit,
     register,
@@ -33,8 +37,20 @@ const Signin = () => {
     },
   });
 
-  const onSubmit = async (values: UserData) => {
-    const response = await signIn(values.email, values.password);
+  const { mutate: handleSignIn, data } = useMutation({
+    mutationFn: ({ email, password }: UserData) => signIn(email, password),
+    onSuccess: (data) => {
+      localStorage.setItem("login-token", data.token);
+      router.push("/");
+      queryClient.invalidateQueries({ queryKey: [toUrl(ApiRoutes.Me)] });
+    },
+    onError: () => {
+      alert("비 ㅡㅡㅡㅡㅡㅡㅡㅡㅡ 상");
+    },
+  });
+
+  const onSubmit = (values: UserData) => {
+    handleSignIn(values);
   };
 
   return (

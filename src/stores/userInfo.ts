@@ -1,4 +1,3 @@
-import { UserData } from "@/apis/auth";
 import { create } from "zustand";
 
 interface UserInfo {
