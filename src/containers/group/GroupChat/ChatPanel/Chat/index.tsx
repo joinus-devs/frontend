@@ -23,11 +23,12 @@ const Chat = ({ data }: ChatProps) => {
 
   const isMyChat = data.user === me?.id;
   const isParticipantLog =
-    data.message === ChatType.Join || data.message === ChatType.Leave;
+    data.method === ChatType.Join || data.method === ChatType.Leave;
 
   const color = useBgColor();
 
-  if (isParticipantLog) return <ParticipationLog log={data} />;
+  if (isParticipantLog)
+    return <ParticipationLog log={data} members={members} />;
   if (isMyChat) return <MyChat chat={data} bg={color} />;
   else return <OthersChat chat={data} bg={color} members={members} />;
 };

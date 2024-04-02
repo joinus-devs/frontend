@@ -13,7 +13,10 @@ import {
 import { MdOnlinePrediction } from "react-icons/md";
 
 interface AccordionProps {
-  members: User[];
+  members: {
+    profile: string;
+    name: string;
+  }[];
 }
 
 const Accordion = ({ members }: AccordionProps) => {
@@ -50,12 +53,14 @@ const Accordion = ({ members }: AccordionProps) => {
                     fontSize={28}
                     fill={"primary.500"}
                   />
-                  <CircleImg
-                    imgSrc={"/noneUserImg.webp"}
-                    alt="group_img"
-                    size={16}
-                  />
-                  <Text>{member.name}</Text>
+                  {member && member.profile && (
+                    <CircleImg
+                      imgSrc={member.profile}
+                      alt="member_profile"
+                      size={16}
+                    />
+                  )}
+                  {member && member.name && <Text>{member.name}</Text>}
                 </Flex>
               );
             })}

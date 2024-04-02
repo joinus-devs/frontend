@@ -14,7 +14,7 @@ export enum ApiRoutes {
   SignOut = "auth/signout",
   CheckEmailExists = "auth/check-email",
   Category = "categories",
-  Chat = "clubs/:id?/chat",
+  Chat = "clubs/:id?/chats",
   GroupMembers = "clubs/:id/users/:userId?",
   GroupFeed = "clubs/:id?/feeds",
   FeedInComments = "feeds/:id?/comments",

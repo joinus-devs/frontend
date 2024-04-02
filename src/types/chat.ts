@@ -1,3 +1,4 @@
+import { ChatType } from "@/constants/chat";
 import { timer } from ".";
 
 export interface SocketMessage {
@@ -5,7 +6,7 @@ export interface SocketMessage {
     message: string;
     timestamp: number;
   };
-  method: "join" | "leave" | "broadcast" | null;
+  method: ChatType.Join | ChatType.Leave | ChatType.Chat | null;
   status: "success" | "error";
   user?: number;
   users?: number[];

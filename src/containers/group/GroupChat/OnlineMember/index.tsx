@@ -1,9 +1,12 @@
-import { useGetGroupMembers } from "@/apis";
+import { useFetch, useGetGroupMembers } from "@/apis";
 import { InputWithButton } from "@/components";
-import { Group } from "@/types";
+import { Group, User } from "@/types";
 import { Box, Collapse, Flex, Heading } from "@chakra-ui/react";
 import { IoIosSearch } from "react-icons/io";
 import Accordion from "./Accordion";
+import { useFormatMembers, useSocketObserver } from "@/hooks";
+import { ApiRoutes } from "@/constants";
+import { useMemo } from "react";
 
 interface OnlineMemberProps {
   group: Group;
@@ -13,7 +16,20 @@ export const OnlineMember = ({
   group,
   viewOnlineMember,
 }: OnlineMemberProps) => {
-  const { data: members } = useGetGroupMembers(group.id!);
+  const formatMembers = useFormatMembers(group.id);
+  const { data: me } = useFetch<User>(ApiRoutes.Me);
+
+  const { onlineMembers } = useSocketObserver({
+    groupId: group.id,
+    userId: me?.id,
+  });
+  console.log("online멤버변경", onlineMembers);
+
+  const accordionMatch = useMemo(() => {
+    return onlineMembers.map((memberId) => formatMembers[memberId]);
+  }, [formatMembers, onlineMembers]);
+
+  console.log("accordionMatch", accordionMatch);
   // 수정할것
   // online member를 id값으로 [1,2,3,4,5] 형식으로 받아옵니다.
   // 해당 배열을 순회하며 formatMembers[onlineMember[i]] 로 해당 멤버의 정보를 가져옵니다.
@@ -32,7 +48,7 @@ export const OnlineMember = ({
           buttonStyle={{ fontSize: 28, right: 0 }}
         />
 
-        <Accordion members={members?.data || []} />
+        <Accordion members={accordionMatch || []} />
       </Flex>
     </Box>
   );

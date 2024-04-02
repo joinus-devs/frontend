@@ -10,11 +10,13 @@ import { useEffect, useRef, useState } from "react";
 import { FaCheck } from "react-icons/fa6";
 import Chat from "./Chat";
 import { ApiResponseChat, SocketMessage } from "@/types/chat";
+import { ChatType } from "@/constants/chat";
 
 export interface ChatLog {
   user: number | undefined;
   message: string;
   timestamp: string;
+  method: ChatType.Join | ChatType.Leave | ChatType.Chat | null;
 }
 
 interface ChatPanelProps {
@@ -32,18 +34,35 @@ export const ChatPanel = ({ bgImg }: ChatPanelProps) => {
 
   const { data: me } = useFetch<User>(ApiRoutes.Me);
   const { data: chatData } = useFetch<InfiniteResponse<ApiResponseChat>>(
-    toUrl(ApiRoutes.Chat, { groupId })
+    toUrl(ApiRoutes.Chat, { id: groupId ?? 0 }),
+    {
+      cursor: 0,
+      limit: 10,
+    }
   );
 
   const { subscribe, submit } = useSocketObserver({ groupId, userId: me?.id });
 
   useEffect(() => {
-    //기존채팅정보를 chat에 저장
-    console.log("chatData", chatData);
+    if (chatData) {
+      console.log("chatData", chatData);
+      setChat(
+        chatData.data.data.map((data) => ({
+          method: ChatType.Chat,
+          user: data.user_id,
+          message: data.message,
+          timestamp: new Date(
+            data?.created_at as string | number | Date
+          ).toString(),
+        }))
+      );
+    }
+
     subscribe((data: SocketMessage) => {
       setChat((prev) => [
         ...prev,
         {
+          method: data.method,
           user: data.user,
           message: data.body.message,
           timestamp: new Date(data.body.timestamp).toString(),

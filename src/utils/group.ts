@@ -1,14 +1,14 @@
 import { User } from "@/types";
 
-interface FormatMemberValue {
-  name: string;
-  profile: string;
+export interface FormatMemberValue {
+  [key: number]: {
+    name: string;
+    profile: string;
+  };
 }
 
-export const formatGroupMembers = (
-  members: User[]
-): { [key: number]: FormatMemberValue } => {
-  let formatData: { [key: number]: FormatMemberValue } = {};
+export const formatGroupMembers = (members: User[]): FormatMemberValue => {
+  let formatData: FormatMemberValue = {};
   for (let member of members) {
     const { id, name, profile } = member;
 
