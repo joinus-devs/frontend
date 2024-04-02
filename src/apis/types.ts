@@ -49,7 +49,10 @@ export interface CursorQueryResponse<T> {
 
 export type QueryKey = [string, Optional<object>];
 
-export type QueryOptions<T> = UseQueryOptions<T, ApiError, T, QueryKey>;
+export type QueryOptions<T> = Omit<
+  UseQueryOptions<T, ApiError, T, QueryKey>,
+  "queryKey"
+>;
 
 export type PageQueryOptions<T, S = PageQueryResponse<T>> = UseQueryOptions<
   S,
