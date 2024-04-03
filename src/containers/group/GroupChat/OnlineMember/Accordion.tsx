@@ -1,5 +1,4 @@
 import { CircleImg } from "@/components";
-import { User } from "@/types";
 import {
   AccordionButton,
   AccordionIcon,
@@ -7,8 +6,8 @@ import {
   AccordionPanel,
   Flex,
   Icon,
-  Accordion as _Accordion,
   Text,
+  Accordion as _Accordion,
 } from "@chakra-ui/react";
 import { MdOnlinePrediction } from "react-icons/md";
 
@@ -16,6 +15,7 @@ interface AccordionProps {
   members: {
     profile: string;
     name: string;
+    id: number;
   }[];
 }
 

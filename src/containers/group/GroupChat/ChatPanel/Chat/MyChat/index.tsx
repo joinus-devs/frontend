@@ -1,9 +1,9 @@
+import { ApiResponseChat } from "@/types/chat";
 import { Flex } from "@chakra-ui/react";
 import { ChatTextTimestamp } from "../../ChatTextTimestamp";
-import { ChatLog } from "../..";
 
 interface MyChatProps {
-  chat: ChatLog;
+  chat: ApiResponseChat;
   bg: string;
 }
 export const MyChat = ({ chat, bg }: MyChatProps) => {

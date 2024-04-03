@@ -1,14 +1,16 @@
-import { Box, Flex, Text } from "@chakra-ui/react";
-import { ChatLog } from "../..";
-import { FormatMemberValue } from "@/utils/group";
 import { CircleImg } from "@/components";
+import { ApiResponseChat } from "@/types/chat";
+import { FormatMemberValue } from "@/utils/group";
+import { Flex, Text } from "@chakra-ui/react";
 interface ParticipationLogProps {
-  log: ChatLog;
+  log: ApiResponseChat;
   members: FormatMemberValue;
 }
 const ParticipationLog = ({ log, members }: ParticipationLogProps) => {
   const logId = log.message.split(" ")[2];
   const member = members[Number(logId)];
+
+  console.log("logId", logId);
   return (
     <>
       {member && (

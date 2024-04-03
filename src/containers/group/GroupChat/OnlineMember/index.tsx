@@ -1,42 +1,52 @@
-import { useFetch, useGetGroupMembers } from "@/apis";
+import { useFetch } from "@/apis";
 import { InputWithButton } from "@/components";
+import { ApiRoutes } from "@/constants";
+import { useFormatMembers, useSocketObserver } from "@/hooks";
+import { SubscribeCb } from "@/hooks/useSocketObserver";
 import { Group, User } from "@/types";
 import { Box, Collapse, Flex, Heading } from "@chakra-ui/react";
+import { useEffect, useMemo, useState } from "react";
 import { IoIosSearch } from "react-icons/io";
 import Accordion from "./Accordion";
-import { useFormatMembers, useSocketObserver } from "@/hooks";
-import { ApiRoutes } from "@/constants";
-import { useMemo } from "react";
 
 interface OnlineMemberProps {
   group: Group;
-  viewOnlineMember: boolean;
+  isWatchOnlineMember: boolean;
 }
 export const OnlineMember = ({
   group,
-  viewOnlineMember,
+  isWatchOnlineMember,
 }: OnlineMemberProps) => {
   const formatMembers = useFormatMembers(group.id);
   const { data: me } = useFetch<User>(ApiRoutes.Me);
-
-  const { onlineMembers } = useSocketObserver({
+  const [onlineMembers, setOnlineMembers] = useState<number[]>([]);
+  const { subscribe, unsubscribe } = useSocketObserver({
     groupId: group.id,
     userId: me?.id,
   });
 
-  console.log("online멤버변경", onlineMembers);
+  useEffect(() => {
+    const cb: SubscribeCb = (data) => {
+      if (data.users) {
+        setOnlineMembers(data.users);
+      }
+    };
+    subscribe(cb);
+
+    return () => {
+      unsubscribe(cb);
+    };
+  }, [subscribe, unsubscribe]);
 
   const accordionMatch = useMemo(() => {
-    return onlineMembers.map((memberId) => formatMembers[memberId]);
+    return onlineMembers.map((id) => {
+      return { id, ...formatMembers[id] };
+    });
   }, [formatMembers, onlineMembers]);
 
-  console.log("accordionMatch", accordionMatch);
-  // 수정할것
-  // online member를 id값으로 [1,2,3,4,5] 형식으로 받아옵니다.
-  // 해당 배열을 순회하며 formatMembers[onlineMember[i]] 로 해당 멤버의 정보를 가져옵니다.
   const handleSubmit = () => {};
   return (
-    <Box as={Collapse} in={viewOnlineMember} flex={1} animateOpacity>
+    <Box as={Collapse} in={isWatchOnlineMember} flex={1} animateOpacity>
       <Flex direction={"column"} gap={5}>
         <Heading size={"lg"} opacity={0.9}>
           Messages

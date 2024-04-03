@@ -1,10 +1,13 @@
-import { useFetch, useLoadMore } from "@/apis";
+import { useFetch } from "@/apis";
+import { useGetGroupChat } from "@/apis/chat";
+import { WindowVirtualList } from "@/components/common/DynamicInfiniteList";
 import { ApiRoutes } from "@/constants";
 import { ChatType } from "@/constants/chat";
 import { useBgColor, useSocketObserver } from "@/hooks";
+import { SubscribeCb } from "@/hooks/useSocketObserver";
 import { User } from "@/types";
-import { ApiResponseChat, SocketMessage } from "@/types/chat";
-import { QueryParser, toUrl } from "@/utils";
+import { ApiResponseChat } from "@/types/chat";
+import { QueryParser } from "@/utils";
 import { Box, Button, Flex, Icon, Input } from "@chakra-ui/react";
 import Image from "next/image";
 import { useRouter } from "next/router";
@@ -24,7 +27,7 @@ interface ChatPanelProps {
 }
 
 export const ChatPanel = ({ bgImg }: ChatPanelProps) => {
-  const [chat, setChat] = useState<ChatLog[]>([]);
+  const [chat, setChat] = useState<ApiResponseChat[]>([]);
   //초기 채팅방의 내용을 가져옴
 
   const router = useRouter();
@@ -33,46 +36,51 @@ export const ChatPanel = ({ bgImg }: ChatPanelProps) => {
   const groupId = QueryParser.toNumber(router.query.id);
 
   const { data: me } = useFetch<User>(ApiRoutes.Me);
-  const { data: chatData } = useLoadMore<ApiResponseChat[]>(
-    toUrl(ApiRoutes.Chat, { id: groupId ?? 0 }),
-    {
-      cursor: 0,
-      limit: 10,
-    }
-  );
+  const { data: chatData } = useGetGroupChat({ groupId, limit: 10 });
 
-  const { subscribe, submit } = useSocketObserver({ groupId, userId: me?.id });
+  const { subscribe, unsubscribe, submit } = useSocketObserver({
+    groupId,
+    userId: me?.id,
+  });
 
   useEffect(() => {
-    if (chatData) {
-      setChat(
-        chatData.pages.flatMap((data) => {
-          return data.data.map((chat) => {
-            return {
-              method: ChatType.Chat,
-              user: chat.user_id,
-              message: chat.message,
-              timestamp: new Date(
-                chat?.created_at as string | number | Date
-              ).toString(),
-            };
-          });
-        })
-      );
-    }
+    // if (chatData) {
+    //   setChat(
+    //     chatData.pages.flatMap((data) => {
+    //       return data.data.map((chat) => {
+    //         return {
+    //           user_id: chat.user_id,
+    //           club_id: chat.club_id,
+    //           method: ChatType.Chat,
+    //           message: chat.message,
+    //           timestamp: new Date(
+    //             chat?.created_at as string | number | Date
+    //           ).toString(),
+    //         };
+    //       });
+    //     })
+    //   );
+    // }
 
-    subscribe((data: SocketMessage) => {
+    const cb: SubscribeCb = (data) => {
       setChat((prev) => [
         ...prev,
         {
           method: data.method,
-          user: data.user,
+          user_id: data.user ?? 0,
+          club_id: groupId!,
           message: data.body.message,
-          timestamp: new Date(data.body.timestamp).toString(),
+          timestamp: data.body.timestamp.toString(),
         },
       ]);
-    });
-  }, [chatData, subscribe]);
+    };
+
+    subscribe(cb);
+
+    return () => {
+      unsubscribe(cb);
+    };
+  }, [chatData, groupId, subscribe, unsubscribe]);
 
   return (
     <Box h={1200} shadow={"lg"} position={"relative"}>
@@ -86,6 +94,14 @@ export const ChatPanel = ({ bgImg }: ChatPanelProps) => {
       </Box>
 
       <Box h={1100} overflowY={"auto"} position={"absolute"} top={0} w={"100%"}>
+        {/* <WindowVirtualList<ApiResponseChat>
+          infiniteQueryResult={useGetGroupChat({
+            groupId,
+            limit: 10,
+          })}
+          renderItem={Chat}
+        /> */}
+
         <Flex direction={"column"} p={4} gap={4}>
           {chat.map((data, i) => (
             <Chat key={`chat${i}`} data={data} />

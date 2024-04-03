@@ -11,20 +11,21 @@ interface GroupChatProps {
 
 const GroupChat = ({ group }: GroupChatProps) => {
   const [bgImg, setBgImg] = useState<number>(0);
-  const [viewOnlineMember, setViewOnlineMember] = useState<boolean>(false);
+  const [isWatchOnlineMember, setIsWatchOnlineMember] =
+    useState<boolean>(false);
 
   return (
     <Flex gap={6} p={4}>
       <Flex direction={"column"} flex={2} h={"100%"} gap={8}>
         <ChatHeader
-          viewOnlineMember={viewOnlineMember}
-          setViewOnlineMember={setViewOnlineMember}
+          isWatchOnlineMember={isWatchOnlineMember}
+          setIsWatchOnlineMember={setIsWatchOnlineMember}
           group={group}
           setBgImg={setBgImg}
         />
         <ChatPanel bgImg={bgImg} />
       </Flex>
-      <OnlineMember group={group} viewOnlineMember={viewOnlineMember} />
+      <OnlineMember group={group} isWatchOnlineMember={isWatchOnlineMember} />
     </Flex>
   );
 };

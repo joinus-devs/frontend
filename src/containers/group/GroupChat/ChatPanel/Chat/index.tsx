@@ -1,17 +1,17 @@
 import { useFetch } from "@/apis";
 import { ApiRoutes } from "@/constants";
+import { ChatType } from "@/constants/chat";
 import { useBgColor, useFormatMembers } from "@/hooks";
 import { User } from "@/types";
+import { ApiResponseChat } from "@/types/chat";
 import { QueryParser } from "@/utils";
 import { useRouter } from "next/router";
-import { ChatLog } from "..";
 import { MyChat } from "./MyChat";
 import { OthersChat } from "./OthersChat";
-import { ChatType } from "@/constants/chat";
 import ParticipationLog from "./ParticipationLog";
 
 interface ChatProps {
-  data: ChatLog;
+  data: ApiResponseChat;
 }
 
 const Chat = ({ data }: ChatProps) => {
@@ -21,7 +21,7 @@ const Chat = ({ data }: ChatProps) => {
   const members = useFormatMembers(groupId || 0);
   const { data: me } = useFetch<User>(ApiRoutes.Me);
 
-  const isMyChat = data.user === me?.id;
+  const isMyChat = data.user_id === me?.id;
   const isParticipantLog =
     data.method === ChatType.Join || data.method === ChatType.Leave;
 

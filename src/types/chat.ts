@@ -1,5 +1,5 @@
 import { ChatType } from "@/constants/chat";
-import { timer } from ".";
+import { Nullable, timer } from ".";
 
 export interface SocketMessage {
   body: {
@@ -12,8 +12,18 @@ export interface SocketMessage {
   users?: number[];
 }
 
-export interface ApiResponseChat extends timer {
+export interface ApiResponseChat {
   user_id: number;
   club_id: number;
   message: string;
+
+  id?: number;
+  created_at?: string;
+  updated_at?: Nullable<string>;
+  deleted_at?: string;
+
+  method?: ChatType.Join | ChatType.Leave | ChatType.Chat | null;
+  timestamp?: string;
+  users?: number[];
+  stauts?: "success" | "error";
 }

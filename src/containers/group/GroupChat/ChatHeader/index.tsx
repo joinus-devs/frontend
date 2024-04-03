@@ -8,15 +8,15 @@ import { MdArrowForwardIos } from "react-icons/md";
 import { SetBgImage } from "../SetBgImage";
 
 interface ChatHeaderProps {
-  viewOnlineMember: boolean;
-  setViewOnlineMember: React.Dispatch<React.SetStateAction<boolean>>;
+  isWatchOnlineMember: boolean;
+  setIsWatchOnlineMember: React.Dispatch<React.SetStateAction<boolean>>;
   group: Group;
   setBgImg: React.Dispatch<React.SetStateAction<number>>;
 }
 
 const ChatHeader = ({
-  viewOnlineMember,
-  setViewOnlineMember,
+  isWatchOnlineMember,
+  setIsWatchOnlineMember,
   group,
   setBgImg,
 }: ChatHeaderProps) => {
@@ -24,17 +24,17 @@ const ChatHeader = ({
   return (
     <Flex alignItems={"center"} gap={4} position={"relative"}>
       <Box as="button" position={"absolute"} top={-2} right={0}>
-        {viewOnlineMember ? (
+        {isWatchOnlineMember ? (
           <Icon
             as={MdArrowForwardIos}
             fontSize={24}
-            onClick={() => setViewOnlineMember(false)}
+            onClick={() => setIsWatchOnlineMember(false)}
           />
         ) : (
           <Icon
             as={BsFillPersonLinesFill}
             fontSize={24}
-            onClick={() => setViewOnlineMember(true)}
+            onClick={() => setIsWatchOnlineMember(true)}
           />
         )}
       </Box>
