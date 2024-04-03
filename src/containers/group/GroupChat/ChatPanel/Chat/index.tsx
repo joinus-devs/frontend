@@ -28,7 +28,7 @@ const Chat = ({ data }: ChatProps) => {
   const color = useBgColor();
 
   if (isParticipantLog)
-    return <ParticipationLog log={data} members={members} />;
+    return <ParticipationLog participantId={data.user_id} members={members} />;
   if (isMyChat) return <MyChat chat={data} bg={color} />;
   else return <OthersChat chat={data} bg={color} members={members} />;
 };

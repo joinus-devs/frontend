@@ -12,7 +12,13 @@ export const ChatTextTimestamp = ({
   bg,
   timeStyle,
 }: ChatTextTimestampProps) => {
-  const time = formatISO(chat.created_at);
+  let time = "";
+  if (chat.created_at) {
+    time = formatISO(chat.created_at);
+  } else if (chat.timestamp) {
+    const date = new Date(Number(chat.timestamp));
+    time = formatISO(String(date));
+  }
 
   return (
     <>

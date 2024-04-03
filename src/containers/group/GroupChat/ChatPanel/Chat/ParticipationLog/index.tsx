@@ -3,14 +3,14 @@ import { ApiResponseChat } from "@/types/chat";
 import { FormatMemberValue } from "@/utils/group";
 import { Flex, Text } from "@chakra-ui/react";
 interface ParticipationLogProps {
-  log: ApiResponseChat;
+  participantId: number;
   members: FormatMemberValue;
 }
-const ParticipationLog = ({ log, members }: ParticipationLogProps) => {
-  const logId = log.message.split(" ")[2];
-  const member = members[Number(logId)];
-
-  console.log("logId", logId);
+const ParticipationLog = ({
+  participantId,
+  members,
+}: ParticipationLogProps) => {
+  const member = members[Number(participantId)];
   return (
     <>
       {member && (
