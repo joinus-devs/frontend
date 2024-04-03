@@ -75,7 +75,7 @@ const Test = () => {
   };
 
   const handlerSignIn = () => {
-    signin({ email: "john1@gmail.com", password: "12341234!@" });
+    signin({ email: "john2@gmail.com", password: "12341234!@" });
   };
 
   const hanldeUpdateClub = () => {

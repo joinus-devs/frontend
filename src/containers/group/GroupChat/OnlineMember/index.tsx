@@ -23,6 +23,7 @@ export const OnlineMember = ({
     groupId: group.id,
     userId: me?.id,
   });
+
   console.log("online멤버변경", onlineMembers);
 
   const accordionMatch = useMemo(() => {

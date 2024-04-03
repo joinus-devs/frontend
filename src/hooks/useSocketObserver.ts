@@ -44,10 +44,15 @@ const useSocketObserver = ({ groupId, userId }: UseSocketObserverProps) => {
     socket.onmessage = (event) => {
       const data: SocketMessage = JSON.parse(event.data);
 
-      (data.method === ChatType.Join || data.method === ChatType.Leave) &&
-        setOnlineMembers(data.users || []);
-
-      console.log("event", data);
+      if (
+        (data.method === ChatType.Join || data.method === ChatType.Leave) &&
+        data.users
+      ) {
+        console.log("online members changed", data.users);
+        setOnlineMembers(data.users);
+      } else {
+        console.log("event", data);
+      }
       callback.current && callback.current(data);
     };
 
