@@ -1,7 +1,9 @@
-import { useFetch } from "@/apis";
+import { useFetch, useLoadMore } from "@/apis";
 import { ApiRoutes } from "@/constants";
+import { ChatType } from "@/constants/chat";
 import { useBgColor, useSocketObserver } from "@/hooks";
-import { InfiniteResponse, User } from "@/types";
+import { User } from "@/types";
+import { ApiResponseChat, SocketMessage } from "@/types/chat";
 import { QueryParser, toUrl } from "@/utils";
 import { Box, Button, Flex, Icon, Input } from "@chakra-ui/react";
 import Image from "next/image";
@@ -9,8 +11,6 @@ import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
 import { FaCheck } from "react-icons/fa6";
 import Chat from "./Chat";
-import { ApiResponseChat, SocketMessage } from "@/types/chat";
-import { ChatType } from "@/constants/chat";
 
 export interface ChatLog {
   user: number | undefined;
@@ -33,7 +33,7 @@ export const ChatPanel = ({ bgImg }: ChatPanelProps) => {
   const groupId = QueryParser.toNumber(router.query.id);
 
   const { data: me } = useFetch<User>(ApiRoutes.Me);
-  const { data: chatData } = useFetch<InfiniteResponse<ApiResponseChat>>(
+  const { data: chatData } = useLoadMore<ApiResponseChat[]>(
     toUrl(ApiRoutes.Chat, { id: groupId ?? 0 }),
     {
       cursor: 0,
@@ -45,16 +45,19 @@ export const ChatPanel = ({ bgImg }: ChatPanelProps) => {
 
   useEffect(() => {
     if (chatData) {
-      console.log("chatData", chatData);
       setChat(
-        chatData.data.data.map((data) => ({
-          method: ChatType.Chat,
-          user: data.user_id,
-          message: data.message,
-          timestamp: new Date(
-            data?.created_at as string | number | Date
-          ).toString(),
-        }))
+        chatData.pages.flatMap((data) => {
+          return data.data.map((chat) => {
+            return {
+              method: ChatType.Chat,
+              user: chat.user_id,
+              message: chat.message,
+              timestamp: new Date(
+                chat?.created_at as string | number | Date
+              ).toString(),
+            };
+          });
+        })
       );
     }
 

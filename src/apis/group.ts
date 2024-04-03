@@ -9,7 +9,9 @@ interface UseGetGroupMemberParams {
 }
 
 export const useGetGroup = (id?: number) => {
-  return useFetch<Group>(toUrl(ApiRoutes.Group, { id }));
+  return useFetch<Group>(toUrl(ApiRoutes.Group, { id }), undefined, {
+    enabled: !!id,
+  });
 };
 
 export const useGetGroupMembers = (
