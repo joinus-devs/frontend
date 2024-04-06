@@ -37,18 +37,18 @@ const VirtualListReverse = <T,>({
   const items = virtualizer.getVirtualItems();
 
   useEffect(() => {
-    const [lastItem] = [...items];
-    if (lastItem && lastItem.index >= flattenData.length - 1) {
-      console.log("fetchNextPage", lastItem.index, flattenData.length - 1);
+    const [firstItem] = [...items];
+    if (firstItem && firstItem.index === 0) {
       fetchNextPage();
     }
   }, [fetchNextPage, flattenData.length, items]);
 
   useEffect(() => {
     if (parentRef.current && flattenData.length > 0) {
+      console.log("flatten", flattenData);
       parentRef.current.scrollTop = parentRef.current.scrollHeight;
     }
-  }, [flattenData.length]);
+  }, [flattenData, flattenData.length]);
 
   return (
     <>
