@@ -14,6 +14,7 @@ import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
 import { FaCheck } from "react-icons/fa6";
 import Chat from "./Chat";
+import VirtualListReverse from "@/components/common/DynamicInfiniteList/VirtualListReverse";
 
 export interface ChatLog {
   user: number | undefined;
@@ -44,23 +45,21 @@ export const ChatPanel = ({ bgImg }: ChatPanelProps) => {
   });
 
   useEffect(() => {
-    // if (chatData) {
-    //   setChat(
-    //     chatData.pages.flatMap((data) => {
-    //       return data.data.map((chat) => {
-    //         return {
-    //           user_id: chat.user_id,
-    //           club_id: chat.club_id,
-    //           method: ChatType.Chat,
-    //           message: chat.message,
-    //           timestamp: new Date(
-    //             chat?.created_at as string | number | Date
-    //           ).toString(),
-    //         };
-    //       });
-    //     })
-    //   );
-    // }
+    if (chatData) {
+      setChat(
+        chatData.pages.flatMap((data) => {
+          return data.data.map((chat) => {
+            return {
+              user_id: chat.user_id,
+              club_id: chat.club_id,
+              method: ChatType.Chat,
+              message: chat.message,
+              created_at: chat.created_at,
+            };
+          });
+        })
+      );
+    }
 
     const cb: SubscribeCb = (data) => {
       setChat((prev) => [
@@ -93,20 +92,14 @@ export const ChatPanel = ({ bgImg }: ChatPanelProps) => {
         />
       </Box>
 
-      <Box h={1100} overflowY={"auto"} position={"absolute"} top={0} w={"100%"}>
-        {/* <WindowVirtualList<ApiResponseChat>
+      <Box position={"absolute"} top={0} w={"100%"}>
+        <VirtualListReverse<ApiResponseChat>
           infiniteQueryResult={useGetGroupChat({
             groupId,
             limit: 10,
           })}
           renderItem={Chat}
-        /> */}
-
-        <Flex direction={"column"} p={4} gap={4}>
-          {chat.map((data, i) => (
-            <Chat key={`chat${i}`} data={data} />
-          ))}
-        </Flex>
+        />
       </Box>
       <form
         onSubmit={(e) => {
