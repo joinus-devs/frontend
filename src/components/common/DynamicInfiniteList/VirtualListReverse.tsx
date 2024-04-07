@@ -1,80 +1,130 @@
-import { ApiError, CursorQueryResponse } from "@/apis";
-import { Box, Center, Flex, Spacer, Spinner } from "@chakra-ui/react";
-import { InfiniteData, UseInfiniteQueryResult } from "@tanstack/react-query";
-import { useVirtualizer, useWindowVirtualizer } from "@tanstack/react-virtual";
+import { Flex, ListItem, Spacer, UnorderedList } from "@chakra-ui/react";
+import { useVirtualizer } from "@tanstack/react-virtual";
 import { useEffect, useMemo, useRef } from "react";
-import { EmptyDataPlaceholder } from "..";
 
 interface VirtualListReverseProps<T> {
-  infiniteQueryResult: UseInfiniteQueryResult<
-    InfiniteData<CursorQueryResponse<T[]>, unknown>,
-    ApiError
-  >;
+  dataFromApi: T[];
+  dataFromSocket: T[];
+  isFetching: boolean;
+  fetchNextPage: () => void;
   renderItem: ({ data }: { data: T }) => JSX.Element;
   gap?: number;
 }
 
 const VirtualListReverse = <T,>({
-  infiniteQueryResult,
+  dataFromApi,
+  dataFromSocket,
+  isFetching,
+  fetchNextPage,
   renderItem: Item,
   gap = 0,
 }: VirtualListReverseProps<T>) => {
-  const { data, fetchNextPage, isFetching } = infiniteQueryResult;
   const parentRef = useRef<HTMLDivElement>(null);
 
-  const flattenData = useMemo(() => {
-    const flattened = (data?.pages ?? []).map((page) => page.data).flat();
-    return flattened.reverse();
-  }, [data]);
-
-  console.log("flattenData변경", flattenData);
   const virtualizer = useVirtualizer({
-    count: flattenData.length,
+    count: dataFromApi.length + dataFromSocket.length,
     estimateSize: () => 40,
     getScrollElement: () => parentRef.current,
   });
 
   const items = virtualizer.getVirtualItems();
 
-  useEffect(() => {
-    const [firstItem] = [...items];
-    if (firstItem && firstItem.index === 0) {
-      fetchNextPage();
-    }
-  }, [fetchNextPage, flattenData.length, items]);
+  const translateY = useMemo(
+    () => items[0]?.start - virtualizer.options.scrollMargin,
+    [items, virtualizer.options.scrollMargin]
+  );
 
+  const prevScrollHeight = useRef(0);
+
+  // 서버로 부터 새로운 데이터를 받았을 때 스크롤 위치를 유지
   useEffect(() => {
-    if (parentRef.current && flattenData.length > 0) {
-      console.log("flatten", flattenData);
-      parentRef.current.scrollTop = parentRef.current.scrollHeight;
+    const container = parentRef.current;
+    if (!container || isFetching) return;
+
+    const currentScrollHeight = container.scrollHeight;
+    if (prevScrollHeight.current === currentScrollHeight) return;
+    container.scrollTop = currentScrollHeight - prevScrollHeight.current;
+    prevScrollHeight.current = currentScrollHeight;
+  }, [dataFromApi, isFetching]);
+
+  // 데이터가 변경될 때, 스크롤 위치가 제일 아래에 있다면, 스크롤을 내림
+  useEffect(() => {
+    const container = parentRef.current;
+    if (!container || isFetching) return;
+
+    const delta =
+      container.scrollHeight - container.scrollTop - container.clientHeight;
+
+    const isBottom = delta < 200;
+
+    let observer: MutationObserver;
+    if (isBottom) {
+      observer = new MutationObserver((mutationsList) => {
+        container.scrollTo(0, container.scrollHeight);
+        console.log("~~");
+
+        observer.disconnect();
+      });
+
+      observer.observe(container, {
+        attributes: true,
+        childList: true,
+        subtree: true,
+      });
     }
-  }, [flattenData, flattenData.length]);
+
+    return () => {
+      observer?.disconnect();
+    };
+  }, [dataFromSocket, isFetching]);
+
+  const concatData = useMemo(() => {
+    const data = dataFromApi.concat(dataFromSocket);
+    return data;
+  }, [dataFromApi, dataFromSocket]);
 
   return (
-    <>
-      <Flex
-        ref={parentRef}
-        overflowY={"auto"}
-        height={1050}
-        position={"relative"}
-      >
-        {items.map((item) => (
-          <Box
-            key={item.key}
-            data-index={item.index}
-            ref={virtualizer.measureElement}
-            position={"absolute"}
-            top={0}
-            left={0}
-            right={0}
-            transform={`translateY(${item.start - virtualizer.options.scrollMargin}px)`}
-          >
-            <Item data={flattenData[item.index]} />
-            <Spacer h={gap} />
-          </Box>
-        ))}
+    <Flex
+      ref={parentRef}
+      h={1050}
+      direction={"column"}
+      w={"100%"}
+      overflowY={"auto"}
+      onWheel={(e) => {
+        if (isFetching) return;
+
+        const container = parentRef.current;
+        if (!container) return;
+
+        const isTop = container.scrollTop < 400;
+        if (e.deltaY < 0 && isTop) {
+          fetchNextPage();
+        }
+      }}
+    >
+      <Flex minH={virtualizer.getTotalSize()} position={"relative"}>
+        <UnorderedList
+          pos={"absolute"}
+          w={"100%"}
+          display={"flex"}
+          flexDirection={"column"}
+          listStyleType={"none"}
+          m={"0"}
+          transform={`translateY(${translateY}px)`}
+        >
+          {items.map((item) => (
+            <ListItem
+              key={item.key}
+              data-index={item.index}
+              ref={virtualizer.measureElement}
+            >
+              <Item data={concatData[item.index]} />
+              <Spacer h={gap} />
+            </ListItem>
+          ))}
+        </UnorderedList>
       </Flex>
-    </>
+    </Flex>
   );
 };
 

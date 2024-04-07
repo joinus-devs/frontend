@@ -1,6 +1,6 @@
 import { useFetch } from "@/apis";
 import { useGetGroupChat } from "@/apis/chat";
-import { WindowVirtualList } from "@/components/common/DynamicInfiniteList";
+import VirtualListReverse from "@/components/common/DynamicInfiniteList/VirtualListReverse";
 import { ApiRoutes } from "@/constants";
 import { ChatType } from "@/constants/chat";
 import { useBgColor, useSocketObserver } from "@/hooks";
@@ -11,10 +11,9 @@ import { QueryParser } from "@/utils";
 import { Box, Button, Flex, Icon, Input } from "@chakra-ui/react";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { useEffect, useRef, useState } from "react";
+import { FormEvent, useEffect, useMemo, useRef, useState } from "react";
 import { FaCheck } from "react-icons/fa6";
 import Chat from "./Chat";
-import VirtualListReverse from "@/components/common/DynamicInfiniteList/VirtualListReverse";
 
 export interface ChatLog {
   user: number | undefined;
@@ -28,8 +27,7 @@ interface ChatPanelProps {
 }
 
 export const ChatPanel = ({ bgImg }: ChatPanelProps) => {
-  const [chat, setChat] = useState<ApiResponseChat[]>([]);
-  //초기 채팅방의 내용을 가져옴
+  const [chatFromSocket, setChatFromSocket] = useState<ApiResponseChat[]>([]);
 
   const router = useRouter();
   const color = useBgColor();
@@ -37,7 +35,15 @@ export const ChatPanel = ({ bgImg }: ChatPanelProps) => {
   const groupId = QueryParser.toNumber(router.query.id);
 
   const { data: me } = useFetch<User>(ApiRoutes.Me);
-  const { data: chatData } = useGetGroupChat({ groupId, limit: 10 });
+  const { data, isFetching, fetchNextPage } = useGetGroupChat({
+    groupId,
+    limit: 20,
+  });
+
+  const chatFromApi = useMemo(() => {
+    const flattened = (data?.pages ?? []).map((page) => page.data).flat();
+    return flattened.reverse();
+  }, [data]);
 
   const { subscribe, unsubscribe, submit } = useSocketObserver({
     groupId,
@@ -45,24 +51,8 @@ export const ChatPanel = ({ bgImg }: ChatPanelProps) => {
   });
 
   useEffect(() => {
-    if (chatData) {
-      setChat(
-        chatData.pages.flatMap((data) => {
-          return data.data.map((chat) => {
-            return {
-              user_id: chat.user_id,
-              club_id: chat.club_id,
-              method: ChatType.Chat,
-              message: chat.message,
-              created_at: chat.created_at,
-            };
-          });
-        })
-      );
-    }
-
     const cb: SubscribeCb = (data) => {
-      setChat((prev) => [
+      setChatFromSocket((prev) => [
         ...prev,
         {
           method: data.method,
@@ -79,7 +69,7 @@ export const ChatPanel = ({ bgImg }: ChatPanelProps) => {
     return () => {
       unsubscribe(cb);
     };
-  }, [chatData, groupId, subscribe, unsubscribe]);
+  }, [groupId, subscribe, unsubscribe]);
 
   return (
     <Box h={1200} shadow={"lg"} position={"relative"}>
@@ -92,17 +82,16 @@ export const ChatPanel = ({ bgImg }: ChatPanelProps) => {
         />
       </Box>
 
-      <Box position={"absolute"} top={0} w={"100%"}>
-        <VirtualListReverse<ApiResponseChat>
-          infiniteQueryResult={useGetGroupChat({
-            groupId,
-            limit: 10,
-          })}
-          renderItem={Chat}
-        />
-      </Box>
-      <form
-        onSubmit={(e) => {
+      <VirtualListReverse<ApiResponseChat>
+        dataFromApi={chatFromApi}
+        dataFromSocket={chatFromSocket}
+        isFetching={isFetching}
+        fetchNextPage={fetchNextPage}
+        renderItem={Chat}
+      />
+      <Box
+        as={"form"}
+        onSubmit={(e: FormEvent) => {
           e.preventDefault();
           if (!inputRef.current?.value) return;
           submit(inputRef.current.value);
@@ -131,7 +120,7 @@ export const ChatPanel = ({ bgImg }: ChatPanelProps) => {
             <Icon as={FaCheck} />
           </Button>
         </Flex>
-      </form>
+      </Box>
     </Box>
   );
 };
