@@ -36,11 +36,9 @@ const VirtualListReverse = <T,>({
 
   const prevScrollHeight = useRef(0);
 
-  // 서버로 부터 새로운 데이터를 받았을 때 스크롤 위치를 유지
   useEffect(() => {
     const container = parentRef.current;
     if (!container || isFetching) return;
-
     const currentScrollHeight = container.scrollHeight;
     if (prevScrollHeight.current === currentScrollHeight) return;
     container.scrollTop = currentScrollHeight - prevScrollHeight.current;
@@ -56,26 +54,18 @@ const VirtualListReverse = <T,>({
       container.scrollHeight - container.scrollTop - container.clientHeight;
 
     const isBottom = delta < 200;
-
-    let observer: MutationObserver;
+    console.log("delta", delta);
+    console.log(
+      "scrollHeight",
+      container.scrollHeight,
+      "scrollTop",
+      container.scrollTop,
+      "clientHeight",
+      container.clientHeight
+    );
     if (isBottom) {
-      observer = new MutationObserver((mutationsList) => {
-        container.scrollTo(0, container.scrollHeight);
-        console.log("~~");
-
-        observer.disconnect();
-      });
-
-      observer.observe(container, {
-        attributes: true,
-        childList: true,
-        subtree: true,
-      });
+      container.scrollTo(0, container.scrollHeight);
     }
-
-    return () => {
-      observer?.disconnect();
-    };
   }, [dataFromSocket, isFetching]);
 
   const concatData = useMemo(() => {
