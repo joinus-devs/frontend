@@ -236,7 +236,10 @@ export const signIn = async (email: string, password: string) => {
     }),
   }).then((res) => res.json());
 
-  if (response?.status !== 200) {
+  if (response?.status === 200) {
+    localStorage.setItem("login-token", response.data.token);
+    window.location.href = "/";
+  } else {
     alert(response.message);
   }
   return response.data;

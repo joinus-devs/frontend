@@ -40,12 +40,9 @@ const Signin = () => {
   const { mutate: handleSignIn, data } = useMutation({
     mutationFn: ({ email, password }: UserData) => signIn(email, password),
     onSuccess: (data) => {
-      localStorage.setItem("login-token", data.token);
-      router.push("/");
+      // localStorage.setItem("login-token", data.token);
+      // router.push("/");
       queryClient.invalidateQueries({ queryKey: [toUrl(ApiRoutes.Me)] });
-    },
-    onError: () => {
-      alert("비 ㅡㅡㅡㅡㅡㅡㅡㅡㅡ 상");
     },
   });
 
