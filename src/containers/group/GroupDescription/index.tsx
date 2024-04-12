@@ -19,7 +19,7 @@ import { IoIosSettings } from "react-icons/io";
 import Image from "next/image";
 
 interface GroupDescriptionProps {
-  group?: Group;
+  group: Group;
 }
 
 const none = "/none-groupimg.webp";
@@ -58,10 +58,11 @@ const GroupDescription = ({ group }: GroupDescriptionProps) => {
           fill
           style={{ objectFit: "cover" }}
           sizes="100%"
+          priority
         />
       </Box>
       <Box p={8} position={"relative"}>
-        {useUserRoleMatcher(group?.id ?? 0, ["admin"]) && (
+        {useUserRoleMatcher(group.id, ["admin"]) && (
           <Tooltip label="그룹설정" placement={"bottom-end"}>
             <Flex
               position={"absolute"}
@@ -76,7 +77,7 @@ const GroupDescription = ({ group }: GroupDescriptionProps) => {
             </Flex>
           </Tooltip>
         )}
-        {!useUserRoleMatcher(group?.id ?? 0, [
+        {!useUserRoleMatcher(group.id, [
           "member",
           "banned",
           "staff",
@@ -87,7 +88,7 @@ const GroupDescription = ({ group }: GroupDescriptionProps) => {
             가입하기
           </Button>
         )}
-        {useUserRoleMatcher(group?.id ?? 0, ["pending"]) && (
+        {useUserRoleMatcher(group.id, ["pending"]) && (
           <Tag
             position={"absolute"}
             top={4}
@@ -103,9 +104,9 @@ const GroupDescription = ({ group }: GroupDescriptionProps) => {
         )}
         <Flex>
           <Heading size={"lg"} p={4} pb={8}>
-            {group?.name ?? ""}
+            {group.name ?? ""}
           </Heading>
-          {group?.categories?.map((category, index) => {
+          {group.categories.map((category, index) => {
             return (
               <Tag
                 p={4}
@@ -123,7 +124,7 @@ const GroupDescription = ({ group }: GroupDescriptionProps) => {
           })}
         </Flex>
         <Text fontSize={"lg"} pl={4}>
-          {group?.description ?? ""}
+          {group.description ?? ""}
         </Text>
       </Box>
     </>

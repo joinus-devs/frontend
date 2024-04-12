@@ -1,4 +1,4 @@
-import { useFetch } from "@/apis";
+import { useFetch, useGetMe } from "@/apis";
 import { useGetGroupChat } from "@/apis/chat";
 import VirtualListReverse from "@/components/common/DynamicInfiniteList/VirtualListReverse";
 import { ApiRoutes } from "@/constants";
@@ -34,7 +34,7 @@ export const ChatPanel = ({ bgImg }: ChatPanelProps) => {
   const inputRef = useRef<HTMLInputElement | null>(null);
   const groupId = QueryParser.toNumber(router.query.id);
 
-  const { data: me } = useFetch<User>(ApiRoutes.Me);
+  const { data: me } = useGetMe();
   const { data, isFetching, isSuccess, fetchNextPage } = useGetGroupChat({
     groupId,
     limit: 20,

@@ -1,10 +1,11 @@
 import { ApiRoutes } from "@/constants";
 import { toUrl } from "@/utils";
 import { useQueryClient } from "@tanstack/react-query";
-import { usePost } from "./hooks";
+import { useFetch, usePost } from "./hooks";
 import { ApiResponse } from "./types";
 import { getDomain } from "./utils";
 import { createStandaloneToast } from "@chakra-ui/react";
+import { User } from "@/types";
 
 interface SigninRequest {
   email: string;
@@ -305,4 +306,8 @@ export const selectGender = (value: string) => {
 // 생년월일
 export const toFormatBirth = (value: string) => {
   return value.slice(0, 4) + "-" + value.slice(4, 6) + "-" + value.slice(6);
+};
+
+export const useGetMe = () => {
+  return useFetch<User>(ApiRoutes.Me, undefined, { staleTime: Infinity });
 };

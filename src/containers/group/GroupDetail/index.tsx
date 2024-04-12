@@ -25,7 +25,7 @@ const GroupDetail = ({ children }: GroupDetailProps) => {
       </Head>
       <DefaultLayout>
         <Flex direction={"column"} w={"100%"} minH={1400}>
-          <GroupDescription group={group} />
+          {group && <GroupDescription group={group} />}
           {groupId && <GroupNav groupId={groupId} />}
           <Box
             flex={2}

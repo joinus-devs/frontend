@@ -1,4 +1,4 @@
-import { useFetch, useUpdate } from "@/apis";
+import { useFetch, useGetMe, useUpdate } from "@/apis";
 import { CircleImg } from "@/components";
 import { ApiRoutes } from "@/constants";
 import { Comment, User } from "@/types";
@@ -29,7 +29,7 @@ const FeedComment = ({ data }: CommentProps) => {
     toUrl(ApiRoutes.Comments, { id: data.id })
   );
 
-  const { data: me } = useFetch<User>(ApiRoutes.Me);
+  const { data: me } = useGetMe();
 
   const isMine = useMemo(() => me?.id === data.user_id, [me?.id, data.user_id]);
 

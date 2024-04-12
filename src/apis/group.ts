@@ -18,7 +18,9 @@ export const useGetGroupMembers = (
   id: number,
   params?: UseGetGroupMemberParams
 ) => {
-  return useFetch<UserWithPage>(toUrl(ApiRoutes.GroupMembers, { id }), params);
+  return useFetch<UserWithPage>(toUrl(ApiRoutes.GroupMembers, { id }), params, {
+    staleTime: Infinity,
+  });
 };
 
 export const useUpateGroup = (id: number) => {

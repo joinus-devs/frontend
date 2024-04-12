@@ -1,4 +1,4 @@
-import { useFetch } from "@/apis";
+import { useFetch, useGetMe } from "@/apis";
 import { InputWithButton } from "@/components";
 import { ApiRoutes } from "@/constants";
 import { useFormatMembers, useSocketObserver } from "@/hooks";
@@ -18,7 +18,7 @@ export const OnlineMember = ({
   isWatchOnlineMember,
 }: OnlineMemberProps) => {
   const formatMembers = useFormatMembers(group.id);
-  const { data: me } = useFetch<User>(ApiRoutes.Me);
+  const { data: me } = useGetMe();
   const [onlineMembers, setOnlineMembers] = useState<number[]>([]);
   const { subscribe, unsubscribe } = useSocketObserver({
     groupId: group.id,

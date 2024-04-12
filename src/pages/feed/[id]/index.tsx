@@ -1,4 +1,4 @@
-import { useFetch, useGetComment } from "@/apis";
+import { useFetch, useGetComment, useGetMe } from "@/apis";
 import { CircleImg } from "@/components";
 import { WindowVirtualList } from "@/components/common/DynamicInfiniteList";
 import { ApiRoutes, PageRoutes } from "@/constants";
@@ -25,7 +25,7 @@ const FeedDetail = () => {
     toUrl(ApiRoutes.Group, { id: feed?.club_id })
   );
 
-  const { data: me } = useFetch<User>(ApiRoutes.Me);
+  const { data: me } = useGetMe();
 
   return (
     <Flex justify={"center"}>
@@ -36,7 +36,7 @@ const FeedDetail = () => {
         gap={8}
       >
         <Box shadow={"md"} borderRadius={12} overflow={"hidden"}>
-          <GroupDescription group={group} />
+          {group && <GroupDescription group={group} />}
         </Box>
         <Box width={"auto"}>
           <Button

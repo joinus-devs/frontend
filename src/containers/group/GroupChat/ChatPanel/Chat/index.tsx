@@ -1,4 +1,4 @@
-import { useFetch } from "@/apis";
+import { useFetch, useGetMe } from "@/apis";
 import { ApiRoutes } from "@/constants";
 import { ChatType } from "@/constants/chat";
 import { useBgColor, useFormatMembers } from "@/hooks";
@@ -19,7 +19,7 @@ const Chat = ({ data }: ChatProps) => {
   const groupId = QueryParser.toNumber(router.query.id);
 
   const members = useFormatMembers(groupId || 0);
-  const { data: me } = useFetch<User>(ApiRoutes.Me);
+  const { data: me } = useGetMe();
 
   const isMyChat = data.user_id === me?.id;
   const isParticipantLog =

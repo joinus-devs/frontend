@@ -1,4 +1,4 @@
-import { useFetch, useGetGroupMembers } from "@/apis";
+import { useFetch, useGetGroupMembers, useGetMe } from "@/apis";
 import { Box, Flex } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { Template } from "./Template";
@@ -20,7 +20,7 @@ const GroupMember = () => {
     roles: "staff",
   });
 
-  const { data: me } = useFetch<User>(ApiRoutes.Me);
+  const { data: me } = useGetMe();
 
   return (
     <Box minH={800}>
