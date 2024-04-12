@@ -35,7 +35,7 @@ export const ChatPanel = ({ bgImg }: ChatPanelProps) => {
   const groupId = QueryParser.toNumber(router.query.id);
 
   const { data: me } = useFetch<User>(ApiRoutes.Me);
-  const { data, isFetching, fetchNextPage } = useGetGroupChat({
+  const { data, isFetching, isSuccess, fetchNextPage } = useGetGroupChat({
     groupId,
     limit: 20,
   });
@@ -73,12 +73,13 @@ export const ChatPanel = ({ bgImg }: ChatPanelProps) => {
 
   return (
     <Box h={1200} shadow={"lg"} position={"relative"}>
-      <Box opacity={0.5}>
+      <Box opacity={0.5} position={"absolute"} w={"100%"} h={"100%"}>
         <Image
           src={`/group_chat${bgImg}.jpg`}
           alt="group_chat"
           fill
           style={{ objectFit: "cover" }}
+          sizes={"100%"}
         />
       </Box>
 

@@ -57,6 +57,7 @@ const GroupDescription = ({ group }: GroupDescriptionProps) => {
           alt="groupImg"
           fill
           style={{ objectFit: "cover" }}
+          sizes="100%"
         />
       </Box>
       <Box p={8} position={"relative"}>
