@@ -19,7 +19,8 @@ export const useGetGroupMembers = (
   params?: UseGetGroupMemberParams
 ) => {
   return useFetch<UserWithPage>(toUrl(ApiRoutes.GroupMembers, { id }), params, {
-    staleTime: Infinity,
+    enabled: !!id,
+    staleTime: 1000,
   });
 };
 

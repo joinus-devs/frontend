@@ -309,5 +309,5 @@ export const toFormatBirth = (value: string) => {
 };
 
 export const useGetMe = () => {
-  return useFetch<User>(ApiRoutes.Me, undefined, { staleTime: Infinity });
+  return useFetch<User>(ApiRoutes.Me, undefined, { staleTime: 1000 * 60 * 10 });
 };
