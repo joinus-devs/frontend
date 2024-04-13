@@ -118,6 +118,7 @@ const ImageBox = ({ imgData, setImgData }: ImageBoxProps) => {
                             fill
                             style={{ objectFit: "cover" }}
                             alt="group image"
+                            sizes="100%"
                           />
                         </Box>
                       </PopoverTrigger>

@@ -18,12 +18,6 @@ interface ImgSettingProps {
   type: string;
   url: string;
 }
-interface GroupMeta {
-  key: string;
-  default: string | number;
-  fieldName: keyof Group;
-  input?: JSX.Element;
-}
 
 const Setting = () => {
   const [img, setImg] = useState<ImgSettingProps[]>([]);
