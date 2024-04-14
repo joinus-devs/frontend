@@ -2,7 +2,18 @@
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    domains: ["cdn.pixabay.com", "kr.object.ncloudstorage.com"],
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "cdn.pixabay.com",
+        pathname: "**",
+      },
+      {
+        protocol: "https",
+        hostname: "kr.object.ncloudstorage.com",
+        pathname: "**",
+      },
+    ],
   },
 };
 
