@@ -7,4 +7,5 @@ export const toCategory: { [key: string]: string } = {
   6: "요리",
   7: "IT",
   8: "기타",
+  9: "운동",
 };

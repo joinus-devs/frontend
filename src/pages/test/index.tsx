@@ -1,16 +1,16 @@
 import { useSignin, useUpdate } from "@/apis";
 import { useGetGroupMembers } from "@/apis/group";
 import { useDelete, useFetch, usePost } from "@/apis/hooks";
-import { ApiRoutes } from "@/constants";
+import { ApiRoutes, toCategory } from "@/constants";
 import { toUrl } from "@/utils";
 import { Button, Input } from "@chakra-ui/react";
-import { toCategory } from "@/constants";
-import { set } from "react-hook-form";
 
 const Test = () => {
   const { mutate: signup } = usePost(ApiRoutes.SignUp);
   const { mutate: signin } = useSignin();
-  const { refetch: club } = useFetch(toUrl(ApiRoutes.Group));
+  const { refetch: club } = useFetch(toUrl(ApiRoutes.Group), {
+    limit: 50,
+  });
   const { refetch: me } = useFetch(ApiRoutes.Me);
   const { mutate: postClub } = usePost(toUrl(ApiRoutes.Group));
   const { mutate: postCategory } = usePost(toUrl(ApiRoutes.Category));
@@ -75,7 +75,7 @@ const Test = () => {
   };
 
   const handlerSignIn = () => {
-    signin({ email: "john1@gmail.com", password: "12341234!@" });
+    signin({ email: "ush0105@aaa.com", password: "12341234!@" });
   };
 
   const hanldeUpdateClub = () => {
