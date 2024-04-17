@@ -1,6 +1,6 @@
 const baseUrl = "http://44.204.44.65/";
 
-const catyegories = [
+const categories = [
   "영화",
   "스포츠",
   "음악",
@@ -36,6 +36,10 @@ const api = [
     },
   },
   {
+    url: "categories",
+    method: "POST",
+  },
+  {
     url: "clubs",
     method: "POST",
     params: {
@@ -56,6 +60,18 @@ const api = [
   },
 ];
 
+const postCategory = async (header) => {
+  const promises = categories.map(async (curr) => {
+    await fetch(baseUrl + "categories", {
+      method: "POST",
+      headers: header,
+      body: JSON.stringify({ name: curr }),
+    });
+    console.log("api Request:", "POST", baseUrl + "categories", curr);
+  });
+  await Promise.all(promises);
+};
+
 const main = async () => {
   const header = {
     "Content-Type": "application/json",
@@ -64,20 +80,23 @@ const main = async () => {
 
   api.reduce(
     async (prev, curr) => {
-      return prev.then(() => {
-        return fetch(baseUrl + curr.url, {
-          method: curr.method,
-          headers: header,
-          body: JSON.stringify(curr.params),
-        }).then((response) => {
-          console.log("api Request:", curr.method, baseUrl + curr.url);
-          if (curr.url === "auth/signin") {
-            return response.json().then((data) => {
-              const token = data.data.token;
-              header.Authorization = token;
-            });
-          }
-        });
+      return prev.then(async () => {
+        if (curr.url === "categories") {
+          await postCategory(header);
+        } else
+          return fetch(baseUrl + curr.url, {
+            method: curr.method,
+            headers: header,
+            body: JSON.stringify(curr.params),
+          }).then((response) => {
+            console.log("api Request:", curr.method, baseUrl + curr.url);
+            if (curr.url === "auth/signin") {
+              return response.json().then((data) => {
+                const token = data.data.token;
+                header.Authorization = token;
+              });
+            }
+          });
       });
     },
     new Promise((resolve) => resolve())
