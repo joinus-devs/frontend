@@ -1,49 +1,59 @@
 import { getNaverId, issueNaverToken, signInSocial } from "@/apis";
+import { ApiRoutes } from "@/constants";
 import { AuthLoading } from "@/containers";
-import { useQuery } from "@tanstack/react-query";
+import { toUrl } from "@/utils";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 
 type Props = {};
 
+interface SignInSocialData {
+  id: number | string;
+  type: string;
+}
+
 const NaverSignin = (props: Props) => {
   const router = useRouter();
   const naverCode = router.query.code;
   const naverState = router.query.state;
+  const queryClient = useQueryClient();
 
   const { data: naverToken } = useQuery({
-    queryKey: ["naver-token", naverCode, naverState],
+    queryKey: ["naver-token"],
     queryFn: () => issueNaverToken(naverCode, naverState),
     enabled: !!naverCode && !!naverState,
   });
 
   const { data: naverInfo } = useQuery({
-    queryKey: ["naver-info", naverToken?.access_token],
+    queryKey: ["naver-info"],
     queryFn: () => getNaverId(naverToken?.access_token),
     enabled: !!naverToken,
   });
 
-  const { data: signInToken } = useQuery({
-    queryKey: ["naver-signin", naverInfo?.id],
-    queryFn: () => signInSocial(naverInfo?.id, "naver"),
-    enabled: !!naverInfo,
+  const { mutate: handleSignInSocial, data: signInKakao } = useMutation({
+    mutationFn: ({ id, type }: SignInSocialData) => signInSocial(id, type),
+    onSuccess: (data) => {
+      localStorage.setItem("login-token", data.token);
+      router.push("/");
+      queryClient.invalidateQueries({ queryKey: [toUrl(ApiRoutes.Me)] });
+    },
+    onError: (error, data) => {
+      const { type } = data;
+      router.push({
+        pathname: "/auth/register/social",
+        query: {
+          socialId: naverInfo?.id,
+          type: type,
+        },
+      });
+    },
   });
 
   useEffect(() => {
     if (!naverInfo) return;
-    if (signInToken?.data?.token) {
-      localStorage.setItem("login-token", signInToken.data.token);
-      router.push("/");
-    } else {
-      router.push({
-        pathname: "/auth/register/social",
-        query: {
-          socialId: naverInfo.id,
-          type: "naver",
-        },
-      });
-    }
-  }, [signInToken, router, naverInfo]);
+    handleSignInSocial({ id: naverInfo?.id, type: "naver" });
+  }, [naverInfo, handleSignInSocial]);
 
   return <AuthLoading />;
 };

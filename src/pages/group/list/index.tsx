@@ -1,7 +1,9 @@
+import { getGroupList } from "@/apis";
 import { DefaultLayout } from "@/components";
 import { GroupCard } from "@/containers";
 import { GroupCardProps } from "@/containers/group/GroupCard/GroupCard";
 import { Text } from "@chakra-ui/react";
+import { useQuery } from "@tanstack/react-query";
 import Head from "next/head";
 
 const dummyData: GroupCardProps = {
@@ -14,6 +16,11 @@ const dummyData: GroupCardProps = {
 };
 
 const GroupList = () => {
+  const { data } = useQuery({
+    queryKey: ["group-list"],
+    queryFn: () => getGroupList(),
+  });
+  console.log(data);
   return (
     <div>
       <Head>

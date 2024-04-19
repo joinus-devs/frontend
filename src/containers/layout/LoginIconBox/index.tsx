@@ -5,8 +5,8 @@ import { toUrl } from "@/utils";
 import { Flex, Icon, Tooltip, useColorMode } from "@chakra-ui/react";
 import { FaSun } from "react-icons/fa";
 import { FiMoon } from "react-icons/fi";
-import { LoginStatusIcon } from "./LoginStatusIcon";
-import { LogoutStatusIcon } from "./LogoutStatusIcon";
+import { LogoutButton } from "./LogoutButton";
+import { LoginButton } from "./LoginButton";
 
 const LoginIconBox = () => {
   const { colorMode, toggleColorMode } = useColorMode();
@@ -28,7 +28,7 @@ const LoginIconBox = () => {
           {colorMode === "light" ? <Icon as={FiMoon} /> : <Icon as={FaSun} />}
         </Flex>
       </Tooltip>
-      {!me || isError ? <LogoutStatusIcon /> : <LoginStatusIcon />}
+      {me && isSuccess ? <LogoutButton /> : <LoginButton />}
     </Flex>
   );
 };

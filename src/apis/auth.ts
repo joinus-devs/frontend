@@ -1,10 +1,11 @@
 import { ApiRoutes } from "@/constants";
 import { toUrl } from "@/utils";
-import { useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { usePost } from "./hooks";
 import { ApiResponse } from "./types";
 import { getDomain } from "./utils";
 import { createStandaloneToast } from "@chakra-ui/react";
+import { useRouter } from "next/router";
 
 interface SigninRequest {
   email: string;
@@ -103,6 +104,11 @@ interface NaverInfo {
   birthyear: string;
 }
 
+interface SignInSocialData {
+  id: number | string;
+  type: string;
+}
+
 type IssueKakaoToken = (code: string | string[]) => Promise<KakaoToken>;
 type IssueGoogleToken = (code: string | string[]) => Promise<GoogleToken>;
 type IssueNaverToken = (
@@ -113,6 +119,7 @@ type GetKakaoId = (token?: string) => Promise<KakaoInfo>;
 type GetGoogleId = (token?: string) => Promise<GoogleInfo>;
 type getNaverId = (token?: string) => Promise<NaverInfo>;
 type getUserInfo = () => Promise<UserData>;
+type postProfileImg = (formData: FormData) => Promise<string>;
 
 const { toast } = createStandaloneToast();
 
@@ -168,14 +175,14 @@ export const getGoogleId: GetGoogleId = async (token) => {
 // naver
 export const issueNaverToken: IssueNaverToken = async (code, state) => {
   const response = await fetch(
-    `api/auth/naverToken?naverState=${state}&naverCode=${code}`
+    `/api/auth/naverToken?naverState=${state}&naverCode=${code}`
   ).then((res) => res.json());
   return response;
 };
 
 export const getNaverId: getNaverId = async (token) => {
   const response = await fetch(
-    `api/auth/naverInfo?naverToken=${token}`,
+    `/api/auth/naverInfo?naverToken=${token}`,
     {}
   ).then((res) => res.json());
   return response;
@@ -229,42 +236,32 @@ export const signIn = async (email: string, password: string) => {
     }),
   }).then((res) => res.json());
 
-  if (response.status === 200) {
+  if (response?.status === 200) {
     localStorage.setItem("login-token", response.data.token);
-    alert("환영합니다!");
     window.location.href = "/";
   } else {
     alert(response.message);
   }
-
-  return response;
+  return response.data;
 };
 
-export const signInSocial = async (email?: number | string, type?: string) => {
+export const signInSocial = async (id?: number | string, type?: string) => {
   const response = await fetch(getDomain(toUrl(ApiRoutes.SignInSocial)), {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      social_id: email?.toString(),
+      social_id: id?.toString(),
       type: type,
     }),
   }).then((res) => res.json());
 
-  if (response.status === 200) {
-    localStorage.setItem("login-token", response.data.token);
-    window.location.href = "/";
-  } else {
-    alert("회원가입 페이지로 이동합니다");
-  }
-  return response as ApiResponse<{
-    token: string;
-  }>;
+  return response.data;
 };
 
 export const getUserInfo: getUserInfo = async () => {
-  const response = await fetch("http://44.204.44.65/auth/me", {
+  const response = await fetch(getDomain(toUrl(ApiRoutes.Me)), {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -272,6 +269,45 @@ export const getUserInfo: getUserInfo = async () => {
     },
   }).then((res) => res.json());
   return response.data;
+};
+
+export const postProfileImg: postProfileImg = async (formData) => {
+  const response = await fetch(getDomain(toUrl(ApiRoutes.Image)), {
+    method: "POST",
+    headers: {
+      Authorization: localStorage.getItem("login-token") || "",
+    },
+    body: formData,
+  }).then((res) => res.json());
+
+  return response.data;
+};
+
+export const updateUserInfo = async (
+  id: number,
+  name?: string,
+  profile?: FormData | string
+) => {
+  let imageUrl = "";
+  if (typeof profile === "object") {
+    imageUrl = await postProfileImg(profile);
+  }
+  const response = await fetch(
+    getDomain(toUrl(ApiRoutes.UpdateUser, { id: id })),
+    {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: localStorage.getItem("login-token") || "",
+      },
+      body: JSON.stringify({
+        name: name,
+        profile: imageUrl || profile,
+      }),
+    }
+  ).then((res) => res.json());
+
+  return response;
 };
 
 export const useLogout = () => {
@@ -282,12 +318,7 @@ export const useLogout = () => {
     queryClient
       .invalidateQueries({ queryKey: [toUrl(ApiRoutes.Me)] })
       .then(() => {
-        toast({
-          title: "로그아웃 되었습니다.",
-          status: "success",
-          duration: 2000,
-          isClosable: true,
-        });
+        window.location.reload();
       });
   };
 };
