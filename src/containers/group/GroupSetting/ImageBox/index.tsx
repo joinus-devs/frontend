@@ -22,7 +22,7 @@ import { useCallback } from "react";
 import { FaCheck } from "react-icons/fa";
 import Image from "next/image";
 
-interface ImgProps {
+export interface ImgProps {
   type: string;
   url: string;
 }
@@ -71,7 +71,7 @@ const ImageBox = ({ imgData, setImgData }: ImageBoxProps) => {
         Images
       </Th>
       <Td>
-        <Skeleton isLoaded={!!imgData} height={"800px"}>
+        <Skeleton isLoaded={!!imgData} maxHeight={800}>
           <FormControl
             as={Flex}
             direction={"column"}
@@ -81,7 +81,7 @@ const ImageBox = ({ imgData, setImgData }: ImageBoxProps) => {
             overflowY={"auto"}
             overflowX={"hidden"}
           >
-            <UploadImg />
+            <UploadImg setImgData={setImgData} />
             <Grid
               gap={4}
               w={"100%"}
@@ -118,6 +118,7 @@ const ImageBox = ({ imgData, setImgData }: ImageBoxProps) => {
                             fill
                             style={{ objectFit: "cover" }}
                             alt="group image"
+                            sizes="100%"
                           />
                         </Box>
                       </PopoverTrigger>

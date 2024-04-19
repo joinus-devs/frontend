@@ -1,4 +1,4 @@
-import { useFetch } from "@/apis";
+import { useFetch, useGetMe } from "@/apis";
 import { CircleImg } from "@/components";
 import { ApiRoutes, PageRoutes } from "@/constants";
 import { useBgColor } from "@/hooks";
@@ -10,7 +10,7 @@ import { useRouter } from "next/router";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { FeedModifyIcon } from "./FeedModifyIcon";
 import { LikeCommentCounter } from "./LikeCommentCounter";
-import { PostComment } from "./PostComment";
+import { CommentForm } from "./CommentForm";
 
 interface GroupFeedItemProps {
   data: Feed;
@@ -33,7 +33,7 @@ const GroupFeedItem = ({ data }: GroupFeedItemProps) => {
 
   const router = useRouter();
   const bodyRef = useRef<HTMLDivElement>(null);
-  const { data: me } = useFetch<User>(ApiRoutes.Me);
+  const { data: me } = useGetMe();
 
   const bgColor = useBgColor();
 
@@ -93,7 +93,7 @@ const GroupFeedItem = ({ data }: GroupFeedItemProps) => {
           likeCount={0}
           handleCommentClick={routerPushHandler}
         />
-        <PostComment type="group" feedId={data.id} />
+        <CommentForm type="group" feedId={data.id} />
       </Flex>
     </>
   );

@@ -1,15 +1,14 @@
+import { ApiResponseChat } from "@/types/chat";
 import { Flex } from "@chakra-ui/react";
-import { ChatLogProps } from "../..";
-import { ChatTextTimestamp } from "../ChatTextTimestamp";
+import { ChatTextTimestamp } from "../../ChatTextTimestamp";
 
 interface MyChatProps {
-  chat: ChatLogProps;
-  index: number;
+  chat: ApiResponseChat;
   bg: string;
 }
-export const MyChat = ({ chat, index, bg }: MyChatProps) => {
+export const MyChat = ({ chat, bg }: MyChatProps) => {
   return (
-    <Flex key={`chat_${index}`} justifyContent={"flex-end"}>
+    <Flex justifyContent={"flex-end"}>
       <Flex direction={"column"} p={4} borderRadius={"lg"} maxW={400} gap={2}>
         <ChatTextTimestamp
           chat={chat}

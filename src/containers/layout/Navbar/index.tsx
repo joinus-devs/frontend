@@ -27,7 +27,7 @@ const Navbar = () => {
             h={"40px"}
             mt={2}
           >
-            <Image src="/logo.png" alt="logo" fill />
+            <Image src="/logo.png" alt="logo" fill sizes="100%" priority />
           </Box>
           {navs.map((nav, i) => {
             return (

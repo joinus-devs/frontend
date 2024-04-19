@@ -1,68 +1,66 @@
-import {
-  Accordion,
-  AccordionButton,
-  AccordionIcon,
-  AccordionItem,
-  AccordionPanel,
-  Flex,
-  Icon,
-  Text,
-} from "@chakra-ui/react";
-import { CircleImg } from "@/components";
-import { MdOnlinePrediction } from "react-icons/md";
-import { Group } from "@/types";
-import { useGetGroupMembers } from "@/apis";
+import { useFetch, useGetMe } from "@/apis";
+import { InputWithButton } from "@/components";
+import { ApiRoutes } from "@/constants";
+import { useFormatMembers, useSocketObserver } from "@/hooks";
+import { SubscribeCb } from "@/hooks/useSocketObserver";
+import { Group, User } from "@/types";
+import { Box, Collapse, Flex, Heading } from "@chakra-ui/react";
+import { useEffect, useMemo, useState } from "react";
+import { IoIosSearch } from "react-icons/io";
+import Accordion from "./Accordion";
 
 interface OnlineMemberProps {
   group: Group;
+  isWatchOnlineMember: boolean;
 }
-export const OnlineMember = ({ group }: OnlineMemberProps) => {
-  const { data: members } = useGetGroupMembers(group.id!);
+export const OnlineMember = ({
+  group,
+  isWatchOnlineMember,
+}: OnlineMemberProps) => {
+  const formatMembers = useFormatMembers(group.id);
+  const { data: me } = useGetMe();
+  const [onlineMembers, setOnlineMembers] = useState<number[]>([]);
+  const { subscribe, unsubscribe } = useSocketObserver({
+    groupId: group.id,
+    userId: me?.id,
+  });
+
+  useEffect(() => {
+    const cb: SubscribeCb = (data) => {
+      if (data.users) {
+        setOnlineMembers(data.users);
+      }
+    };
+    subscribe(cb);
+
+    return () => {
+      unsubscribe(cb);
+    };
+  }, [subscribe, unsubscribe]);
+
+  const accordionMatch = useMemo(() => {
+    return onlineMembers.map((id) => {
+      return { id, ...formatMembers[id] };
+    });
+  }, [formatMembers, onlineMembers]);
+
+  const handleSubmit = () => {};
   return (
-    <Accordion allowToggle>
-      <AccordionItem border={"none"}>
-        <AccordionButton>
-          <Flex alignItems={"center"} gap={4}>
-            <Text fontSize={16}>Online</Text>
-            <AccordionIcon mt={0.5} />
-          </Flex>
-        </AccordionButton>
-        <AccordionPanel>
-          <Flex
-            h={1137}
-            shadow={"lg"}
-            maxH={1137}
-            overflowY={"auto"}
-            direction={"column"}
-            gap={4}
-            pl={4}
-            pb={4}
-          >
-            {members?.data.map((member, i) => {
-              return (
-                <Flex
-                  alignItems={"center"}
-                  h={40}
-                  key={`groupmember${i}`}
-                  gap={4}
-                >
-                  <Icon
-                    as={MdOnlinePrediction}
-                    fontSize={28}
-                    fill={"primary.500"}
-                  />
-                  <CircleImg
-                    imgSrc={"/noneUserImg.webp"}
-                    alt="group_img"
-                    size={16}
-                  />
-                  <Text>{member.name}</Text>
-                </Flex>
-              );
-            })}
-          </Flex>
-        </AccordionPanel>
-      </AccordionItem>
-    </Accordion>
+    <Box as={Collapse} in={isWatchOnlineMember} flex={1} animateOpacity>
+      <Flex direction={"column"} gap={5}>
+        <Heading size={"lg"} opacity={0.9}>
+          Messages
+        </Heading>
+        <InputWithButton
+          placeholder="member name"
+          hanldeSubmit={handleSubmit}
+          icon={IoIosSearch}
+          boxStyle={{ position: "relative", alignItems: "center" }}
+          buttonStyle={{ fontSize: 28, right: 0 }}
+        />
+
+        <Accordion members={accordionMatch || []} />
+      </Flex>
+    </Box>
   );
 };

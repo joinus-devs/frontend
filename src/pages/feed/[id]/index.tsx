@@ -1,17 +1,18 @@
-import { useFetch, useGetComment } from "@/apis";
+import { useFetch, useGetComment, useGetMe } from "@/apis";
 import { CircleImg } from "@/components";
 import { WindowVirtualList } from "@/components/common/DynamicInfiniteList";
-import { ApiRoutes } from "@/constants";
-import { GroupBanner, GroupDescription } from "@/containers";
+import { ApiRoutes, PageRoutes } from "@/constants";
+import { GroupDescription } from "@/containers";
 import FeedComment from "@/containers/group/GroupFeedComments/Comment";
 import { FeedModifyIcon } from "@/containers/group/GroupFeedItem/FeedModifyIcon";
 import { LikeCommentCounter } from "@/containers/group/GroupFeedItem/LikeCommentCounter";
-import { PostComment } from "@/containers/group/GroupFeedItem/PostComment";
+import { CommentForm } from "@/containers/group/GroupFeedItem/CommentForm";
 import { Comment, Feed, Group, User } from "@/types";
 import { toUrl } from "@/utils";
 import { formatISO } from "@/utils/date";
-import { Box, Flex, Heading, Text } from "@chakra-ui/react";
+import { Box, Button, Flex, Heading, Icon, Text } from "@chakra-ui/react";
 import { useRouter } from "next/router";
+import { RiArrowGoBackLine } from "react-icons/ri";
 
 const FeedDetail = () => {
   const router = useRouter();
@@ -24,17 +25,32 @@ const FeedDetail = () => {
     toUrl(ApiRoutes.Group, { id: feed?.club_id })
   );
 
-  const { data: me } = useFetch<User>(ApiRoutes.Me);
+  const { data: me } = useGetMe();
 
   return (
     <Flex justify={"center"}>
-      <Flex w={{ base: "100%", xl: "1280px" }} direction={"column"} mb={100}>
-        <Box shadow={"md"} mb={10} borderRadius={12} overflow={"hidden"}>
-          <GroupBanner />
-          <GroupDescription group={group} />
+      <Flex
+        w={{ base: "100%", xl: "1280px" }}
+        direction={"column"}
+        mb={100}
+        gap={8}
+      >
+        <Box shadow={"md"} borderRadius={12} overflow={"hidden"}>
+          {group && <GroupDescription group={group} />}
+        </Box>
+        <Box width={"auto"}>
+          <Button
+            fontSize={20}
+            onClick={() =>
+              router.push(toUrl(PageRoutes.GroupFeed, { id: feed?.club_id }))
+            }
+          >
+            <Icon as={RiArrowGoBackLine} mr={2} />
+            목록
+          </Button>
         </Box>
         <Box position={"relative"}>
-          <Flex gap={4} p={4}>
+          <Flex gap={4} pl={4} pb={4}>
             {me?.id === feed?.user_id && feed && <FeedModifyIcon feed={feed} />}
             <CircleImg imgSrc={"/noneUserImg.webp"} alt="userImg" size={16} />
             <Flex direction={"column"} gap={1} justifyContent={"end"}>
@@ -54,7 +70,7 @@ const FeedDetail = () => {
                 commentCount={feed.comment_count}
                 likeCount={0}
               />
-              <PostComment type="feed" feedId={feed.id} />
+              <CommentForm type="feed" feedId={feed.id} />
             </>
           )}
         </Box>

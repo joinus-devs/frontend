@@ -17,6 +17,12 @@
       "@/*": ["./src/*"],
     },
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "src/setupProxy.js"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "src/setupProxy.js",
+    "createData.js",
+  ],
   "exclude": ["node_modules"],
 }

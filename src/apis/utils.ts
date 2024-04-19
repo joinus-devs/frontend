@@ -1,11 +1,10 @@
 import { UrlBuilder } from ".";
 import { ApiError } from "./types";
 
-const protoc = "http";
 const domain = process.env.NEXT_PUBLIC_SERVER_DOMAIN;
 
-export const getDomain = (url: string) => {
-  return `${protoc}://${domain}/${url}`;
+export const getDomain = (url: string, protoc = "http") => {
+  return `${protoc}://${domain}${url ? `/${url}` : ""}`;
 };
 
 const extendedFetch = async (input: RequestInfo, init?: RequestInit) => {

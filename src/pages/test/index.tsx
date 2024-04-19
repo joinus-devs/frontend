@@ -1,15 +1,16 @@
 import { useSignin, useUpdate } from "@/apis";
 import { useGetGroupMembers } from "@/apis/group";
 import { useDelete, useFetch, usePost } from "@/apis/hooks";
-import { ApiRoutes } from "@/constants";
+import { ApiRoutes, toCategory } from "@/constants";
 import { toUrl } from "@/utils";
 import { Button, Input } from "@chakra-ui/react";
-import { toCategory } from "@/constants";
 
 const Test = () => {
   const { mutate: signup } = usePost(ApiRoutes.SignUp);
   const { mutate: signin } = useSignin();
-  const { refetch: club } = useFetch(toUrl(ApiRoutes.Group));
+  const { refetch: club } = useFetch(toUrl(ApiRoutes.Group), {
+    limit: 50,
+  });
   const { refetch: me } = useFetch(ApiRoutes.Me);
   const { mutate: postClub } = usePost(toUrl(ApiRoutes.Group));
   const { mutate: postCategory } = usePost(toUrl(ApiRoutes.Category));
@@ -29,11 +30,13 @@ const Test = () => {
   );
 
   const categoryValues = Object.values(toCategory);
+
   const handlerSignUp = () => {
     signup({
       password: "12341234!@",
       name: "JohnDoe522",
-      profile: "https://kr.object.ncloudstorage.com/joinus/image/profile.png",
+      profile:
+        "https://kr.object.ncloudstorage.com/joinus/image/1711678253222.jpg",
       birth: "1995-01-01",
       sex: true,
       phone: "01012341239",
@@ -41,9 +44,40 @@ const Test = () => {
     });
   };
 
-  const handlerSignIn = () => {
-    signin({ email: "john522@gmail.com", password: "12341234!@" });
+  const hanlderManySignUp = () => {
+    for (let i = 0; i < 20; i++) {
+      signup({
+        password: "12341234!@",
+        name: `JohnDoe${i}`,
+        profile:
+          "https://kr.object.ncloudstorage.com/joinus/image/1711678253222.jpg",
+        birth: "1995-01-01",
+        sex: true,
+        phone: "01012341239",
+        email: `john${i}@gmail.com`,
+      });
+    }
   };
+
+  const handlerManyJoinClub = (id: number) => {
+    signin(
+      { email: `john${id}@gmail.com`, password: "12341234!@" },
+      {
+        onSuccess: () => joinClub({}),
+      }
+    );
+  };
+
+  const handlerWrapManyJoinClub = () => {
+    for (let i = 0; i < 20; i++) {
+      handlerManyJoinClub(i);
+    }
+  };
+
+  const handlerSignIn = () => {
+    signin({ email: "ush0105@aaa.com", password: "12341234!@" });
+  };
+
   const hanldeUpdateClub = () => {
     updateClub({
       name: "test3",
@@ -53,30 +87,23 @@ const Test = () => {
       minimum_age: 20,
       maximum_age: 100,
       categories: [1, 2, 3],
-      images: [
-        {
-          url: "https://kr.object.ncloudstorage.com/joinus/image/profile.png",
-          type: "main",
-        },
-      ],
+      images: [],
     });
   };
+
   const handlerPostClub = () => {
-    postClub({
-      capacity: 20,
-      categories: [1],
-      description: "gd2",
-      maximum_age: 100,
-      minimum_age: 0,
-      name: "test3",
-      sex: true,
-      images: [
-        {
-          url: "https://kr.object.ncloudstorage.com/joinus/image/profile.png",
-          type: "main",
-        },
-      ],
-    });
+    for (let i = 1; i <= 30; i++) {
+      postClub({
+        capacity: 20,
+        categories: [1, 2, 3],
+        description: "gd2",
+        maximum_age: 100,
+        minimum_age: 0,
+        name: `dummy club ${i}`,
+        sex: true,
+        images: [],
+      });
+    }
   };
   return (
     <>
@@ -117,6 +144,8 @@ const Test = () => {
       </Button>
       <Button onClick={() => joinClub({})}>joinClub</Button>
       <Button onClick={() => hanldeUpdateClub()}>UpdateClub</Button>
+      <Button onClick={hanlderManySignUp}>ManySignUp</Button>
+      <Button onClick={handlerWrapManyJoinClub}>ManyJoinClub</Button>
       <Input type={"file"} />
     </>
   );

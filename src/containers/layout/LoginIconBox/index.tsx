@@ -1,4 +1,4 @@
-import { useFetch } from "@/apis";
+import { useFetch, useGetMe } from "@/apis";
 import { ApiRoutes } from "@/constants";
 import { User } from "@/types";
 import { toUrl } from "@/utils";
@@ -10,7 +10,7 @@ import { LoginButton } from "./LoginButton";
 
 const LoginIconBox = () => {
   const { colorMode, toggleColorMode } = useColorMode();
-  const { data: me, isSuccess, isError } = useFetch<User>(toUrl(ApiRoutes.Me));
+  const { data: me, isSuccess, isError } = useGetMe();
 
   return (
     <Flex gap={2} alignItems={"center"}>

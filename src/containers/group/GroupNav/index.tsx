@@ -1,4 +1,4 @@
-import { useFetch, useGetGroupMembers } from "@/apis";
+import { useFetch, useGetGroupMembers, useGetMe } from "@/apis";
 import { ApiRoutes, PageRoutes, groupNavItems } from "@/constants";
 import { User } from "@/types";
 import { toUrl } from "@/utils";
@@ -19,7 +19,8 @@ const GroupNav = ({ groupId }: GroupNavProps) => {
   const { name, name2 } = useGetPathname();
 
   //pathname을 / 를 기준으로 나누어 group/:id를 제외한 뒤에부분을 name과 name2로 지정했습니다.
-  const { data: me, isSuccess: meSuccess } = useFetch<User>(ApiRoutes.Me);
+  const { data: me, isSuccess: meSuccess } = useGetMe();
+
   const { data: manager, isSuccess: managerSuccess } = useGetGroupMembers(
     groupId,
     {
@@ -36,7 +37,6 @@ const GroupNav = ({ groupId }: GroupNavProps) => {
     });
   }, [manager?.data, managerSuccess, me?.id, meSuccess]);
 
-  //여기서 me와 그룹의 운영진을 비교하여 해당한다면 승인목록을 보여줌
   useEffect(() => {
     setTabIndex(switchTab(name));
   }, [name]);

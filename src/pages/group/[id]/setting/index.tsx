@@ -1,4 +1,4 @@
-import { useFetch } from "@/apis";
+import { useFetch, useUpateGroup } from "@/apis";
 import { ApiRoutes } from "@/constants";
 import {
   AgeBox,
@@ -18,73 +18,15 @@ interface ImgSettingProps {
   type: string;
   url: string;
 }
-interface GroupMeta {
-  key: string;
-  default: string | number;
-  fieldName: keyof Group;
-  input?: JSX.Element;
-}
-
-const dummyImg = [
-  {
-    type: "sub",
-    url: "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg",
-  },
-  {
-    type: "main",
-    url: "https://cdn.pixabay.com/photo/2024/02/05/10/48/bird-8554205_1280.jpg",
-  },
-  {
-    type: "sub",
-    url: "https://cdn.pixabay.com/photo/2024/02/22/09/04/warehouse-8589487_1280.jpg",
-  },
-  {
-    type: "sub",
-    url: "https://cdn.pixabay.com/photo/2024/02/22/09/04/warehouse-8589487_1280.jpg",
-  },
-  {
-    type: "sub",
-    url: "https://cdn.pixabay.com/photo/2024/02/22/09/04/warehouse-8589487_1280.jpg",
-  },
-  {
-    type: "sub",
-    url: "https://cdn.pixabay.com/photo/2024/02/22/09/04/warehouse-8589487_1280.jpg",
-  },
-  {
-    type: "sub",
-    url: "https://cdn.pixabay.com/photo/2024/02/22/09/04/warehouse-8589487_1280.jpg",
-  },
-  {
-    type: "sub",
-    url: "https://cdn.pixabay.com/photo/2024/02/22/09/04/warehouse-8589487_1280.jpg",
-  },
-  {
-    type: "sub",
-    url: "https://cdn.pixabay.com/photo/2024/02/22/09/04/warehouse-8589487_1280.jpg",
-  },
-  {
-    type: "sub",
-    url: "https://cdn.pixabay.com/photo/2024/02/22/09/04/warehouse-8589487_1280.jpg",
-  },
-  {
-    type: "sub",
-    url: "https://cdn.pixabay.com/photo/2024/02/22/09/04/warehouse-8589487_1280.jpg",
-  },
-  {
-    type: "sub",
-    url: "https://cdn.pixabay.com/photo/2024/02/22/09/04/warehouse-8589487_1280.jpg",
-  },
-  {
-    type: "sub",
-    url: "https://cdn.pixabay.com/photo/2024/02/22/09/04/warehouse-8589487_1280.jpg",
-  },
-];
 
 const Setting = () => {
-  const [img, setImg] = useState<ImgSettingProps[]>(dummyImg);
+  const [img, setImg] = useState<ImgSettingProps[]>([]);
   const [categories, setCategories] = useState<number[]>([]);
   const router = useRouter();
+
   const numberingQuery = QueryParser.toNumber(router.query.id);
+
+  const { mutate: updateGroup } = useUpateGroup(numberingQuery ?? 0);
 
   const { data: group, isSuccess } = useFetch<Group>(
     toUrl(ApiRoutes.Group, {
@@ -96,10 +38,13 @@ const Setting = () => {
     defaultValues: group,
   });
 
-  const onSubmit = (data: Group) => {
-    const form = { ...group, ...data, categories: categories };
-    console.log(form);
-  };
+  const onSubmit = useCallback(
+    (data: Group) => {
+      const form = { ...group, ...data, categories: categories, images: img };
+      updateGroup(form);
+    },
+    [categories, group, img, updateGroup]
+  );
 
   const onChangeSex = useCallback(
     (value: string) => {
@@ -111,6 +56,7 @@ const Setting = () => {
 
   useEffect(() => {
     if (!isSuccess || !group) return;
+    setImg(group.images);
     setValue("minimum_age", group.minimum_age);
     setValue("maximum_age", group.maximum_age);
     setCategories(group.categories);

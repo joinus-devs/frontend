@@ -1,26 +1,24 @@
-import { useFetch, useGetGroupMembers } from "@/apis";
+import { useGetGroupMembers, useGetMe } from "@/apis";
 import { Box, Flex } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { Template } from "./Template";
-import { User } from "@/types";
-import { ApiRoutes } from "@/constants";
 
 const GroupMember = () => {
   const router = useRouter();
   const numberingQuery = Number(router.query.id);
   const { data: admin } = useGetGroupMembers(numberingQuery, {
-    roles: "admin",
+    roles: ["admin"],
   });
 
   const { data: member } = useGetGroupMembers(numberingQuery, {
-    roles: "member",
+    roles: ["member"],
   });
 
   const { data: staff } = useGetGroupMembers(numberingQuery, {
-    roles: "staff",
+    roles: ["staff"],
   });
 
-  const { data: me } = useFetch<User>(ApiRoutes.Me);
+  const { data: me } = useGetMe();
 
   return (
     <Box minH={800}>

@@ -3,6 +3,10 @@ export enum ApiRoutes {
   Group = "clubs/:id?",
   NewFeed = "new-feed",
   Support = "support",
+  Feeds = "feeds/:id?",
+  Comments = "comments/:id?",
+  Image = "storage/image",
+  Me = "auth/me",
   SignIn = "auth/signin",
   SignInSocial = "auth/signin/social",
   SignUp = "auth/signup",
@@ -10,15 +14,12 @@ export enum ApiRoutes {
   SignOut = "/auth/signout",
   UpdateUser = "users/:id?",
   CheckEmailExists = "auth/check-email",
-  Me = "auth/me",
   Category = "categories",
+  Chat = "clubs/:id?/chats",
   GroupMembers = "clubs/:id/users/:userId?",
   GroupFeed = "clubs/:id?/feeds",
   GroupList = "clubs",
-  Feeds = "feeds/:id?",
   FeedInComments = "feeds/:id?/comments",
-  Comments = "comments/:id?",
-  Image = "storage/image",
 }
 
 export enum PageRoutes {

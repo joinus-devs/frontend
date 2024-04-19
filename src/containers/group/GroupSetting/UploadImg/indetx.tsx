@@ -2,8 +2,14 @@ import { usePostImg } from "@/apis/storage";
 import { AspectRatio, Flex } from "@chakra-ui/react";
 import { ChangeEvent, useCallback } from "react";
 import Motion from "./Motion";
+import { ImgProps } from "../ImageBox";
+import { ApiResponse } from "@/apis";
 
-const UploadImg = () => {
+interface UploadImgProps {
+  setImgData: React.Dispatch<React.SetStateAction<ImgProps[]>>;
+}
+
+const UploadImg = ({ setImgData }: UploadImgProps) => {
   const { mutate: uploadImg } = usePostImg();
 
   const handleFileChange = useCallback(
@@ -13,10 +19,14 @@ const UploadImg = () => {
       if (!file) return;
       const formData = new FormData();
       formData.append("image", file);
-      uploadImg(formData);
+      uploadImg(formData, {
+        onSuccess: (data) => {
+          setImgData((prev) => [...prev, { type: "sub", url: data.data }]);
+        },
+      });
       event.target.files = null;
     },
-    [uploadImg]
+    [setImgData, uploadImg]
   );
 
   return (

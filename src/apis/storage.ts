@@ -1,6 +1,5 @@
 import { ApiRoutes } from "@/constants";
 import { usePostFormData } from ".";
-import { toUrl } from "@/utils";
 
 interface UploadResponse {
   filepath: string;
@@ -12,5 +11,5 @@ interface UploadResponse {
 }
 
 export const usePostImg = () => {
-  return usePostFormData(ApiRoutes.Image);
+  return usePostFormData<FormData, string>(ApiRoutes.Image);
 };

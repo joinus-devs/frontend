@@ -19,7 +19,7 @@ const CircleImg = ({ imgSrc, alt, size, style }: CircleImgProps) => {
       position={"relative"}
       style={style}
     >
-      <Image src={imgSrc} alt={alt} fill />
+      <Image src={imgSrc} alt={alt} fill sizes="100%" priority />
     </Box>
   );
 };

@@ -1,7 +1,7 @@
 import { useGetGroup } from "@/apis/group";
 import { DefaultLayout } from "@/components";
 import { GroupDescription, GroupNav } from "@/containers";
-import { GroupBanner } from "@/containers/group";
+import { QueryParser } from "@/utils";
 import { Box, Flex } from "@chakra-ui/react";
 import Head from "next/head";
 import { useRouter } from "next/router";
@@ -12,8 +12,8 @@ interface GroupDetailProps {
 
 const GroupDetail = ({ children }: GroupDetailProps) => {
   const router = useRouter();
-  const numberingQueryId = Number(router.query.id);
-  const { data: group } = useGetGroup(numberingQueryId);
+  const groupId = QueryParser.toNumber(router.query.id);
+  const { data: group } = useGetGroup(groupId);
 
   return (
     <>
@@ -25,9 +25,8 @@ const GroupDetail = ({ children }: GroupDetailProps) => {
       </Head>
       <DefaultLayout>
         <Flex direction={"column"} w={"100%"} minH={1400}>
-          <GroupBanner />
-          <GroupDescription group={group} />
-          <GroupNav groupId={numberingQueryId} />
+          {group && <GroupDescription group={group} />}
+          {groupId && <GroupNav groupId={groupId} />}
           <Box
             flex={2}
             overflow={"hidden"}
