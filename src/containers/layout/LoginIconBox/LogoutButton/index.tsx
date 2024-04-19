@@ -1,10 +1,11 @@
 import { useLogout } from "@/apis";
 import { PageRoutes } from "@/constants";
 import { toUrl } from "@/utils";
-import { Button, Flex, Icon, Tooltip } from "@chakra-ui/react";
+import { Icon, IconButton, Tooltip } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useCallback } from "react";
 import { FaRegUser } from "react-icons/fa";
+import { IoLogOutOutline } from "react-icons/io5";
 
 export const LogoutButton = () => {
   const router = useRouter();
@@ -16,19 +17,16 @@ export const LogoutButton = () => {
 
   return (
     <>
-      <Tooltip label="my page">
-        <Flex
-          fontSize={20}
-          w={10}
-          h={10}
-          justifyContent={"center"}
-          alignItems={"center"}
-          as={"button"}
-        >
-          <Icon as={FaRegUser} onClick={handleRoute} />
-        </Flex>
+      <Tooltip label="마이페이지">
+        <IconButton variant={"ghost"} aria-label="Toggle color mode">
+          <Icon as={FaRegUser} onClick={handleRoute} w={"5"} h={"5"} />
+        </IconButton>
       </Tooltip>
-      <Button onClick={logout}>Logout</Button>
+      <Tooltip label="로그아웃">
+        <IconButton variant={"ghost"} aria-label="Logout" onClick={logout}>
+          <Icon as={IoLogOutOutline} w={"7"} h={"7"} />
+        </IconButton>
+      </Tooltip>
     </>
   );
 };

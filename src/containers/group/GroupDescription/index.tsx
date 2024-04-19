@@ -13,10 +13,10 @@ import {
   Text,
   Tooltip,
 } from "@chakra-ui/react";
+import Image from "next/image";
 import { useRouter } from "next/router";
 import { useCallback, useMemo } from "react";
 import { IoIosSettings } from "react-icons/io";
-import Image from "next/image";
 
 interface GroupDescriptionProps {
   group: Group;
@@ -47,7 +47,7 @@ const GroupDescription = ({ group }: GroupDescriptionProps) => {
     <>
       <Box
         w={"100%"}
-        h={300}
+        h={200}
         overflow={"hidden"}
         position={"relative"}
         shadow={"lg"}
@@ -61,7 +61,7 @@ const GroupDescription = ({ group }: GroupDescriptionProps) => {
           priority
         />
       </Box>
-      <Box p={8} position={"relative"}>
+      <Flex direction={"column"} gap={"4"} px={"2"} py={"8"}>
         {useUserRoleMatcher(group.id, ["admin"]) && (
           <Tooltip label="그룹설정" placement={"bottom-end"}>
             <Flex
@@ -77,56 +77,41 @@ const GroupDescription = ({ group }: GroupDescriptionProps) => {
             </Flex>
           </Tooltip>
         )}
-        {!useUserRoleMatcher(group.id, [
-          "member",
-          "banned",
-          "staff",
-          "pending",
-          "admin",
-        ]) && (
-          <Button position={"absolute"} top={4} right={0} onClick={handlerJoin}>
-            가입하기
-          </Button>
-        )}
-        {useUserRoleMatcher(group.id, ["pending"]) && (
-          <Tag
-            position={"absolute"}
-            top={4}
-            right={0}
-            size={"lg"}
-            variant={"solid"}
-            colorScheme="primary"
-            fontWeight={"semibold"}
-            fontSize={16}
-          >
-            승인대기중..
-          </Tag>
-        )}
-        <Flex>
-          <Heading size={"lg"} p={4} pb={8}>
-            {group.name ?? ""}
-          </Heading>
-          {group.categories.map((category, index) => {
-            return (
-              <Tag
-                p={4}
-                h={8}
-                fontSize={16}
-                key={index}
-                fontWeight={"semibold"}
-                mr={2}
-                variant={"outline"}
-                border={"1px solid"}
-              >
-                {toCategory[category]}
-              </Tag>
-            );
-          })}
+
+        <Flex justify={"space-between"}>
+          <Flex gap={"4"}>
+            <Heading size={"lg"}>{group.name ?? ""}</Heading>
+            <Flex gap={"2"}>
+              {group.categories.map((category, index) => {
+                return (
+                  <Tag h={8} key={index} variant={"outline"} size={"md"}>
+                    {toCategory[category]}
+                  </Tag>
+                );
+              })}
+            </Flex>
+          </Flex>
+          {!useUserRoleMatcher(group.id, [
+            "member",
+            "banned",
+            "staff",
+            "pending",
+            "admin",
+          ]) && <Button onClick={handlerJoin}>가입하기</Button>}
+          {useUserRoleMatcher(group.id, ["pending"]) && (
+            <Tag
+              size={"lg"}
+              variant={"solid"}
+              colorScheme="primary"
+              fontWeight={"semibold"}
+              fontSize={16}
+            >
+              승인대기중..
+            </Tag>
+          )}
         </Flex>
-        <Text fontSize={"lg"} pl={4}>
-          {group.description ?? ""}
-        </Text>
-      </Box>
+        <Text fontSize={"lg"}>{group.description ?? ""}</Text>
+      </Flex>
     </>
   );
 };

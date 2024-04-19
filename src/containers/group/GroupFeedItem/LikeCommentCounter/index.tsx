@@ -14,23 +14,20 @@ export const LikeCommentCounter = ({
   handleCommentClick,
 }: LikeCommentCounterProps) => {
   return (
-    <Flex gap={6} fontSize={18} pl={6}>
+    <Flex gap={6} fontSize={18} pl={2}>
       <Flex
         gap={2}
         as={"button"}
         onClick={handleCommentClick}
         fontWeight={"medium"}
+        align={"center"}
       >
-        <Icon as={FaRegCommentDots} mt={1} />
-        <Text position={"relative"} bottom={0.5}>
-          {commentCount}
-        </Text>
+        <Icon as={FaRegCommentDots} />
+        <Text position={"relative"}>{commentCount}</Text>
       </Flex>
-      <Flex gap={2} as={"button"} fontWeight={"medium"}>
-        <Icon as={IoHeartSharp} mt={1} color={"red"} />
-        <Text position={"relative"} bottom={0.5}>
-          {likeCount}
-        </Text>
+      <Flex gap={2} as={"button"} fontWeight={"medium"} align={"center"}>
+        <Icon as={IoHeartSharp} color={"red"} />
+        <Text position={"relative"}>{likeCount}</Text>
       </Flex>
     </Flex>
   );

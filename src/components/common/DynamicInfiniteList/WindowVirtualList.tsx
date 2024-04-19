@@ -1,5 +1,12 @@
 import { ApiError, CursorQueryResponse } from "@/apis";
-import { Box, Center, Flex, Spacer, Spinner } from "@chakra-ui/react";
+import {
+  Box,
+  Center,
+  Flex,
+  FlexProps,
+  Spacer,
+  Spinner,
+} from "@chakra-ui/react";
 import { InfiniteData, UseInfiniteQueryResult } from "@tanstack/react-query";
 import { useWindowVirtualizer } from "@tanstack/react-virtual";
 import { useEffect, useMemo, useRef } from "react";
@@ -11,7 +18,7 @@ interface WindowVirtualListProps<T> {
     ApiError
   >;
   renderItem: ({ data }: { data: T }) => JSX.Element;
-  gap?: number;
+  gap?: FlexProps["gap"];
 }
 
 const WindowVirtualList = <T,>({

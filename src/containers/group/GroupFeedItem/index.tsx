@@ -1,16 +1,24 @@
-import { useFetch, useGetMe } from "@/apis";
+import { useGetMe } from "@/apis";
 import { CircleImg } from "@/components";
-import { ApiRoutes, PageRoutes } from "@/constants";
+import { PageRoutes } from "@/constants";
 import { useBgColor } from "@/hooks";
-import { Feed, User } from "@/types";
+import { Feed } from "@/types";
 import { toUrl } from "@/utils";
 import { formatISO } from "@/utils/date";
-import { Box, Button, Flex, Heading, Text } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Card,
+  Divider,
+  Flex,
+  Heading,
+  Text,
+} from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useRef, useState } from "react";
+import { CommentForm } from "./CommentForm";
 import { FeedModifyIcon } from "./FeedModifyIcon";
 import { LikeCommentCounter } from "./LikeCommentCounter";
-import { CommentForm } from "./CommentForm";
 
 interface GroupFeedItemProps {
   data: Feed;
@@ -53,41 +61,31 @@ const GroupFeedItem = ({ data }: GroupFeedItemProps) => {
   }, [bodyRef, data.content]);
 
   return (
-    <>
-      <Flex
-        direction={"column"}
-        backgroundColor={bgColor}
-        borderRadius={12}
-        shadow={"md"}
-        pb={2}
-        minH={500}
-        maxH={500}
-      >
-        <Flex gap={4} p={4} position={"relative"}>
-          {me?.id === data.user_id && <FeedModifyIcon feed={data} />}
-          <CircleImg imgSrc={"/noneUserImg.webp"} alt="userImg" size={16} />
-          <Flex direction={"column"} gap={1} justifyContent={"end"}>
-            <Heading size={"md"}>{data.user?.name}</Heading>
-            <Box opacity={0.7}>{formatISO(data.created_at)}</Box>
-          </Flex>
+    <Card direction={"column"} backgroundColor={bgColor} p={"4"}>
+      <Flex gap={4} position={"relative"}>
+        {me?.id === data.user_id && <FeedModifyIcon feed={data} />}
+        <CircleImg imgSrc={"/noneUserImg.webp"} alt="userImg" size={10} />
+        <Flex direction={"column"}>
+          <Heading size={"sm"}>{data.user?.name}</Heading>
+          <Text color={"subtleText"}>{formatISO(data.created_at)}</Text>
         </Flex>
-        <Flex p={4} pl={6} direction={"column"} gap={4} minH={273} maxH={273}>
-          <Box ref={bodyRef}>
-            <Heading size={"md"}>{data.title}</Heading>
-            <Text fontSize={"lg"} id="text">
-              {data.content}
-            </Text>
+      </Flex>
+      <Flex py={"6"} px={"2"} direction={"column"}>
+        <Flex ref={bodyRef} direction={"column"} gap={"2"}>
+          <Heading size={"sm"}>{data.title}</Heading>
+          <Text id="text">{data.content}</Text>
+        </Flex>
+      </Flex>
+      <Box position={"relative"}>
+        {moreContent && (
+          <Box position={"absolute"} top={-10} opacity={0.8} right={"50%"}>
+            <Button p={2} onClick={() => routerPushHandler()}>
+              더보기
+            </Button>
           </Box>
-        </Flex>
-        <Box position={"relative"}>
-          {moreContent && (
-            <Box position={"absolute"} top={-10} opacity={0.8} right={"50%"}>
-              <Button p={2} onClick={() => routerPushHandler()}>
-                더보기
-              </Button>
-            </Box>
-          )}
-        </Box>
+        )}
+      </Box>
+      <Flex direction={"column"} gap={"4"}>
         <LikeCommentCounter
           commentCount={data.comment_count}
           likeCount={0}
@@ -95,7 +93,7 @@ const GroupFeedItem = ({ data }: GroupFeedItemProps) => {
         />
         <CommentForm type="group" feedId={data.id} />
       </Flex>
-    </>
+    </Card>
   );
 };
 

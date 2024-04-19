@@ -1,32 +1,34 @@
-import { useFetch, useGetMe } from "@/apis";
-import { ApiRoutes } from "@/constants";
-import { User } from "@/types";
-import { toUrl } from "@/utils";
-import { Flex, Icon, Tooltip, useColorMode } from "@chakra-ui/react";
+import { useGetMe } from "@/apis";
+import {
+  Flex,
+  Icon,
+  IconButton,
+  Tooltip,
+  useColorMode,
+} from "@chakra-ui/react";
 import { FaSun } from "react-icons/fa";
 import { FiMoon } from "react-icons/fi";
-import { LogoutButton } from "./LogoutButton";
 import { LoginButton } from "./LoginButton";
+import { LogoutButton } from "./LogoutButton";
 
 const LoginIconBox = () => {
   const { colorMode, toggleColorMode } = useColorMode();
-  const { data: me, isSuccess, isError } = useGetMe();
+  const { data: me, isSuccess } = useGetMe();
 
   return (
-    <Flex gap={2} alignItems={"center"}>
-      {isSuccess ? me?.name : ""}
-      <Tooltip label={`${colorMode === "dark" ? "light" : "dark"} mode`}>
-        <Flex
-          fontSize={20}
-          w={10}
-          h={10}
-          justifyContent={"center"}
-          alignItems={"center"}
-          as={"button"}
+    <Flex gap={2} align={"center"}>
+      <Tooltip label={colorMode === "dark" ? "밝게" : "어둡게"}>
+        <IconButton
+          variant={"ghost"}
+          aria-label="Toggle color mode"
           onClick={toggleColorMode}
         >
-          {colorMode === "light" ? <Icon as={FiMoon} /> : <Icon as={FaSun} />}
-        </Flex>
+          {colorMode === "light" ? (
+            <Icon as={FiMoon} w={"6"} h={"6"} />
+          ) : (
+            <Icon as={FaSun} w={"6"} h={"6"} />
+          )}
+        </IconButton>
       </Tooltip>
       {me && isSuccess ? <LogoutButton /> : <LoginButton />}
     </Flex>

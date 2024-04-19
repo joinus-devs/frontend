@@ -24,11 +24,12 @@ const GroupDetail = ({ children }: GroupDetailProps) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <DefaultLayout>
-        <Flex direction={"column"} w={"100%"} minH={1400}>
+        <Flex direction={"column"} w={"100%"} minH={1200}>
           {group && <GroupDescription group={group} />}
           {groupId && <GroupNav groupId={groupId} />}
           <Box
             flex={2}
+            mt={"1px"}
             overflow={"hidden"}
             borderRightWidth={"1px"}
             borderLeftWidth={"1px"}

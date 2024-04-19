@@ -1,10 +1,10 @@
-import { useFetch, useGetGroupMembers, useGetMe } from "@/apis";
-import { ApiRoutes, PageRoutes, groupNavItems } from "@/constants";
-import { User } from "@/types";
+import { useGetGroupMembers, useGetMe } from "@/apis";
+import { PageRoutes, groupNavItems } from "@/constants";
 import { toUrl } from "@/utils";
-import { Box, Button, Flex, Tab, TabList, Tabs } from "@chakra-ui/react";
+import { Button, Flex, Icon, Tab, TabList, Tabs } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import { MdEdit } from "react-icons/md";
 import { pageRouter, switchTab } from "./pageRouter";
 import useGetPathname from "./useGetPathname";
 
@@ -47,19 +47,21 @@ const GroupNav = ({ groupId }: GroupNavProps) => {
 
   return (
     <Flex>
-      <Box borderBottomWidth={1} w={8} position={"relative"} top={"1px"} />
       <Tabs
         variant={"enclosed"}
         flex={1}
-        size={"md"}
+        size={"lg"}
         position={"relative"}
         onChange={handleTabsChange}
         index={tabIndex}
       >
         <Button
           position={"absolute"}
-          right={0}
-          display={name === "feed" ? "block" : "none"}
+          variant={"outline"}
+          top={"1"}
+          right={"1"}
+          display={name === "feed" ? "flex" : "none"}
+          rightIcon={<Icon as={MdEdit} mb={"0.5"} />}
           onClick={() => {
             if (name2 === "create")
               router.push(toUrl(PageRoutes.GroupFeed, { id: groupId }));
@@ -71,7 +73,9 @@ const GroupNav = ({ groupId }: GroupNavProps) => {
         </Button>
         <Button
           position={"absolute"}
-          right={0}
+          variant={"outline"}
+          top={"1"}
+          right={"1"}
           display={name === "member" && isManager ? "block" : "none"}
           onClick={() => {
             if (name2 === "permission")

@@ -1,4 +1,5 @@
 import { ApiError } from "@/apis/types";
+import { Firewall } from "@/components";
 import ModalProvider from "@/components/providers/ModalProvider";
 import "@/styles/globals.css";
 import {
@@ -14,8 +15,8 @@ import {
   QueryClient,
   QueryClientProvider,
 } from "@tanstack/react-query";
-import type { AppProps } from "next/app";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import type { AppProps } from "next/app";
 
 const { ToastContainer, toast } = createStandaloneToast();
 
@@ -64,7 +65,14 @@ const queryClient = new QueryClient({
 const theme = extendTheme(
   {
     colors: {
-      primary: baseTheme.colors.whatsapp,
+      primary: baseTheme.colors.facebook,
+      bg: "var(--chakra-colors-chakra-body-bg)",
+      subtleBg: "var(--chakra-colors-chakra-subtle-bg)",
+      text: "var(--chakra-colors-chakra-body-text)",
+      subtleText: "var(--chakra-colors-chakra-subtle-text)",
+      inverseText: "var(--chakra-colors-chakra-inverse-text)",
+      placeholder: "var(--chakra-colors-chakra-placeholder-color)",
+      border: "var(--chakra-colors-chakra-border-color)",
     },
   },
   withDefaultColorScheme({
@@ -78,6 +86,7 @@ export default function App({ Component, pageProps }: AppProps) {
       <ReactQueryDevtools initialIsOpen />
       <ChakraProvider theme={theme}>
         <ModalProvider />
+        <Firewall />
 
         <Component {...pageProps} />
       </ChakraProvider>

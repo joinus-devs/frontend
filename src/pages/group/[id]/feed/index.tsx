@@ -15,7 +15,7 @@ const FeedPage = () => {
           limit: 10,
         })}
         renderItem={GroupFeedItem}
-        gap={20}
+        gap={"4"}
       />
     </GroupDetail>
   );
