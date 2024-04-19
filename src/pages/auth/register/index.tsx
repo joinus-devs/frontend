@@ -1,4 +1,5 @@
 import {
+  UserData,
   checkEmailExists,
   selectGender,
   signIn,
@@ -18,22 +19,23 @@ import {
   Text,
   useRadioGroup,
 } from "@chakra-ui/react";
+import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import { Controller, useForm } from "react-hook-form";
 
-export interface UserData {
+interface UserDataForm {
   email: string;
   password: string;
   passwordCheck: string;
-  username: string;
-  birthday: string;
+  name: string;
+  birth: string;
   phone: string;
-  gender: string;
-  file_: FileList;
+  sex: string;
 }
 
 const Register = () => {
   const router = useRouter();
+
   const {
     handleSubmit,
     register,
@@ -44,48 +46,53 @@ const Register = () => {
     setValue,
     watch,
     control,
-  } = useForm<UserData>({
+  } = useForm<UserDataForm>({
     mode: "onSubmit",
     defaultValues: {
       email: "",
-      birthday: "",
-      username: "",
+      birth: "",
+      name: "",
       password: "",
       passwordCheck: "",
       phone: "",
-      gender: "",
+      sex: "",
     },
   });
 
   const genderOptions = ["남자", "여자"];
-  const selectedGender = watch("gender");
+  const selectedGender = watch("sex");
 
   const { getRootProps } = useRadioGroup({
     name: "sex",
     defaultValue: "남자",
-    onChange: (value: string) => setValue("gender", value),
+    onChange: (value: string) => setValue("sex", value),
   });
   const group = getRootProps();
 
-  const onSubmit = async (values: UserData) => {
-    const gender = selectGender(values.gender);
-    const birthday = toFormatBirth(values.birthday);
+  const { mutate: handleSignUp } = useMutation({
+    mutationFn: (userData: UserData) => signUp(userData),
+    onSuccess: (data, variables: UserData) => {
+      window.alert("회원가입에 성공하였습니다!");
+      signIn(variables.email, variables.password!);
+    },
+  });
+
+  const onSubmit = async (values: UserDataForm) => {
+    const sex = selectGender(values.sex);
+    const birth = toFormatBirth(values.birth);
+    const profileURL = "/noneUserImg.webp";
 
     const data = {
       email: values?.email,
       password: values?.password,
-      name: values?.username,
-      birth: birthday,
+      name: values?.name,
+      birth: birth,
       phone: values?.phone,
-      sex: gender,
+      sex: sex,
+      profile: process.env.NEXT_PUBLIC_CLIENT_DOMAIN + profileURL,
     };
 
-    const response = await signUp(data);
-
-    if (response.status === 200) {
-      window.alert("회원가입에 성공하였습니다!");
-      signIn(data.email, data.password);
-    }
+    handleSignUp(data);
   };
 
   // 아이디 중복 체크
@@ -165,22 +172,22 @@ const Register = () => {
         </Box>
 
         <Box maxW="sm" mx="auto" mt={2} p={6} borderWidth={1} borderRadius="md">
-          <FormControl isInvalid={!!errors.username}>
+          <FormControl isInvalid={!!errors.name}>
             <Input
               type="text"
               placeholder="이름"
-              {...register("username", {
+              {...register("name", {
                 required: "이름을 입력해주세요",
               })}
             />
-            <FormErrorMessage>{errors.username?.message}</FormErrorMessage>
+            <FormErrorMessage>{errors.name?.message}</FormErrorMessage>
           </FormControl>
 
-          <FormControl mt={4} isInvalid={!!errors.birthday}>
+          <FormControl mt={4} isInvalid={!!errors.birth}>
             <Input
               type="text"
               placeholder="생년월일 8자리 (YYYYMMDD)"
-              {...register("birthday", {
+              {...register("birth", {
                 required: "생년월일 8자리를 입력해주세요",
                 minLength: {
                   value: 8,
@@ -192,7 +199,7 @@ const Register = () => {
                 },
               })}
             />
-            <FormErrorMessage>{errors.birthday?.message}</FormErrorMessage>
+            <FormErrorMessage>{errors.birth?.message}</FormErrorMessage>
           </FormControl>
 
           <FormControl mt={4} isInvalid={!!errors.phone}>
@@ -214,13 +221,13 @@ const Register = () => {
             <FormErrorMessage>{errors.phone?.message}</FormErrorMessage>
           </FormControl>
 
-          <FormControl isInvalid={!!errors.gender}>
+          <FormControl isInvalid={!!errors.sex}>
             <HStack {...group} justify="space-between" mt={4}>
               {genderOptions.map((value) => {
                 return (
                   <Controller
                     key={value}
-                    name="gender"
+                    name="sex"
                     control={control}
                     rules={{ required: "성별을 선택해주세요" }}
                     render={({ field }) => (
@@ -234,22 +241,8 @@ const Register = () => {
                 );
               })}
             </HStack>
+            <FormErrorMessage>{errors.sex?.message}</FormErrorMessage>
           </FormControl>
-          <FormErrorMessage>{errors.gender?.message}</FormErrorMessage>
-          {/* image Upload */}
-          {/* <FormControl mt={4} isInvalid={!!errors.file_} isRequired>
-            <FileUpload
-              accept={"image/*"}
-              multiple
-              register={register("file_", { validate: validateFiles })}
-            >
-              <Button leftIcon={<Icon as={FiFile} />}>Upload</Button>
-            </FileUpload>
-
-            <FormErrorMessage>
-              {errors.file_ && errors?.file_.message}
-            </FormErrorMessage>
-          </FormControl> */}
         </Box>
         <Center>
           <Button

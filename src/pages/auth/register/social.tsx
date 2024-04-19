@@ -6,7 +6,6 @@ import {
   toFormatBirth,
 } from "@/apis/auth";
 import { GenderSelection } from "@/components";
-import FileUpload from "@/components/common/FileUpload";
 import {
   Box,
   Button,
@@ -21,7 +20,6 @@ import {
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { Controller, useForm } from "react-hook-form";
-import { FiFile } from "react-icons/fi";
 
 interface UserData {
   email: string;

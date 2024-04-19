@@ -6,7 +6,7 @@ import { useRouter } from "next/router";
 import { useCallback } from "react";
 import { FaRegUser } from "react-icons/fa";
 
-export const LoginStatusIcon = () => {
+export const LogoutButton = () => {
   const router = useRouter();
   const logout = useLogout();
 
