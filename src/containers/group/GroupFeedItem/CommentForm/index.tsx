@@ -2,7 +2,7 @@ import { usePost } from "@/apis";
 import { CircleImg } from "@/components";
 import { ApiRoutes, PageRoutes } from "@/constants";
 import { QueryParser, toUrl } from "@/utils";
-import { Button, Flex, Icon, Input } from "@chakra-ui/react";
+import { Button, Flex, Icon, IconButton, Input } from "@chakra-ui/react";
 import { useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import { useCallback } from "react";
@@ -64,33 +64,26 @@ export const CommentForm = ({ type, feedId }: PostCommentProps) => {
   );
 
   return (
-    <Flex p={4} gap={2} alignItems={"center"}>
-      <CircleImg imgSrc={"/noneUserImg.webp"} alt="userImg" size={14} />
+    <Flex gap={2} alignItems={"center"}>
       <Flex
         as={"form"}
         position={"relative"}
         w={"100%"}
         onSubmit={handleSubmit(handleSubmitComment)}
       >
-        <Input
-          placeholder={"댓글을 입력하세요"}
-          size="lg"
-          h={16}
-          ml={4}
-          {...register("content")}
-        />
-        <Button
+        <Input placeholder={"댓글을 입력하세요"} {...register("content")} />
+        <IconButton
+          aria-label="submit comment"
           type="submit"
           position={"absolute"}
           fontWeight={"bold"}
-          m={2}
-          w={12}
-          h={12}
           zIndex={1}
-          right={0}
+          size={"sm"}
+          top={"1"}
+          right={"1"}
         >
           <Icon as={FaCheck} />
-        </Button>
+        </IconButton>
       </Flex>
     </Flex>
   );

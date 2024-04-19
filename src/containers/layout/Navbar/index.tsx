@@ -1,22 +1,26 @@
-import { PopoverItem } from "@/components";
-import { ApiRoutes, navs, supportNavs } from "@/constants";
-import { Flex, Heading, Box } from "@chakra-ui/react";
-import router from "next/router";
+import { ApiRoutes, navs } from "@/constants";
 import { LoginIconBox } from "@/containers";
+import { toUrl } from "@/utils";
+import { Box, Flex, Icon, IconButton, Tooltip } from "@chakra-ui/react";
 import Image from "next/image";
+import router from "next/router";
 
 const Navbar = () => {
   return (
-    <Box width={"1280px"} margin={"0 auto"} pt={"1.125rem"} pb={"1.125rem"}>
+    <Box
+      width={{ base: "100%", md: "container.md" }}
+      margin={"0 auto"}
+      py={"4"}
+      px={"2"}
+    >
       <Flex
         justifyContent={"space-between"}
         alignItems={"center"}
         w={"100%"}
         pt={4 - 5}
         pb={4 - 5}
-        pl={8}
       >
-        <Flex gap={10}>
+        <Flex gap={"4"}>
           <Box
             onClick={() => router.push(`/${ApiRoutes.Home}`)}
             as="button"
@@ -29,43 +33,22 @@ const Navbar = () => {
           >
             <Image src="/logo.png" alt="logo" fill sizes="100%" priority />
           </Box>
-          {navs.map((nav, i) => {
-            return (
-              nav.label !== "Support" && (
-                <Box
-                  key={`nav_${i}`}
-                  onClick={() => router.push(nav.pathname)}
-                  as="button"
-                  fontSize={"lg"}
-                  fontWeight={"medium"}
-                >
-                  {nav.label}
-                </Box>
-              )
-            );
-          })}
-          <Box
-            fontSize={"lg"}
-            fontWeight={"medium"}
-            as="button"
-            onClick={() => router.push(`/${ApiRoutes.Support}`)}
-          >
-            <PopoverItem
-              trigger="hover"
-              head={"Support"}
-              contentBoxStyle={{ width: 150, textAlign: "center" }}
-            >
-              <Flex p={4} gap={4} direction={"column"}>
-                {supportNavs.map((nav, i) => {
-                  return (
-                    <Heading key={`supnav_${i}`} size={"sm"}>
-                      {nav.label}
-                    </Heading>
-                  );
-                })}
-              </Flex>
-            </PopoverItem>
-          </Box>
+          <Flex align={"center"} gap={"2"}>
+            {navs.map((nav, i) => {
+              return (
+                <Tooltip label={nav.label} key={`nav_${i}`}>
+                  <IconButton
+                    variant={"ghost"}
+                    aria-label={nav.label}
+                    onClick={() => router.push(toUrl(nav.pathname))}
+                    color={"subtleText"}
+                  >
+                    <Icon as={nav.icon} w={6} h={6} />
+                  </IconButton>
+                </Tooltip>
+              );
+            })}
+          </Flex>
         </Flex>
         <LoginIconBox />
       </Flex>

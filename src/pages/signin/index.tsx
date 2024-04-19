@@ -1,18 +1,19 @@
-import { useForm } from "react-hook-form";
-import { useRouter } from "next/router";
 import { signIn } from "next-auth/react";
+import { useRouter } from "next/router";
+import { useForm } from "react-hook-form";
 
 import { SocialLoginButtons } from "@/containers";
 
+import { PageRoutes } from "@/constants";
+import { toUrl } from "@/utils";
 import {
   Box,
   Button,
+  Center,
   FormControl,
   FormErrorMessage,
   Input,
   Stack,
-  Center,
-  HStack,
 } from "@chakra-ui/react";
 
 interface UserData {
@@ -41,8 +42,14 @@ const Signin = () => {
     await signIn("credentials", {
       username,
       password,
-      redirect: true,
-      callbackUrl: "/",
+    }).then(() => {
+      const redirect = router.query.redirect;
+
+      if (redirect) {
+        router.push(redirect.toString());
+      } else {
+        router.push(toUrl(PageRoutes.Home));
+      }
     });
   };
 

@@ -1,3 +1,6 @@
+import { GrGroup } from "react-icons/gr";
+import { MdOutlineMarkChatUnread } from "react-icons/md";
+
 export enum ApiRoutes {
   Home = "",
   Group = "clubs/:id?",
@@ -29,7 +32,6 @@ export enum PageRoutes {
   CreateGroup = "/group/create",
   Feed = "/feed/:id?",
   NewFeed = "/new-feed",
-  Support = "/support",
   AuthMypage = "/auth/mypage",
   GroupHome = "/group/:id/home",
   GroupMember = "/group/:id/member",
@@ -43,34 +45,13 @@ export enum PageRoutes {
 
 export const navs = [
   {
-    label: "Home",
-    pathname: PageRoutes.Home,
-  },
-  {
-    label: "Group",
+    label: "그룹",
     pathname: PageRoutes.Group,
+    icon: GrGroup,
   },
   {
-    label: "New Feed",
+    label: "피드",
     pathname: PageRoutes.NewFeed,
-  },
-  {
-    label: "Support",
-    pathname: PageRoutes.Support,
-  },
-];
-
-export const supportNavs = [
-  {
-    label: "공지사항",
-  },
-  {
-    label: "이용약관",
-  },
-  {
-    label: "문의하기",
-  },
-  {
-    label: "자주 묻는 질문",
+    icon: MdOutlineMarkChatUnread,
   },
 ];

@@ -12,7 +12,7 @@ const DefaultLayout = ({ children }: DefaultLayoutProps) => {
       <DefaultLayoutHeader />
       <Flex justify={"center"}>
         <Flex
-          w={{ base: "100%", xl: "1280px" }}
+          w={{ base: "100%", sm: "container.md" }}
           direction={"column"}
           mt={"100px"}
         >
