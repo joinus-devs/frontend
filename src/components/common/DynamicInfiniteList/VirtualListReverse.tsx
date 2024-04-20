@@ -117,6 +117,7 @@ const VirtualListReverse = <T,>({
       )}
       <Flex
         ref={parentRef}
+        p={2}
         h={1050}
         direction={"column"}
         w={"100%"}

@@ -1,73 +1,38 @@
 import { CircleImg } from "@/components";
-import {
-  AccordionButton,
-  AccordionIcon,
-  AccordionItem,
-  AccordionPanel,
-  Flex,
-  Icon,
-  Text,
-  Accordion as _Accordion,
-} from "@chakra-ui/react";
+import { BoxProps, Flex, Icon, Text } from "@chakra-ui/react";
 import { MdOnlinePrediction } from "react-icons/md";
 
+interface Members {
+  profile: string;
+  name: string;
+  id: number;
+}
 interface AccordionProps {
-  members: {
-    profile: string;
-    name: string;
-    id: number;
-  }[];
+  parentHeight: BoxProps["h"];
+  members: Members[];
 }
 
-const Accordion = ({ members }: AccordionProps) => {
+const Accordion = ({ members, parentHeight }: AccordionProps) => {
+  console.log("members", members);
   return (
-    <_Accordion allowToggle>
-      <AccordionItem border={"none"}>
-        <AccordionButton>
-          <Flex alignItems={"center"} gap={4}>
-            <Text fontSize={16}>Online</Text>
-            <AccordionIcon mt={0.5} />
+    <Flex overflowY={"auto"} direction={"column"} gap={4} maxH={parentHeight}>
+      {members.map((member, i) => {
+        console.log("member", member);
+        return (
+          <Flex alignItems={"center"} key={`group_member${i}`} gap={2} flex={1}>
+            <Icon as={MdOnlinePrediction} fontSize={24} fill={"primary.500"} />
+            {member && member.profile && (
+              <CircleImg
+                imgSrc={member.profile}
+                alt="member_profile"
+                size={12}
+              />
+            )}
+            {member && member.name && <Text>{member.name}</Text>}
           </Flex>
-        </AccordionButton>
-        <AccordionPanel>
-          <Flex
-            h={1137}
-            shadow={"lg"}
-            maxH={1137}
-            overflowY={"auto"}
-            direction={"column"}
-            gap={4}
-            pl={4}
-            pb={4}
-          >
-            {members.map((member, i) => {
-              return (
-                <Flex
-                  alignItems={"center"}
-                  h={40}
-                  key={`groupmember${i}`}
-                  gap={4}
-                >
-                  <Icon
-                    as={MdOnlinePrediction}
-                    fontSize={28}
-                    fill={"primary.500"}
-                  />
-                  {member && member.profile && (
-                    <CircleImg
-                      imgSrc={member.profile}
-                      alt="member_profile"
-                      size={16}
-                    />
-                  )}
-                  {member && member.name && <Text>{member.name}</Text>}
-                </Flex>
-              );
-            })}
-          </Flex>
-        </AccordionPanel>
-      </AccordionItem>
-    </_Accordion>
+        );
+      })}
+    </Flex>
   );
 };
 

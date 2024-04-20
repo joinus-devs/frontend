@@ -42,7 +42,7 @@ const Firewall = () => {
           openModal(RequiredLoginModal, {});
         });
     }
-  }, [me, openModal, router]);
+  }, [isFetching, me, openModal, router]);
 
   return null;
 };
