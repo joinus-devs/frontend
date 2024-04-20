@@ -28,7 +28,6 @@ const GroupDetail = ({ children }: GroupDetailProps) => {
           {group && <GroupDescription group={group} />}
           {groupId && <GroupNav groupId={groupId} />}
           <Box
-            flex={2}
             mt={"1px"}
             overflow={"hidden"}
             borderRightWidth={"1px"}

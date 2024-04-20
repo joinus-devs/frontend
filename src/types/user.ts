@@ -10,6 +10,7 @@ export interface User extends timer {
   exp?: number;
   type?: string;
   profile: string;
+  birth: string;
 }
 
 export interface UserWithPage {
