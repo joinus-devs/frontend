@@ -5,21 +5,20 @@ import { AiFillMail } from "react-icons/ai";
 import { FaSquarePhone } from "react-icons/fa6";
 import { useMemo } from "react";
 import { CardText } from ".";
+import { formatBirth } from "@/utils";
 
 interface TemplateCardProps {
   user: User;
 }
 
 const TemplateCard = ({ user }: TemplateCardProps) => {
-  const date = new Date(user.birth).toISOString().split("T")[0].split("-");
-  const formatBirth = date[0].slice(2) + ". " + date[1] + ". " + date[2];
   const formatPhone = user.phone.replace(/(\d{3})(\d{4})(\d{4})/, "$1 $2 $3");
 
   const userMeta = useMemo(() => {
     return [
       {
         icon: FaBirthdayCake,
-        text: formatBirth,
+        text: formatBirth(user.birth),
       },
       {
         icon: AiFillMail,
@@ -30,7 +29,7 @@ const TemplateCard = ({ user }: TemplateCardProps) => {
         text: formatPhone,
       },
     ];
-  }, [formatBirth, formatPhone, user.email]);
+  }, [formatPhone, user.birth, user.email]);
 
   return (
     <Card variant={"unstyled"} flex={1}>

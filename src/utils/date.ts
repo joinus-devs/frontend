@@ -35,3 +35,9 @@ export const formatISO = (iso?: string) => {
     return `${year}-${month}-${day}`;
   }
 };
+
+export const formatBirth = (str: string) => {
+  const date = new Date(str).toISOString().split("T")[0].split("-");
+  const formatBirth = date[0].slice(2) + ". " + date[1] + ". " + date[2];
+  return formatBirth;
+};

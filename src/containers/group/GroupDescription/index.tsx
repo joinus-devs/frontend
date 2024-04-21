@@ -13,6 +13,7 @@ import {
   Text,
   Tooltip,
 } from "@chakra-ui/react";
+import { useQueryClient } from "@tanstack/react-query";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { useCallback, useMemo } from "react";
@@ -25,6 +26,7 @@ interface GroupDescriptionProps {
 const none = "/none-groupimg.webp";
 
 const GroupDescription = ({ group }: GroupDescriptionProps) => {
+  const queryClient = useQueryClient();
   const router = useRouter();
   const groupId = QueryParser.toNumber(router.query.id);
 
@@ -32,8 +34,17 @@ const GroupDescription = ({ group }: GroupDescriptionProps) => {
     toUrl(ApiRoutes.GroupMembers, { id: groupId ?? 0 })
   );
   const handlerJoin = useCallback(() => {
-    joinClub({});
-  }, [joinClub]);
+    joinClub(
+      {},
+      {
+        onSuccess: () => {
+          queryClient.invalidateQueries({
+            queryKey: [toUrl(ApiRoutes.GroupMembers, { id: groupId })],
+          });
+        },
+      }
+    );
+  }, [groupId, joinClub, queryClient]);
 
   const mainGroupImg = useMemo(() => {
     if (!group || !group.images) return none;

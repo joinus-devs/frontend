@@ -33,7 +33,7 @@ const GroupDetail = ({ children }: GroupDetailProps) => {
             borderRightWidth={"1px"}
             borderLeftWidth={"1px"}
           >
-            <Box mt={8} mb={8} ml={2} mr={2}>
+            <Box mt={8} mb={8} ml={2} mr={2} minH={800}>
               {children}
             </Box>
           </Box>
