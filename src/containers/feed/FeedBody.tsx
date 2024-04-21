@@ -17,7 +17,7 @@ const FeedBody = ({ feed }: FeedBodyProps) => {
     <Box>
       <Flex gap={4} position={"relative"}>
         {me?.id === feed.user_id && <FeedEditBt feed={feed} />}
-        <CircleImg imgSrc={"/noneUserImg.webp"} alt="userImg" size={10} />
+        <CircleImg imgSrc={feed.user.profile} alt="userImg" size={10} />
         <Flex direction={"column"}>
           <Heading size={"sm"}>{feed.user?.name}</Heading>
           <Text color={"subtleText"}>{formatISO(feed.created_at)}</Text>
