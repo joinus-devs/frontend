@@ -1,8 +1,7 @@
 import { usePost } from "@/apis";
-import { CircleImg } from "@/components";
 import { ApiRoutes, PageRoutes } from "@/constants";
-import { QueryParser, toUrl } from "@/utils";
-import { Button, Flex, Icon, IconButton, Input } from "@chakra-ui/react";
+import { toUrl } from "@/utils";
+import { Flex, Icon, IconButton, Input } from "@chakra-ui/react";
 import { useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import { useCallback } from "react";
@@ -13,8 +12,7 @@ interface PostComment {
   content: string;
 }
 
-interface PostCommentProps {
-  type: "group" | "feed";
+interface FeedCommentFormProps {
   feedId: number;
 }
 
@@ -22,7 +20,7 @@ const initialFormValues: PostComment = {
   content: "",
 };
 
-export const CommentForm = ({ type, feedId }: PostCommentProps) => {
+const FeedCommentForm = ({ feedId }: FeedCommentFormProps) => {
   const router = useRouter();
   const queryClient = useQueryClient();
   const { mutate: postComment } = usePost(
@@ -33,22 +31,14 @@ export const CommentForm = ({ type, feedId }: PostCommentProps) => {
     defaultValues: initialFormValues,
   });
 
-  const groupId = QueryParser.toNumber(router.query.id);
-
   const handleSubmitComment = useCallback(
     (data: PostComment) => {
       postComment(data, {
         onSuccess: () => {
-          if (type === "group") {
-            queryClient.invalidateQueries({
-              queryKey: [toUrl(ApiRoutes.GroupFeed, { id: groupId })],
-            });
-          }
-          if (type === "feed") {
-            queryClient.invalidateQueries({
-              queryKey: [toUrl(ApiRoutes.Feeds, { id: feedId })],
-            });
-          }
+          queryClient.invalidateQueries({
+            queryKey: [toUrl(ApiRoutes.Feeds, { id: feedId })],
+          });
+
           queryClient.invalidateQueries({
             queryKey: [toUrl(ApiRoutes.FeedInComments, { id: feedId })],
           });
@@ -60,7 +50,7 @@ export const CommentForm = ({ type, feedId }: PostCommentProps) => {
         },
       });
     },
-    [feedId, groupId, postComment, queryClient, reset, router, type]
+    [feedId, postComment, queryClient, reset, router]
   );
 
   return (
@@ -88,3 +78,5 @@ export const CommentForm = ({ type, feedId }: PostCommentProps) => {
     </Flex>
   );
 };
+
+export default FeedCommentForm;

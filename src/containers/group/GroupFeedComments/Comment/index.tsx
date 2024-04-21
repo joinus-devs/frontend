@@ -57,14 +57,14 @@ const FeedComment = ({ data }: CommentProps) => {
       gap={4}
       position={"relative"}
       boxShadow={"sm"}
-      p={8}
+      p={4}
       borderRadius={12}
     >
       {isMine && !isModify && (
         <CommentModifyIcon comment={data} onClick={() => setIsModify(true)} />
       )}
-      <CircleImg imgSrc={"/noneUserImg.webp"} alt={`comment_user`} size={12} />
-      <Flex direction={"column"} gap={1} w={"80%"}>
+      <CircleImg imgSrc={data.user.profile} alt={`comment_user`} size={12} />
+      <Flex direction={"column"} gap={1} w={"100%"}>
         <Flex gap={2}>
           <Text fontWeight={"bold"}>{data.user?.name}</Text>
           <Text opacity={0.7}>{formatISO(data.created_at)}</Text>

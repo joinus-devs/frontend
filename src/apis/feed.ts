@@ -38,7 +38,9 @@ export const useGetGroupFeeds = (params: GetGroupFeedsParams) => {
 };
 
 export const useGetFeed = (feedId?: number) => {
-  return useFetch<Feed>(toUrl(ApiRoutes.Feeds, { id: feedId }));
+  return useFetch<Feed>(toUrl(ApiRoutes.Feeds, { id: feedId }), undefined, {
+    enabled: !!feedId,
+  });
 };
 
 export const useGetFeeds = (params: CursorQueryParams) => {

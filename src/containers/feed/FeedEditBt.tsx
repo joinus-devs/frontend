@@ -15,11 +15,11 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import { BsThreeDotsVertical } from "react-icons/bs";
 
-interface ModifyIconProps {
+interface FeedEditBtProps {
   feed: Feed;
 }
 
-export const FeedModifyIcon = ({ feed }: ModifyIconProps) => {
+const FeedEditBt = ({ feed }: FeedEditBtProps) => {
   const queryClient = useQueryClient();
   const router = useRouter();
   const { openConfirm } = useModalStore(["openConfirm"]);
@@ -75,3 +75,5 @@ export const FeedModifyIcon = ({ feed }: ModifyIconProps) => {
     </>
   );
 };
+
+export default FeedEditBt;
