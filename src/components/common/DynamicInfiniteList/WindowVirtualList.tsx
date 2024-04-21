@@ -76,7 +76,9 @@ const WindowVirtualList = <T,>({
           <Spinner color={"primary.500"} />
         </Center>
       )}
-      {items && !items.length && !isFetching && <EmptyDataPlaceholder />}
+      {items && !items.length && !isFetching && (
+        <EmptyDataPlaceholder message="피드가" />
+      )}
     </>
   );
 };

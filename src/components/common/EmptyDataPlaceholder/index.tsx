@@ -1,20 +1,17 @@
-import { Flex, Box, Text } from "@chakra-ui/react";
-import Image from "next/image";
+import { Flex, Text, Icon } from "@chakra-ui/react";
+import { HiOutlineBellAlert } from "react-icons/hi2";
 
-const EmptyDataPlaceholder = () => {
+interface EmptyDataPlaceholderProps {
+  message?: string;
+}
+const EmptyDataPlaceholder = ({
+  message = "글이",
+}: EmptyDataPlaceholderProps) => {
   return (
     <Flex direction={"column"} alignItems={"center"} mt={100} gap={8}>
-      <Box position={"relative"} w={160} height={160}>
-        <Image
-          src={"/noneData.webp"}
-          alt={"noneData"}
-          fill
-          sizes="100%"
-          priority
-        />
-      </Box>
+      <Icon as={HiOutlineBellAlert} w={16} h={16} color={"gray.400"} />
       <Text pl={6} fontWeight={"semibold"} fontStyle={"italic"}>
-        데이터가 없습니다. 첫번째로 작성을 해보세요!
+        작성된 {message} 없습니다. 첫번째로 작성을 해보세요!
       </Text>
     </Flex>
   );
