@@ -1,5 +1,5 @@
 import { Feed } from "@/types";
-import { Button, Flex, Input, Text } from "@chakra-ui/react";
+import { Button, Flex, Heading, Input } from "@chakra-ui/react";
 import dynamic from "next/dynamic";
 import { Controller, useForm } from "react-hook-form";
 
@@ -40,31 +40,24 @@ const PostFeed = ({ feed, onSubmit, type }: CreateFeedProps) => {
   });
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <Flex justify="space-between" mb={4}>
-        <Text as="b" fontSize="2xl" mt={5}>
-          {type === "create" ? "피드 작성" : "피드 수정"}
-        </Text>
-        <Button
-          mt={4}
-          color="green.400"
-          type="submit"
-          backgroundColor="blue.50"
-          _hover={{ bg: "ghost" }}
-          _active={{ bg: "ghost" }}
-        >
-          {type === "create" ? "등록" : "수정"}
-        </Button>
-      </Flex>
-      <hr />
+    <Flex
+      as={"form"}
+      onSubmit={handleSubmit(onSubmit)}
+      direction={"column"}
+      gap={2}
+    >
+      <Heading size={"md"} pl={2} pb={2}>
+        피드를 {type === "create" ? "작성" : "수정"}해보세요!
+      </Heading>
       <Input
         type="text"
-        placeholder="제목을 입력하세요."
-        {...register("title", { required: "제목을 입력하세요" })}
-        borderColor="white"
-        focusBorderColor="gray.300"
-        mt={4}
-        mb={4}
+        placeholder={"제목을 입력하세요"}
+        {...register("title")}
+        border={"1px solid #CCCCCC"}
+        _placeholder={{
+          fontStyle: "italic",
+          fontSize: "14px",
+        }}
       />
       <Controller
         name="content"
@@ -77,7 +70,12 @@ const PostFeed = ({ feed, onSubmit, type }: CreateFeedProps) => {
           />
         )}
       />
-    </form>
+      <Flex justify={"end"}>
+        <Button type="submit" variant={"outline"}>
+          {type === "create" ? "등록" : "수정"}
+        </Button>
+      </Flex>
+    </Flex>
   );
 };
 

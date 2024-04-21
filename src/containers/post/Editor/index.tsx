@@ -1,12 +1,9 @@
-import React from "react";
-import dynamic from "next/dynamic";
-
 import FroalaEditorComponent from "react-froala-wysiwyg";
 
-import "froala-editor/css/froala_style.min.css";
 import "froala-editor/css/froala_editor.pkgd.min.css";
-import "froala-editor/js/plugins.pkgd.min.js";
+import "froala-editor/css/froala_style.min.css";
 import "froala-editor/js/languages/ko.js";
+import "froala-editor/js/plugins.pkgd.min.js";
 
 interface EditorProps {
   value: string;
