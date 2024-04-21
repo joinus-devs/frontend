@@ -28,7 +28,7 @@ export const getGroupList = async () => {
 };
 
 export const useGetGroupMembers = (
-  id: number,
+  id?: number,
   params?: UseGetGroupMemberParams
 ) => {
   return useFetch<UserWithPage>(toUrl(ApiRoutes.GroupMembers, { id }), params, {

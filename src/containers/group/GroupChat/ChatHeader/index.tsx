@@ -27,9 +27,14 @@ const ChatHeader = ({
   setBgImg,
 }: ChatHeaderProps) => {
   const { data } = useGetGroupMembers(group.id!);
+  const mainImg = group.images.find((img) => img.type === "main");
   return (
     <Flex gap={4} position={"relative"}>
-      <CircleImg imgSrc={"/none-groupimg.webp"} alt="group_img" size={24} />
+      <CircleImg
+        imgSrc={mainImg?.url ?? "/none-groupimg.webp"}
+        alt="group_img"
+        size={24}
+      />
       <Flex justifyContent={"space-between"} wrap={"wrap"} flex={1}>
         <Flex direction={"column"} gap={2}>
           <Heading size={"lg"} opacity={0.9}>

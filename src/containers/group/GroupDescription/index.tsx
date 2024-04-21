@@ -67,9 +67,9 @@ const GroupDescription = ({ group }: GroupDescriptionProps) => {
           src={mainGroupImg}
           alt="groupImg"
           fill
-          style={{ objectFit: "cover" }}
           sizes="100%"
           priority
+          objectFit="cover"
         />
       </Box>
       <Flex direction={"column"} gap={"4"} px={"2"} py={"8"}>

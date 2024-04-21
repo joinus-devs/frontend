@@ -5,3 +5,4 @@ export { default as PopoverItem } from "./PopoverItem";
 export { default as WithTitle } from "./WithTitle";
 export { default as EditCustomTable } from "./EditCustomTable";
 export { default as EmptyDataPlaceholder } from "./EmptyDataPlaceholder";
+export { default as ExclusiveAccessAlert } from "./ExclusiveAccessAlert";
