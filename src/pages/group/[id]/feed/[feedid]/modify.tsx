@@ -10,11 +10,9 @@ const Modify = () => {
   const router = useRouter();
   const name = router.query.feedid;
 
-  const { data: feed, isSuccess } = useFetch<Feed>(
-    toUrl(ApiRoutes.Feeds, { id: name })
-  );
+  const { data: feed } = useFetch<Feed>(toUrl(ApiRoutes.Feeds, { id: name }));
 
-  return <GroupDetail>{feed && <ModifyFeed feed={feed} />}</GroupDetail>;
+  return <GroupDetail>{feed && <ModifyFeed />}</GroupDetail>;
 };
 
 export default Modify;

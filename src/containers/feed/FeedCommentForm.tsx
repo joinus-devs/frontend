@@ -1,5 +1,7 @@
 import { usePost } from "@/apis";
 import { ApiRoutes, PageRoutes } from "@/constants";
+import { PostComment } from "@/types";
+
 import { toUrl } from "@/utils";
 import { Flex, Icon, IconButton, Input } from "@chakra-ui/react";
 import { useQueryClient } from "@tanstack/react-query";
@@ -7,10 +9,6 @@ import { useRouter } from "next/router";
 import { useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { FaCheck } from "react-icons/fa";
-
-interface PostComment {
-  content: string;
-}
 
 interface FeedCommentFormProps {
   feedId: number;

@@ -1,7 +1,5 @@
-import { PostComment } from "@/containers/group/GroupFeedItem";
 import { Button, Flex, Icon, Input } from "@chakra-ui/react";
-import { MutableRefObject, Ref, useCallback } from "react";
-import { UseFormRegister } from "react-hook-form";
+import { MutableRefObject, useCallback } from "react";
 import { IconType } from "react-icons";
 
 interface InputWithButtonProps {

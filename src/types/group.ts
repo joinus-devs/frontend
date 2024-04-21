@@ -39,3 +39,7 @@ export interface CommentWithPage {
   next: number;
   data: Comment[];
 }
+
+export interface PostComment {
+  content: string;
+}
