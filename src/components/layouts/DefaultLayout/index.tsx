@@ -1,6 +1,6 @@
 import { Box, Flex } from "@chakra-ui/react";
-import DefaultLayoutFooter from "./Footer";
-import DefaultLayoutHeader from "./Header";
+import { DefaultLayoutFooter } from "./Footer";
+import { DefaultLayoutHeader } from "./Header";
 
 interface DefaultLayoutProps {
   children?: React.ReactNode;

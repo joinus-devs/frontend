@@ -1,5 +1,5 @@
-import { Contact, TechStack } from "@/containers";
 import { Box, Flex } from "@chakra-ui/react";
+import { Contact, TechStack } from ".";
 
 const DefaultLayoutFooter = () => {
   return (
@@ -11,7 +11,7 @@ const DefaultLayoutFooter = () => {
         fontWeight={"medium"}
         p={10}
       >
-        <Flex>
+        <Flex direction={{ base: "column", md: "row" }} gap={{ base: "20" }}>
           <Contact />
           <TechStack />
         </Flex>

@@ -1,9 +1,9 @@
 import { ApiRoutes, navs } from "@/constants";
-import { LoginIconBox } from "@/containers";
 import { toUrl } from "@/utils";
 import { Box, Flex, Icon, IconButton, Tooltip } from "@chakra-ui/react";
 import Image from "next/image";
 import router from "next/router";
+import { Login } from "./Login";
 
 const Navbar = () => {
   return (
@@ -50,7 +50,7 @@ const Navbar = () => {
             })}
           </Flex>
         </Flex>
-        <LoginIconBox />
+        <Login />
       </Flex>
     </Box>
   );

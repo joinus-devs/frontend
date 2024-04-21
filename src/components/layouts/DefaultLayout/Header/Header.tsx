@@ -1,7 +1,7 @@
 import { Box } from "@chakra-ui/react";
 import { useBgColor } from "@/hooks";
-import { Navbar } from "@/containers";
 import { useCallback, useEffect, useState } from "react";
+import { Navbar } from ".";
 
 const DefaultLayoutHeader = () => {
   const [isMax, setIsMax] = useState(false);

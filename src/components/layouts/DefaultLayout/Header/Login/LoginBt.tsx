@@ -3,7 +3,7 @@ import { Icon, IconButton, Tooltip } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { IoLogInOutline } from "react-icons/io5";
 
-export const LoginButton = () => {
+const LoginBt = () => {
   const router = useRouter();
 
   return (
@@ -18,3 +18,5 @@ export const LoginButton = () => {
     </Tooltip>
   );
 };
+
+export default LoginBt;

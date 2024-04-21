@@ -8,10 +8,9 @@ import {
 } from "@chakra-ui/react";
 import { FaSun } from "react-icons/fa";
 import { FiMoon } from "react-icons/fi";
-import { LoginButton } from "./LoginButton";
-import { LogoutButton } from "./LogoutButton";
+import { LoginBt, LogoutBt } from ".";
 
-const LoginIconBox = () => {
+const Login = () => {
   const { colorMode, toggleColorMode } = useColorMode();
   const { data: me, isSuccess } = useGetMe();
 
@@ -30,9 +29,9 @@ const LoginIconBox = () => {
           )}
         </IconButton>
       </Tooltip>
-      {me && isSuccess ? <LogoutButton /> : <LoginButton />}
+      {me && isSuccess ? <LogoutBt /> : <LoginBt />}
     </Flex>
   );
 };
 
-export default LoginIconBox;
+export default Login;

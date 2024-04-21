@@ -7,7 +7,7 @@ import { useCallback } from "react";
 import { FaRegUser } from "react-icons/fa";
 import { IoLogOutOutline } from "react-icons/io5";
 
-export const LogoutButton = () => {
+const LogoutBt = () => {
   const router = useRouter();
   const logout = useLogout();
 
@@ -30,3 +30,5 @@ export const LogoutButton = () => {
     </>
   );
 };
+
+export default LogoutBt;
