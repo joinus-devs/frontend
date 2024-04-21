@@ -19,12 +19,14 @@ interface WindowVirtualListProps<T> {
   >;
   renderItem: ({ data }: { data: T }) => JSX.Element;
   gap?: FlexProps["gap"];
+  emptyDataMessage?: string;
 }
 
 const WindowVirtualList = <T,>({
   infiniteQueryResult,
   renderItem: Item,
   gap = 0,
+  emptyDataMessage = "피드가",
 }: WindowVirtualListProps<T>) => {
   const { data, fetchNextPage, isFetching } = infiniteQueryResult;
   const parentRef = useRef<HTMLDivElement>(null);
@@ -77,7 +79,7 @@ const WindowVirtualList = <T,>({
         </Center>
       )}
       {items && !items.length && !isFetching && (
-        <EmptyDataPlaceholder message="피드가" />
+        <EmptyDataPlaceholder message={emptyDataMessage} />
       )}
     </>
   );

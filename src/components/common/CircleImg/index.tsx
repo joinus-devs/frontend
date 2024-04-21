@@ -24,7 +24,7 @@ const CircleImg = ({ imgSrc, alt, size, style }: CircleImgProps) => {
         alt={alt}
         fill
         sizes="100%"
-        objectFit="cover"
+        style={{ objectFit: "cover" }}
         priority
       />
     </Box>

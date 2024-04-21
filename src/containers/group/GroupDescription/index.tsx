@@ -9,6 +9,7 @@ import {
   Flex,
   Heading,
   Icon,
+  IconButton,
   Tag,
   Text,
   Tooltip,
@@ -22,8 +23,6 @@ import { IoIosSettings } from "react-icons/io";
 interface GroupDescriptionProps {
   group: Group;
 }
-
-const none = "/none-groupimg.webp";
 
 const GroupDescription = ({ group }: GroupDescriptionProps) => {
   const queryClient = useQueryClient();
@@ -47,6 +46,7 @@ const GroupDescription = ({ group }: GroupDescriptionProps) => {
   }, [groupId, joinClub, queryClient]);
 
   const mainGroupImg = useMemo(() => {
+    const none = "/none-groupimg.webp";
     if (!group || !group.images) return none;
     if (group.images.length === 0) return none;
     const main = group.images.find((image) => image.type === "main");
@@ -69,16 +69,22 @@ const GroupDescription = ({ group }: GroupDescriptionProps) => {
           fill
           sizes="100%"
           priority
-          objectFit="cover"
+          style={{ objectFit: "cover" }}
         />
       </Box>
-      <Flex direction={"column"} gap={"4"} px={"2"} py={"8"}>
+      <Flex
+        direction={"column"}
+        gap={"4"}
+        px={"2"}
+        py={"8"}
+        position={"relative"}
+      >
         {useUserRoleMatcher(group.id, ["admin"]) && (
           <Tooltip label="그룹설정" placement={"bottom-end"}>
             <Flex
               position={"absolute"}
-              top={4}
-              right={0}
+              top={8}
+              right={4}
               as={"button"}
               onClick={() =>
                 router.push(toUrl(PageRoutes.GroupSetting, { id: group?.id }))
@@ -92,7 +98,7 @@ const GroupDescription = ({ group }: GroupDescriptionProps) => {
         <Flex justify={"space-between"}>
           <Flex gap={"4"}>
             <Heading size={"lg"}>{group.name ?? ""}</Heading>
-            <Flex gap={"2"}>
+            <Flex gap={"2"} alignItems={"center"}>
               {group.categories.map((category, index) => {
                 return (
                   <Tag h={8} key={index} variant={"outline"} size={"md"}>

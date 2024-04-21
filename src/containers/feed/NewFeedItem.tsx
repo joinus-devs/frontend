@@ -4,17 +4,25 @@ import { Feed } from "@/types";
 import { Box, Flex, Heading, Tag } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { GroupFeedItem } from "..";
-
-const dummyGroupData = {
-  name: "dummy",
-};
+import { useMemo } from "react";
+import { toCategory } from "@/constants";
 
 interface NewFeedItemProps {
   data: Feed;
 }
+
 const NewFeedItem = ({ data }: NewFeedItemProps) => {
   const router = useRouter();
   const bgColor = useBgColor();
+
+  const mainGroupImg = useMemo(() => {
+    const none = "/none-groupimg.webp";
+    if (!data.club || !data.club.images) return none;
+    if (data.club.images.length === 0) return none;
+    const main = data.club.images.find((image) => image.type === "main");
+    if (!main) return none;
+    return main.url;
+  }, [data.club]);
 
   return (
     <Flex gap={4} boxShadow={"lg"} p={4} borderRadius={12}>
@@ -23,7 +31,6 @@ const NewFeedItem = ({ data }: NewFeedItemProps) => {
         justifyContent={"center"}
         alignItems={"center"}
         direction={"column"}
-        gap={4}
         as={"button"}
         onClick={() => router.push(`/group/${data.club_id}`)}
         position={"relative"}
@@ -31,11 +38,15 @@ const NewFeedItem = ({ data }: NewFeedItemProps) => {
         borderRadius={12}
         backgroundColor={bgColor}
       >
-        <Tag position={"absolute"} right={8} top={8} p={2} h={8} fontSize={16}>
-          category
-        </Tag>
-        <CircleImg imgSrc={"/none-groupimg.webp"} alt="group_img" size={48} />
-        <Heading size={"md"}>{dummyGroupData.name}</Heading>
+        <Flex gap={2} wrap={"wrap"} p={2}>
+          {data.club?.categories.map((category) => {
+            return (
+              <Tag key={`category_${category}`}>{toCategory[category]}</Tag>
+            );
+          })}
+        </Flex>
+        <CircleImg imgSrc={mainGroupImg} alt="group_img" size={36} />
+        <Heading size={"md"}>{data.club?.name}</Heading>
       </Flex>
       <Box flex={2}>
         <GroupFeedItem data={data} />

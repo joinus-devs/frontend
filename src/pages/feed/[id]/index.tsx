@@ -55,7 +55,7 @@ const FeedDetail = () => {
               <FeedExtra feed={feed} />
             </>
           )}
-          <Box borderTopWidth={"1px"} py={4}>
+          <Box borderTopWidth={"1px"}>
             <WindowVirtualList<Comment>
               infiniteQueryResult={useGetComment({
                 feedId: feed?.id,
@@ -63,6 +63,7 @@ const FeedDetail = () => {
               })}
               renderItem={FeedComment}
               gap={8}
+              emptyDataMessage="댓글이"
             />
           </Box>
         </Flex>
