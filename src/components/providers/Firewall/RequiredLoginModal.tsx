@@ -1,14 +1,15 @@
 import {
   Button,
+  Flex,
   Heading,
+  Icon,
   Modal,
   ModalBody,
-  ModalCloseButton,
   ModalContent,
   ModalFooter,
-  ModalHeader,
   ModalOverlay,
 } from "@chakra-ui/react";
+import { IoAlertCircleOutline } from "react-icons/io5";
 
 interface RequiredLoginModalProps {
   onClose: () => void;
@@ -19,13 +20,19 @@ const RequiredLoginModal = ({ onClose }: RequiredLoginModalProps) => {
     <Modal isOpen onClose={onClose}>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader />
-        <ModalCloseButton />
         <ModalBody>
-          <Heading size={"md"}>{"로그인이 필요한 서비스입니다."}</Heading>
+          <Flex direction={"column"} alignItems={"center"} gap={4} pt={4}>
+            <Icon
+              as={IoAlertCircleOutline}
+              h={"16"}
+              w={"16"}
+              color={"yellow.500"}
+            />
+            <Heading size={"md"}>{"로그인이 필요한 서비스입니다"}</Heading>
+          </Flex>
         </ModalBody>
         <ModalFooter>
-          <Button variant="ghost" onClick={onClose}>
+          <Button onClick={onClose} variant={"ghost"}>
             확인
           </Button>
         </ModalFooter>
