@@ -3,7 +3,7 @@ import { useGetGroupMembers } from "@/apis/group";
 import { useDelete, useFetch, usePost } from "@/apis/hooks";
 import { ApiRoutes, toCategory } from "@/constants";
 import { toUrl } from "@/utils";
-import { Button, Input } from "@chakra-ui/react";
+import { Button } from "@chakra-ui/react";
 
 const Test = () => {
   const { mutate: signup } = usePost(ApiRoutes.SignUp);
@@ -146,7 +146,6 @@ const Test = () => {
       <Button onClick={() => hanldeUpdateClub()}>UpdateClub</Button>
       <Button onClick={hanlderManySignUp}>ManySignUp</Button>
       <Button onClick={handlerWrapManyJoinClub}>ManyJoinClub</Button>
-      <Input type={"file"} />
     </>
   );
 };

@@ -62,7 +62,7 @@ const FeedDetail = () => {
               })}
               renderItem={FeedComment}
               gap={8}
-              emptyDataMessage="댓글이"
+              emptyDataMessage="작성된 댓글이 없습니다. 첫번째로 작성을 해보세요!"
             />
           </Box>
         </Flex>

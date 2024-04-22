@@ -1,8 +1,9 @@
 import { ApiRoutes } from "@/constants";
-import { Group, UserWithPage } from "@/types";
+import { Group, GroupWithPage, UserWithPage } from "@/types";
 import { toUrl } from "@/utils";
-import { useFetch, useUpdate } from "./hooks";
+import { useFetch, useLoadMore, useUpdate } from "./hooks";
 import { getDomain } from "./utils";
+import { CursorQueryParams } from "./types";
 
 interface UseGetGroupMemberParams {
   roles?: string | string[];
@@ -13,6 +14,10 @@ export const useGetGroup = (id?: number) => {
   return useFetch<Group>(toUrl(ApiRoutes.Group, { id }), undefined, {
     enabled: !!id,
   });
+};
+
+export const useGetGroups = (params: CursorQueryParams) => {
+  return useLoadMore<Group[]>(toUrl(ApiRoutes.Group), params);
 };
 
 export const getGroupList = async () => {

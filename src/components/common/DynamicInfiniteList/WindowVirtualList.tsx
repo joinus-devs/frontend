@@ -19,14 +19,14 @@ interface WindowVirtualListProps<T> {
   >;
   renderItem: ({ data }: { data: T }) => JSX.Element;
   gap?: FlexProps["gap"];
-  emptyDataMessage?: string;
+  emptyDataMessage: string;
 }
 
 const WindowVirtualList = <T,>({
   infiniteQueryResult,
   renderItem: Item,
   gap = 0,
-  emptyDataMessage = "피드가",
+  emptyDataMessage,
 }: WindowVirtualListProps<T>) => {
   const { data, fetchNextPage, isFetching } = infiniteQueryResult;
   const parentRef = useRef<HTMLDivElement>(null);

@@ -24,6 +24,7 @@ const FeedPage = () => {
           })}
           renderItem={GroupFeedItem}
           gap={"4"}
+          emptyDataMessage="작성된 피드가 없습니다. 첫번째로 작성을 해보세요!"
         />
       </GroupDetail>
     </>

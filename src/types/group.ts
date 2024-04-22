@@ -40,6 +40,11 @@ export interface CommentWithPage {
   data: Comment[];
 }
 
+export interface GroupWithPage {
+  next: number;
+  data: Group[];
+}
+
 export interface PostComment {
   content: string;
 }

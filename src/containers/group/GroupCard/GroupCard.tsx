@@ -1,64 +1,71 @@
+import { CircleImg } from "@/components";
+import { PageRoutes, toCategory } from "@/constants";
+import { GroupCardInfo } from "@/containers";
+import { Group, GroupWithPage } from "@/types";
+import { toUrl } from "@/utils";
 import {
   Box,
   Card,
   CardBody,
   CardFooter,
+  CardHeader,
+  Flex,
   Heading,
   Image,
   Stack,
+  Tag,
   Text,
 } from "@chakra-ui/react";
-import Link from "next/link";
-
-export interface GroupCardProps {
-  id: number;
-  name: string;
-  category: string;
-  imgSrc: string;
-  overview: string;
-  members: number;
-}
+import { useRouter } from "next/router";
 
 interface GroupProps {
-  groupData: GroupCardProps;
+  data: Group;
 }
 
-const GroupCard = ({ groupData }: GroupProps) => {
+const none = "/none-groupimg.webp";
+
+const GroupCard = ({ data }: GroupProps) => {
+  const router = useRouter();
+  const imgs = data.images;
+  const maingImg = imgs.find((img) => img.type === "main")?.url ?? none;
+
   return (
-    <>
-      <Link href={`/group/${groupData.id}`}>
-        <Card
-          direction={{ base: "column", sm: "row" }}
-          overflow="hidden"
-          variant="outline"
-        >
-          <Image
-            objectFit="cover"
-            maxW={{ base: "100%", sm: "200px" }}
-            src={groupData.imgSrc}
-            alt="Caffe Latte"
-          />
+    <Card
+      onClick={() => router.push(toUrl(PageRoutes.GroupHome, { id: data.id }))}
+      _hover={{ transform: "scale(1.02)", cursor: "pointer" }}
+    >
+      <CardHeader py={8}>
+        <Flex gap={12}>
+          <Heading size={"lg"}>{data.name}</Heading>
+          <Flex justifyContent={"center"} gap={2}>
+            {data.categories.map((category, index) => {
+              return (
+                <Tag
+                  key={index}
+                  variant={"solid"}
+                  size={"lg"}
+                  borderRadius={"full"}
+                >
+                  {toCategory[category]}
+                </Tag>
+              );
+            })}
+          </Flex>
+        </Flex>
+      </CardHeader>
+      <CardBody pt={0}>
+        <Flex gap={4}>
+          <CircleImg imgSrc={maingImg} alt="group_img" size={48} />
+          <Flex direction={"column"} flex={1} gap={4} px={8} boxShadow={"md"}>
+            <Heading size={"sm"} textAlign={"center"}>
+              {data.description}
+            </Heading>
 
-          <Stack>
-            <CardBody>
-              <Heading size="md">{groupData.name}</Heading>
-
-              <Text py="2">{groupData.overview}</Text>
-              <Box>
-                <Text py="1">
-                  {groupData.category}
-                  {/* <IoPersonSharp /> */}
-                  &bull;
-                  {groupData.members}
-                </Text>
-              </Box>
-            </CardBody>
-
-            <CardFooter></CardFooter>
-          </Stack>
-        </Card>
-      </Link>
-    </>
+            <GroupCardInfo group={data} />
+          </Flex>
+        </Flex>
+      </CardBody>
+    </Card>
   );
 };
 
