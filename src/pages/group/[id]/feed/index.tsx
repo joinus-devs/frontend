@@ -1,4 +1,4 @@
-import { useGetGroupFeeds } from "@/apis/feed";
+import { useGetGroupFeeds } from "@/apis";
 import { WindowVirtualList } from "@/components/common/DynamicInfiniteList";
 import { GroupDetail, GroupFeedItem } from "@/containers";
 import { Feed } from "@/types";

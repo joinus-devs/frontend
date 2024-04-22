@@ -1,4 +1,4 @@
-import { usePostFeed } from "@/apis/feed";
+import { usePostFeed } from "@/apis";
 import { ApiRoutes, PageRoutes } from "@/constants";
 import { QueryParser, toUrl } from "@/utils";
 import { useQueryClient } from "@tanstack/react-query";

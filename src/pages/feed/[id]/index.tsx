@@ -1,5 +1,4 @@
-import { useGetComment, useGetGroup, useGetMe } from "@/apis";
-import { useGetFeed } from "@/apis/feed";
+import { useGetComment, useGetFeed, useGetGroup } from "@/apis";
 import { DefaultLayout } from "@/components";
 import { WindowVirtualList } from "@/components/common/DynamicInfiniteList";
 import { PageRoutes } from "@/constants";

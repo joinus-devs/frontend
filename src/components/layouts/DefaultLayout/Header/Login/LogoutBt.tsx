@@ -1,4 +1,4 @@
-import { useLogout } from "@/apis";
+import { useGetMe, useLogout } from "@/apis";
 import { PageRoutes } from "@/constants";
 import { toUrl } from "@/utils";
 import { Icon, IconButton, Tooltip } from "@chakra-ui/react";
@@ -10,10 +10,11 @@ import { IoLogOutOutline } from "react-icons/io5";
 const LogoutBt = () => {
   const router = useRouter();
   const logout = useLogout();
+  const { data: me } = useGetMe();
 
   const handleRoute = useCallback(() => {
-    router.push(toUrl(PageRoutes.AuthMypage));
-  }, [router]);
+    router.push(toUrl(PageRoutes.User, { id: me?.id }));
+  }, [me?.id, router]);
 
   return (
     <>

@@ -1,4 +1,4 @@
-import { Feed, useGetFeeds } from "@/apis/feed";
+import { Feed, useGetFeeds } from "@/apis";
 import { DefaultLayout } from "@/components";
 import { WindowVirtualList } from "@/components/common/DynamicInfiniteList";
 import { NewFeedItem } from "@/containers";
