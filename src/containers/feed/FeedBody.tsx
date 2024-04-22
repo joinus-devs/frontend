@@ -4,6 +4,7 @@ import { FeedEditBt } from ".";
 import { CircleImg } from "@/components";
 import { formatISO } from "@/utils";
 import { useGetMe } from "@/apis";
+import { useEffect, useRef } from "react";
 
 interface FeedBodyProps {
   feed: Feed;
@@ -13,6 +14,13 @@ interface FeedBodyProps {
 
 const FeedBody = ({ feed }: FeedBodyProps) => {
   const { data: me } = useGetMe();
+  const textRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!textRef.current) return;
+    textRef.current.innerHTML = feed.content;
+  }, [feed.content]);
+
   return (
     <Box>
       <Flex gap={4} position={"relative"}>
@@ -26,7 +34,7 @@ const FeedBody = ({ feed }: FeedBodyProps) => {
       <Flex py={"6"} px={"2"} direction={"column"}>
         <Flex direction={"column"} gap={"2"}>
           <Heading size={"sm"}>{feed.title}</Heading>
-          <Text id="text">{feed.content}</Text>
+          <Box ref={textRef} />
         </Flex>
       </Flex>
     </Box>

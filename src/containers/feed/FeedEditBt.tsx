@@ -25,8 +25,6 @@ const FeedEditBt = ({ feed }: FeedEditBtProps) => {
   const { openConfirm } = useModalStore(["openConfirm"]);
   const { mutate: deleteFeed } = useDelete(ApiRoutes.Feeds);
 
-  const groupId = QueryParser.toNumber(router.query.id);
-
   return (
     <>
       <Popover trigger={"click"} placement="left">
@@ -42,7 +40,7 @@ const FeedEditBt = ({ feed }: FeedEditBtProps) => {
             onClick={() =>
               router.push(
                 toUrl(PageRoutes.GroupModifyFeed, {
-                  id: groupId,
+                  id: feed.club_id,
                   feedId: feed.id,
                 })
               )
@@ -61,7 +59,9 @@ const FeedEditBt = ({ feed }: FeedEditBtProps) => {
                   deleteFeed(feed.id, {
                     onSuccess: () => {
                       queryClient.invalidateQueries({
-                        queryKey: [toUrl(ApiRoutes.GroupFeed, { id: groupId })],
+                        queryKey: [
+                          toUrl(ApiRoutes.GroupFeed, { id: feed.club_id }),
+                        ],
                       });
                     },
                   }),
