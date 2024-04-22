@@ -1,4 +1,4 @@
-import { signIn } from "@/apis/auth";
+import { useSignin } from "@/apis";
 import { DefaultLayout } from "@/components";
 import { ApiRoutes, PageRoutes } from "@/constants";
 import { SocialLoginButtons } from "@/containers";
@@ -11,7 +11,7 @@ import {
   Heading,
   Input,
 } from "@chakra-ui/react";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
 
@@ -23,6 +23,7 @@ interface UserData {
 const Signin = () => {
   const router = useRouter();
   const queryClient = useQueryClient();
+  const { mutate: signin } = useSignin();
   const {
     handleSubmit,
     register,
@@ -35,17 +36,23 @@ const Signin = () => {
     },
   });
 
-  const { mutate: handleSignIn, data } = useMutation({
-    mutationFn: ({ email, password }: UserData) => signIn(email, password),
-    onSuccess: (data) => {
-      // localStorage.setItem("login-token", data.token);
-      // router.push("/");
-      queryClient.invalidateQueries({ queryKey: [toUrl(ApiRoutes.Me)] });
-    },
-  });
-
-  const onSubmit = (values: UserData) => {
-    handleSignIn(values);
+  const onSubmit = async (values: UserData) => {
+    const email = values.email;
+    const password = values.password;
+    signin(
+      { email, password },
+      {
+        onSuccess: () => {
+          queryClient.invalidateQueries({ queryKey: [ApiRoutes.Me] });
+          const redirect = router.query.redirect;
+          if (redirect) {
+            router.push(redirect.toString());
+          } else {
+            router.push(toUrl(PageRoutes.Home));
+          }
+        },
+      }
+    );
   };
 
   return (
@@ -107,7 +114,7 @@ const Signin = () => {
             />
             <FormErrorMessage>{errors.password?.message}</FormErrorMessage>
           </FormControl>
-          <Button py={6} fontSize={"20"}>
+          <Button py={6} fontSize={"20"} type="submit">
             로그인
           </Button>
         </Flex>

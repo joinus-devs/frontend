@@ -15,15 +15,12 @@ interface SigninResponse {
   token: string;
 }
 
-export const useSignin = (id?: number) => {
-  return usePost<SigninRequest, SigninResponse>(
-    toUrl(ApiRoutes.SignIn, { id }),
-    {
-      onSuccess: (res) => {
-        localStorage.setItem("login-token", res.data.token);
-      },
-    }
-  );
+export const useSignin = () => {
+  return usePost<SigninRequest, SigninResponse>(ApiRoutes.SignIn, {
+    onSuccess: (res) => {
+      localStorage.setItem("login-token", res.data.token);
+    },
+  });
 };
 
 export interface UserData {
@@ -235,12 +232,6 @@ export const signIn = async (email: string, password: string) => {
     }),
   }).then((res) => res.json());
 
-  if (response?.status === 200) {
-    localStorage.setItem("login-token", response.data.token);
-    window.location.href = "/";
-  } else {
-    alert(response.message);
-  }
   return response.data;
 };
 
