@@ -3,14 +3,7 @@ import { CircleImg } from "@/components";
 import { ApiRoutes } from "@/constants";
 import { User } from "@/types";
 import { toUrl } from "@/utils";
-import {
-  Button,
-  Flex,
-  Icon,
-  IconButton,
-  Input,
-  Tooltip,
-} from "@chakra-ui/react";
+import { Flex, Icon, IconButton, Input, Tooltip } from "@chakra-ui/react";
 import { useQueryClient } from "@tanstack/react-query";
 import { ChangeEvent, useCallback, useRef } from "react";
 import { FaCamera } from "react-icons/fa";
@@ -82,12 +75,11 @@ const UpdateUserForm = ({ user }: UpdateUserFormProps) => {
       as={"form"}
       direction={"column"}
       align={"center"}
-      gap={4}
       flex={1}
       justifyContent={"center"}
     >
       <Flex direction={"column"} gap={4} align={"center"}>
-        <CircleImg imgSrc={user.profile} alt="user_profile" size={48} />
+        <CircleImg imgSrc={user.profile} alt="user_profile" size={60} />
         {me?.id === user.id && (
           <Flex gap={2}>
             <Input

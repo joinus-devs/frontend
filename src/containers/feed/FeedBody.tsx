@@ -1,10 +1,12 @@
 import { Feed } from "@/types";
-import { Box, Flex, Heading, Text } from "@chakra-ui/react";
+import { Box, Flex, Heading, Text, Tooltip } from "@chakra-ui/react";
 import { FeedEditBt } from ".";
 import { CircleImg } from "@/components";
-import { formatISO } from "@/utils";
+import { formatISO, toUrl } from "@/utils";
 import { useGetMe } from "@/apis";
 import { useEffect, useRef } from "react";
+import { useRouter } from "next/router";
+import { PageRoutes } from "@/constants";
 
 interface FeedBodyProps {
   feed: Feed;
@@ -15,7 +17,7 @@ interface FeedBodyProps {
 const FeedBody = ({ feed }: FeedBodyProps) => {
   const { data: me } = useGetMe();
   const textRef = useRef<HTMLDivElement>(null);
-
+  const router = useRouter();
   useEffect(() => {
     if (!textRef.current) return;
     textRef.current.innerHTML = feed.content;
@@ -23,9 +25,17 @@ const FeedBody = ({ feed }: FeedBodyProps) => {
 
   return (
     <Box>
-      <Flex gap={4} position={"relative"}>
+      <Flex gap={4}>
         {me?.id === feed.user_id && <FeedEditBt feed={feed} />}
-        <CircleImg imgSrc={feed.user.profile} alt="userImg" size={10} />
+        <Tooltip label="자세히보기">
+          <Box
+            onClick={() =>
+              router.push(toUrl(PageRoutes.User, { id: feed.user_id }))
+            }
+          >
+            <CircleImg imgSrc={feed.user.profile} alt="userImg" size={10} />
+          </Box>
+        </Tooltip>
         <Flex direction={"column"}>
           <Heading size={"sm"}>{feed.user?.name}</Heading>
           <Text color={"subtleText"}>{formatISO(feed.created_at)}</Text>

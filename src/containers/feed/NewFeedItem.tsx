@@ -5,7 +5,8 @@ import { Box, Flex, Heading, Tag } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { GroupFeedItem } from "..";
 import { useMemo } from "react";
-import { toCategory } from "@/constants";
+import { PageRoutes, toCategory } from "@/constants";
+import { toUrl } from "@/utils";
 
 interface NewFeedItemProps {
   data: Feed;
@@ -32,7 +33,9 @@ const NewFeedItem = ({ data }: NewFeedItemProps) => {
         alignItems={"center"}
         direction={"column"}
         as={"button"}
-        onClick={() => router.push(`/group/${data.club_id}`)}
+        onClick={() =>
+          router.push(toUrl(PageRoutes.GroupHome, { id: data.club_id }))
+        }
         position={"relative"}
         boxShadow={"md"}
         borderRadius={12}

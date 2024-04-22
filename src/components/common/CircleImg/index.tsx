@@ -18,6 +18,7 @@ const CircleImg = ({ imgSrc, alt, size, style }: CircleImgProps) => {
       minW={size}
       position={"relative"}
       style={style}
+      boxShadow={"2xl"}
     >
       <Image
         src={imgSrc}

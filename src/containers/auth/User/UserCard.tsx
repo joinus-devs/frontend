@@ -11,13 +11,15 @@ const UserCard = () => {
   const { data: userData } = useGetUser(userId);
 
   return (
-    <Flex direction={"column"}>
-      <Heading size="md">{userData?.name}의 프로필</Heading>
+    <Flex direction={"column"} gap={4}>
       {userData && (
-        <Flex gap={2}>
-          <UpdateUserForm user={userData} />
-          <UserInfo user={userData} />
-        </Flex>
+        <>
+          <Heading size="md">{userData?.name}의 프로필</Heading>
+          <Flex gap={2} direction={{ base: "column", md: "row" }}>
+            <UpdateUserForm user={userData} />
+            <UserInfo user={userData} />
+          </Flex>
+        </>
       )}
     </Flex>
   );
