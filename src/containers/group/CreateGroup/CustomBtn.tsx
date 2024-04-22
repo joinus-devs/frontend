@@ -22,14 +22,14 @@ const CustomBtn = ({ style, onClick, text, type }: CustomBtnProps) => {
       style={style}
       onClick={onClick}
       type={type}
-      fontSize={24}
-      p={8}
+      fontSize={20}
+      p={4}
       animation={`${btnAnimation} 1s ease-in-out`}
       backgroundColor={"white"}
       color={"primary.500"}
       fontWeight={"bold"}
       _hover={{
-        backgroundColor: "primary.600",
+        backgroundColor: "primary.300",
         color: "white",
       }}
     >

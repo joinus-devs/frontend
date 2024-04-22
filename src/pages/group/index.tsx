@@ -2,11 +2,15 @@ import { useGetGroups } from "@/apis";
 import { DefaultLayout } from "@/components";
 import { WindowVirtualList } from "@/components/common/DynamicInfiniteList";
 import { GroupCard } from "@/containers";
-import { Flex, Heading, Icon } from "@chakra-ui/react";
+import { Flex, Heading, Icon, IconButton } from "@chakra-ui/react";
 import Head from "next/head";
 import { TiStarFullOutline } from "react-icons/ti";
+import { FaHeart } from "react-icons/fa";
+import { useRouter } from "next/router";
+import { PageRoutes } from "@/constants";
 
 const GroupList = () => {
+  const router = useRouter();
   return (
     <>
       <Head>
@@ -17,11 +21,30 @@ const GroupList = () => {
       </Head>
       <DefaultLayout>
         <Flex py={12} direction={"column"} gap={8}>
-          <Flex alignItems={"center"}>
-            <Icon as={TiStarFullOutline} color={"yellow.500"} w={"7"} h={"7"} />
-            <Heading size="md" px="8px">
-              이런 모임 어때요?
-            </Heading>
+          <Flex justifyContent={"space-between"}>
+            <Flex alignItems={"center"}>
+              <Icon
+                as={TiStarFullOutline}
+                color={"yellow.500"}
+                w={"7"}
+                h={"7"}
+              />
+              <Heading size="md" px="8px">
+                이런 모임 어때요?
+              </Heading>
+            </Flex>
+            <IconButton
+              aria-label="createclub_bt"
+              variant={"ghost"}
+              onClick={() => router.push(PageRoutes.CreateGroup)}
+            >
+              <Flex alignItems={"center"} px={2}>
+                <Icon as={FaHeart} color={"red.500"} w={"6"} h={"6"} />
+                <Heading size="md" px="8px">
+                  모임 만들고 싶어요
+                </Heading>
+              </Flex>
+            </IconButton>
           </Flex>
           <WindowVirtualList
             infiniteQueryResult={useGetGroups({ limit: 10 })}

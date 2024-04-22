@@ -18,6 +18,7 @@ const blackList = [
   PageRoutes.GroupPermissionMember,
   PageRoutes.GroupSetting,
   PageRoutes.User,
+  PageRoutes.NewFeed,
 ];
 
 const Firewall = () => {

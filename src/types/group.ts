@@ -1,6 +1,17 @@
 import { User, imgs } from ".";
 import { timer } from ".";
 
+export interface CreateGroupFormValues {
+  name: string;
+  category: string;
+  description: string;
+  minimum_age: number;
+  maximum_age: number;
+  capacity: number;
+  sex: boolean;
+  images: imgs[];
+}
+
 export interface Group extends timer {
   name: string;
   description: string;

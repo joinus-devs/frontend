@@ -1,6 +1,6 @@
 import { useFetch } from "@/apis/hooks";
 import { ApiRoutes } from "@/constants";
-import { CreateGroupFormValues } from "@/pages/group/create";
+import { CreateGroupFormValues } from "@/types";
 import { Category } from "@/types/category";
 import {
   FormControl,
@@ -16,7 +16,7 @@ interface SetGroupDetailProps {
   register: UseFormRegister<CreateGroupFormValues>;
 }
 
-const GroupForm = ({ register }: SetGroupDetailProps) => {
+const GroupBodyForm = ({ register }: SetGroupDetailProps) => {
   const { data } = useFetch<Category[]>(ApiRoutes.Category);
 
   return (
@@ -66,4 +66,4 @@ const GroupForm = ({ register }: SetGroupDetailProps) => {
   );
 };
 
-export default GroupForm;
+export default GroupBodyForm;

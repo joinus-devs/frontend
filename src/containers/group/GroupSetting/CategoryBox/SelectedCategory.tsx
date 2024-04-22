@@ -25,7 +25,7 @@ const SelectedCategories = ({
               size={"lg"}
               borderRadius="full"
               variant="outline"
-              colorScheme="green"
+              colorScheme="primary"
               border={"1px solid"}
               bgColor={"white"}
             >

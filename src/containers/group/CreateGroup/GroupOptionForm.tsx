@@ -1,5 +1,5 @@
 import { groupAcceptSex, groupMaxParticipants } from "@/constants";
-import { CreateGroupFormValues } from "@/pages/group/create";
+import { CreateGroupFormValues } from "@/types";
 import {
   Button,
   Flex,
@@ -115,7 +115,7 @@ const GroupOptionForm = ({ setValue, watch }: SetGroupOptionsProps) => {
             })}
           </Flex>
           <FormHelperText>
-            성별제한 : {options[3] ? "남성" : "여성"}만
+            성별 : {options[3] ? "남성" : "여성"}만
           </FormHelperText>
         </FormControl>
       </Flex>
