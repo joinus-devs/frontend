@@ -1,19 +1,17 @@
-import { getDomain } from "@/apis";
 import { signIn } from "@/apis/auth";
-import { ApiRoutes } from "@/constants";
+import { DefaultLayout } from "@/components";
+import { ApiRoutes, PageRoutes } from "@/constants";
 import { SocialLoginButtons } from "@/containers";
 import { toUrl } from "@/utils";
 import {
-  Box,
   Button,
-  Center,
+  Flex,
   FormControl,
   FormErrorMessage,
+  Heading,
   Input,
-  Stack,
-  Text,
 } from "@chakra-ui/react";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
 
@@ -51,18 +49,38 @@ const Signin = () => {
   };
 
   return (
-    <>
-      <Center mt={70} h="100px" color="#25D366" fontSize={"3rem"}>
-        <Text _hover={{ cursor: "pointer" }} onClick={() => router.push("/")}>
-          JoinUs
-        </Text>
-      </Center>
-      <Box maxW="sm" mx="auto" mt={2} p={6} borderWidth={1} borderRadius="md">
-        <form onSubmit={handleSubmit(onSubmit)}>
+    <DefaultLayout>
+      <Flex
+        direction={"column"}
+        justifyContent={"center"}
+        alignItems={"center"}
+        gap={4}
+        py={12}
+      >
+        <Heading
+          size={"xl"}
+          _hover={{ cursor: "pointer" }}
+          onClick={() => router.push(PageRoutes.Home)}
+        >
+          Join Us
+        </Heading>
+        <Flex
+          as={"form"}
+          onSubmit={handleSubmit(onSubmit)}
+          direction={"column"}
+          gap={2}
+          p={2}
+          borderWidth={1}
+          borderRadius="md"
+          w={{ base: "100%", sm: "480px" }}
+        >
           <FormControl isInvalid={!!errors.email}>
             <Input
               type="text"
               placeholder="아이디"
+              _placeholder={{
+                fontStyle: "italic",
+              }}
               {...register("email", {
                 required: "아이디를 입력해주세요",
                 pattern: {
@@ -71,68 +89,45 @@ const Signin = () => {
                   message: "이메일 형식에 맞지 않습니다.",
                 },
               })}
+              py={6}
             />
             <FormErrorMessage>{errors.email?.message}</FormErrorMessage>
           </FormControl>
-
-          <FormControl mt={4} isInvalid={!!errors.password}>
+          <FormControl isInvalid={!!errors.password}>
             <Input
               type="password"
               placeholder="비밀번호"
               {...register("password", {
                 required: "비밀번호를 입력해주세요",
               })}
+              py={6}
+              _placeholder={{
+                fontStyle: "italic",
+              }}
             />
             <FormErrorMessage>{errors.password?.message}</FormErrorMessage>
           </FormControl>
-
-          <Button
-            mt={6}
-            colorScheme="primary"
-            type="submit"
-            width="full"
-            _hover={{ bg: "green.500" }}
-          >
+          <Button py={6} fontSize={"20"}>
             로그인
           </Button>
-        </form>
-      </Box>
-
-      <Center mt={4}>
-        <Stack direction="row" spacing={2}>
-          <Button
-            variant="ghost"
-            color="gray"
-            _hover={{ bg: "white" }}
-            onClick={() => console.log("아이디 찾기")}
-          >
+        </Flex>
+        <Flex gap={2}>
+          <Button variant="ghost" onClick={() => console.log("아이디 찾기")}>
             아이디 찾기
           </Button>
-          <Button
-            variant="ghost"
-            color="gray"
-            _hover={{ bg: "white" }}
-            onClick={() => console.log("비밀번호 찾기")}
-          >
+          <Button variant="ghost" onClick={() => console.log("비밀번호 찾기")}>
             비밀번호 찾기
           </Button>
           <Button
             variant="ghost"
-            color="gray"
-            _hover={{ bg: "white" }}
-            onClick={() => router.push("/auth/register")}
+            onClick={() => router.push(PageRoutes.SignUp)}
           >
             회원가입
           </Button>
-        </Stack>
-      </Center>
-
-      <Center color="gray" mt={4}>
-        소셜 계정으로 간편 로그인
-      </Center>
-
-      <SocialLoginButtons />
-    </>
+        </Flex>
+        <SocialLoginButtons />
+      </Flex>
+    </DefaultLayout>
   );
 };
 

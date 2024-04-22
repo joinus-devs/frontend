@@ -1,6 +1,6 @@
 import { toCheckToken } from "@/apis";
 import { DefaultLayout } from "@/components";
-import UpdateUserForm from "@/containers/auth/mypage/updateUserForm";
+import { UpdateUserForm } from "@/containers";
 import { Box, Heading, Text } from "@chakra-ui/react";
 import Head from "next/head";
 import { useRouter } from "next/router";

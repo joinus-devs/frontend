@@ -11,16 +11,11 @@ function GenderSelection({
 }) {
   return (
     <Button
+      variant={isSelected ? "outline" : "ghost"}
       onClick={() => onChange(value)}
       borderWidth="1px"
       borderRadius={"md"}
-      variant={"outline"}
-      color={isSelected ? "green.500" : "gray.600"}
-      bg={"white"}
-      borderColor={isSelected ? "green.500" : "gray.100"}
-      _hover={{ bg: "white" }}
-      px={16}
-      py={1}
+      flex={1}
     >
       {value}
     </Button>
