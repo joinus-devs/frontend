@@ -5,14 +5,14 @@ import { AiFillMail } from "react-icons/ai";
 import { FaSquarePhone } from "react-icons/fa6";
 import { useMemo } from "react";
 import { CardText } from ".";
-import { formatBirth } from "@/utils";
+import { formatBirth, formatPhone } from "@/utils";
 
 interface TemplateCardProps {
   user: User;
 }
 
 const TemplateCard = ({ user }: TemplateCardProps) => {
-  const formatPhone = user.phone.replace(/(\d{3})(\d{4})(\d{4})/, "$1 $2 $3");
+  const formatedPhone = formatPhone(user.phone);
 
   const userMeta = useMemo(() => {
     return [
@@ -26,10 +26,10 @@ const TemplateCard = ({ user }: TemplateCardProps) => {
       },
       {
         icon: FaSquarePhone,
-        text: formatPhone,
+        text: formatedPhone,
       },
     ];
-  }, [formatPhone, user.birth, user.email]);
+  }, [formatedPhone, user.birth, user.email]);
 
   return (
     <Card variant={"unstyled"} flex={1}>

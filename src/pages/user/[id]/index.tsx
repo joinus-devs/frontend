@@ -1,6 +1,6 @@
 import { DefaultLayout } from "@/components";
-import { UpdateUserForm } from "@/containers";
-import { Box, Flex, Heading, Text } from "@chakra-ui/react";
+import { UpdateUserForm, UserCard } from "@/containers";
+import { Box } from "@chakra-ui/react";
 import Head from "next/head";
 
 const UserDetail = () => {
@@ -13,19 +13,9 @@ const UserDetail = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <DefaultLayout>
-        <Flex
-          direction={"column"}
-          w={{ base: "100%", md: "container.md" }}
-          bgColor={"yellow.100"}
-          gap={4}
-        >
-          <Heading as="h1" size="md">
-            프로필 수정
-          </Heading>
-          <Text fontSize="sm">프로필 사진과 이름을 변경할 수 있습니다.</Text>
-
-          <UpdateUserForm />
-        </Flex>
+        <Box w={{ base: "100%", md: "container.md" }} py={12}>
+          <UserCard />
+        </Box>
       </DefaultLayout>
     </>
   );

@@ -1,121 +1,117 @@
-import { updateUserInfo, useGetMe, useGetUser } from "@/apis";
-import { QueryParser } from "@/utils";
-import { Avatar, Box, Button, Center, Flex, Input } from "@chakra-ui/react";
-import { useRouter } from "next/router";
-import { useEffect, useRef, useState } from "react";
-import { useForm } from "react-hook-form";
+import { useGetMe, usePostImg, useUpdtateUser } from "@/apis";
+import { CircleImg } from "@/components";
+import { ApiRoutes } from "@/constants";
+import { User } from "@/types";
+import { toUrl } from "@/utils";
+import {
+  Button,
+  Flex,
+  Icon,
+  IconButton,
+  Input,
+  Tooltip,
+} from "@chakra-ui/react";
+import { useQueryClient } from "@tanstack/react-query";
+import { ChangeEvent, useCallback, useRef } from "react";
+import { FaCamera } from "react-icons/fa";
+import { IoIosClose } from "react-icons/io";
 
-interface UserData {
-  imageUpload: FileList;
-  editName: string;
+interface UpdateUserFormProps {
+  user: User;
 }
-
-const basicProfileImage =
+const baseImg =
   process.env.NEXT_PUBLIC_BASIC_PROFILE_IMAGE ?? "/noneUserImg.webp";
 
-const UpdateUserForm = () => {
-  const router = useRouter();
-  const userId = QueryParser.toNumber(router.query.id);
-
-  const fileInputRef = useRef<HTMLInputElement | null>(null);
+const UpdateUserForm = ({ user }: UpdateUserFormProps) => {
+  const queryClient = useQueryClient();
   const { data: me } = useGetMe();
-  const { data: userData } = useGetUser(userId);
+  const { mutate: uploadImg } = usePostImg();
+  const { mutate: updateUser } = useUpdtateUser(me?.id ?? 0);
+  const inputRef = useRef<HTMLInputElement | null>(null);
 
-  const [imagePreview, setImagePreview] = useState<string>(basicProfileImage);
-  const [hasFormData, setHasFormData] = useState<boolean>(false);
-  const [basicImage, setBasicImage] = useState<boolean>(false);
+  const onClickCamera = useCallback(() => {
+    inputRef.current?.click();
+  }, []);
 
-  const {
-    register,
-    handleSubmit,
-    watch,
-    formState: { errors },
-  } = useForm<UserData>();
+  const handleDeleteImg = useCallback(() => {
+    if (!me) return;
+    if (me.id !== user.id) return;
+    updateUser(
+      { ...me, profile: baseImg },
+      {
+        onSuccess: () => {
+          queryClient.invalidateQueries({
+            queryKey: [toUrl(ApiRoutes.User, { id: me.id })],
+          });
+        },
+      }
+    );
+  }, [me, queryClient, updateUser, user.id]);
 
-  const image = watch("imageUpload");
-
-  useEffect(() => {
-    if (!userData) return;
-    if (image && image.length > 0) {
-      const file = image[0];
-      setImagePreview(URL.createObjectURL(file));
-    } else {
-      setImagePreview(userData?.profile);
-    }
-  }, [image, userData]);
-
-  const handleSelectImage = () => {
-    fileInputRef.current?.click();
-    setHasFormData(true);
-    setBasicImage(false);
-  };
-
-  const handleRemoveImage = () => {
-    setImagePreview("/noneUserImg.webp");
-    setBasicImage(true);
-    setHasFormData(false);
-  };
-
-  const onSubmit = async (values: UserData) => {
-    const formData = new FormData();
-    if (values.imageUpload && values.imageUpload.length > 0) {
-      formData.append("image", values.imageUpload[0]);
-    }
-
-    const id = me?.id as number;
-    const name = values?.editName || me?.name;
-    const profile = hasFormData
-      ? formData
-      : basicImage
-        ? basicProfileImage
-        : me?.profile;
-    // const response = await updateUserInfo(id, name, profile);
-    await updateUserInfo(id, name, profile);
-  };
+  const handleFileChange = useCallback(
+    (event: ChangeEvent<HTMLInputElement>) => {
+      if (!me) return;
+      if (me.id !== user.id) return;
+      if (!event.target.files) return;
+      const file = event.target.files[0];
+      if (!file) return;
+      const formData = new FormData();
+      formData.append("image", file);
+      uploadImg(formData, {
+        onSuccess: (data) => {
+          const imgSrc = data.data;
+          updateUser(
+            { ...me, profile: imgSrc },
+            {
+              onSuccess: () => {
+                queryClient.invalidateQueries({
+                  queryKey: [toUrl(ApiRoutes.User, { id: me.id })],
+                });
+              },
+            }
+          );
+        },
+      });
+      event.target.files = null;
+    },
+    [me, queryClient, updateUser, uploadImg, user.id]
+  );
 
   return (
     <Flex
       as={"form"}
-      onSubmit={handleSubmit(onSubmit)}
       direction={"column"}
       align={"center"}
       gap={4}
+      flex={1}
+      justifyContent={"center"}
     >
       <Flex direction={"column"} gap={4} align={"center"}>
-        <Avatar
-          size="2xl"
-          name={me?.name}
-          src={imagePreview || "/noneUserImg.webp"}
-        />
-        <Input
-          {...register("imageUpload")}
-          style={{ display: "none" }}
-          accept="image/*"
-          type="file"
-          ref={(e) => {
-            fileInputRef.current = e;
-            register("imageUpload").ref(e);
-          }}
-        />
-        <Flex gap={2}>
-          <Button onClick={handleSelectImage} variant={"outline"}>
-            사진 선택
-          </Button>
-          <Button onClick={handleRemoveImage} variant={"outline"}>
-            삭제
-          </Button>
-        </Flex>
+        <CircleImg imgSrc={user.profile} alt="user_profile" size={48} />
+        {me?.id === user.id && (
+          <Flex gap={2}>
+            <Input
+              type="file"
+              display={"none"}
+              accept="image/*"
+              ref={(e) => {
+                inputRef.current = e;
+              }}
+              onChange={handleFileChange}
+            />
+            <Tooltip label="프로필변경">
+              <IconButton aria-label="get_photobt" onClick={onClickCamera}>
+                <Icon as={FaCamera}></Icon>
+              </IconButton>
+            </Tooltip>
+            <Tooltip label="프로필삭제">
+              <IconButton aria-label="delete_photobt" onClick={handleDeleteImg}>
+                <Icon as={IoIosClose} h={"10"} w={"10"}></Icon>
+              </IconButton>
+            </Tooltip>
+          </Flex>
+        )}
       </Flex>
-      <Input
-        type="text"
-        {...register("editName")}
-        width="auto"
-        placeholder={me?.name}
-      />
-
-      <Button type="submit" variant={"outline"}>
-        적용
-      </Button>
     </Flex>
   );
 };

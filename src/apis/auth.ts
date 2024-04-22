@@ -3,7 +3,7 @@ import { User } from "@/types";
 import { toUrl } from "@/utils";
 import { createStandaloneToast } from "@chakra-ui/react";
 import { useQueryClient } from "@tanstack/react-query";
-import { useFetch, usePost } from "./hooks";
+import { useFetch, usePost, useUpdate } from "./hooks";
 import { getDomain } from "./utils";
 
 interface SigninRequest {
@@ -270,43 +270,8 @@ export const getUserInfo: getUserInfo = async () => {
   return response.data;
 };
 
-export const postProfileImg: postProfileImg = async (formData) => {
-  const response = await fetch(getDomain(toUrl(ApiRoutes.Image)), {
-    method: "POST",
-    headers: {
-      Authorization: localStorage.getItem("login-token") || "",
-    },
-    body: formData,
-  }).then((res) => res.json());
-
-  return response.data;
-};
-
-export const updateUserInfo = async (
-  id: number,
-  name?: string,
-  profile?: FormData | string
-) => {
-  let imageUrl = "";
-  if (typeof profile === "object") {
-    imageUrl = await postProfileImg(profile);
-  }
-  const response = await fetch(
-    getDomain(toUrl(ApiRoutes.UpdateUser, { id: id })),
-    {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: localStorage.getItem("login-token") || "",
-      },
-      body: JSON.stringify({
-        name: name,
-        profile: imageUrl || profile,
-      }),
-    }
-  ).then((res) => res.json());
-
-  return response;
+export const useUpdtateUser = (id: number) => {
+  return useUpdate<User>(toUrl(ApiRoutes.User, { id }));
 };
 
 export const useLogout = () => {
