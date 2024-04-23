@@ -1,4 +1,6 @@
 import { DefaultLayout } from "@/components";
+import { HotFeed, HotGroup } from "@/containers";
+import { Flex } from "@chakra-ui/react";
 import Head from "next/head";
 
 export default function Home() {
@@ -10,7 +12,12 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <DefaultLayout></DefaultLayout>
+      <DefaultLayout>
+        <Flex direction={"column"} gap={8} py={12}>
+          <HotGroup />
+          <HotFeed />
+        </Flex>
+      </DefaultLayout>
     </>
   );
 }

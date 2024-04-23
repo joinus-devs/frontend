@@ -9,7 +9,7 @@ interface CircleImgProps {
 }
 
 const CircleImg = ({ imgSrc, alt, size, isBorder = false }: CircleImgProps) => {
-  const innerImg = () => {
+  const innerCircle = () => {
     return (
       <Box
         borderRadius={"full"}
@@ -41,10 +41,10 @@ const CircleImg = ({ imgSrc, alt, size, isBorder = false }: CircleImgProps) => {
           borderRadius={"full"}
           border={"2px solid"}
         >
-          {innerImg()}
+          {innerCircle()}
         </Center>
       ) : (
-        innerImg()
+        innerCircle()
       )}
     </>
   );

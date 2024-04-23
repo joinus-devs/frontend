@@ -18,6 +18,7 @@ const FeedBody = ({ feed }: FeedBodyProps) => {
   const { data: me } = useGetMe();
   const textRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
+
   useEffect(() => {
     if (!textRef.current) return;
     textRef.current.innerHTML = feed.content;
