@@ -48,7 +48,7 @@ const NewFeedItem = ({ data }: NewFeedItemProps) => {
             );
           })}
         </Flex>
-        <CircleImg imgSrc={mainGroupImg} alt="group_img" size={36} />
+        <CircleImg imgSrc={mainGroupImg} alt="group_img" size={36} isBorder />
         <Heading size={"md"}>{data.club?.name}</Heading>
       </Flex>
       <Box flex={2}>

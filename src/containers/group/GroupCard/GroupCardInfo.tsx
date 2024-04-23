@@ -1,6 +1,6 @@
 import { Group } from "@/types";
 import { formatISO } from "@/utils";
-import { Flex, Icon, Text } from "@chakra-ui/react";
+import { Flex, Heading, Icon, Text } from "@chakra-ui/react";
 import { GoAlert } from "react-icons/go";
 import { HiOutlineCake } from "react-icons/hi";
 import { PiGenderIntersex } from "react-icons/pi";
@@ -31,17 +31,17 @@ const GroupCardInfo = ({ group }: GroupCardInfoProps) => {
         icon: HiOutlineCake,
       },
       {
-        key: "성별제한",
+        key: "성별",
         value: group.sex ? "남성만" : "여성만",
         icon: PiGenderIntersex,
       },
       {
-        key: "나이제한",
+        key: "나이",
         value: groupAge,
         icon: GoAlert,
       },
       {
-        key: "인원제한",
+        key: "인원",
         value: `${group.capacity}명`,
         icon: GrGroup,
       },
@@ -59,9 +59,9 @@ const GroupCardInfo = ({ group }: GroupCardInfoProps) => {
       <Flex direction={"column"} gap={2} w={32}>
         {groupMeta.map((data) => {
           return (
-            <Flex gap={2} key={data.key}>
+            <Flex gap={2} key={data.key} alignItems={"center"}>
               <Icon as={data.icon} h={"6"} w={"6"} />
-              <Text>{data.key}</Text>
+              <Heading size={"sm"}>{data.key}</Heading>
             </Flex>
           );
         })}
