@@ -4,6 +4,9 @@ import "froala-editor/css/froala_editor.pkgd.min.css";
 import "froala-editor/css/froala_style.min.css";
 import "froala-editor/js/languages/ko.js";
 import "froala-editor/js/plugins.pkgd.min.js";
+import { ApiRoutes } from "@/constants";
+
+const ImageUrl = `http://${process.env.NEXT_PUBLIC_SERVER_DOMAIN}/${ApiRoutes.Image}`;
 
 interface EditorProps {
   value: string;
@@ -56,18 +59,30 @@ const options = {
   language: "ko",
   height: "40rem",
   quickInsertEnabled: false,
+  imageUploadURL: ImageUrl,
+  requestHeaders: {
+    Authorization: localStorage.getItem("login-token") || "",
+  },
+
+  ImageUploadMethod: "POST",
+  events: {
+    "image.uploaded": (res: object) => {
+      console.log("image uploaded", res);
+    },
+    "image.error": (err: object) => {
+      console.log("err", err);
+    },
+  },
 };
 
 const Editor = ({ value, onChange }: EditorProps) => {
   return (
-    <div>
-      <FroalaEditorComponent
-        tag="textarea"
-        model={value}
-        onModelChange={onChange}
-        config={options}
-      />
-    </div>
+    <FroalaEditorComponent
+      tag="textarea"
+      model={value}
+      onModelChange={onChange}
+      config={options}
+    />
   );
 };
 
