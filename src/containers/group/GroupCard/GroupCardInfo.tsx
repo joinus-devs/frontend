@@ -55,7 +55,7 @@ const GroupCardInfo = ({ group }: GroupCardInfoProps) => {
   ]);
 
   return (
-    <Flex gap={2} flex={1} alignItems={"center"}>
+    <Flex gap={2} flex={1} alignItems={"center"} py={4}>
       <Flex direction={"column"} gap={2} w={32}>
         {groupMeta.map((data) => {
           return (

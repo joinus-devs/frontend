@@ -44,7 +44,7 @@ const FeedBody = ({ feed }: FeedBodyProps) => {
         </Flex>
       </Flex>
       <Flex py={"6"} px={"2"} direction={"column"}>
-        <Flex direction={"column"} gap={"2"}>
+        <Flex direction={"column"} gap={"2"} minH={"100"}>
           <Heading size={"sm"}>{feed.title}</Heading>
           <Box ref={textRef} />
         </Flex>
