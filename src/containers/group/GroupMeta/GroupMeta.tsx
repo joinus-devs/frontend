@@ -56,12 +56,8 @@ const GroupMeta = ({ group, onChangeSex, register }: GroupMetaProps) => {
             onChange={(e) => onChangeSex(e)}
           >
             <Stack spacing={5} direction="row">
-              <Radio colorScheme="green" value="1">
-                남성만
-              </Radio>
-              <Radio colorScheme="red" value="2">
-                여성만
-              </Radio>
+              <Radio value="1">남성만</Radio>
+              <Radio value="2">여성만</Radio>
             </Stack>
           </RadioGroup>
         ),

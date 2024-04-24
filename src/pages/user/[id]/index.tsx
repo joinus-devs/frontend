@@ -1,9 +1,15 @@
+import { useGetUser } from "@/apis";
 import { DefaultLayout } from "@/components";
-import { UpdateUserForm, UserCard } from "@/containers";
-import { Box } from "@chakra-ui/react";
+import { UserCard } from "@/containers";
+import { QueryParser } from "@/utils";
+import { Box, Flex } from "@chakra-ui/react";
 import Head from "next/head";
+import { useRouter } from "next/router";
 
 const UserDetail = () => {
+  const router = useRouter();
+  const userId = QueryParser.toNumber(router.query.id);
+  const { data: userData } = useGetUser(userId);
   return (
     <>
       <Head>
@@ -14,7 +20,7 @@ const UserDetail = () => {
       </Head>
       <DefaultLayout>
         <Box w={{ base: "100%", md: "container.md" }} py={12}>
-          <UserCard />
+          {userData && <UserCard data={userData} />}
         </Box>
       </DefaultLayout>
     </>
