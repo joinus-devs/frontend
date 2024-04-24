@@ -3,7 +3,14 @@ import { CircleImg } from "@/components";
 import { ApiRoutes } from "@/constants";
 import { User } from "@/types";
 import { toUrl } from "@/utils";
-import { Flex, Icon, IconButton, Input, Tooltip } from "@chakra-ui/react";
+import {
+  Flex,
+  Heading,
+  Icon,
+  IconButton,
+  Input,
+  Tooltip,
+} from "@chakra-ui/react";
 import { useQueryClient } from "@tanstack/react-query";
 import { ChangeEvent, useCallback, useRef } from "react";
 import { FaCamera } from "react-icons/fa";
@@ -77,8 +84,18 @@ const UpdateUserForm = ({ user }: UpdateUserFormProps) => {
       align={"center"}
       flex={1}
       justifyContent={"center"}
+      py={8}
     >
-      <Flex direction={"column"} gap={4} align={"center"}>
+      <Heading size="md" px={8}>
+        {user.name}의 프로필
+      </Heading>
+      <Flex
+        direction={"column"}
+        gap={4}
+        align={"center"}
+        flex={1}
+        justify={"center"}
+      >
         <CircleImg imgSrc={user.profile} alt="user_profile" size={60} />
         {me?.id === user.id && (
           <Flex gap={2}>
