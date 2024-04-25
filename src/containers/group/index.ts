@@ -11,3 +11,4 @@ export { default as GroupNotice } from "./GroupNotice";
 export * from "./GroupSetting";
 export * from "./CreateGroup";
 export * from "./MainItem";
+export * from "./GroupByCategory";

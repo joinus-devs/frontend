@@ -1,5 +1,5 @@
 import { ApiRoutes } from "@/constants";
-import { Group, User, WithPage } from "@/types";
+import { Category, Group, User, WithPage } from "@/types";
 import { toUrl } from "@/utils";
 import { useFetch, useLoadMore, useUpdate } from "./hooks";
 import { CursorQueryParams } from "./types";
@@ -48,4 +48,16 @@ export const useGetGroupMembers = (
 
 export const useUpateGroup = (id: number) => {
   return useUpdate(toUrl(ApiRoutes.Group, { id }));
+};
+
+export const useGetCategories = () => {
+  return useFetch<Category[]>(toUrl(ApiRoutes.Category));
+};
+
+export const useGetGroupByCategory = (
+  id: number,
+  params: CursorQueryParams
+) => {
+  console.log(id);
+  return useLoadMore<Group[]>(toUrl(ApiRoutes.GroupByCategory, { id }), params);
 };

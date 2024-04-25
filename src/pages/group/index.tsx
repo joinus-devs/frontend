@@ -1,16 +1,19 @@
-import { useGetGroups } from "@/apis";
+import { useGetCategories } from "@/apis";
 import { DefaultLayout } from "@/components";
-import { WindowVirtualList } from "@/components/common/DynamicInfiniteList";
-import { GroupCard } from "@/containers";
-import { Flex, Heading, Icon, IconButton } from "@chakra-ui/react";
+import { PageRoutes, toCategory } from "@/constants";
+import { AllGroups, SelectedGroups } from "@/containers";
+import { Button, Flex, Heading, Icon, IconButton } from "@chakra-ui/react";
 import Head from "next/head";
-import { TiStarFullOutline } from "react-icons/ti";
-import { FaHeart } from "react-icons/fa";
 import { useRouter } from "next/router";
-import { PageRoutes } from "@/constants";
+import { useState } from "react";
+import { FaHeart } from "react-icons/fa";
+import { TiStarFullOutline } from "react-icons/ti";
 
 const GroupList = () => {
+  const [selected, setSelected] = useState(0);
   const router = useRouter();
+  const { data: categories } = useGetCategories();
+
   return (
     <>
       <Head>
@@ -46,12 +49,26 @@ const GroupList = () => {
               </Flex>
             </IconButton>
           </Flex>
-          <WindowVirtualList
-            infiniteQueryResult={useGetGroups({ limit: 10 })}
-            renderItem={GroupCard}
-            emptyDataMessage="생성된 클럽이 없습니다. 첫번째로 클럽을 생성해보세요!"
-            gap={"4"}
-          />
+          <Flex gap={2}>
+            <Button
+              variant={selected === 0 ? "solid" : "ghost"}
+              onClick={() => setSelected(0)}
+            >
+              전체
+            </Button>
+            {categories?.map((category, index) => {
+              return (
+                <Button
+                  key={index}
+                  variant={selected === category.id ? "solid" : "ghost"}
+                  onClick={() => setSelected(category.id)}
+                >
+                  {toCategory[category.id]}
+                </Button>
+              );
+            })}
+          </Flex>
+          {selected <= 0 ? <AllGroups /> : <SelectedGroups id={selected} />}
         </Flex>
       </DefaultLayout>
     </>

@@ -20,6 +20,7 @@ export enum ApiRoutes {
   UpdateUser = "users/:id?",
   CheckEmailExists = "auth/check-email",
   Category = "categories",
+  GroupByCategory = "categories/:id?/clubs",
   Chat = "clubs/:id?/chats",
   GroupMembers = "clubs/:id/users/:userId?",
   GroupFeed = "clubs/:id?/feeds",
