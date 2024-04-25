@@ -87,9 +87,6 @@ const UpdateUserForm = ({ user }: UpdateUserFormProps) => {
       py={8}
       gap={2}
     >
-      <Heading size="md" px={8}>
-        {user.name}의 프로필
-      </Heading>
       <Flex
         direction={"column"}
         gap={4}

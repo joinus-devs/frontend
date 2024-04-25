@@ -1,8 +1,8 @@
 import { useGetUser } from "@/apis";
 import { DefaultLayout } from "@/components";
-import { UserCard } from "@/containers";
+import { UserCard, UserGroup } from "@/containers";
 import { QueryParser } from "@/utils";
-import { Box } from "@chakra-ui/react";
+import { Box, Flex } from "@chakra-ui/react";
 import Head from "next/head";
 import { useRouter } from "next/router";
 
@@ -10,6 +10,7 @@ const UserDetail = () => {
   const router = useRouter();
   const userId = QueryParser.toNumber(router.query.id);
   const { data: userData } = useGetUser(userId);
+
   return (
     <>
       <Head>
@@ -19,9 +20,15 @@ const UserDetail = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <DefaultLayout>
-        <Box w={{ base: "100%", md: "container.md" }} py={12}>
+        <Flex
+          w={{ base: "100%", md: "container.md" }}
+          py={12}
+          direction={"column"}
+          gap={14}
+        >
           {userData && <UserCard data={userData} />}
-        </Box>
+          {userData && <UserGroup user={userData} />}
+        </Flex>
       </DefaultLayout>
     </>
   );

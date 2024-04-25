@@ -1,4 +1,4 @@
-import { useGetUserGroups, useSignin, useUpdate } from "@/apis";
+import { useSignin, useUpdate } from "@/apis";
 import { useGetGroupMembers } from "@/apis/group";
 import { useDelete, useFetch, usePost } from "@/apis/hooks";
 import { ApiRoutes, toCategory } from "@/constants";
@@ -29,8 +29,6 @@ const Test = () => {
     toUrl(ApiRoutes.GroupMembers, { id: 1 })
   );
 
-  const { data: getData } = useGetUserGroups(53);
-  console.log(getData?.data);
   const categoryValues = Object.values(toCategory);
 
   const handlerSignUp = () => {
@@ -94,11 +92,11 @@ const Test = () => {
   };
 
   const handlerPostClub = () => {
-    for (let i = 1; i <= 30; i++) {
+    for (let i = 40; i <= 50; i++) {
       postClub({
         capacity: 20,
         categories: [1, 2, 3],
-        description: "gd2",
+        description: "Test Club 입니다~",
         maximum_age: 100,
         minimum_age: 0,
         name: `dummy club ${i}`,

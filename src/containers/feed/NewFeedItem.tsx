@@ -32,6 +32,7 @@ const NewFeedItem = ({ data }: NewFeedItemProps) => {
         justifyContent={"center"}
         alignItems={"center"}
         direction={"column"}
+        gap={2}
         as={"button"}
         onClick={() =>
           router.push(toUrl(PageRoutes.GroupHome, { id: data.club_id }))

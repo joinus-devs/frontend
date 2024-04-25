@@ -58,6 +58,5 @@ export const useGetGroupByCategory = (
   id: number,
   params: CursorQueryParams
 ) => {
-  console.log(id);
   return useLoadMore<Group[]>(toUrl(ApiRoutes.GroupByCategory, { id }), params);
 };

@@ -26,7 +26,7 @@ const CircleImg = ({
         minW={size}
         position={"relative"}
         boxShadow={"xl"}
-        border={"1px solid gray"}
+        border={"1px solid #CBD5E0"}
         style={style}
       >
         <Image
@@ -44,12 +44,15 @@ const CircleImg = ({
     <>
       {isBorder ? (
         <Center
-          w={size + 4}
-          h={size + 4}
           borderRadius={"full"}
-          border={"2px solid"}
+          p={1}
+          style={{
+            background: "linear-gradient(to right, #2C5282, #4299E1,#00B5D8)",
+          }}
         >
-          {innerCircle()}
+          <Center p={1} bgColor={"white"} borderRadius={"full"}>
+            {innerCircle()}
+          </Center>
         </Center>
       ) : (
         innerCircle()

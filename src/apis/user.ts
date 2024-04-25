@@ -1,11 +1,7 @@
-import { Group, User, WithPage } from "@/types";
-import { useFetch } from ".";
-import { toUrl } from "@/utils";
 import { ApiRoutes } from "@/constants";
-
-interface GetUserGroupResponse extends Group {
-  user: User;
-}
+import { User, UserGroups } from "@/types";
+import { toUrl } from "@/utils";
+import { CursorQueryParams, useFetch, useLoadMore } from ".";
 
 export const useGetUser = (id?: number) => {
   return useFetch<User>(toUrl(ApiRoutes.User, { id }), undefined, {
@@ -13,12 +9,6 @@ export const useGetUser = (id?: number) => {
   });
 };
 
-export const useGetUserGroups = (id?: number) => {
-  return useFetch<WithPage<GetUserGroupResponse>>(
-    toUrl(ApiRoutes.UserGroups, { id }),
-    undefined,
-    {
-      enabled: !!id,
-    }
-  );
+export const useGetUserGroups = (id: number, params: CursorQueryParams) => {
+  return useLoadMore<UserGroups[]>(toUrl(ApiRoutes.UserGroups, { id }), params);
 };

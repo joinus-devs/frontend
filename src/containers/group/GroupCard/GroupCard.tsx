@@ -1,7 +1,7 @@
 import { CircleImg } from "@/components";
 import { PageRoutes, toCategory } from "@/constants";
 import { GroupCardInfo } from "@/containers";
-import { Group } from "@/types";
+import { Group, UserGroups } from "@/types";
 import { toUrl } from "@/utils";
 import {
   Card,
@@ -14,7 +14,7 @@ import {
 import { useRouter } from "next/router";
 
 interface GroupProps {
-  data: Group;
+  data: Group | UserGroups;
 }
 
 const none = "/none-groupimg.webp";

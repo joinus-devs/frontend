@@ -44,3 +44,7 @@ export interface Comment extends timer {
 export interface PostComment {
   content: string;
 }
+
+export interface UserGroups extends Group {
+  user: User;
+}
