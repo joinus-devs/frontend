@@ -1,6 +1,6 @@
 import { Flex, Heading, Icon, IconButton } from "@chakra-ui/react";
 import { FaHeart } from "react-icons/fa";
-import { HotGroupItem } from ".";
+import { HotGroupItem } from "@/containers";
 import { useGetGroup } from "@/apis";
 import { useRouter } from "next/router";
 import { PageRoutes } from "@/constants";

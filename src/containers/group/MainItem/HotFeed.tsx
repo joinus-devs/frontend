@@ -10,8 +10,6 @@ const HotFeed = () => {
   if (feed1) concatData.push(feed1);
   if (feed2) concatData.push(feed2);
 
-  console.log(concatData);
-
   return (
     <Flex gap={8} direction={"column"}>
       <Flex gap={2} alignItems={"center"}>

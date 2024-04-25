@@ -85,6 +85,7 @@ const UpdateUserForm = ({ user }: UpdateUserFormProps) => {
       flex={1}
       justifyContent={"center"}
       py={8}
+      gap={2}
     >
       <Heading size="md" px={8}>
         {user.name}의 프로필

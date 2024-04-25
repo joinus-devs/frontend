@@ -6,9 +6,16 @@ interface CircleImgProps {
   alt: string;
   size: number;
   isBorder?: boolean;
+  style?: React.CSSProperties;
 }
 
-const CircleImg = ({ imgSrc, alt, size, isBorder = false }: CircleImgProps) => {
+const CircleImg = ({
+  imgSrc,
+  alt,
+  size,
+  isBorder = false,
+  style,
+}: CircleImgProps) => {
   const innerCircle = () => {
     return (
       <Box
@@ -20,6 +27,7 @@ const CircleImg = ({ imgSrc, alt, size, isBorder = false }: CircleImgProps) => {
         position={"relative"}
         boxShadow={"xl"}
         border={"1px solid gray"}
+        style={style}
       >
         <Image
           src={imgSrc}

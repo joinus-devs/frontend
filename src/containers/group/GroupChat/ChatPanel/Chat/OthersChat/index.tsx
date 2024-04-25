@@ -1,8 +1,7 @@
-import { Flex, Text } from "@chakra-ui/react";
 import { CircleImg } from "@/components";
-import { ChatTextTimestamp } from "../../ChatTextTimestamp";
-import { ChatLog } from "../..";
 import { ApiResponseChat } from "@/types/chat";
+import { Flex, Text } from "@chakra-ui/react";
+import { ChatTextTimestamp } from "../../ChatTextTimestamp";
 
 interface OthersChatProps {
   chat: ApiResponseChat;

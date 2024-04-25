@@ -1,6 +1,6 @@
 import { UserInfo } from "@/containers";
 import { User } from "@/types";
-import { Flex, Heading } from "@chakra-ui/react";
+import { Flex } from "@chakra-ui/react";
 import UpdateUserForm from "./UpdateUserForm";
 
 interface UserCardProps {

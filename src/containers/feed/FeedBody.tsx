@@ -15,7 +15,6 @@ interface FeedBodyProps {
 //Feed의 작성자,작성일자,제목,본문내용을 보여주는 컴포넌트
 
 const FeedBody = ({ feed }: FeedBodyProps) => {
-  console.log("feed", feed);
   const { data: me } = useGetMe();
   const textRef = useRef<HTMLDivElement>(null);
   const router = useRouter();

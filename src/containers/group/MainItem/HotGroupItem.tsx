@@ -1,6 +1,7 @@
-import { ImageViewer } from "@/components";
-import { GroupCard } from "@/containers";
-import { Group } from "@/types";
+import { Swiper } from "@/components";
+import { GroupCard, HotGroupImage } from "@/containers";
+import { useBgColor } from "@/hooks";
+import { Group, imgs } from "@/types";
 import { Flex } from "@chakra-ui/react";
 
 interface HotGroupItemProps {
@@ -8,6 +9,7 @@ interface HotGroupItemProps {
 }
 
 const HotGroupItem = ({ data }: HotGroupItemProps) => {
+  const bgColor = useBgColor();
   return (
     <Flex
       direction={"column"}
@@ -17,7 +19,15 @@ const HotGroupItem = ({ data }: HotGroupItemProps) => {
       }}
       p={1}
     >
-      <ImageViewer data={data} />
+      <Flex
+        bgColor={bgColor}
+        p={1}
+        flex={1}
+        direction={"column"}
+        overflow={"hidden"}
+      >
+        <Swiper<imgs> datas={data.images} renderItem={HotGroupImage} />
+      </Flex>
       <GroupCard data={data} />
     </Flex>
   );
