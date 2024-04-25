@@ -2,7 +2,7 @@ import { useGetMe } from "@/apis";
 import { InputWithButton } from "@/components";
 import { useFormatMembers, useSocketObserver } from "@/hooks";
 import { SubscribeCb } from "@/hooks/useSocketObserver";
-import { Group, Nullable } from "@/types";
+import { Group } from "@/types";
 import {
   Box,
   Collapse,
@@ -12,7 +12,7 @@ import {
   IconButton,
   Tooltip,
 } from "@chakra-ui/react";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { IoIosSearch } from "react-icons/io";
 import { IoClose } from "react-icons/io5";
 import Accordion from "./Accordion";
@@ -20,17 +20,14 @@ import Accordion from "./Accordion";
 interface OnlineMemberProps {
   group: Group;
   isWatchOnlineMember: boolean;
-  parentHeight: number;
   setIsWatchOnlineMember: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const OnlineMember = ({
   group,
   isWatchOnlineMember,
-  parentHeight,
   setIsWatchOnlineMember,
 }: OnlineMemberProps) => {
-  const [boxHeight, setBoxHeight] = useState<Nullable<number>>(null);
   const [onlineMembers, setOnlineMembers] = useState<number[]>([]);
   const formatMembers = useFormatMembers(group.id);
   const { data: me } = useGetMe();
@@ -39,19 +36,6 @@ export const OnlineMember = ({
     groupId: group.id,
     userId: me?.id,
   });
-
-  const ref = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (!ref.current) return;
-    const fixedHeight = ref.current.clientHeight;
-    setBoxHeight(fixedHeight);
-  }, []);
-
-  const calcHeight = useMemo(() => {
-    if (!parentHeight || !boxHeight) return 0;
-    return parentHeight - boxHeight - 20; //20 is  gap
-  }, [parentHeight, boxHeight]);
 
   useEffect(() => {
     const cb: SubscribeCb = (data) => {
@@ -79,10 +63,11 @@ export const OnlineMember = ({
       in={isWatchOnlineMember}
       flex={1}
       animateOpacity
-      h={parentHeight}
+      overflow={"hidden"}
+      h={"100%"}
     >
-      <Flex direction={"column"} gap={"20px"}>
-        <Flex direction={"column"} gap={"20px"} ref={ref}>
+      <Flex direction={"column"} gap={"20px"} h={"100%"}>
+        <Flex direction={"column"} gap={"20px"}>
           <Flex justifyContent={"space-between"}>
             <Heading size={"lg"} opacity={0.9}>
               Messages
@@ -108,7 +93,7 @@ export const OnlineMember = ({
         </Flex>
 
         {accordionMatch && accordionMatch.length > 0 && (
-          <Accordion members={accordionMatch} parentHeight={calcHeight} />
+          <Accordion members={accordionMatch} />
         )}
       </Flex>
     </Box>

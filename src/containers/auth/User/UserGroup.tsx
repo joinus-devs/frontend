@@ -18,6 +18,7 @@ const UserGroup = ({ user }: UserGroupCardProps) => {
         infiniteQueryResult={useGetUserGroups(user.id, { limit: 10 })}
         renderItem={GroupCard}
         emptyDataMessage="참여중인 그룹이 없습니다."
+        gap={4}
       />
     </Flex>
   );

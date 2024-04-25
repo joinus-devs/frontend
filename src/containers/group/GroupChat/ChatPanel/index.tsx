@@ -72,7 +72,13 @@ export const ChatPanel = ({ bgImg }: ChatPanelProps) => {
   }, [groupId, subscribe, unsubscribe]);
 
   return (
-    <Flex shadow={"lg"} position={"relative"} direction={"column"}>
+    <Flex
+      shadow={"lg"}
+      position={"relative"}
+      direction={"column"}
+      overflow={"hidden"}
+      flex={1}
+    >
       <Box opacity={0.5} position={"absolute"} w={"100%"} h={"100%"}>
         <Image
           src={`/group_chat${bgImg}.jpg`}
@@ -82,7 +88,6 @@ export const ChatPanel = ({ bgImg }: ChatPanelProps) => {
           sizes={"100%"}
         />
       </Box>
-
       <VirtualListReverse<ApiResponseChat>
         dataFromApi={chatFromApi}
         dataFromSocket={chatFromSocket}
@@ -99,6 +104,7 @@ export const ChatPanel = ({ bgImg }: ChatPanelProps) => {
           inputRef.current.value = "";
           inputRef.current.focus();
         }}
+        overflow={"hidden"}
       >
         <Flex width={"100%"} p={2} position={"relative"}>
           <Input

@@ -9,7 +9,7 @@ interface UserCardProps {
 
 const UserCard = ({ data }: UserCardProps) => {
   return (
-    <Flex direction={"column"} gap={2}>
+    <Flex direction={"column"} gap={2} py={4}>
       <Heading size="md" px={4}>
         {data.name} 님의 프로필
       </Heading>
