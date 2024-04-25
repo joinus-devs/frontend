@@ -1,7 +1,7 @@
 import { useFetch } from "@/apis";
 import { ApiRoutes } from "@/constants";
 import { GroupDetail } from "@/containers";
-import { FeedWithPage } from "@/types";
+import { Feed, WithPage } from "@/types";
 import { toUrl } from "@/utils";
 import Head from "next/head";
 import { useRouter } from "next/router";
@@ -10,7 +10,7 @@ const Notice = () => {
   //현재 미구현이라서 임시로 Feed로 대체했습니다.
   const router = useRouter();
   const numberingQueryId = Number(router.query.id);
-  const { data: feeds, isSuccess } = useFetch<FeedWithPage>(
+  const { data: feeds, isSuccess } = useFetch<WithPage<Feed>>(
     toUrl(ApiRoutes.GroupFeed, { id: numberingQueryId })
   );
 

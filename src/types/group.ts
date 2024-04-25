@@ -41,21 +41,6 @@ export interface Comment extends timer {
   user: User;
 }
 
-export interface FeedWithPage {
-  next: number;
-  data: Feed[];
-}
-
-export interface CommentWithPage {
-  next: number;
-  data: Comment[];
-}
-
-export interface GroupWithPage {
-  next: number;
-  data: Group[];
-}
-
 export interface PostComment {
   content: string;
 }

@@ -1,5 +1,5 @@
 import { ApiRoutes } from "@/constants";
-import { FeedWithPage, Group, User } from "@/types";
+import { Group, User } from "@/types";
 import { toUrl } from "@/utils";
 import {
   CursorQueryParams,

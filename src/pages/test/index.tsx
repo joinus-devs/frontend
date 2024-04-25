@@ -1,4 +1,4 @@
-import { useSignin, useUpdate } from "@/apis";
+import { useGetUserGroups, useSignin, useUpdate } from "@/apis";
 import { useGetGroupMembers } from "@/apis/group";
 import { useDelete, useFetch, usePost } from "@/apis/hooks";
 import { ApiRoutes, toCategory } from "@/constants";
@@ -29,6 +29,8 @@ const Test = () => {
     toUrl(ApiRoutes.GroupMembers, { id: 1 })
   );
 
+  const { data: getData } = useGetUserGroups(53);
+  console.log(getData?.data);
   const categoryValues = Object.values(toCategory);
 
   const handlerSignUp = () => {
@@ -105,6 +107,7 @@ const Test = () => {
       });
     }
   };
+
   return (
     <>
       <Button onClick={handlerSignUp}>Sign Up</Button>

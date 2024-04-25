@@ -5,6 +5,7 @@ export enum ApiRoutes {
   Home = "",
   Group = "clubs/:id?",
   User = "users/:id?",
+  UserGroups = "users/:id?/clubs",
   NewFeed = "new-feed",
   Support = "support",
   Feeds = "feeds/:id?",

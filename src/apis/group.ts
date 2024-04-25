@@ -1,9 +1,9 @@
 import { ApiRoutes } from "@/constants";
-import { Group, GroupWithPage, UserWithPage } from "@/types";
+import { Group, User, WithPage } from "@/types";
 import { toUrl } from "@/utils";
 import { useFetch, useLoadMore, useUpdate } from "./hooks";
-import { getDomain } from "./utils";
 import { CursorQueryParams } from "./types";
+import { getDomain } from "./utils";
 
 interface UseGetGroupMemberParams {
   roles?: string | string[];
@@ -36,10 +36,14 @@ export const useGetGroupMembers = (
   id?: number,
   params?: UseGetGroupMemberParams
 ) => {
-  return useFetch<UserWithPage>(toUrl(ApiRoutes.GroupMembers, { id }), params, {
-    enabled: !!id,
-    staleTime: 1000,
-  });
+  return useFetch<WithPage<User>>(
+    toUrl(ApiRoutes.GroupMembers, { id }),
+    params,
+    {
+      enabled: !!id,
+      staleTime: 1000,
+    }
+  );
 };
 
 export const useUpateGroup = (id: number) => {

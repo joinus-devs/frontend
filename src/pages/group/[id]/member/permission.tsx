@@ -2,13 +2,12 @@ import { useDelete, useFetch, useUpdate } from "@/apis";
 import { CircleImg } from "@/components";
 import { ApiRoutes } from "@/constants";
 import { GroupDetail } from "@/containers";
-import { UserWithPage } from "@/types";
-import { toUrl } from "@/utils";
+import { User, WithPage } from "@/types";
+import { formatBirth, toUrl } from "@/utils";
 import { Button, Flex, Heading, Text } from "@chakra-ui/react";
 import { useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import { formatBirth } from "@/utils";
 
 const Permission = () => {
   const [permissionUser, setPermissionUser] = useState<number | null>(null);
@@ -16,7 +15,7 @@ const Permission = () => {
   const numberingQueryId = Number(router.query.id);
   const queryClient = useQueryClient();
 
-  const { data: pendingMembers, isSuccess } = useFetch<UserWithPage>(
+  const { data: pendingMembers, isSuccess } = useFetch<WithPage<User>>(
     toUrl(ApiRoutes.GroupMembers, { id: numberingQueryId }),
     { roles: "pending" }
   );

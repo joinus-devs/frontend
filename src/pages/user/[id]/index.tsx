@@ -2,7 +2,7 @@ import { useGetUser } from "@/apis";
 import { DefaultLayout } from "@/components";
 import { UserCard } from "@/containers";
 import { QueryParser } from "@/utils";
-import { Box, Flex } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 import Head from "next/head";
 import { useRouter } from "next/router";
 

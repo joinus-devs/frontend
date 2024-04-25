@@ -1,7 +1,7 @@
 import { Box, Flex } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useFetch } from "@/apis";
-import { FeedWithPage } from "@/types";
+import { Feed, WithPage } from "@/types";
 import { toUrl } from "@/utils";
 import { ApiRoutes } from "@/constants";
 import { GroupFeedItem } from "..";
@@ -9,7 +9,7 @@ import { GroupFeedItem } from "..";
 const GroupNotice = () => {
   const router = useRouter();
   const numberingQueryId = Number(router.query.id);
-  const { data: feeds, isSuccess } = useFetch<FeedWithPage>(
+  const { data: feeds, isSuccess } = useFetch<WithPage<Feed>>(
     toUrl(ApiRoutes.GroupFeed, { id: numberingQueryId })
   );
 
