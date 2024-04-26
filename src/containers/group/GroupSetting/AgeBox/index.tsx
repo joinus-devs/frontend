@@ -28,7 +28,9 @@ const AgeBox = ({ group, setValue, watch }: AgeBoxProps) => {
     },
     [setValue]
   );
+
   const options = watch(["minimum_age", "maximum_age"]);
+
   return (
     <Tr>
       <Th fontSize={16}>연령 제한</Th>

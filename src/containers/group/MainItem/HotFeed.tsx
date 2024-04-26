@@ -1,14 +1,19 @@
 import { useGetFeed } from "@/apis";
 import { NewFeedItem } from "@/containers/feed";
 import { Flex, Heading, Icon } from "@chakra-ui/react";
+import { useMemo } from "react";
 import { FaHeart } from "react-icons/fa";
 
 const HotFeed = () => {
   const { data: feed1 } = useGetFeed(3);
   const { data: feed2 } = useGetFeed(4);
-  const concatData = [];
-  if (feed1) concatData.push(feed1);
-  if (feed2) concatData.push(feed2);
+
+  const concatData = useMemo(() => {
+    const concatData = [];
+    if (feed1) concatData.push(feed1);
+    if (feed2) concatData.push(feed2);
+    return concatData;
+  }, [feed1, feed2]);
 
   return (
     <Flex gap={8} direction={"column"}>

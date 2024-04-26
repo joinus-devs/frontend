@@ -129,6 +129,7 @@ const Motion = ({ onChange }: MotionProps) => {
   const controls = useAnimation();
   const startAnimation = () => controls.start("hover");
   const stopAnimation = () => controls.stop();
+
   return (
     <Box
       borderColor="gray.300"

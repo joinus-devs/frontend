@@ -20,14 +20,14 @@ const Accordion = ({ members }: AccordionProps) => {
         return (
           <Flex alignItems={"center"} key={`group_member${i}`} gap={2} flex={1}>
             <Icon as={MdOnlinePrediction} fontSize={24} fill={"primary.500"} />
-            {member && member.profile && (
+            {member.profile && (
               <CircleImg
                 imgSrc={member.profile}
                 alt="member_profile"
                 size={12}
               />
             )}
-            {member && member.name && <Text>{member.name}</Text>}
+            {member.name && <Text>{member.name}</Text>}
           </Flex>
         );
       })}

@@ -43,6 +43,7 @@ const CreateFeed = () => {
       },
     });
   };
+
   return <PostFeed onSubmit={onSubmit} type="create" />;
 };
 

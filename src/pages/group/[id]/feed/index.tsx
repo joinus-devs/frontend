@@ -8,6 +8,7 @@ import { useRouter } from "next/router";
 
 const FeedPage = () => {
   const router = useRouter();
+
   return (
     <>
       <Head>

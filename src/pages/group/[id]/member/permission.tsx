@@ -34,8 +34,8 @@ const Permission = () => {
     })
   );
 
-  const handlerPermission = async (userId: number) => {
-    await setPermissionUser(userId);
+  const handlerPermission = (userId: number) => {
+    setPermissionUser(userId);
     permission(
       {
         role: "member",
@@ -50,8 +50,8 @@ const Permission = () => {
     );
   };
 
-  const handlerReject = async (userId: number) => {
-    await setPermissionUser(userId);
+  const handlerReject = (userId: number) => {
+    setPermissionUser(userId);
     reject(undefined, {
       onSuccess: () => {
         queryClient.invalidateQueries({

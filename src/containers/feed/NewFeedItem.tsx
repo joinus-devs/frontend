@@ -1,7 +1,7 @@
 import { CircleImg } from "@/components";
 import { useBgColor } from "@/hooks";
 import { Feed } from "@/types";
-import { Box, Flex, Heading, Tag } from "@chakra-ui/react";
+import { Box, Center, Flex, Heading, Tag } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { GroupFeedItem } from "..";
 import { useMemo } from "react";
@@ -27,11 +27,9 @@ const NewFeedItem = ({ data }: NewFeedItemProps) => {
 
   return (
     <Flex gap={4} boxShadow={"lg"} p={4} borderRadius={12}>
-      <Flex
+      <Center
         flex={1}
-        justifyContent={"center"}
-        alignItems={"center"}
-        direction={"column"}
+        flexDir={"column"}
         gap={2}
         as={"button"}
         onClick={() =>
@@ -51,7 +49,7 @@ const NewFeedItem = ({ data }: NewFeedItemProps) => {
         </Flex>
         <CircleImg imgSrc={mainGroupImg} alt="group_img" size={36} isBorder />
         <Heading size={"md"}>{data.club?.name}</Heading>
-      </Flex>
+      </Center>
       <Box flex={2}>
         <GroupFeedItem data={data} />
       </Box>

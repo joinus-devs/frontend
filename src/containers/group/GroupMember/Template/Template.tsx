@@ -18,7 +18,7 @@ import {
   PopoverTrigger,
 } from "@chakra-ui/react";
 import { useQueryClient } from "@tanstack/react-query";
-import { useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { TemplateCard } from ".";
 import { FaCrown } from "react-icons/fa";
 
@@ -46,22 +46,25 @@ const Template = ({ groupMembers, header, groupId }: TemplateProps) => {
     );
   }, [groupMembers, me?.id]);
 
-  const handlerRoleChange = async (v: User) => {
-    await setId(v.id);
-    const changedRole = v.role === "member" ? "staff" : "member";
-    updateRole(
-      {
-        role: changedRole,
-      },
-      {
-        onSuccess: () => {
-          queryClient.invalidateQueries({
-            queryKey: [toUrl(ApiRoutes.GroupMembers, { id: groupId })],
-          });
+  const handleRoleChange = useCallback(
+    (v: User) => {
+      setId(v.id);
+      const changedRole = v.role === "member" ? "staff" : "member";
+      updateRole(
+        {
+          role: changedRole,
         },
-      }
-    );
-  };
+        {
+          onSuccess: () => {
+            queryClient.invalidateQueries({
+              queryKey: [toUrl(ApiRoutes.GroupMembers, { id: groupId })],
+            });
+          },
+        }
+      );
+    },
+    [groupId, queryClient, updateRole]
+  );
 
   return (
     <Flex direction={"column"} gap={8}>
@@ -115,7 +118,7 @@ const Template = ({ groupMembers, header, groupId }: TemplateProps) => {
                 <PopoverBody>
                   <Flex gap={4}>
                     {isAdmin && member.role !== "admin" && (
-                      <Button onClick={() => handlerRoleChange(member)}>
+                      <Button onClick={() => handleRoleChange(member)}>
                         {member.role === "member" ? "직위상승" : "직위강등"}
                       </Button>
                     )}

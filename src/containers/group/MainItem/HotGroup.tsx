@@ -5,15 +5,19 @@ import { useGetGroup } from "@/apis";
 import { useRouter } from "next/router";
 import { PageRoutes } from "@/constants";
 import { TiStarFullOutline } from "react-icons/ti";
+import { useMemo } from "react";
 
 const HotGroup = () => {
   const router = useRouter();
   const { data: group1 } = useGetGroup(31);
   const { data: group2 } = useGetGroup(1);
 
-  const concatData = [];
-  if (group1) concatData.push(group1);
-  if (group2) concatData.push(group2);
+  const concatData = useMemo(() => {
+    const concatData = [];
+    if (group1) concatData.push(group1);
+    if (group2) concatData.push(group2);
+    return concatData;
+  }, [group1, group2]);
 
   return (
     <Flex gap={8} direction={"column"}>

@@ -61,9 +61,9 @@ const FeedCommentForm = ({ feedId }: FeedCommentFormProps) => {
       >
         <Input placeholder={"댓글을 입력하세요"} {...register("content")} />
         <IconButton
-          aria-label="submit comment"
           type="submit"
           position={"absolute"}
+          aria-label="submit comment"
           fontWeight={"bold"}
           zIndex={1}
           size={"sm"}

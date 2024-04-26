@@ -1,6 +1,7 @@
 import { ApiResponseChat } from "@/types/chat";
 import { formatISO } from "@/utils/date";
 import { Flex, Text } from "@chakra-ui/react";
+import { useMemo } from "react";
 interface ChatTextTimestampProps {
   chat: ApiResponseChat;
   bg: string;
@@ -14,13 +15,17 @@ export const ChatTextTimestamp = ({
   timeStyle,
   boxStyle,
 }: ChatTextTimestampProps) => {
-  let time = "";
-  if (chat.created_at) {
-    time = formatISO(chat.created_at);
-  } else if (chat.timestamp) {
-    const date = new Date(Number(chat.timestamp));
-    time = formatISO(String(date));
-  }
+  const time = useMemo(() => {
+    let time = "";
+    if (chat.created_at) {
+      time = formatISO(chat.created_at);
+    } else if (chat.timestamp) {
+      const date = new Date(Number(chat.timestamp));
+      time = formatISO(String(date));
+    }
+
+    return time;
+  }, [chat.created_at, chat.timestamp]);
 
   return (
     <Flex direction={"column"} gap={1} style={boxStyle}>
