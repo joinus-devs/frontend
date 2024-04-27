@@ -16,6 +16,7 @@ interface GroupFormProps {
 
 const GroupForm = ({ register, watch, setValue }: GroupFormProps) => {
   const bgColor = useBgColor();
+
   return (
     <Flex
       boxShadow={"lg"}

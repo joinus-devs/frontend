@@ -1,4 +1,4 @@
-export const toCategory: { [key: string]: string } = {
+export const toCategory: { [key: number]: string } = {
   1: "영화",
   2: "스포츠",
   3: "음악",

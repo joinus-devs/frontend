@@ -1,5 +1,7 @@
+import { ChatType } from "@/constants/chat";
+
 interface MessageFromServer {
-  method: "join" | "leave" | "broadcast";
+  method: ChatType;
   body: string;
   room: number;
   user: number;

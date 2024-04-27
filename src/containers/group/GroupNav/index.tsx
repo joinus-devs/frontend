@@ -1,22 +1,30 @@
 import { useGetGroupMembers, useGetMe } from "@/apis";
-import { PageRoutes, groupNavItems } from "@/constants";
+import { PageRoutes, groupNavs } from "@/constants";
 import { toUrl } from "@/utils";
 import { Button, Flex, Icon, Tab, TabList, Tabs } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { MdEdit } from "react-icons/md";
-import { pageRouter, switchTab } from "./pageRouter";
-import useGetPathname from "./useGetPathname";
 
 interface GroupNavProps {
   groupId: number;
 }
 
 const GroupNav = ({ groupId }: GroupNavProps) => {
-  const [tabIndex, setTabIndex] = useState(0);
   const [isManager, setIsManger] = useState(false);
   const router = useRouter();
-  const { name, name2 } = useGetPathname();
+
+  const isFeedPage =
+    PageRoutes.GroupFeed.match(router.pathname) ||
+    PageRoutes.GroupCreateFeed.match(router.pathname) ||
+    PageRoutes.GroupModifyFeed.match(router.pathname);
+  const isMemberPage =
+    PageRoutes.GroupMember.match(router.pathname) ||
+    PageRoutes.GroupPermissionMember.match(router.pathname);
+  const isCreatePage = PageRoutes.GroupCreateFeed.match(router.pathname);
+  const isPermissionPage = PageRoutes.GroupPermissionMember.match(
+    router.pathname
+  );
 
   //pathname을 / 를 기준으로 나누어 group/:id를 제외한 뒤에부분을 name과 name2로 지정했습니다.
   const { data: me, isSuccess: meSuccess } = useGetMe();
@@ -37,14 +45,6 @@ const GroupNav = ({ groupId }: GroupNavProps) => {
     });
   }, [manager?.data, managerSuccess, me?.id, meSuccess]);
 
-  useEffect(() => {
-    setTabIndex(switchTab(name));
-  }, [name]);
-
-  const handleTabsChange = (index: number) => {
-    setTabIndex(index);
-  };
-
   return (
     <Flex>
       <Tabs
@@ -52,33 +52,37 @@ const GroupNav = ({ groupId }: GroupNavProps) => {
         flex={1}
         size={"lg"}
         position={"relative"}
-        onChange={handleTabsChange}
-        index={tabIndex}
+        tabIndex={groupNavs.findIndex((v) => {
+          return (
+            v.path.match(router.pathname) ||
+            v.subPaths.some((subPath) => subPath.match(router.pathname))
+          );
+        })}
       >
         <Button
           position={"absolute"}
           variant={"outline"}
           top={"1"}
           right={"1"}
-          display={name === "feed" ? "flex" : "none"}
+          display={isFeedPage ? "flex" : "none"}
           rightIcon={<Icon as={MdEdit} mb={"0.5"} />}
           onClick={() => {
-            if (name2 === "create")
+            if (isCreatePage)
               router.push(toUrl(PageRoutes.GroupFeed, { id: groupId }));
             else
               router.push(toUrl(PageRoutes.GroupCreateFeed, { id: groupId }));
           }}
         >
-          {name2 === "create" ? "돌아가기" : "작성하기"}
+          {isCreatePage ? "돌아가기" : "작성하기"}
         </Button>
         <Button
           position={"absolute"}
           variant={"outline"}
           top={"1"}
           right={"1"}
-          display={name === "member" && isManager ? "block" : "none"}
+          display={isMemberPage && isManager ? "block" : "none"}
           onClick={() => {
-            if (name2 === "permission")
+            if (isPermissionPage)
               router.push(toUrl(PageRoutes.GroupMember, { id: groupId }));
             else
               router.push(
@@ -86,19 +90,21 @@ const GroupNav = ({ groupId }: GroupNavProps) => {
               );
           }}
         >
-          {name2 === "permission" ? "돌아가기" : "승인목록"}
+          {isPermissionPage ? "돌아가기" : "승인목록"}
         </Button>
         <TabList>
-          {groupNavItems.map((v, i) => {
+          {groupNavs.map((v, i) => {
             return (
               <Tab
                 key={`groupnav_${i}`}
                 fontWeight={"bold"}
                 fontSize={"lg"}
                 as={"button"}
-                onClick={() => pageRouter(v, groupId, router)}
+                onClick={() =>
+                  router.push({ pathname: toUrl(v.path, { id: groupId }) })
+                }
               >
-                {v}
+                {v.label}
               </Tab>
             );
           })}

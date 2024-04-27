@@ -7,11 +7,10 @@ const useFormatMembers = (groupId: number) => {
     roles: ["admin", "staff", "member"],
     limit: 50,
   });
-  const formatData = useMemo(() => {
+
+  return useMemo(() => {
     return formatGroupMembers(members?.data || []);
   }, [members?.data]);
-
-  return formatData;
 };
 
 export default useFormatMembers;

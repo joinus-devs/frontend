@@ -8,8 +8,8 @@ export interface FormatMemberValue {
 }
 
 export const formatGroupMembers = (members: User[]): FormatMemberValue => {
-  let formatData: FormatMemberValue = {};
-  for (let member of members) {
+  const formatData: FormatMemberValue = {};
+  for (const member of members) {
     const { id, name, profile } = member;
 
     formatData[id] = {

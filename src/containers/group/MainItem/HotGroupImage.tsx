@@ -1,9 +1,9 @@
-import { imgs } from "@/types";
+import { ImgWithType } from "@/types";
 import { Flex } from "@chakra-ui/react";
 import Image from "next/image";
 
 interface HotGroupImageProps {
-  data: imgs;
+  data: ImgWithType;
 }
 const HotGroupImage = ({ data }: HotGroupImageProps) => {
   return (

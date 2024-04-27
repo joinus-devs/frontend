@@ -4,6 +4,7 @@ import { GroupChat, GroupDetail } from "@/containers";
 import { QueryParser } from "@/utils";
 import Head from "next/head";
 import { useRouter } from "next/router";
+import { useMemo } from "react";
 
 const Home = () => {
   const router = useRouter();
@@ -13,7 +14,10 @@ const Home = () => {
     roles: ["member", "admin", "staff"],
   });
   const { data: me } = useGetMe();
-  const isMember = members?.data?.some((member) => member.id === me?.id);
+  const isMember = useMemo(
+    () => members?.data?.some((member) => member.id === me?.id),
+    [members, me]
+  );
 
   return (
     <>

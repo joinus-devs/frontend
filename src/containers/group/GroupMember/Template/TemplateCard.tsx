@@ -39,9 +39,9 @@ const TemplateCard = ({ user }: TemplateCardProps) => {
           {userMeta.map((meta, i) => {
             return (
               <CardText
+                key={`usermeta_${i}`}
                 icon={meta.icon}
                 text={meta.text}
-                key={`usermeta_${i}`}
               />
             );
           })}

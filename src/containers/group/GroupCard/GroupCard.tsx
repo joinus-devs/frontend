@@ -1,6 +1,5 @@
 import { CircleImg } from "@/components";
 import { PageRoutes, toCategory } from "@/constants";
-import { GroupCardInfo } from "@/containers";
 import { Group, UserGroups } from "@/types";
 import { toUrl } from "@/utils";
 import {
@@ -12,6 +11,7 @@ import {
   Tag,
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
+import GroupCardInfo from "./GroupCardInfo";
 
 interface GroupProps {
   data: Group | UserGroups;

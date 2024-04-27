@@ -37,9 +37,9 @@ export const CommentModifyIcon = ({
         <Text padding={2} as={"button"} onClick={onClick}>
           수정
         </Text>
-        <Text
-          padding={2}
+        <Box
           as={"button"}
+          padding={2}
           onClick={() =>
             openConfirm({
               title: "Delete Comment",
@@ -70,7 +70,7 @@ export const CommentModifyIcon = ({
           }
         >
           삭제
-        </Text>
+        </Box>
       </PopoverContent>
     </Popover>
   );

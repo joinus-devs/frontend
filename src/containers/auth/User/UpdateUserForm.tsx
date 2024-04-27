@@ -87,13 +87,7 @@ const UpdateUserForm = ({ user }: UpdateUserFormProps) => {
       py={8}
       gap={2}
     >
-      <Flex
-        direction={"column"}
-        gap={4}
-        align={"center"}
-        flex={1}
-        justify={"center"}
-      >
+      <Center  flexDir={"column"} gap={4} flex={1}>
         <CircleImg imgSrc={user.profile} alt="user_profile" size={60} />
         {me?.id === user.id && (
           <Flex gap={2}>
@@ -118,7 +112,7 @@ const UpdateUserForm = ({ user }: UpdateUserFormProps) => {
             </Tooltip>
           </Flex>
         )}
-      </Flex>
+      </Center>
     </Flex>
   );
 };

@@ -1,5 +1,5 @@
 import { Button, Flex, Icon, Input } from "@chakra-ui/react";
-import { MutableRefObject, useCallback } from "react";
+import { useCallback } from "react";
 import { IconType } from "react-icons";
 
 interface InputWithButtonProps {
@@ -10,7 +10,6 @@ interface InputWithButtonProps {
   inputStyle?: React.CSSProperties;
   buttonStyle?: React.CSSProperties;
   iconStyle?: React.CSSProperties;
-  ref?: MutableRefObject<HTMLInputElement | null>;
 }
 
 const InputWithButton = ({

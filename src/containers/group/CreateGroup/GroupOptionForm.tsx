@@ -42,7 +42,12 @@ const GroupOptionForm = ({ setValue, watch }: SetGroupOptionsProps) => {
     [setValue]
   );
 
-  const options = watch(["minimum_age", "maximum_age", "capacity", "sex"]);
+  const [minimum_age, maximum_age, capacity, sex] = watch([
+    "minimum_age",
+    "maximum_age",
+    "capacity",
+    "sex",
+  ]);
 
   return (
     <>
@@ -62,7 +67,7 @@ const GroupOptionForm = ({ setValue, watch }: SetGroupOptionsProps) => {
             <RangeSliderThumb index={1} />
           </RangeSlider>
           <FormHelperText>
-            연령 : {options[0]}~{options[1]}세
+            연령 : {minimum_age}~{maximum_age}세
           </FormHelperText>
         </FormControl>
 
@@ -76,7 +81,7 @@ const GroupOptionForm = ({ setValue, watch }: SetGroupOptionsProps) => {
                 <Button
                   key={`btn_${index}`}
                   onClick={() => setMaxMember(value)}
-                  variant={options[2] === value ? "solid" : "outline"}
+                  variant={capacity === value ? "solid" : "outline"}
                   w={20}
                   h={16}
                   flex={1}
@@ -86,7 +91,7 @@ const GroupOptionForm = ({ setValue, watch }: SetGroupOptionsProps) => {
               );
             })}
           </Flex>
-          <FormHelperText>최대인원 : {options[2]}명</FormHelperText>
+          <FormHelperText>최대인원 : {capacity}명</FormHelperText>
         </FormControl>
         <FormControl>
           <FormLabel htmlFor="group_option_age" fontWeight={"normal"}>
@@ -99,9 +104,9 @@ const GroupOptionForm = ({ setValue, watch }: SetGroupOptionsProps) => {
                   key={`btn_${index}`}
                   onClick={() => setAcceptSex(value === "남성" ? true : false)}
                   variant={
-                    options[3] && value === "남성"
+                    sex && value === "남성"
                       ? "solid"
-                      : !options[3] && value === "여성"
+                      : !sex && value === "여성"
                         ? "solid"
                         : "outline"
                   }
@@ -114,9 +119,7 @@ const GroupOptionForm = ({ setValue, watch }: SetGroupOptionsProps) => {
               );
             })}
           </Flex>
-          <FormHelperText>
-            성별 : {options[3] ? "남성" : "여성"}만
-          </FormHelperText>
+          <FormHelperText>성별 : {sex ? "남성" : "여성"}만</FormHelperText>
         </FormControl>
       </Flex>
     </>

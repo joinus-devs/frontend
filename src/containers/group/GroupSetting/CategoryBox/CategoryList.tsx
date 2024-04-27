@@ -1,17 +1,20 @@
 import { toCategory } from "@/constants";
 import { useModalStore } from "@/stores";
 import { HStack, Tag, TagLabel, TagRightIcon } from "@chakra-ui/react";
-import { useCallback } from "react";
+import { useCallback, useMemo } from "react";
 import { GoPlus } from "react-icons/go";
 import { IoIosCheckmark } from "react-icons/io";
 import { CategoryBoxProps } from ".";
 
+const list = Object.values(toCategory);
+
 const CategoryList = ({ categories, setCategories }: CategoryBoxProps) => {
   const { openAlert } = useModalStore(["openAlert"]);
 
-  const list = Object.values(toCategory);
-  const selectedList =
-    categories?.map((category) => toCategory[category]) ?? [];
+  const selectedList = useMemo(
+    () => categories?.map((category) => toCategory[category]) ?? [],
+    [categories]
+  );
 
   const handleAddCategory = useCallback(
     (category: string) => {

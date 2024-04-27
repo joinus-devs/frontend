@@ -8,7 +8,7 @@ export type timer = {
   deleted_at?: string;
 };
 
-export type imgs = {
+export type ImgWithType = {
   url: string;
   type: string;
 };

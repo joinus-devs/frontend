@@ -1,12 +1,12 @@
 import { ChatType } from "@/constants/chat";
-import { Nullable, timer } from ".";
+import { Nullable } from ".";
 
 export interface SocketMessage {
   body: {
     message: string;
     timestamp: number;
   };
-  method: ChatType.Join | ChatType.Leave | ChatType.Chat | null;
+  method: Nullable<ChatType>;
   status: "success" | "error";
   user?: number;
   users?: number[];
@@ -22,7 +22,7 @@ export interface ApiResponseChat {
   updated_at?: Nullable<string>;
   deleted_at?: string;
 
-  method?: ChatType.Join | ChatType.Leave | ChatType.Chat | null;
+  method?: Nullable<ChatType>;
   timestamp?: string;
   users?: number[];
   stauts?: "success" | "error";

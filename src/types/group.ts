@@ -1,4 +1,4 @@
-import { User, imgs } from ".";
+import { User, ImgWithType } from ".";
 import { timer } from ".";
 
 export interface CreateGroupFormValues {
@@ -9,7 +9,7 @@ export interface CreateGroupFormValues {
   maximum_age: number;
   capacity: number;
   sex: boolean;
-  images: imgs[];
+  images: ImgWithType[];
 }
 
 export interface Group extends timer {
@@ -20,7 +20,7 @@ export interface Group extends timer {
   minimum_age: number;
   maximum_age: number;
   categories: number[];
-  images: imgs[];
+  images: ImgWithType[];
 }
 
 export interface Feed extends timer {

@@ -4,11 +4,12 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 
-interface SwiperProps<T> {
+interface SwiperProps<T> extends React.ComponentProps<typeof _Swiper> {
   datas: T[];
   renderItem: ({ data }: { data: T }) => JSX.Element;
 }
-const Swiper = <T,>({ datas, renderItem }: SwiperProps<T>) => {
+
+const Swiper = <T,>({ datas, renderItem, ...rest }: SwiperProps<T>) => {
   return (
     <_Swiper
       effect={"coverflow"}
@@ -24,6 +25,7 @@ const Swiper = <T,>({ datas, renderItem }: SwiperProps<T>) => {
       modules={[Autoplay, EffectCoverflow, Pagination]}
       className="mySwiper"
       style={{ width: "100%", height: "100%" }}
+      {...rest}
     >
       {datas.map((data, index) => (
         <SwiperSlide key={index}>{renderItem({ data })}</SwiperSlide>

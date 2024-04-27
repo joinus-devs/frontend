@@ -9,7 +9,7 @@ import {
   Text,
   Tooltip,
 } from "@chakra-ui/react";
-import React from "react";
+import React, { useMemo } from "react";
 import { BsFillPersonLinesFill } from "react-icons/bs";
 import { SetBgImage } from "../SetBgImage";
 
@@ -27,7 +27,11 @@ const ChatHeader = ({
   setBgImg,
 }: ChatHeaderProps) => {
   const { data } = useGetGroupMembers(group.id!);
-  const mainImg = group.images.find((img) => img.type === "main");
+  const mainImg = useMemo(
+    () => group.images.find((img) => img.type === "main"),
+    [group.images]
+  );
+
   return (
     <Flex gap={4} position={"relative"}>
       <CircleImg

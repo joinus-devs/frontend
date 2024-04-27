@@ -1,5 +1,6 @@
 import { Box, Center } from "@chakra-ui/react";
 import Image from "next/image";
+import { useMemo } from "react";
 
 interface CircleImgProps {
   imgSrc: string;
@@ -16,7 +17,7 @@ const CircleImg = ({
   isBorder = false,
   style,
 }: CircleImgProps) => {
-  const innerCircle = () => {
+  const innerCircle = useMemo(() => {
     return (
       <Box
         borderRadius={"full"}
@@ -39,7 +40,8 @@ const CircleImg = ({
         />
       </Box>
     );
-  };
+  }, [imgSrc, alt, size, style]);
+
   return (
     <>
       {isBorder ? (
@@ -51,11 +53,11 @@ const CircleImg = ({
           }}
         >
           <Center p={1} bgColor={"white"} borderRadius={"full"}>
-            {innerCircle()}
+            {innerCircle}
           </Center>
         </Center>
       ) : (
-        innerCircle()
+        innerCircle
       )}
     </>
   );
