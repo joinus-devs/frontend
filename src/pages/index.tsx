@@ -1,23 +1,9 @@
 import { DefaultLayout } from "@/components";
-import { Button } from "@chakra-ui/react";
+import { HotFeed, HotGroup, HotUser } from "@/containers";
+import { Flex } from "@chakra-ui/react";
 import Head from "next/head";
 
-import { useMutation } from "@tanstack/react-query";
-
 export default function Home() {
-  const { mutate } = useMutation({
-    mutationFn: () => {
-      return new Promise((resolve, reject) => {
-        setTimeout(() => {
-          reject("hello");
-        }, 1000);
-      });
-    },
-    onSuccess: (data) => {
-      console.log("success2");
-    },
-  });
-
   return (
     <>
       <Head>
@@ -27,9 +13,11 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <DefaultLayout>
-        <Button onClick={() => mutate()}>Hello, World</Button>
-        <Button variant={"ghost"}>Hello, World</Button>
-        <Button variant={"outline"}>Hello, World</Button>
+        <Flex direction={"column"} gap={32} py={12} justify={"center"}>
+          <HotGroup />
+          <HotFeed />
+          <HotUser />
+        </Flex>
       </DefaultLayout>
     </>
   );

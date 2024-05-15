@@ -3,7 +3,7 @@ import { useGetGroupMembers } from "@/apis/group";
 import { useDelete, useFetch, usePost } from "@/apis/hooks";
 import { ApiRoutes, toCategory } from "@/constants";
 import { toUrl } from "@/utils";
-import { Button, Input } from "@chakra-ui/react";
+import { Button } from "@chakra-ui/react";
 
 const Test = () => {
   const { mutate: signup } = usePost(ApiRoutes.SignUp);
@@ -34,13 +34,13 @@ const Test = () => {
   const handlerSignUp = () => {
     signup({
       password: "12341234!@",
-      name: "JohnDoe522",
+      name: "JohnDoe50",
       profile:
         "https://kr.object.ncloudstorage.com/joinus/image/1711678253222.jpg",
       birth: "1995-01-01",
       sex: true,
       phone: "01012341239",
-      email: "john522@gmail.com",
+      email: "john50@gmail.com",
     });
   };
 
@@ -75,7 +75,7 @@ const Test = () => {
   };
 
   const handlerSignIn = () => {
-    signin({ email: "ush0105@aaa.com", password: "12341234!@" });
+    signin({ email: "john1@gmail.com", password: "12341234!@" });
   };
 
   const hanldeUpdateClub = () => {
@@ -92,11 +92,11 @@ const Test = () => {
   };
 
   const handlerPostClub = () => {
-    for (let i = 1; i <= 30; i++) {
+    for (let i = 40; i <= 50; i++) {
       postClub({
         capacity: 20,
         categories: [1, 2, 3],
-        description: "gd2",
+        description: "Test Club 입니다~",
         maximum_age: 100,
         minimum_age: 0,
         name: `dummy club ${i}`,
@@ -105,6 +105,7 @@ const Test = () => {
       });
     }
   };
+
   return (
     <>
       <Button onClick={handlerSignUp}>Sign Up</Button>
@@ -146,7 +147,6 @@ const Test = () => {
       <Button onClick={() => hanldeUpdateClub()}>UpdateClub</Button>
       <Button onClick={hanlderManySignUp}>ManySignUp</Button>
       <Button onClick={handlerWrapManyJoinClub}>ManyJoinClub</Button>
-      <Input type={"file"} />
     </>
   );
 };

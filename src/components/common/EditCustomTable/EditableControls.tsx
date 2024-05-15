@@ -19,7 +19,7 @@ const EditableControls = () => {
   } = useEditableControls();
 
   return isEditing ? (
-    <ButtonGroup justifyContent="center" pl={2}>
+    <ButtonGroup pl={2}>
       <IconButton
         icon={<FaCheck />}
         aria-label="submit-bt"
@@ -37,8 +37,6 @@ const EditableControls = () => {
     <IconButton
       icon={<LuClipboardEdit />}
       aria-label="edit-bt"
-      position={"absolute"}
-      right={0}
       _hover={{
         transform: "scale(1.2)",
         transition: "all 0.5s ease",

@@ -6,15 +6,18 @@ import {
   signUp,
   toFormatBirth,
 } from "@/apis/auth";
-import { GenderSelection } from "@/components";
+import { DefaultLayout, GenderSelection } from "@/components";
+import { PageRoutes } from "@/constants";
 
 import {
   Box,
   Button,
   Center,
+  Flex,
   FormControl,
   FormErrorMessage,
   HStack,
+  Heading,
   Input,
   Text,
   useRadioGroup,
@@ -117,14 +120,30 @@ const Register = () => {
   };
 
   return (
-    <>
-      <Center mt={70} h="100px" color="#25D366" fontSize={"3rem"}>
-        <Text _hover={{ cursor: "pointer" }} onClick={() => router.push("/")}>
-          JoinUs
-        </Text>
-      </Center>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <Box maxW="sm" mx="auto" mt={2} p={6} borderWidth={1} borderRadius="md">
+    <DefaultLayout>
+      <Flex
+        direction={"column"}
+        justifyContent={"center"}
+        alignItems={"center"}
+        gap={4}
+        py={12}
+      >
+        <Heading
+          size={"xl"}
+          _hover={{ cursor: "pointer" }}
+          onClick={() => router.push(PageRoutes.Home)}
+        >
+          Join Us
+        </Heading>
+
+        <Flex
+          as={"form"}
+          onSubmit={handleSubmit(onSubmit)}
+          direction={"column"}
+          p={2}
+          gap={2}
+          w={{ base: "100%", sm: "480px" }}
+        >
           <FormControl isInvalid={!!errors.email}>
             <Input
               type="text"
@@ -137,7 +156,7 @@ const Register = () => {
             <FormErrorMessage>{errors.email?.message}</FormErrorMessage>
           </FormControl>
 
-          <FormControl mt={4} isInvalid={!!errors.password}>
+          <FormControl isInvalid={!!errors.password}>
             <Input
               type="password"
               placeholder="비밀번호 8자리 이상"
@@ -152,7 +171,7 @@ const Register = () => {
             <FormErrorMessage>{errors.password?.message}</FormErrorMessage>
           </FormControl>
 
-          <FormControl mt={4} isInvalid={!!errors.passwordCheck}>
+          <FormControl isInvalid={!!errors.passwordCheck}>
             <Input
               type="password"
               placeholder="비밀번호 확인"
@@ -169,9 +188,7 @@ const Register = () => {
             />
             <FormErrorMessage>{errors.passwordCheck?.message}</FormErrorMessage>
           </FormControl>
-        </Box>
 
-        <Box maxW="sm" mx="auto" mt={2} p={6} borderWidth={1} borderRadius="md">
           <FormControl isInvalid={!!errors.name}>
             <Input
               type="text"
@@ -183,7 +200,7 @@ const Register = () => {
             <FormErrorMessage>{errors.name?.message}</FormErrorMessage>
           </FormControl>
 
-          <FormControl mt={4} isInvalid={!!errors.birth}>
+          <FormControl isInvalid={!!errors.birth}>
             <Input
               type="text"
               placeholder="생년월일 8자리 (YYYYMMDD)"
@@ -202,7 +219,7 @@ const Register = () => {
             <FormErrorMessage>{errors.birth?.message}</FormErrorMessage>
           </FormControl>
 
-          <FormControl mt={4} isInvalid={!!errors.phone}>
+          <FormControl isInvalid={!!errors.phone}>
             <Input
               type="text"
               placeholder="전화번호"
@@ -222,7 +239,7 @@ const Register = () => {
           </FormControl>
 
           <FormControl isInvalid={!!errors.sex}>
-            <HStack {...group} justify="space-between" mt={4}>
+            <Flex {...group} gap={2}>
               {genderOptions.map((value) => {
                 return (
                   <Controller
@@ -235,29 +252,18 @@ const Register = () => {
                         value={value}
                         onChange={field.onChange}
                         isSelected={selectedGender === value}
-                      ></GenderSelection>
+                      />
                     )}
                   />
                 );
               })}
-            </HStack>
+            </Flex>
             <FormErrorMessage>{errors.sex?.message}</FormErrorMessage>
           </FormControl>
-        </Box>
-        <Center>
-          <Button
-            mt={6}
-            mx="auto"
-            colorScheme="primary"
-            type="submit"
-            width="sm"
-            _hover={{ bg: "green.500" }}
-          >
-            회원가입
-          </Button>
-        </Center>
-      </form>
-    </>
+          <Button type="submit">회원가입</Button>
+        </Flex>
+      </Flex>
+    </DefaultLayout>
   );
 };
 

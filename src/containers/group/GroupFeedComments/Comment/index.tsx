@@ -1,7 +1,7 @@
-import { useFetch, useGetMe, useUpdate } from "@/apis";
+import { useGetMe, useUpdate } from "@/apis";
 import { CircleImg } from "@/components";
 import { ApiRoutes } from "@/constants";
-import { Comment, User } from "@/types";
+import { Comment, PostComment } from "@/types";
 import { toUrl } from "@/utils";
 import { formatISO } from "@/utils/date";
 import { Button, Flex, Text, Textarea } from "@chakra-ui/react";
@@ -9,7 +9,6 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { CommentModifyIcon } from "./CommentModifyIcon";
-import { PostComment } from "../../GroupFeedItem";
 
 interface CommentProps {
   data: Comment;
@@ -57,14 +56,14 @@ const FeedComment = ({ data }: CommentProps) => {
       gap={4}
       position={"relative"}
       boxShadow={"sm"}
-      p={8}
+      p={4}
       borderRadius={12}
     >
       {isMine && !isModify && (
         <CommentModifyIcon comment={data} onClick={() => setIsModify(true)} />
       )}
-      <CircleImg imgSrc={"/noneUserImg.webp"} alt={`comment_user`} size={12} />
-      <Flex direction={"column"} gap={1} w={"80%"}>
+      <CircleImg imgSrc={data.user.profile} alt={`comment_user`} size={12} />
+      <Flex direction={"column"} gap={1} w={"100%"}>
         <Flex gap={2}>
           <Text fontWeight={"bold"}>{data.user?.name}</Text>
           <Text opacity={0.7}>{formatISO(data.created_at)}</Text>

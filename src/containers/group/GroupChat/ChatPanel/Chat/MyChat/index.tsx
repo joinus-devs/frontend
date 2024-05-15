@@ -8,12 +8,13 @@ interface MyChatProps {
 }
 export const MyChat = ({ chat, bg }: MyChatProps) => {
   return (
-    <Flex justifyContent={"flex-end"}>
-      <Flex direction={"column"} p={4} borderRadius={"lg"} maxW={400} gap={2}>
+    <Flex justifyContent={"flex-end"} p={2}>
+      <Flex direction={"column"} borderRadius={"lg"} gap={2}>
         <ChatTextTimestamp
           chat={chat}
           bg={bg}
           timeStyle={{ textAlign: "end" }}
+          boxStyle={{ alignItems: "flex-end" }}
         />
       </Flex>
     </Flex>

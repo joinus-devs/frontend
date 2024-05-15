@@ -14,7 +14,7 @@ const ParticipationLog = ({
   return (
     <>
       {member && (
-        <Flex justifyContent={"center"}>
+        <Flex justifyContent={"center"} py={1}>
           <Flex
             shadow={"md"}
             p={2}

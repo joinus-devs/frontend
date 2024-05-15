@@ -1,4 +1,4 @@
-import { Feed, useGetFeeds } from "@/apis/feed";
+import { Feed, useGetFeeds } from "@/apis";
 import { DefaultLayout } from "@/components";
 import { WindowVirtualList } from "@/components/common/DynamicInfiniteList";
 import { NewFeedItem } from "@/containers";
@@ -19,6 +19,7 @@ const NewFeed = () => {
           <WindowVirtualList<Feed>
             infiniteQueryResult={useGetFeeds({ limit: 10 })}
             renderItem={NewFeedItem}
+            emptyDataMessage="작성된 피드가 없습니다. 첫번째로 작성을 해보세요!"
           />
         </Flex>
       </DefaultLayout>

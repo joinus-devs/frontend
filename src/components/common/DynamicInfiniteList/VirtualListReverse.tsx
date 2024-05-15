@@ -96,7 +96,7 @@ const VirtualListReverse = <T,>({
   }, [dataFromApi, dataFromSocket]);
 
   return (
-    <Flex pos={"relative"}>
+    <Flex pos={"relative"} flex={1} overflow={"hidden"}>
       {isLoading && (
         <Center
           pos={"absolute"}
@@ -117,7 +117,7 @@ const VirtualListReverse = <T,>({
       )}
       <Flex
         ref={parentRef}
-        h={1050}
+        p={2}
         direction={"column"}
         w={"100%"}
         overflowY={"auto"}

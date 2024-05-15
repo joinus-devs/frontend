@@ -43,7 +43,7 @@ const CategoryList = ({ categories, setCategories }: CategoryBoxProps) => {
               borderRadius="full"
               variant="solid"
               bgColor={"gray.100"}
-              color={selectedList.includes(category) ? "green" : "black"}
+              color={selectedList.includes(category) ? "primary.500" : "black"}
               fontWeight={
                 selectedList.includes(category) ? "semibold" : "normal"
               }

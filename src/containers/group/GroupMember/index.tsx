@@ -1,48 +1,37 @@
 import { useGetGroupMembers, useGetMe } from "@/apis";
-import { Box, Flex } from "@chakra-ui/react";
+import { Flex } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { Template } from "./Template";
+import { QueryParser } from "@/utils";
 
 const GroupMember = () => {
   const router = useRouter();
-  const numberingQuery = Number(router.query.id);
-  const { data: admin } = useGetGroupMembers(numberingQuery, {
-    roles: ["admin"],
+  const numberingQuery = QueryParser.toNumber(router.query.id);
+  const { data: staff } = useGetGroupMembers(numberingQuery ?? 0, {
+    roles: ["admin", "staff"],
   });
 
-  const { data: member } = useGetGroupMembers(numberingQuery, {
+  const { data: member } = useGetGroupMembers(numberingQuery ?? 0, {
     roles: ["member"],
   });
 
-  const { data: staff } = useGetGroupMembers(numberingQuery, {
-    roles: ["staff"],
-  });
-
-  const { data: me } = useGetMe();
-
   return (
-    <Box minH={800}>
-      <Flex gap={8} direction={"column"} pt={8}>
-        <Template
-          groupMember={admin?.data}
-          header="Admin"
-          groupId={numberingQuery}
-          admin={me?.id === admin?.data[0].id ? true : false}
-        />
-        <Template
-          groupMember={staff?.data}
-          header="Manager"
-          groupId={numberingQuery}
-          admin={me?.id === admin?.data[0].id ? true : false}
-        />
-        <Template
-          groupMember={member?.data}
-          header="User"
-          groupId={numberingQuery}
-          admin={me?.id === admin?.data[0].id ? true : false}
-        />
-      </Flex>
-    </Box>
+    <Flex gap={16} direction={"column"}>
+      {numberingQuery && (
+        <>
+          <Template
+            groupMembers={staff?.data}
+            header="운영진"
+            groupId={numberingQuery}
+          />
+          <Template
+            groupMembers={member?.data}
+            header="그룹원"
+            groupId={numberingQuery}
+          />
+        </>
+      )}
+    </Flex>
   );
 };
 

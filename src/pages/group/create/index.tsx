@@ -1,24 +1,15 @@
 import { usePost } from "@/apis/hooks";
 import { DefaultLayout } from "@/components";
-import { ApiRoutes } from "@/constants";
-import { CustomBtn, GroupForm, GroupOptionForm } from "@/containers";
-import { useBgColor } from "@/hooks";
+import { ApiRoutes, PageRoutes } from "@/constants";
+import { CreatePanel, GroupForm } from "@/containers";
+import { CreateGroupFormValues } from "@/types";
 import { toUrl } from "@/utils";
-import { Box, Container, Flex, Heading } from "@chakra-ui/react";
+import { Box, Flex } from "@chakra-ui/react";
 import { keyframes } from "@emotion/react";
 import Head from "next/head";
+import { useRouter } from "next/router";
 import { useCallback } from "react";
 import { useForm } from "react-hook-form";
-
-export interface CreateGroupFormValues {
-  name: string;
-  category: string;
-  description: string;
-  minimum_age: number;
-  maximum_age: number;
-  capacity: number;
-  sex: boolean;
-}
 
 export const initialFormValues: CreateGroupFormValues = {
   name: "",
@@ -27,7 +18,8 @@ export const initialFormValues: CreateGroupFormValues = {
   minimum_age: 0,
   maximum_age: 100,
   capacity: 10,
-  sex: false,
+  sex: true,
+  images: [],
 };
 
 export const bgColorAnimation = keyframes`
@@ -42,7 +34,8 @@ export const bgColorAnimation = keyframes`
 `;
 
 const CreateGroup = () => {
-  const { register, handleSubmit, setValue, watch } =
+  const router = useRouter();
+  const { register, handleSubmit, setValue, watch, getValues } =
     useForm<CreateGroupFormValues>({
       defaultValues: initialFormValues,
     });
@@ -55,14 +48,18 @@ const CreateGroup = () => {
       const modifiedData = {
         ...rest,
         categories: [Number(category)],
-        sex: true,
+        sex: getValues("sex"),
+        images: [],
       };
-      postClub(modifiedData);
+      postClub(modifiedData, {
+        onSuccess: async (data) => {
+          const clubId = data.data;
+          router.push(toUrl(PageRoutes.GroupHome, { id: clubId }));
+        },
+      });
     },
-    [postClub]
+    [getValues, postClub, router]
   );
-
-  const bgColor = useBgColor();
 
   return (
     <>
@@ -76,63 +73,25 @@ const CreateGroup = () => {
         <Flex
           position={"relative"}
           boxShadow={"lg"}
-          w={"100%"}
           as={"form"}
           onSubmit={handleSubmit(onSubmit)}
-          mb={8}
+          my={16}
+          direction={{ base: "column", xl: "row" }}
+          borderRadius={{ base: "2xl", xl: "none" }}
         >
           <Box
             zIndex={0}
             position={"absolute"}
-            w={"85%"}
-            h={"100%"}
+            w={{ base: "100%", xl: "85%" }}
+            h={{ base: "60%", xl: "100%" }}
             bgColor={"primary.500"}
             borderBottomRightRadius={"max(50rem,50rem)"}
             borderTopLeftRadius={"max(0,50rem)"}
             animation={`${bgColorAnimation} 1s ease-in-out`}
           />
-          <Flex
-            zIndex={1}
-            direction={"column"}
-            flexGrow={1}
-            alignItems={"center"}
-            gap={24}
-            pt={36}
-          >
-            <Heading size={"3xl"} color={"white"}>
-              <Box>Welcome</Box>
-              <Box mt={4} pl={12}>
-                Create Group
-              </Box>
-            </Heading>
-            <Flex
-              color={"white"}
-              fontSize={22}
-              fontWeight={"bold"}
-              direction={"column"}
-              gap={4}
-            >
-              <Box>환영합니다!</Box>
-              <Box>그룹을 만들어 취향과 관심을 공유하고</Box>
-              <Box>새로운 경험을 만들어 보세요.</Box>
-            </Flex>
-            <Flex gap={8}>
-              <CustomBtn text="돌아가기" />
-              <CustomBtn text="생성하기" type="submit" />
-            </Flex>
-          </Flex>
-          <Container
-            boxShadow={"lg"}
-            p={8}
-            zIndex={1}
-            m={12}
-            background={bgColor}
-            borderRadius={"2xl"}
-            flexGrow={1}
-          >
-            <GroupForm register={register} />
-            <GroupOptionForm setValue={setValue} watch={watch} />
-          </Container>
+
+          <CreatePanel />
+          <GroupForm register={register} watch={watch} setValue={setValue} />
         </Flex>
       </DefaultLayout>
     </>

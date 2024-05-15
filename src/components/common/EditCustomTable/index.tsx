@@ -27,6 +27,8 @@ const EditCustomTable = ({
       as={Flex}
       direction={"row"}
       gap={2}
+      justifyContent={"space-between"}
+      alignItems={"center"}
     >
       <EditablePreview fontStyle={"italic"} />
       <EditableInput {...register(fieldName)} />

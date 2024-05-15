@@ -17,6 +17,8 @@ const blackList = [
   PageRoutes.GroupModifyFeed,
   PageRoutes.GroupPermissionMember,
   PageRoutes.GroupSetting,
+  PageRoutes.User,
+  PageRoutes.NewFeed,
 ];
 
 const Firewall = () => {
@@ -42,7 +44,7 @@ const Firewall = () => {
           openModal(RequiredLoginModal, {});
         });
     }
-  }, [me, openModal, router]);
+  }, [isFetching, me, openModal, router]);
 
   return null;
 };

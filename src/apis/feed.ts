@@ -1,5 +1,5 @@
 import { ApiRoutes } from "@/constants";
-import { FeedWithPage, Group, User } from "@/types";
+import { Group, User } from "@/types";
 import { toUrl } from "@/utils";
 import {
   CursorQueryParams,
@@ -38,7 +38,9 @@ export const useGetGroupFeeds = (params: GetGroupFeedsParams) => {
 };
 
 export const useGetFeed = (feedId?: number) => {
-  return useFetch<Feed>(toUrl(ApiRoutes.Feeds, { id: feedId }));
+  return useFetch<Feed>(toUrl(ApiRoutes.Feeds, { id: feedId }), undefined, {
+    enabled: !!feedId,
+  });
 };
 
 export const useGetFeeds = (params: CursorQueryParams) => {

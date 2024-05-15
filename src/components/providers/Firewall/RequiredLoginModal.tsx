@@ -1,12 +1,10 @@
+import { ExclusiveAccessAlert } from "@/components/common";
 import {
   Button,
-  Heading,
   Modal,
   ModalBody,
-  ModalCloseButton,
   ModalContent,
   ModalFooter,
-  ModalHeader,
   ModalOverlay,
 } from "@chakra-ui/react";
 
@@ -19,13 +17,11 @@ const RequiredLoginModal = ({ onClose }: RequiredLoginModalProps) => {
     <Modal isOpen onClose={onClose}>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader />
-        <ModalCloseButton />
         <ModalBody>
-          <Heading size={"md"}>{"로그인이 필요한 서비스입니다."}</Heading>
+          <ExclusiveAccessAlert text="로그인이 필요한 서비스입니다." />
         </ModalBody>
         <ModalFooter>
-          <Button variant="ghost" onClick={onClose}>
+          <Button onClick={onClose} variant={"ghost"}>
             확인
           </Button>
         </ModalFooter>

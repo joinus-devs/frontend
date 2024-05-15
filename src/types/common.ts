@@ -21,3 +21,8 @@ export type InfiniteResponse<T> = {
   };
   message: string;
 };
+
+export type WithPage<T> = {
+  data: T[];
+  next?: number;
+};

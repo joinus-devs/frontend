@@ -1,9 +1,8 @@
 import { usePostImg } from "@/apis/storage";
 import { AspectRatio, Flex } from "@chakra-ui/react";
 import { ChangeEvent, useCallback } from "react";
-import Motion from "./Motion";
 import { ImgProps } from "../ImageBox";
-import { ApiResponse } from "@/apis";
+import Motion from "./Motion";
 
 interface UploadImgProps {
   setImgData: React.Dispatch<React.SetStateAction<ImgProps[]>>;

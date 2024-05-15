@@ -10,9 +10,5 @@ export interface User extends timer {
   exp?: number;
   type?: string;
   profile: string;
-}
-
-export interface UserWithPage {
-  data: User[];
-  next?: number;
+  birth: string;
 }

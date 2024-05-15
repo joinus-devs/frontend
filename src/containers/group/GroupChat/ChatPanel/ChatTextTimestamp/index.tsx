@@ -1,16 +1,18 @@
 import { ApiResponseChat } from "@/types/chat";
 import { formatISO } from "@/utils/date";
-import { Text } from "@chakra-ui/react";
+import { Flex, Text } from "@chakra-ui/react";
 interface ChatTextTimestampProps {
   chat: ApiResponseChat;
   bg: string;
   timeStyle?: React.CSSProperties;
+  boxStyle?: React.CSSProperties;
 }
 
 export const ChatTextTimestamp = ({
   chat,
   bg,
   timeStyle,
+  boxStyle,
 }: ChatTextTimestampProps) => {
   let time = "";
   if (chat.created_at) {
@@ -21,13 +23,19 @@ export const ChatTextTimestamp = ({
   }
 
   return (
-    <>
-      <Text bg={bg} p={4} borderRadius={16}>
+    <Flex direction={"column"} gap={1} style={boxStyle}>
+      <Text
+        bg={bg}
+        p={4}
+        borderRadius={16}
+        maxW={"300px"}
+        overflowWrap={"break-word"}
+      >
         {chat.message}
       </Text>
       <Text fontSize={"sm"} opacity={0.8} mr={1} style={timeStyle}>
         {time}
       </Text>
-    </>
+    </Flex>
   );
 };

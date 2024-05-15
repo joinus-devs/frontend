@@ -1,17 +1,18 @@
-import { Center, HStack } from "@chakra-ui/react";
+import { Flex, Text } from "@chakra-ui/react";
 import GoogleLoginButton from "./GoogleLoginButton";
 import KakaoLoginButton from "./KakaoLoginButton";
 import NaverLoginButton from "./NaverLoginButton";
 
 const SocialLoginButtons = () => {
   return (
-    <Center mt={6}>
-      <HStack spacing={7}>
+    <Flex direction={"column"} gap={4}>
+      <Text textAlign={"center"}>소셜 계정으로 간편 로그인</Text>
+      <Flex gap={7}>
         <NaverLoginButton />
         <KakaoLoginButton />
         <GoogleLoginButton />
-      </HStack>
-    </Center>
+      </Flex>
+    </Flex>
   );
 };
 

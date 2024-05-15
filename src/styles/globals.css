@@ -11,11 +11,12 @@ body {
 }
 
 ::-webkit-scrollbar {
-  width: 10px;
+  width: 3px;
+  height: 3px;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #718096;
+  background: linear-gradient(to bottom, #2c5282, #00b5d8, #4299e1);
   border-radius: 5px;
 }
 

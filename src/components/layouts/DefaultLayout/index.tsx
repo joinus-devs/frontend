@@ -1,6 +1,6 @@
 import { Box, Flex } from "@chakra-ui/react";
-import DefaultLayoutFooter from "./Footer";
-import DefaultLayoutHeader from "./Header";
+import { DefaultLayoutFooter } from "./Footer";
+import { DefaultLayoutHeader } from "./Header";
 
 interface DefaultLayoutProps {
   children?: React.ReactNode;
@@ -12,7 +12,7 @@ const DefaultLayout = ({ children }: DefaultLayoutProps) => {
       <DefaultLayoutHeader />
       <Flex justify={"center"}>
         <Flex
-          w={{ base: "100%", sm: "container.md" }}
+          w={{ base: "100%", md: "container.md" }}
           direction={"column"}
           mt={"100px"}
         >

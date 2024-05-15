@@ -1,10 +1,16 @@
 import { useGetGroupMembers } from "@/apis";
 import { CircleImg } from "@/components";
 import { Group } from "@/types";
-import { Box, Flex, Heading, Icon, Text } from "@chakra-ui/react";
+import {
+  Flex,
+  Heading,
+  Icon,
+  IconButton,
+  Text,
+  Tooltip,
+} from "@chakra-ui/react";
 import React from "react";
 import { BsFillPersonLinesFill } from "react-icons/bs";
-import { MdArrowForwardIos } from "react-icons/md";
 import { SetBgImage } from "../SetBgImage";
 
 interface ChatHeaderProps {
@@ -21,30 +27,36 @@ const ChatHeader = ({
   setBgImg,
 }: ChatHeaderProps) => {
   const { data } = useGetGroupMembers(group.id!);
+  const mainImg = group.images.find((img) => img.type === "main");
   return (
-    <Flex alignItems={"center"} gap={4} position={"relative"}>
-      <Box as="button" position={"absolute"} top={-2} right={0}>
-        {isWatchOnlineMember ? (
-          <Icon
-            as={MdArrowForwardIos}
-            fontSize={24}
-            onClick={() => setIsWatchOnlineMember(false)}
-          />
-        ) : (
-          <Icon
-            as={BsFillPersonLinesFill}
-            fontSize={24}
-            onClick={() => setIsWatchOnlineMember(true)}
-          />
-        )}
-      </Box>
-      <CircleImg imgSrc={"/none-groupimg.webp"} alt="group_img" size={24} />
-      <Flex direction={"column"} gap={2}>
-        <Heading size={"lg"} opacity={0.9}>
-          {group?.name}
-        </Heading>
-        <Text opacity={0.6}>{data?.data.length} members</Text>
-        <SetBgImage setBgImg={setBgImg} />
+    <Flex gap={4} position={"relative"}>
+      <CircleImg
+        imgSrc={mainImg?.url ?? "/none-groupimg.webp"}
+        alt="group_img"
+        size={24}
+      />
+      <Flex justifyContent={"space-between"} wrap={"wrap"} flex={1}>
+        <Flex direction={"column"} gap={2}>
+          <Heading size={"lg"} opacity={0.9}>
+            {group?.name}
+          </Heading>
+          <Text opacity={0.6}>{data?.data.length} members</Text>
+        </Flex>
+        <Flex direction={"column"} gap={1} align={"end"} flex={1}>
+          {!isWatchOnlineMember && (
+            <Tooltip label={"온라인 멤버"}>
+              <IconButton variant={"ghost"} aria-label="back-bt">
+                <Icon
+                  as={BsFillPersonLinesFill}
+                  onClick={() => setIsWatchOnlineMember(true)}
+                  h={"6"}
+                  w={"6"}
+                />
+              </IconButton>
+            </Tooltip>
+          )}
+          <SetBgImage setBgImg={setBgImg} />
+        </Flex>
       </Flex>
     </Flex>
   );

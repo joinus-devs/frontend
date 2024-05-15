@@ -9,7 +9,7 @@ const bgImgList = [0, 1, 2, 3];
 
 export const SetBgImage = ({ setBgImg }: SetBgImageProps) => {
   return (
-    <Flex position={"absolute"} bottom={0} right={0} gap={2}>
+    <Flex gap={2}>
       {bgImgList.map((v, i) => (
         <Box
           key={`bgImg_${i}`}
